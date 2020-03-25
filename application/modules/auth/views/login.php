@@ -34,7 +34,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">ยินดีต้อนรับ</h1>
                   </div>
-                  <form class="user" action="<?php echo base_url(url_index().'/login/auth');?>" method="post">
+                  <form class="user" action="<?php echo base_url(url_index().'auth/login');?>" method="post">
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" id="exampleInputEmail" name="username" aria-describedby="emailHelp" placeholder="Username">
                     </div>
@@ -42,6 +42,7 @@
                       <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block">เข้าสู่ระบบ</button>
+                    <input type="hidden" name="token" value="<?php echo isset($token_login)?$token_login:'';?>"/>
                   </form>
                 </div>
               </div>

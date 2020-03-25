@@ -235,13 +235,24 @@
         return 'index.php/';
     }
 
+    function genTOKEN($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     function set_auth_session($result=[]){
 
         $CI =& get_instance();
         $CI->load->library('session');
 
         $set['authentication'] = [
-            'status'=>(isset($result['status'])?$result['status']:false)
+            'status'    =>  (isset($result['status'])?$result['status']:false),
+            'token'     =>  (isset($result['token'])?$result['token']:'')
         ];
         
         $CI->session->set_userdata($set);

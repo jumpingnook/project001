@@ -6,7 +6,7 @@ class MY_Model extends CI_Model{
 		parent::__construct();
     }
 
-	function query($condition)
+	function to_query($condition)
     {
 		$db = (isset($condition['db']) and $condition['db']!='') ? $condition['db'] : 'db';
     	if(isset($condition['sql']) and !empty($condition['sql'])):
@@ -21,7 +21,7 @@ class MY_Model extends CI_Model{
     	endif;
     }
 
-	function insert($condition)
+	function to_insert($condition)
 	{
 		$condition['encode'] = TRUE;
         $db = (isset($condition['db']) and $condition['db']!='') ? $condition['db'] : 'db';
@@ -39,7 +39,7 @@ class MY_Model extends CI_Model{
 		endif;
 	}
 
-	function select($condition=NULL)
+	function to_select($condition=NULL)
 	{
     	$db = (isset($condition['db']) and $condition['db']!='') ? $condition['db'] : 'db';
 
@@ -123,7 +123,7 @@ class MY_Model extends CI_Model{
 		return $result;
 	}
 
-	function update($condition)
+	function to_update($condition)
 	{
 		$condition['encode'] = TRUE;
 		$db = (isset($condition['db']) and $condition['db']!='') ? $condition['db'] : 'db';
@@ -142,7 +142,7 @@ class MY_Model extends CI_Model{
 		endif;
 	}
 
-	function delete($condition)
+	function to_delete($condition)
 	{
         $db = (isset($condition['db']) and $condition['db']!='') ? $condition['db'] : 'db';
 		if(isset($condition['where']) and !empty($condition['where'])):
@@ -150,7 +150,7 @@ class MY_Model extends CI_Model{
 		endif;
 	}
 
-	function insert_last_id($condition)
+	function to_insert_last_id($condition)
 	{
         $db = (isset($condition['db']) and $condition['db']!='') ? $condition['db'] : 'db';
 		if(isset($condition['data']) and !empty($condition['data'])):
@@ -163,7 +163,7 @@ class MY_Model extends CI_Model{
 		endif;
 	}
 
-	function count($condition=NULL)
+	function to_count($condition=NULL)
 	{
         $db = (isset($condition['db']) and $condition['db']!='') ? $condition['db'] : 'db';
 		if(isset($condition['where']) and !empty($condition['where'])):
@@ -212,106 +212,13 @@ class MY_Model extends CI_Model{
 		return $return;
 	}
 
-	// public function getAll(){
-    //     $con = array();
-    //     $con['where'] = 'status >= 0';
-    //         return $this->get_select($con);
-    // }
-
-    // public function find($id){
-    //     $con = array();
-    //     $con['where'] = 'id ='.intval($id);
-    //     $data =  $this->get_select($con);
-    //     return !empty($data)?$data[0]:FALSE;
-    // }
-
-	// public function findField($id,$column = null){
-	// 	$con = array();
-	// 	if($column != null):
-	// 		$con['select'] = $column;
-	// 	endif;
-	// 	$con['where'] = 'id ='.intval($id);
-	// 	$data =  $this->get_select($con);
-	// 	return !empty($data)?$data[0]:FALSE;
-	// }
-
-    // public function findUUID($uuid){
-    //     $con = array();
-    //     $con['where'] = 'uuid ="'.$uuid.'"';
-    //     $data =  $this->get_select($con);
-    //     return !empty($data)?$data[0]:FALSE;
-    // }
-
-	// public function create($data,$id = FALSE){
-    //     $con = array(
-    //         'data' => $data
-    //     );
-	// 	if($id):
-	// 		return $this->get_insert_last_id($con);
-	// 	else:
-	// 		return $this->get_insert($con)?TRUE:FALSE;
-	// 	endif;
-    // }
-
-    // public function update($data,$id){
-    //     $con = array(
-    //         'data' => $data,
-    //         'where' => 'id ='.$id
-    //     );
-    //     return $this->get_update($con);
-    // }
-
-	// public function updateUUID($data,$uuid){
-	// 	$con = array(
-	// 		'data' => $data,
-	// 		'where' => 'uuid = "'.$uuid.'"'
-	// 	);
-	// 	return $this->get_update($con);
-	// }
-
-    // public function delete($id){
-	// 	$data= array();
-	// 	$data['status'] = -1;
-    //     $con = array(
-    //         'data' => $data,
-    //         'where' => 'id ='.$id
-    //     );
-    //     return $this->get_update($con);
-    // }
-
-	// public function deleteUUID($uuid){
-	// 	$data['status'] = -1;
-	// 	$con = array(
-	// 		'data' => $data,
-	// 		'where' => 'uuid = "'.$uuid.'"'
-	// 	);
-	// 	return $this->get_update($con);
-	// }
-
-    public function genUUID($num = 16,$db = true){
-		$this->load->helper('string');
-        $uuid = random_string('alnum', $num);
-		if($db == true):
-			$con = array();
-			$con['where'] = 'uuid = "'.$uuid.'" AND status <> -1';
-			$user = $this->get_select($con);
-			return empty($user)?$uuid:$this->genUUID();
-		else:
-			return $uuid;
-		endif;
-    }
-
-	public function genTOKEN($num = 16,$db = false){
+	public function user_token($num = 16){
 		$this->load->helper('string');
 		$token = random_string('alnum', $num);
-		if($db == true):
 		$con = array();
-		$con['where'] = 'token = "'.$token.'" AND status <> -1';
-		$used = $this->get_select($con);
+		$con['where'] = 'token = "'.$token.'"';
+		$used = $this->to_select($con);
 		return empty($used)?$token:$this->genTOKEN();
-		else:
-			return $uuid;
-		endif;
 	}
 
 	public function genPassword($num = 6){
