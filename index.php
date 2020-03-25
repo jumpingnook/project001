@@ -1,7 +1,8 @@
 <?php
 
 if (!extension_loaded('mysqli')) {
-	header("refresh: 1");
+	dl('php_mysqli.dll');
+	#header("refresh: 1");
 }
 
 /**
