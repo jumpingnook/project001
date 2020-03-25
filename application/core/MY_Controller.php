@@ -5,6 +5,7 @@ class MY_Controller extends CI_Controller {
 
     function __construct(){
         parent::__construct();
+        $this->update_token_session();
     }
 
     public function render_html($data){
@@ -19,6 +20,14 @@ class MY_Controller extends CI_Controller {
     public function render_preview(){
         $input = $this->input->get('v');
         $this->load->view($input);
+    }
+
+    protected function update_token_session(){
+        $session = $this->session->userdata('authentication');
+        if(isset($session['status']) and $session['status'] and isset($session['token'])){
+            $this->load->model('auth/Token_model');
+            $this->Token_model->update_token_session(['token'=>$session['token']]);
+        }
     }
 
 }

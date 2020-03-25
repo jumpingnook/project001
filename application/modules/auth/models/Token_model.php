@@ -42,5 +42,15 @@ class Token_model extends MY_Model {
 		}
 		return $res;
 	}
+
+	function update_token_session($set=[]){
+		if(isset($set['token'])){
+			$con = [];
+			$con['data']['exp_date']	= date('Y-m-d H:i:s',strtotime('+'.$this->token_time.' minutes', strtotime(date('Y-m-d H:i:s'))));
+			$con['where'] 				= 'token = "'.trim($set['token']).'"';
+			$this->to_update($con);
+		}
+		
+    }
 	
 }

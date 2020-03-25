@@ -7,6 +7,7 @@ class Auth extends Auth_Controller {
 		parent::__construct();
         $this->load->library(['auth_ldap']);
         $this->load->model('auth/Token_model');
+        $this->load->model('auth/Personnel_model');
     }
     
     function index(){
@@ -15,7 +16,9 @@ class Auth extends Auth_Controller {
             redirect('https://med.nu.ac.th/');
         }
 
+        #generate token_login
         $token = genTOKEN();
+
         $this->session->set_flashdata('token_login', $token);
         $this->load->view('login',['token_login'=>$token]);
     }
@@ -24,34 +27,40 @@ class Auth extends Auth_Controller {
         $post = $this->input->post();
 
         if(!isset($post['username']) or !isset($post['password']) or !isset($post['token'])){
-            redirect(url_index().'auth/?status=error');
+            redirect(url_index().'auth/?status=error');//not submit
         }
         if(empty($post['username']) or empty($post['password']) or empty($post['token'])){
-            redirect(url_index().'auth/?status=validate');
+            redirect(url_index().'auth/?status=validate');//validate input
         }
         if(trim($post['token']) != $this->session->flashdata('token_login')){
-            redirect(url_index().'auth/?status=valid_token');
-        }
-
-        $dest = '';
-        if(isset($post['dest'])){
-            $dest = trim($post['dest']);
+            redirect(url_index().'auth/?status=valid_token');//validate token_login
         }
 
 		$this->auth_ldap->Set_User(trim($post['username']),trim($post['password']));
-        $result = $this->auth_ldap->Connect();
+        $status_login = $this->auth_ldap->Connect();
 
         $token = $this->Token_model->create_token(['personnel_id'=>'9999','ip'=>get_client_ip()]);
 
-        #find new personnel
-
+        #check new tb personnel
+        $result = $this->Personnel_model->check_account(['username'=>trim($post['username'])]);
         if($result){
-            set_auth_session(['status'=>true,'token'=>$token]);
-            redirect(url_index().'leave/'.$dest);
-        }else{
-            redirect(url_index().'auth/?status=fail');
+            #check old tb personnel
+            #tranfer new tb personnel
         }
-        
+
+        #create session and redirect
+        if($status_login){
+            set_auth_session(['status'=>true,'token'=>$token]);
+
+            #destination
+            $dest = 'leave/'; //default leavesys
+            if(isset($post['dest'])){
+                $dest = trim($post['dest']);
+            }
+            redirect(url_index().$dest);
+        }else{
+            redirect(url_index().'auth/?status=fail'); //login fail
+        }
     }
 
     function logout(){
@@ -63,6 +72,4 @@ class Auth extends Auth_Controller {
         $this->session->sess_destroy();
         redirect(url_index().'auth/');
     }
-    
-
 }
