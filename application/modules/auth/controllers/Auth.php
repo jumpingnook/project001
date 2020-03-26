@@ -5,9 +5,8 @@ class Auth extends Auth_Controller {
 
 	function __construct(){
 		parent::__construct();
-        $this->load->library(['auth_ldap']);
+        $this->load->library(['auth_ldap','restclient']);
         $this->load->model('auth/Token_model');
-        $this->load->model('auth/Personnel_model');
     }
     
     function index(){
@@ -39,14 +38,36 @@ class Auth extends Auth_Controller {
 		$this->auth_ldap->Set_User(trim($post['username']),trim($post['password']));
         $status_login = $this->auth_ldap->Connect();
 
-        $token = $this->Token_model->create_token(['personnel_id'=>'9999','ip'=>get_client_ip()]);
+        $ip = get_client_ip();
+        $token = $this->Token_model->create_token(['internet_account'=>trim($post['username']),'ip'=>$ip]);
+        
+        $set = [];
+        $set['APP-KEY']     = $this->api_key;
+        $set['username']    = trim($post['username']);
+        $set['token']       = $token;
+        $set['ip']          = $ip;
+        $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$set);
+
+        $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data']['personnel_id']:0;
 
         #check new tb personnel
-        $result = $this->Personnel_model->check_account(['username'=>trim($post['username'])]);
-        if($result){
+        if(isset($result['status']) and $result['status'] and !intval($result['status'])){
+
+            $result = $this->restclient->post(base_url(url_index().'sql_personnel/api_v1/personnel'),$set);
+
             #check old tb personnel
-            #tranfer new tb personnel
+            if(isset($result['status']) and $result['status'] and $result['status']){
+                #transfer new tb personnel
+                
+                $personnel_id = 0;
+            }
+        }else{
+            #update old tb personnel to new tb personnel
+
+            
         }
+
+        $this->Token_model->update_token_user(['personnel_id'=>intval($personnel_id),'token'=>$token]);
 
         #create session and redirect
         if($status_login){
