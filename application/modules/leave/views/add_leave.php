@@ -40,58 +40,76 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-12">
-              <!-- Collapsable Card Example -->
-              <div class="card shadow mb-4">
-                <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                  <h6 class="m-0 font-weight-bold text-primary">เลือกประเภทการลา</h6>
-                </a>
-                <!-- Card Content - Collapse -->
-                <div class="collapse show" id="collapseCardExample">
-                  <div class="card-body">
-                    This is a collapsable card example using Bootstrap's built in collapse functionality. <strong>Click on the card header</strong> to see the card body collapse and expand!
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="row">
 
             <div class="col-lg-6">
 
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">แบบฟอร์ม</h6>
+                  
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <h6 class="m-0 font-weight-bold text-primary">แบบฟอร์ม</h6>
+                    </div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option>เลือกประเภทการลา</option>
+                          <option>ลาพักผ่อน</option>
+                          <option>ลากิจส่วนตัว</option>
+                          <option>ลาป่วย</option>
+                          <option>ลาพักผ่อนไปต่างประเทศ</option>
+                          <option>ลาคลอดบุตร</option>
+                          <option>ลาไปช่วยเหลือภริยาที่คลอดบุตร</option>
+                          <option>ลากิจส่วนตัวเพื่อเลี้ยงดูบุตร</option>
+                          <option>ลาอุปสมบทหรือลาไปประกอบบพิธีการฮัจย์</option>
+                          <option>ลาเข้ารับการตรวจเลือก หรือเข้ารับการเตรียมพล</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม ลา....</h1>
                   </div>
                   <form class="user">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
+                        <label>เขียนที่</label>
+                        <input type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์">
                       </div>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name">
+                        <label>เรื่อง</label>
+                        <input type="text" class="form-control" id="exampleLastName" placeholder="ขอลาป่วย" value="ขอลาป่วย">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>เรียน</label>
+                        <select class="form-control">
+                          <option>เลือกผู้ปฏิบัติงานแทน</option>
+                          <option>นายสนาน ราตรีพรทิพย์</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-6">
+                        <label>เรื่อง</label>
+                        <input type="text" class="form-control" id="exampleLastName" placeholder="ขอลาป่วย" value="ขอลาป่วย">
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address">
+                      <input type="email" class="form-control" id="exampleInputEmail" placeholder="Email Address">
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                        <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
                       </div>
                       <div class="col-sm-6">
-                        <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password">
+                        <input type="password" class="form-control" id="exampleRepeatPassword" placeholder="Repeat Password">
                       </div>
                     </div>
 
@@ -107,10 +125,60 @@
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">คำนวณวันลา</h6>
                 </div>
                 <div class="card-body">
-                  The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS!
+                  <table width="100%">
+                    <tr>
+                      <td width="120px" height="35px">วันลาที่ใช้ไปแล้ว</td>
+                      <td>2.5 วัน</td>
+                    </tr>
+                    <tr>
+                      <td height="35px">วันลาที่คงเหลือ</td>
+                      <td>17.5 วัน</td>
+                    </tr>
+                    <tr>
+                      <td height="35px">ใช้วันลาไป</td>
+                      <td>
+                        <button  type="button" class="btn btn-warning btn-circle btn-sm" title="กรุณากรอกเลือกวันลาในแบบฟอร์ม">
+                          <i class="fas fa-exclamation-triangle"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td height="35px">คงเหลือวันลา</td>
+                      <td>17 วัน</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">ตัวเลือกเพื่อการอนุมัติ</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>ผู้ปฏิบัติงานแทน</label>
+                        <select class="form-control">
+                          <option>เลือกผู้ปฏิบัติงานแทน</option>
+                          <option>นายสนาน ราตรีพรทิพย์</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                          <label>ผู้บังคับบัญชา</label>
+                          <select class="form-control">
+                            <option>เลือกผู้บังคับบัญชา</option>
+                            <option>นายสนาน ราตรีพรทิพย์</option>
+                          </select>
+                        </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 

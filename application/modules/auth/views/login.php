@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Login</title>
+  <title>เข้าสู่ระบบ - med.nu.ac.th</title>
 
   <?php echo $this->load->view('inc/css'); ?>
 

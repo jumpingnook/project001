@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
+  <title>IDP - med.nu.ac.th</title>
 
 
   <?php echo $this->load->view('inc/css'); ?>

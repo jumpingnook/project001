@@ -6,7 +6,7 @@ class Api_v1 extends REST_Controller {
 
 	function __construct(){
         parent::__construct();
-        $this->load->model('sql_personnel/Sql_personnel_model');
+        $this->load->model('personnel/Personnel_model');
         $this->load->model('auth/Token_model');
     }
     
@@ -31,7 +31,7 @@ class Api_v1 extends REST_Controller {
         }
 
         if(isset($post['username']) and trim($post['username'])!=''){
-            $result = $this->Sql_personnel_model->get_personnel(['username'=>trim($post['username'])]);
+            $result = $this->Personnel_model->get_personnel(['username'=>trim($post['username'])]);
             $result['status'] = true;
             $this->response($result, REST_Controller::HTTP_NOT_FOUND); //404
 		}else{
@@ -40,6 +40,8 @@ class Api_v1 extends REST_Controller {
                 'message' => 'Invalid Data'
             ], REST_Controller::HTTP_NOT_FOUND); //404
         }
+
+
     }
 
     

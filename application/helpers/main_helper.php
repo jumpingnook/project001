@@ -252,7 +252,8 @@
 
         $set['authentication'] = [
             'status'    =>  (isset($result['status'])?$result['status']:false),
-            'token'     =>  (isset($result['token'])?$result['token']:'')
+            'token'     =>  (isset($result['token'])?$result['token']:''),
+            'username'  =>  (isset($result['username'])?$result['username']:'')
         ];
         
         $CI->session->set_userdata($set);

@@ -5,7 +5,6 @@ class Leave extends Leave_Controller {
 
 	function __construct(){
 		parent::__construct();
-		//$this->load->library(['auth_ldap']);
     }
     
     function index(){
