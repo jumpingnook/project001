@@ -260,3 +260,24 @@
         return $CI->session->userdata('authentication');
     }
 
+    function set_personnel_session($result=[]){
+
+        $CI =& get_instance();
+        $CI->load->library('session');
+
+        $set['personnel'] = [
+            'token'         =>  (isset($result['token'])?$result['token']:''),
+            'personnel_id'  =>  (isset($result['personnel_id'])?$result['personnel_id']:''),
+            'username'      =>  (isset($result['username'])?$result['username']:''),
+            'personnel_code'=>  (isset($result['personnel_code'])?$result['personnel_code']:''),
+            'title'         =>  (isset($result['title'])?$result['title']:''),
+            'name_th'       =>  (isset($result['name_th'])?$result['name_th']:''),
+            'surname_th'    =>  (isset($result['surname_th'])?$result['surname_th']:''),
+            'name_en'       =>  (isset($result['name_en'])?$result['name_en']:''),
+            'surname_en'    =>  (isset($result['surname_en'])?$result['surname_en']:'')
+        ];
+        
+        $CI->session->set_userdata($set);
+        return $CI->session->userdata('personnel');
+    }
+

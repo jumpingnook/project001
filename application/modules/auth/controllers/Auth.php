@@ -97,7 +97,31 @@ class Auth extends Auth_Controller {
         #create session and redirect
         if($status_login){
 
-            set_auth_session(['status'=>true,'token'=>$token,'username'=>trim($post['username'])]);
+            set_auth_session([
+                'status'=>true,
+                'token'=>$token,
+                'username'=>trim($post['username']),
+            ]);
+
+            $set = [];
+            $set['APP-KEY']     = $this->api_key;
+            $set['username']    = trim($post['username']);
+            $set['token']       = $token;
+            $set['ip']          = $ip;
+            $personnel = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$set);
+            $personnel = count($personnel['data'])>=0?$personnel['data'][0]:[];
+
+            set_personnel_session([
+                'token'         =>  (isset($personnel['token'])?$personnel['token']:''),
+                'personnel_id'  =>  (isset($personnel['personnel_id'])?$personnel['personnel_id']:''),
+                'username'      =>  (isset($personnel['internet_account'])?$personnel['internet_account']:''),
+                'personnel_code'      =>  (isset($personnel['personnel_code'])?$personnel['personnel_code']:''),
+                'title'         =>  (isset($personnel['title'])?$personnel['title']:''),
+                'name_th'       =>  (isset($personnel['name_th'])?$personnel['name_th']:''),
+                'surname_th'    =>  (isset($personnel['surname_th'])?$personnel['surname_th']:''),
+                'name_en'       =>  (isset($personnel['name_en'])?$personnel['name_en']:''),
+                'surname_en'    =>  (isset($personnel['surname_en'])?$personnel['surname_en']:'')
+            ]);
 
             #destination
             $dest = 'auth/select_module/'; //default leavesys

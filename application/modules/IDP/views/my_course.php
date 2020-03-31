@@ -53,15 +53,21 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-lg-2 text-md font-weight-bold">รหัสพนักงาน</div>
-                      <div class="col-lg-4">BM068</div>
+                      <div class="col-lg-4"><?php echo isset($personnel['personnel_code'])?$personnel['personnel_code']:'-';?></div>
                       <div class="col-lg-2 text-md font-weight-bold">ประเภทงาน</div>
-                      <div class="col-lg-4">พนักงานมหาวิทยาลัย สายสนับสนุน (เงินรายได้)</div>
+                      <div class="col-lg-4"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
                     </div>
                     <div class="row">
                       <div class="col-lg-2 text-md font-weight-bold">ชื่อ - นามสกุล</div>
-                      <div class="col-lg-4">นายสนาน ราตรีพรทิพย์</div>
+                      <div class="col-lg-4">
+                        <?php 
+                          echo isset($personnel['title'])?$personnel['title']:'-'; 
+                          echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                          echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                        ?>
+                      </div>
                       <div class="col-lg-2 text-md font-weight-bold">ตำแหน่ง</div>
-                      <div class="col-lg-4">นักวิชาการคอมพิวเตอร์?</div>
+                      <div class="col-lg-4"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></div>
                     </div>
                   </div>
                 </div>
