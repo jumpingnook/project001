@@ -13,22 +13,7 @@ class Api_v1 extends REST_Controller {
     function personnel_post(){
         $post = $this->post();
 
-        if(isset($post['token']) and isset($post['ip']) and trim($post['token'])!='' and trim($post['ip'])!=''){
-            $token = $this->Token_model->check_token(['token'=>$post['token'],'ip'=>$post['ip']]);
-            if(intval($token['count']) == 0){
-                $this->response([
-                    'status' => false,
-                    'message' => 'Expire Token'
-                ], REST_Controller::HTTP_NOT_FOUND); //404 
-            }else{
-                $this->Token_model->update_token_session(['token'=>$post['token']]);
-            }
-        }else{
-            $this->response([
-                'status' => false,
-                'message' => 'Invalid Token'
-            ], REST_Controller::HTTP_NOT_FOUND); //404 
-        }
+        $token = $this->check_token($post);
 
         if(isset($post['username']) and trim($post['username'])!=''){
             $result = $this->Sql_personnel_model->get_personnel(['username'=>trim($post['username'])]);
@@ -40,6 +25,28 @@ class Api_v1 extends REST_Controller {
                 'message' => 'Invalid Data'
             ], REST_Controller::HTTP_NOT_FOUND); //404
         }
+    }
+
+    private function check_token($set=[]){
+        $token = [];
+        if(isset($set['token']) and isset($set['ip']) and trim($set['token'])!='' and trim($set['ip'])!=''){
+            $token = $this->Token_model->check_token(['token'=>$set['token'],'ip'=>$set['ip']]);
+            if(intval($token['count']) == 0){
+                $this->response([
+                    'status' => false,
+                    'message' => 'Expire Token'
+                ], REST_Controller::HTTP_NOT_FOUND); //404 
+            }else{
+                $this->Token_model->update_token_session(['token'=>$set['token']]);
+            }
+        }else{
+            $this->response([
+                'status' => false,
+                'message' => 'Invalid Token'
+            ], REST_Controller::HTTP_NOT_FOUND); //404 
+        }
+
+        return $token;
     }
 
     

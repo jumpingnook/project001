@@ -7,7 +7,6 @@ class Auth extends Auth_Controller {
 		parent::__construct();
         $this->load->library(['auth_ldap','restclient']);
         $this->load->model('auth/Token_model');
-        $this->load->model('personnel/Personnel_model');
     }
     
     function index(){
@@ -32,16 +31,16 @@ class Auth extends Auth_Controller {
         if(empty($post['username']) or empty($post['password']) or empty($post['token'])){
             redirect(url_index().'auth/?status=validate');//validate input
         }
-        // if(trim($post['token']) != $this->session->flashdata('token_login')){
-        //     redirect(url_index().'auth/?status=valid_token');//validate token_login
-        // }
+        if(trim($post['token']) != $this->session->flashdata('token_login')){
+            redirect(url_index().'auth/?status=valid_token');//validate token_login
+        }
 
 		$this->auth_ldap->Set_User(trim($post['username']),trim($post['password']));
         $status_login = $this->auth_ldap->Connect();
 
         $ip = get_client_ip();
         $token = $this->Token_model->create_token(['internet_account'=>trim($post['username']),'ip'=>$ip]);
-        
+
         $set = [];
         $set['APP-KEY']     = $this->api_key;
         $set['username']    = trim($post['username']);
@@ -49,7 +48,7 @@ class Auth extends Auth_Controller {
         $set['ip']          = $ip;
         $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$set);
 
-        $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data']['personnel_id']:0;
+        $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data'][0]['personnel_id']:0;
 
         #check new tb personnel
         if(isset($result['status']) and $result['status'] and !intval($result['count'])){
@@ -65,7 +64,7 @@ class Auth extends Auth_Controller {
                 $set['username']    = trim($post['username']);
                 $set['token']       = $token;
                 $set['ip']          = $ip;
-                $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/add_personnel'),$set);
+                $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/transfer_personnel'),$set);
 
                 $personnel_id = 0;
                 if(isset($result['status']) and $result['status']){
@@ -76,9 +75,21 @@ class Auth extends Auth_Controller {
                 }
 
             }
-        }else{
+        }elseif(intval($personnel_id) != 0){
             #update old tb personnel to new tb personnel
 
+            $set = $result['data'][0];
+            $set['APP-KEY']     = $this->api_key;
+            $set['personnel_id']    = intval($personnel_id) ;
+            $set['token']       = $token;
+            $set['ip']          = $ip;
+            $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/transfer_update_personnel'),$set);
+
+            if(isset($result['status']) and !$result['status']){
+                $this->Token_model->delete_token(['totken'=>$token]);
+                redirect(url_index().'auth/?status=db'); //login fail db
+            }
+            
         }
 
         $this->Token_model->update_token_user(['personnel_id'=>intval($personnel_id),'token'=>$token]);
@@ -104,7 +115,6 @@ class Auth extends Auth_Controller {
         if(isset($session['status']) and $session['status'] and isset($session['token'])){
             $this->Token_model->delete_token(['token'=>$session['token']]);
         }
-
         $this->session->sess_destroy();
         redirect(url_index().'auth/');
     }
