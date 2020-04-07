@@ -125,9 +125,10 @@ class Auth extends Auth_Controller {
 
             #destination
             $dest = 'auth/select_module/'; //default leavesys
-            if(isset($post['dest'])){
+            if(isset($post['dest']) and trim($post['dest'])!=''){
                 $dest = trim($post['dest']);
             }
+
             redirect(url_index().$dest);
         }else{
             redirect(url_index().'auth/?status=fail'); //login fail

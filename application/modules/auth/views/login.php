@@ -13,6 +13,15 @@
 
   <?php echo $this->load->view('inc/css'); ?>
 
+  <style>
+    .bg-login-image {
+      background: url(<?php echo base_url(load_file('assets/img/logo.med.png'));?>);
+      background-position: center;
+      background-size: 250px;
+      background-repeat: no-repeat;
+    }
+  </style>
+
 </head>
 
 <body class="bg-gradient-primary">
@@ -32,7 +41,10 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">ยินดีต้อนรับ</h1>
+                    <h1 class="h4 text-gray-900 font-weight-bold mb-4">เข้าสู่ระบบ</h1>
+                  </div>
+                  <div class="text-center">
+                    <h6 class="h4 text-gray-900 font-weight-bold mb-4">MyMedNU</h6>
                   </div>
                   <form class="user" action="<?php echo base_url(url_index().'auth/login');?>" method="post">
                     <div class="form-group">
@@ -43,6 +55,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block">เข้าสู่ระบบ</button>
                     <input type="hidden" name="token" value="<?php echo isset($token_login)?$token_login:'';?>"/>
+                    <input type="hidden" id="dest" name="dest" value=""/>
                   </form>
                 </div>
               </div>
@@ -57,6 +70,34 @@
   </div>
 
   <?php echo $this->load->view('inc/js'); ?>
+
+  <script>
+    $(document).ready(function(){
+
+      var dest = getUrlParam('dest','idp/my_course/');
+
+      if(dest!=''){
+        $('#dest').val(dest);
+      }
+
+      function getUrlParam(parameter, defaultvalue){
+        var urlparameter = defaultvalue;
+        if(window.location.href.indexOf(parameter) > -1){
+            urlparameter = getUrlVars()[parameter];
+            }
+        return urlparameter;
+      }
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+      }
+
+
+    });
+  </script>
 
 </body>
 

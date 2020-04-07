@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+#require_once(APPPATH.'vendor/autoload.php');
+
 class IDP extends IDP_Controller {
 
     protected $session_data;
@@ -8,7 +10,6 @@ class IDP extends IDP_Controller {
 	function __construct(){
         parent::__construct();
         $this->load->library(['restclient']);
-        //$this->load->model('auth/Token_model');
 
         $this->session_data = $this->session->userdata();
     }
@@ -16,6 +17,7 @@ class IDP extends IDP_Controller {
     function index(){
         $this->my_course();
     }
+
     function my_course(){
 
         $ip = get_client_ip();
@@ -25,14 +27,21 @@ class IDP extends IDP_Controller {
         $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
         $set['ip']          = $ip;
         $sql_personnel = $this->restclient->post(base_url(url_index().'sql_personnel/api_v1/personnel'),$set);
+        $primary_course = $this->restclient->post(base_url(url_index().'IDP/api_v1/primary_course'),$set);
 
         $set = [];
         $set['personnel'] = $this->session_data['personnel'];
         $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
         $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
 
+        $set['primary_course'] = [];
+        if($primary_course['status']){
+            $set['primary_course'] = $primary_course['data'];
+        }
+
         $this->load->view('my_course',$set);
     }
+
     function view_course(){
         $this->load->view('view_course');
     }
@@ -52,5 +61,10 @@ class IDP extends IDP_Controller {
         $this->my_course();
         //$this->load->view('report');
     }
+
+
+    
+
+    
 
 }

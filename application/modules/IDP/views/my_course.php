@@ -13,6 +13,11 @@
 
   <?php echo $this->load->view('inc/css'); ?>
 
+  <style>
+    .btn-eva{
+      display:none;
+    }
+  </style>
   
 
 </head>
@@ -117,15 +122,19 @@
           <?php */ ?>
 
           <div class="row">
-
+          <?php
+            $i = 0;
+            if(isset($primary_course) and count($primary_course)>0){
+              foreach($primary_course as $key=>$val){
+          ?>
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-4 col-md-6 mb-4">
+            <div class="course_box col-xl-4 col-md-6 mb-4" sheet_token="<?php echo $val['sheet_token'] ?>">
               <div class="card border-left-primary shadow h-100">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">Machine Leaning</div>
-                      <div class="h8 mb-0 text-gray-800">รายละเอียดบทเรียน</div>
+                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1"><?php echo $val['course_name']; ?></div>
+                      <div class="h8 mb-0 text-gray-800"><?php echo $val['course_detail']; ?></div>
                       
                     </div>
                     <div class="col-auto">
@@ -133,54 +142,25 @@
                     </div>
                   </div>
                   <div class="row p-2">
-                    <div class="col-lg-12">
+                    <!-- <div class="col-lg-12">
                       <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="row p-2">
                     <div class="col-auto">
-                      <a href="<?php echo base_url(url_index().'idp/view_course');?>" class="btn btn-primary btn-icon-split btn-sm">
+                      <a href="<?php echo $val['course_link']; ?>" target="_blank" class="btn btn-primary btn-icon-split btn-sm">
                         <span class="icon text-white-50">
                           <i class="fas fa-arrow-right"></i>
                         </span>
                         <span class="text">เข้าสู่บทเรียน</span>
                       </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-4 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">Machine Leaning</div>
-                      <div class="h8 mb-0 text-gray-800">กรณีเรียนเสร็จสิ้น</div>
-                      
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-check-circle  fa-2x"></i>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-lg-12">
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Complete</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-auto">
-                      <a href="<?php echo base_url(url_index().'idp/measure');?>" class="btn btn-success btn-icon-split btn-sm">
+                      <a href="<?php echo $val['form_link']; ?>" target="_blank" class="btn-eva btn btn-success btn-icon-split btn-sm">
                         <span class="icon text-white-50">
                           <i class="fas fa-tasks"></i>
                         </span>
-                        <span class="text">ประเมิน</span>
+                        <span class="text">ประเมินหลังเรียน</span>
                       </a>
                     </div>
                   </div>
@@ -188,154 +168,23 @@
               </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-4 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">Machine Leaning</div>
-                      <div class="h8 mb-0 text-gray-800">กรณีเรียนยังไม่จบ</div>
-                      
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-book fa-2x"></i>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-lg-12">
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-auto">
-                      <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                          <i class="fas fa-arrow-right"></i>
-                        </span>
-                        <span class="text">เข้าสู่บทเรียน</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-4 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">Machine Leaning</div>
-                      <div class="h8 mb-0 text-gray-800">พื้นฐาน ML</div>
-                      
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-book fa-2x"></i>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-lg-12">
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-auto">
-                      <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                          <i class="fas fa-arrow-right"></i>
-                        </span>
-                        <span class="text">เข้าสู่บทเรียน</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-4 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">Machine Leaning</div>
-                      <div class="h8 mb-0 text-gray-800">พื้นฐาน ML</div>
-                      
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-check-circle  fa-2x"></i>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-lg-12">
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Complete</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-auto">
-                      <a href="#" class="btn btn-success btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                          <i class="fas fa-tasks"></i>
-                        </span>
-                        <span class="text">ประเมิน</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-4 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">Machine Leaning</div>
-                      <div class="h8 mb-0 text-gray-800">พื้นฐาน ML</div>
-                      
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-book fa-2x"></i>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-lg-12">
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row p-2">
-                    <div class="col-auto">
-                      <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                          <i class="fas fa-arrow-right"></i>
-                        </span>
-                        <span class="text">เข้าสู่บทเรียน</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          <?php
+                $i++;
+                if($i==2){
+                  echo '</div><div class="row">';
+                  $i = 0;
+                }
+              }
+            }
+          ?>
           </div>
 
         </div>
         <!-- /.container-fluid -->
+
+        <!--Add buttons to initiate auth sequence and sign out-->
+        <button id="authorize_button" style="display: none;">Authorize</button>
+        <button id="signout_button" style="display: none;">Sign Out</button>
 
       </div>
       <!-- End of Main Content -->
@@ -349,6 +198,7 @@
         </div>
       </footer>
       <!-- End of Footer -->
+      
 
     </div>
     <!-- End of Content Wrapper -->
@@ -548,6 +398,121 @@
       /* donut chart*/
 
     });
+  </script>
+
+
+
+  <script type="text/javascript">
+    // Client ID and API key from the Developer Console
+    var CLIENT_ID = '1057073406216-qudn29k74ddf47rn38msb2f35n5mbidg.apps.googleusercontent.com';
+    var API_KEY = 'AIzaSyDnQBD9bsOTkkWif23z3KI-9xPM9KZN9Wc';
+
+    // Array of API discovery doc URLs for APIs used by the quickstart
+    var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+
+    // Authorization scopes required by the API; multiple scopes can be
+    // included, separated by spaces.
+    var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+
+    var authorizeButton = document.getElementById('authorize_button');
+    var signoutButton = document.getElementById('signout_button');
+
+    /**
+      *  On load, called to load the auth2 library and API client library.
+      */
+    function handleClientLoad() {
+      gapi.load('client:auth2', initClient);
+    }
+
+    /**
+      *  Initializes the API client library and sets up sign-in state
+      *  listeners.
+      */
+    function initClient() {
+      gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+      }).then(function () {
+        // Listen for sign-in state changes.
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+        // Handle the initial sign-in state.
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        // authorizeButton.onclick = handleAuthClick;
+        // signoutButton.onclick = handleSignoutClick;
+      }, function(error) {
+        appendPre(JSON.stringify(error, null, 2));
+      });
+    }
+
+    /**
+      *  Called when the signed in status changes, to update the UI
+      *  appropriately. After a sign-in, the API is called.
+      */
+    function updateSigninStatus(isSignedIn) {
+      if (isSignedIn) {
+        // authorizeButton.style.display = 'none';
+        // signoutButton.style.display = 'block';
+        course_check();
+      } else {
+        gapi.auth2.getAuthInstance().signIn();
+      }
+    }
+
+    /**
+      *  Sign in the user upon button click.
+      */
+    function handleAuthClick(event) {
+      gapi.auth2.getAuthInstance().signIn();
+    }
+
+    /**
+      *  Sign out the user upon button click.
+      */
+    function handleSignoutClick(event) {
+      gapi.auth2.getAuthInstance().signOut();
+    }
+
+    function course_check() {
+
+      var course = $('.course_box');
+      if(('.course_box').length > 0){
+        $.each(course,function(key,val){
+          var sheet = $(this).attr('sheet_token');
+
+          if(sheet!=''){
+            gapi.client.sheets.spreadsheets.values.get({
+              spreadsheetId: sheet,
+              range:'B2:C',
+              majorDimension:'COLUMNS'
+            }).then(function(response) {
+              var range = response.result;
+              //console.log(range);
+              if (range.values.length > 0) {
+                $.each(range.values[0],function(key2,val2){
+                  if(val2 == '<?php echo $personnel['username']?>@nu.ac.th'){
+                    return false;
+                  }
+                  $('.course_box').find('.btn-eva').css('display','inline-block');
+                });                
+              }
+            }, function(response) {
+              console.log(response.result.error.message);
+            });
+          }
+        });
+      }
+
+      return false;
+    }
+
+  </script>
+
+  <script async defer src="https://apis.google.com/js/api.js"
+    onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
   </script>
 
 </body>

@@ -2,6 +2,9 @@
 
 if (!extension_loaded('mysqli')) {
 	dl('php_mysqli.dll');
+
+	echo 'mysqli';
+	exit;
 	#header("refresh: 1");
 }
 

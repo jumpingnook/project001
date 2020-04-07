@@ -6,11 +6,10 @@ class Api_v1 extends REST_Controller {
 
 	function __construct(){
         parent::__construct();
-        $this->load->model('personnel/Personnel_model');
         $this->load->model('auth/Token_model');
     }
     
-    function personnel_post(){
+    function primary_course_post(){
         $post = $this->post();
 
         if(isset($post['token']) and isset($post['ip']) and trim($post['token'])!='' and trim($post['ip'])!=''){
@@ -30,18 +29,25 @@ class Api_v1 extends REST_Controller {
             ], REST_Controller::HTTP_NOT_FOUND); //404 
         }
 
-        if(isset($post['username']) and trim($post['username'])!=''){
-            $result = $this->Personnel_model->get_personnel(['username'=>trim($post['username'])]);
-            $result['status'] = true;
-            $this->response($result, REST_Controller::HTTP_NOT_FOUND); //404
-		}else{
-            $this->response([
-                'status' => false,
-                'message' => 'Invalid Data'
-            ], REST_Controller::HTTP_NOT_FOUND); //404
+
+        $this->load->model(['Course_model']);
+
+        $primary = $this->Course_model->course_tag_primary();
+        $course = $this->Course_model->course();
+
+        $res['data'] = [];
+        $res['count'] = 0;
+        if(count($primary)>0){
+            foreach($primary as $key=>$val){
+                if(isset($course[$val['course_id']])){
+                    $res['data'][$val['course_id']] = $course[$val['course_id']];
+                    $res['count']++;
+                }
+            }
         }
 
-
+        $res['status'] = true;
+        $this->response($res, REST_Controller::HTTP_OK); //404
     }
 
     
