@@ -16,6 +16,11 @@ class Course_model extends MY_Model {
 		$this->tb_default();
 		$con = [];
 		$con['where'] 		= 'status = 0';
+
+		if(isset($set['id']) and !is_array($set['id'])){
+			$con['where'] .= ' and course_id = "'.intval($set['id']).'"';
+		}
+		
 		$con['order_by'] 	= 'course_id ASC';
 		$con['array_key'] 	= true;
 		return $this->to_select($con);
@@ -28,6 +33,28 @@ class Course_model extends MY_Model {
 		$con['order_by'] 	= 'group_id ASC';
 		//$con = ['array_key'=>true];
 		return $this->to_select($con);
+	}
+
+	function course_tag(){
+		$this->table = 'idp_tag';
+		$con = [];
+		$con['order_by'] 	= 'tag_id ASC';
+		$con = ['array_key'=>true];
+		return $this->to_select($con);
+	}
+
+	function course_group_tag($set=[]){
+
+		if(isset($set['course']) and intval($set['course'])!=0){
+			$this->table = 'idp_tag_group';
+			$con = [];
+			$con['where'] 		= 'course_id = "'.intval($set['course']).'"';
+			$con['order_by'] 	= 'group_id ASC';
+			$con['array_key']  	= true;
+			return $this->to_select($con);
+		}
+
+		return [];
 	}
 
 }

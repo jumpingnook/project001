@@ -62,6 +62,53 @@ class IDP extends IDP_Controller {
         //$this->load->view('report');
     }
 
+    function manage_course(){
+
+        $set = [];
+        $set['APP-KEY']     = $this->api_key;
+        $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $set['ip']          = get_client_ip();
+        $course = $this->restclient->post(base_url(url_index().'IDP/api_v1/course'),$set);
+
+        $set['course'] = [];
+        if($course['status']){
+            $set['course'] = $course['data'];
+        }
+
+        $this->load->view('manage_course',$set);
+    }
+
+    function view_m_course($course = 0){
+
+        if(intval($course)==0){
+            redirect(url_index().'idp/manage_course/?admin=1');
+        }
+
+        $set = [];
+        $set['APP-KEY']     = $this->api_key;
+        $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $set['ip']          = get_client_ip();
+        $set['course']      = intval($course);
+        $course = $this->restclient->post(base_url(url_index().'IDP/api_v1/course'),$set);
+        $group_tag = $this->restclient->post(base_url(url_index().'IDP/api_v1/group_tag'),$set);
+
+        $res['course'] = $res['group_tag'] = $res['tag'] = [];
+        if($course['status'] and $group_tag['status']){
+            $res['course']      = array_shift($course['data']);
+            $res['group_tag']   = $group_tag['group_tag'];
+            $res['tag']         = $group_tag['tag'];
+        }
+
+        //echo '<pre>';print_r($res);exit;
+
+        $this->load->view('view_m_course',$res);
+    }
+
+    function add_m_course(){
+        $res = [];
+        $this->load->view('add_m_course',$res);
+    }
+
 
     
 

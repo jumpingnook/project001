@@ -59,6 +59,26 @@
 </li>
 <?php */ ?>
 
+<?php if(isset($_GET['admin']) and $_GET['admin']){?>
+
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+  การจัดการเฉพาะเจ้าหน้าที่
+</div>
+
+<li class="nav-item">
+  <a class="nav-link" href="<?php echo base_url(url_index().'idp/manage_course/?admin=1');?>">
+    <i class="fas fa-fw fa-tachometer-alt"></i><span>จัดการบทเรียน</span>
+  </a>
+</li>
+
+<?php } ?>
+
+
+
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
 

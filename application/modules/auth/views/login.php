@@ -17,7 +17,6 @@
     .bg-login-image {
       background: url(<?php echo base_url(load_file('assets/img/logo.med.png'));?>);
       background-position: center;
-      background-size: 250px;
       background-repeat: no-repeat;
     }
   </style>
@@ -41,10 +40,10 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 font-weight-bold mb-4">เข้าสู่ระบบ</h1>
+                    <h1 class="h4 text-gray-900 font-weight-bold mb-4">&nbsp;</h1>
                   </div>
                   <div class="text-center">
-                    <h6 class="h4 text-gray-900 font-weight-bold mb-4">MyMedNU</h6>
+                    <h6 class="h3 text-gray-900 font-weight-bold mb-4">เข้าสู่ระบบ</h6>
                   </div>
                   <form class="user" action="<?php echo base_url(url_index().'auth/login');?>" method="post">
                     <div class="form-group">

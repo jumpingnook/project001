@@ -18,10 +18,10 @@
 </div>
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-  <a class="nav-link" href="<?php echo base_url('leave');?>">
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave');?>">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>รายการข้อมูลการลา</span></a>
-  <a class="nav-link" href="<?php echo base_url('leave/leave/add');?>">
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
     <i class="fas fa-fw fa-tachometer-alt"></i>
     <span>แบบฟอร์มข้อมูลการลา</span></a>
   
@@ -77,6 +77,10 @@
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave/calendar');?>">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>จัดการปฏิทิน</span></a>
+
   <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
     <i class="fas fa-fw fa-folder"></i>
     <span>Pages</span>
