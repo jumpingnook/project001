@@ -50,6 +50,8 @@ class Auth extends Auth_Controller {
 
         $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data'][0]['personnel_id']:0;
 
+        
+
         #check new tb personnel
         if(isset($result['status']) and $result['status'] and !intval($result['count'])){
 
@@ -65,18 +67,19 @@ class Auth extends Auth_Controller {
                 $set['token']       = $token;
                 $set['ip']          = $ip;
                 $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/transfer_personnel'),$set);
-
-                $personnel_id = 0;
+                
                 if(isset($result['status']) and $result['status']){
                     $personnel_id = isset($result['personnel_id'])?intval($result['personnel_id']):0;
                 }else{
-                    $this->Token_model->delete_token(['totken'=>$token]);
+                    $this->Token_model->delete_token(['token'=>$token]);
                     redirect(url_index().'auth/?status=db'); //login fail db
                 }
 
             }
         }elseif(intval($personnel_id) != 0){
             #update old tb personnel to new tb personnel
+
+            $result = $this->restclient->post(base_url(url_index().'sql_personnel/api_v1/personnel'),$set);
 
             $set = $result['data'][0];
             $set['APP-KEY']     = $this->api_key;
@@ -108,6 +111,7 @@ class Auth extends Auth_Controller {
             $set['username']    = trim($post['username']);
             $set['token']       = $token;
             $set['ip']          = $ip;
+            
             $personnel = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$set);
             $personnel = count($personnel['data'])>=0?$personnel['data'][0]:[];
 

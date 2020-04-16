@@ -138,8 +138,18 @@
                       
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-book fa-2x"></i>
-                      <i class="status_c fas fa-check-circle fa-2x"></i>
+
+                        <?php if(isset($enroll[$val['course_id']])){
+                            if($enroll[$val['course_id']]['status']==1){?>
+                            <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                        <?php }elseif($enroll[$val['course_id']]['status']==2){?>
+                            <i class="fas fa-check-circle fa-2x"></i>
+                        <?php }else{?>
+                            <i class="fas fa-book fa-2x"></i>
+                        <?php  }}else{ ?>
+                            <i class="fas fa-book fa-2x"></i>
+                        <?php } ?>
+
                     </div>
                   </div>
                   <div class="row p-2">
@@ -151,18 +161,38 @@
                   </div>
                   <div class="row p-2">
                     <div class="col-auto">
-                      <a href="<?php echo $val['course_link']; ?>" target="_blank" class="btn btn-primary btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                          <i class="fas fa-arrow-right"></i>
-                        </span>
-                        <span class="text">เข้าสู่บทเรียน</span>
-                      </a>
-                      <a href="<?php echo $val['form_link']; ?>" target="_blank" class="btn-eva btn btn-success btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                          <i class="fas fa-tasks"></i>
-                        </span>
-                        <span class="text">ประเมินหลังเรียน</span>
-                      </a>
+
+
+                        <a href="<?php echo $val['course_link']; ?>" target="_blank" class="enroll btn btn-primary btn-icon-split btn-sm" course="<?php echo $val['course_id'];?>">
+                            <span class="icon text-white-50">
+                            <i class="fas fa-arrow-right"></i>
+                            </span>
+                            <span class="text">เข้าสู่บทเรียน</span>
+                        </a>
+
+                        <?php if($val['course_type']==2 and trim($val['form_link'])!=''){ ?>
+
+                        <a href="<?php echo $val['form_link']; ?>" target="_blank" class="btn-eva btn btn-success btn-icon-split btn-sm">
+                            <span class="icon text-white-50">
+                            <i class="fas fa-tasks"></i>
+                            </span>
+                            <span class="text">ประเมินหลังเรียน</span>
+                        </a>
+
+                        <?php }elseif($val['course_type']==1){ ?>
+
+                            <button target="_blank" class="btn-eva btn btn-success btn-icon-split btn-sm" style="display:block;">
+                                <span class="icon text-white-50">
+                                <i class="fas fa-tasks"></i>
+                                </span>
+                                <label for="upload-<?php echo $val['course_id'];?>" style="margin-bottom:0;">
+                                    <span class="text">อัพโหลดประเมินหลังเรียน</span>
+                                </label>
+                            </button>
+                            <input id="upload-<?php echo $val['course_id'];?>" class="upload" course="<?php echo $val['course_id'];?>" type="file" accept="image/*" style="display:none;">
+                        <?php } ?>
+
+
                     </div>
                   </div>
                 </div>
@@ -391,7 +421,7 @@
 
 
 
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '1057073406216-qudn29k74ddf47rn38msb2f35n5mbidg.apps.googleusercontent.com';
     var API_KEY = 'AIzaSyDnQBD9bsOTkkWif23z3KI-9xPM9KZN9Wc';
@@ -510,6 +540,73 @@
   <script async defer src="https://apis.google.com/js/api.js"
     onload="this.onload=function(){};handleClientLoad()"
     onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  </script> -->
+
+
+
+  <script>
+    $(document).ready(function(){
+        $('.enroll').click(function(){
+
+            var data = {
+              'APP-KEY':'<?php echo $APP_KEY;?>',
+              token:'<?php echo $token;?>',
+              ip:'<?php echo $ip;?>',
+              course:$(this).attr('course')
+            };
+
+            $.ajax({
+              type: "POST",
+              data:data,
+              url: "<?php echo base_url(url_index().'idp/api_v1/learn_course'); ?>",
+              dataType: "json",
+              success: function(data){
+                window.location.reload();
+              }
+            });
+        });
+
+        $('.upload').change(function(){
+
+            var course = $(this).attr('course');
+
+            var filesToUpload = $(this)[0].files;
+            var file = filesToUpload[0];
+
+            if(typeof file != 'undefined'){
+                var img = document.createElement("img");
+                var reader = new FileReader();  
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+
+                    var data = {
+                        'APP-KEY':'<?php echo $APP_KEY;?>',
+                        token:'<?php echo $token;?>',
+                        ip:'<?php echo $ip;?>',
+                        course:course,
+                        file:img.src
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        data:data,
+                        url: "<?php echo base_url(url_index().'idp/api_v1/learn_course'); ?>",
+                        dataType: "json",
+                        success: function(data){
+                            console.log(data);
+                        }
+                    });
+                    
+                }
+                reader.readAsDataURL(file);
+            }
+
+
+        });
+
+
+
+    });
   </script>
 
 </body>

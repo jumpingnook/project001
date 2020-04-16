@@ -49,7 +49,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">แบบฟอร์มข้อมูลการลา</h1>
+            <h1 class="h3 mb-0 text-gray-800">แบบฟอร์มเพิ่มข้อมูลข้อมูลบทเรียน</h1>
           </div>
 
           <div class="row">
@@ -76,15 +76,14 @@
                 </div>
                 <div class="card-body">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">เพิ่ม <span class="course-text"></span></h1>
+                    <h1 class="h4 text-gray-900 mb-4"><?php echo isset($method) && $method=='add'?'เพิ่มบทเรียน':'แก้ไขบทเรียน';?> <span class="course-text"></span></h1>
                   </div>
 
-                  <form class="form">
-
+                  <form class="form" action="<?php echo base_url(url_index().'idp/save_course');?>" method="post">
                     <div class="form-group row">
                       <div class="col-sm-12">
-                        <label>ชื่อบทเรียน</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="ระบุชื่อบทเรียน" value="">
+                        <label>ชื่อบทเรียน <span class="text-primary">*</span></label>
+                        <input type="text" class="form-control" placeholder="ระบุชื่อบทเรียน" name="course_name" value="<?php echo isset($course['course_name'])?htmlspecialchars_decode($course['course_name']):'';?>" required="required">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -92,29 +91,29 @@
                         <label>รายละเอียดบทเรียน</label>
                         <div id="text_editor"></div>
                         <div></div>
-                        <!-- <textarea name="" id="course_detail" class="form-control" cols="30" rows="3"></textarea> -->
-                        <input id="course_detail" type="hidden" name="" value="">
+                        <input id="course_detail" type="hidden" name="course_detail" value="<?php echo isset($course['course_detail'])?htmlspecialchars_decode($course['course_detail']):'';?>">
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-12">
-                        <label>URL บทเรียนภายนอก</label>
-                        <input type="text" class="form-control" id="exampleLastName" placeholder="ระบุ URL บทเรียนภายนอก เช่น Thaimooc " value="">
+                        <label>URL บทเรียนภายนอก <a href="https://thaimooc.org/" target="_blank">Link</a><span class="text-primary">*</span></label>
+                        <input type="text" class="form-control" placeholder="ระบุ URL บทเรียนภายนอก เช่น Thaimooc " name="course_link" value="<?php echo isset($course['course_link'])?htmlspecialchars_decode($course['course_link']):'';?>" required="required">
+                      </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label>URL แบบประเมินหลังเรียน <a href="https://docs.google.com/forms/" target="_blank">Link</a></label>
+                        <input type="text" class="form-control" placeholder="ระบุ URL แบบประเมินหลังเรียน"  name="form_link" value="<?php //echo isset($course['form_link'])?htmlspecialchars_decode($course['form_link']):'';?>">
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-12">
-                        <label>URL แบบประเมินหลังเรียน</label>
-                        <input type="text" class="form-control" id="exampleLastName" placeholder="ระบุ URL แบบประเมินหลังเรียน" value="">
+                        <label>URL Google Sheet <a href="https://docs.google.com/spreadsheets" target="_blank">Link</a></label>
+                        <input type="text" class="form-control" placeholder="ระบุ URL Google Sheet" name="sheet_token" value="<?php //echo isset($course['sheet_token'])?'https://docs.google.com/spreadsheets/d/'.htmlspecialchars_decode($course['sheet_token']).'/edit':'';?>">
                       </div>
-                    </div>
-                    <div class="form-group row">
-                      <div class="col-sm-12">
-                        <label>URL Google Sheet</label>
-                        <input type="text" class="form-control" id="exampleLastName" placeholder="ระบุ URL Google Sheet" value="">
-                      </div>
-                    </div>
-                    <hr>
+                    </div> -->
+
+                    <!-- <hr>
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label>เลือกหมวดหมู่</label>
@@ -125,10 +124,16 @@
                           </select>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
+
                     <hr>
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input type="hidden" name="type" value="1">
+                    <input type="hidden" name="course_type" value="1">
+                    <input type="hidden" name="method" value="<?php echo (isset($method) && trim($method)!=''?$method:'');?>">
+                    <input type="hidden" name="token" value="<?php echo isset($token)?$token:'';?>">
+                        <?php if(isset($course['course_id'])){ ?>
+                          <input type="hidden" name="course" value="<?php echo $course['course_id'];?>">
+                        <?php } ?>
 
                   </form>
 
@@ -199,7 +204,7 @@
     }
     set_html();
     function set_html(){
-      quill.root.innerHTML = '<p>'+$('#course_detail').val()+'</p>';
+      quill.root.innerHTML = $('#course_detail').val();
     }
 
     $('#tag').multiSelect({

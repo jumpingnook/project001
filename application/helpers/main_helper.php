@@ -281,3 +281,17 @@
         return $CI->session->userdata('personnel');
     }
 
+    function sheet_token($url=''){
+
+        $result = explode('/',$url);
+
+        if(count($result)>=5){
+            return $result[5];
+
+        }
+        
+        return '';
+    }
+
+
+

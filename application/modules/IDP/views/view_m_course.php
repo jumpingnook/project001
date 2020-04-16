@@ -51,13 +51,13 @@
                     <div class="card-body">
                       <div class="row mb-4">
                         <div class="col-lg-12">
-                          <h4 class="m-0 font-weight-bold text-primary">[<?php echo $course['course_id']; ?>] - <?php echo $course['course_name'];?></h4>
+                          <h4 class="m-0 font-weight-bold text-primary">[<?php echo $course['course_id']; ?>] - <?php echo htmlspecialchars_decode($course['course_name']);?></h4>
                         </div>
                       </div>
                       <div class="row mb-2">
                         <div class="col-lg-12">
                           <h6 class="m-0 font-weight-bold text-primary">คำอธิบายรายวิชา</h6>
-                          <p><?php echo $course['course_detail'];?></p>
+                          <p><?php echo htmlspecialchars_decode($course['course_detail']);?></p>
                         </div>
                       </div>
                       <div class="row mb-2">
@@ -65,7 +65,7 @@
                           <h6 class="m-0 font-weight-bold text-primary mb-2">อื่นๆ</h6>
                           <?php if(isset($course) and trim($course['form_link'])!=''){ ?>
 
-                            <a href="<?php echo $course['form_link'];?>" target="_blank" type="button" class="btn btn-info btn-icon-split mb-1">
+                            <a href="<?php echo htmlspecialchars_decode($course['form_link']);?>" target="_blank" type="button" class="btn btn-info btn-icon-split mb-1">
                               <span class="icon text-white-50">
                                 <i class="fab fa-google"></i>
                               </span>
@@ -97,7 +97,7 @@
                             <span class="icon text-white-50">
                               ?
                             </span>
-                            <span class="text"><?php echo isset($tag[$val['tag_id']])?$tag[$val['tag_id']]['tag_name']:' - '; ?></span>
+                            <span class="text"><?php echo isset($tag[$val['tag_id']])?htmlspecialchars_decode($tag[$val['tag_id']]['tag_name']):' - '; ?></span>
                           </button>
                           <?php }} ?>
                         </div>
@@ -118,7 +118,7 @@
                     <div class="card-body">
 
                       <?php if(isset($course) and trim($course['course_link'])!=''){ ?>
-                        <a href="<?php echo $course['course_link'];?>" target="_blank" type="button" class="btn btn-info btn-icon-split mb-1">
+                        <a href="<?php echo htmlspecialchars_decode($course['course_link']);?>" target="_blank" type="button" class="btn btn-info btn-icon-split mb-1">
                           <span class="icon text-white-50">
                             <i class="fas fa-external-link-alt"></i>
                           </span>

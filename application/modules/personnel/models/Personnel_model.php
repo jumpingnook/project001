@@ -13,17 +13,19 @@ class Personnel_model extends MY_Model {
 	function get_personnel($set = []){
 		$res = ['count'=>0,'data'=>[]];
 
-		$sql = '';
+		$sql_code = '';
 		if(isset($set['username']) and trim($set['username'])!=''){
-			$sql = 'internet_account = "'.trim($set['username']).'"';
+			$sql_code = 'internet_account LIKE "'.trim($set['username']).'"';
 		}elseif(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
-			$sql = 'personnel_id = "'.intval($set['personnel_id']).'"';
+			$sql_code = 'personnel_id = "'.intval($set['personnel_id']).'"';
 		}
 
-		if($sql!=''){
+		
+
+		if($sql_code!=''){
 			$con = [];
-			$con['where'] = 'internet_account = "'.trim($set['username']).'"';
-			$count = $this->to_count($con);
+			$con['where'] = $sql_code;
+			$count = $this->to_select($con);
 			
 			if($count>0){
 				$con['limit']	= '0,1';
@@ -149,7 +151,7 @@ class Personnel_model extends MY_Model {
 		return $res;
 	}
 
-	function update_transfer_personnel($set=[]){
+	function transfer_update_personnel($set=[]){
 		$res = ['status'=>false];
 
 		if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){

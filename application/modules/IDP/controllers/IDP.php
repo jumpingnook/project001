@@ -29,6 +29,11 @@ class IDP extends IDP_Controller {
         $sql_personnel = $this->restclient->post(base_url(url_index().'sql_personnel/api_v1/personnel'),$set);
         $primary_course = $this->restclient->post(base_url(url_index().'IDP/api_v1/primary_course'),$set);
 
+        $set['personnel_id']    = isset($this->session_data['personnel']['personnel_id'])?$this->session_data['personnel']['personnel_id']:'';
+        $enroll = $this->restclient->post(base_url(url_index().'IDP/api_v1/enroll'),$set);
+
+        
+
         $set = [];
         $set['personnel'] = $this->session_data['personnel'];
         $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
@@ -38,6 +43,15 @@ class IDP extends IDP_Controller {
         if($primary_course['status']){
             $set['primary_course'] = $primary_course['data'];
         }
+
+        $set['enroll'] = [];
+        if($enroll['status']){
+            $set['enroll'] = $enroll['data'];
+        }
+        
+        $set['APP_KEY']     = $this->api_key;
+        $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $set['ip']          = get_client_ip();
 
         $this->load->view('my_course',$set);
     }
@@ -99,15 +113,98 @@ class IDP extends IDP_Controller {
             $res['tag']         = $group_tag['tag'];
         }
 
-        //echo '<pre>';print_r($res);exit;
-
         $this->load->view('view_m_course',$res);
     }
 
     function add_m_course(){
+        #generate token_login
+        $token = genTOKEN();
+
+        $this->session->set_flashdata('token_course', $token);
+
         $res = [];
+        $res['method']  = 'add';
+        $res['token']   = $token;
         $this->load->view('add_m_course',$res);
     }
+
+    function edit_m_course($course=0){
+
+        if(intval($course)==0){
+            redirect(url_index().'idp/manage_course/?admin=1');
+        }
+
+        $set = [];
+        $set['APP-KEY']     = $this->api_key;
+        $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $set['ip']          = get_client_ip();
+        $set['course']      = intval($course);
+        $course = $this->restclient->post(base_url(url_index().'IDP/api_v1/course'),$set);
+        $group_tag = $this->restclient->post(base_url(url_index().'IDP/api_v1/group_tag'),$set);
+
+        $res = [];
+        $res['course'] = $res['group_tag'] = $res['tag'] = [];
+        if($course['status'] and $group_tag['status']){
+            $res['course']      = array_shift($course['data']);
+            $res['group_tag']   = $group_tag['group_tag'];
+            $res['tag']         = $group_tag['tag'];
+        }else{
+            redirect(url_index().'idp/manage_course/?admin=1');
+        }
+
+        #generate token_login
+        $token = genTOKEN();
+        $this->session->set_flashdata('token_course', $token);
+
+        //echo '<pre>';print_r($res);exit;
+        $res['method']  = 'edit';
+        $res['token']   = $token;
+        $this->load->view('add_m_course',$res);
+    }
+
+    function save_course(){
+        $post = $this->input->post();
+
+        if(trim($post['token']) != $this->session->flashdata('token_course')){
+            redirect(url_index().'idp/manage_course/?admin=1');
+        }
+
+        if(isset($post['course_name']) and trim($post['course_name'])==''){
+            redirect(url_index().'idp/manage_course/?admin=1');
+        }elseif(isset($post['course_link']) and trim($post['course_link'])==''){
+            redirect(url_index().'idp/manage_course/?admin=1');
+        }
+
+        $set = $post;
+        $set['APP-KEY']     = $this->api_key;
+        $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $set['ip']          = get_client_ip();
+
+        if(count($post)>0 and isset($post['method']) and trim($post['method'])=='add'){
+            
+            $result = $this->restclient->post(base_url(url_index().'IDP/api_v1/save_course'),$set);
+            redirect(url_index().'idp/manage_course/?admin=1');
+            
+        }elseif(count($post)>0 and isset($post['method']) and trim($post['method'])=='edit'){
+
+            //echo '<pre>';print_r($post);exit;
+
+            if(isset($post['course']) and trim($post['course'])==''){
+                redirect(url_index().'idp/manage_course/?admin=1');
+            }
+
+            $result = $this->restclient->post(base_url(url_index().'IDP/api_v1/update_course'),$set);
+            redirect(url_index().'idp/manage_course/?admin=1');
+        }
+
+    }
+
+    // function test(){
+    //     $this->load->model('sql_personnel/Sql_personnel_model');
+    //     header("Content-Type: image/jpeg");
+    //     $test = $this->Sql_personnel_model->get_personnel(['username'=>'pimonpanl']);
+    //     echo $test['data'][0]['picture'];
+    // }
 
 
     

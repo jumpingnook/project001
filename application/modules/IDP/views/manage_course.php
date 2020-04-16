@@ -81,6 +81,9 @@
                             <a href="<?php echo base_url(url_index().'idp/view_m_course/'.$key.'/?admin=1');?>" class="btn btn-info btn-circle btn-sm">
                               <i class="fas fa-eye"></i>
                             </a>
+                            <a href="<?php echo base_url(url_index().'idp/edit_m_course/'.$key.'/?admin=1');?>" class="btn btn-info btn-circle btn-sm">
+                              <i class="fas fa-edit"></i>
+                            </a>
                           </td>
                         </tr>
                         <?php $i++;}} ?>
