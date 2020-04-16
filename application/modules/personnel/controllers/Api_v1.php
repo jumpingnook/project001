@@ -15,7 +15,11 @@ class Api_v1 extends REST_Controller {
 
         $token = $this->check_token($post);
 
-        if(isset($post['username']) and trim($post['username'])!=''){
+        if(isset($post['personnel_list']) and count($post['personnel_list'])>0){
+            $result = $this->Personnel_model->get_personnel(['personnel_list'=>$post['personnel_list']]);
+            $result['status'] = true;
+            $this->response($result, REST_Controller::HTTP_OK); //200
+        }elseif(isset($post['username']) and trim($post['username'])!=''){
             $result = $this->Personnel_model->get_personnel(['username'=>trim($post['username'])]);
             $result['status'] = true;
             $this->response($result, REST_Controller::HTTP_OK); //200

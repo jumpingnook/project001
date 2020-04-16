@@ -71,9 +71,61 @@ class IDP extends IDP_Controller {
     function list_personnel(){
         $this->load->view('list_personnel');
     }
+
+
+
     function report(){
-        $this->my_course();
-        //$this->load->view('report');
+        $ip = get_client_ip();
+        $con = [];
+        $set = [];
+        $con['APP-KEY']     = $this->api_key;
+        $con['username']    = isset($this->session_data['authentication']['username'])?$this->session_data['authentication']['username']:'';
+        $con['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $con['ip']          = $ip;
+        $course = $this->restclient->post(base_url(url_index().'IDP/api_v1/course'),$con);
+        $con['personnel_id']    = isset($this->session_data['personnel']['personnel_id'])?$this->session_data['personnel']['personnel_id']:'';
+        $enroll = $this->restclient->post(base_url(url_index().'IDP/api_v1/enroll'),$con);
+
+
+
+        
+
+        
+        // $set['personnel'] = $this->session_data['personnel'];
+        // $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+        // $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+
+        $set['course'] = [];
+        if($course['status']){
+            $set['course'] = $course['data'];
+        }
+
+        $set['enroll'] = [];
+        $personnel = [];
+        $set['count'] = [];
+        $set['count']['personnel'] = [];
+        $set['count'][0] = 0;
+        $set['count'][1] = 0;
+        $set['count'][2] = 0;
+        if($enroll['status'] and count($enroll['data'])>0){
+            
+            foreach($enroll['data'] as $key=>$val){
+                $set['enroll'][$val['personnel_id']][$val['course_id']] = $val;
+                $personnel[] = $val['personnel_id'];
+                $set['count'][$val['status']]++;
+                $set['count']['personnel'][$val['personnel_id']] = 1;
+            }
+
+        }
+
+        $con['personnel_list'] = $personnel;
+        $personnel = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$con);
+        $set['personnel'] = [];
+        if($personnel['status'] and count($personnel['data'])>0){
+            $set['personnel'] = $personnel['data'];
+        }
+
+        $this->load->view('report',$set);
     }
 
     function manage_course(){

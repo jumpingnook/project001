@@ -14,13 +14,19 @@ class Personnel_model extends MY_Model {
 		$res = ['count'=>0,'data'=>[]];
 
 		$sql_code = '';
-		if(isset($set['username']) and trim($set['username'])!=''){
+		if(isset($set['personnel_list']) and count($set['personnel_list'])>0){
+			foreach($set['personnel_list'] as $key=>$val){
+				if($sql_code==''){
+					$sql_code = 'personnel_id = "'.intval($val).'"';
+				}else{
+					$sql_code .= '  and personnel_id = "'.intval($val).'"';
+				}
+			}
+		}elseif(isset($set['username']) and trim($set['username'])!=''){
 			$sql_code = 'internet_account LIKE "'.trim($set['username']).'"';
 		}elseif(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
 			$sql_code = 'personnel_id = "'.intval($set['personnel_id']).'"';
 		}
-
-		
 
 		if($sql_code!=''){
 			$con = [];
@@ -29,6 +35,7 @@ class Personnel_model extends MY_Model {
 			
 			if($count>0){
 				$con['limit']	= '0,1';
+				$con['array_key'] = true;
 				$res['data'] = $this->to_select($con);
 				$res['count'] = $count;
 			}
