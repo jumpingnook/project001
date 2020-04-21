@@ -9,8 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
-
+  <title>LeaveSystem - med.nu.ac.th</title>
 
   <?php echo $this->load->view('inc/css'); ?>
 
@@ -111,6 +110,7 @@
 
           </div>
 
+          <?php /*
           <div class="row">
 
             <!-- Earnings (Monthly) Card Example -->
@@ -131,6 +131,7 @@
               </div>
             </div>
           </div>
+          */?>
 
           <div class="row">
             <div class="col-lg-12">
@@ -144,17 +145,35 @@
                 <div class="collapse show" id="collapseCardExample">
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-lg-2 text-md font-weight-bold">รหัสพนักงาน</div>
-                      <div class="col-lg-4">BM068</div>
-                      <div class="col-lg-2 text-md font-weight-bold">ประเภทงาน</div>
-                      <div class="col-lg-4">พนักงานมหาวิทยาลัย สายสนับสนุน (เงินรายได้)</div>
+                      <div class="col-lg-2">
+                        <img src="<?php echo isset($personnel['img'])&&trim($personnel['img'])!=''?$personnel['img']:'';?>" style="max-width: 200px;width: 100%;display: block;min-height: 200px;background-color: #ccc;"/>
+                      </div>
+                      <div class="col-lg-10">
+                        <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">รหัสพนักงาน</div>
+                          <div class="col-lg-10"><?php echo isset($personnel['personnel_code'])?$personnel['personnel_code']:'-';?></div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">ชื่อ - นามสกุล</div>
+                          <div class="col-lg-10">
+                            <?php 
+                              echo isset($personnel['title'])?$personnel['title']:'-'; 
+                              echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                              echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                            ?>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">ตำแหน่ง</div>
+                          <div class="col-lg-10"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">ประเภทงาน</div>
+                          <div class="col-lg-10"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="row">
-                      <div class="col-lg-2 text-md font-weight-bold">ชื่อ - นามสกุล</div>
-                      <div class="col-lg-4">นายสนาน ราตรีพรทิพย์</div>
-                      <div class="col-lg-2 text-md font-weight-bold">ตำแหน่ง</div>
-                      <div class="col-lg-4">นักวิชาการคอมพิวเตอร์?</div>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -171,7 +190,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-lg-12">
-                      <a href="<?php echo base_url(url_index().'leave/leave/add');?>" class="btn btn-info btn-icon-split">
+                      <a href="<?php echo base_url(url_index().'leave/add');?>" class="btn btn-info btn-icon-split">
                         <span class="icon text-white-50">
                           <i class="fas fa-file-medical"></i>
                         </span>
@@ -211,7 +230,7 @@
                           <td>0.5(AM)</td>
                           <td>ดำเนินการ</td>
                           <td>
-                            <a href="<?php echo base_url('leave/leave/view');?>" class="btn btn-info btn-circle btn-sm">
+                            <a href="<?php echo base_url(url_index().'leave/view');?>" class="btn btn-info btn-circle btn-sm">
                               <i class="far fa-eye"></i>
                             </a>&nbsp;
                             <a href="#" class="btn btn-danger btn-circle btn-sm">
@@ -228,7 +247,7 @@
                           <td>0.5(AM)</td>
                           <td>ดำเนินการ</td>
                           <td>
-                            <a href="<?php echo base_url('leave/leave/view');?>" class="btn btn-info btn-circle btn-sm">
+                            <a href="<?php echo base_url(url_index().'leave/view');?>" class="btn btn-info btn-circle btn-sm">
                               <i class="far fa-eye"></i>
                             </a>&nbsp;
                             <a href="#" class="btn btn-danger btn-circle btn-sm">
@@ -236,9 +255,9 @@
                             </a>
                           </td>
                         </tr>
-                        <?php for($i=0;$i<=100;$i++){?>
+                        <?php for($i=3;$i<=100;$i++){?>
                           <tr>
-                            <td>3</td>
+                            <td><?php echo $i;?></td>
                             <td>2020030955</td>
                             <td>ลาพักผ่อน</td>
                             <td>25 มี.ค. 2563</td>
@@ -246,7 +265,7 @@
                             <td>0.5(AM)</td>
                             <td>ดำเนินการ</td>
                             <td>
-                              <a href="<?php echo base_url('leave/leave/view');?>" class="btn btn-info btn-circle btn-sm">
+                              <a href="<?php echo base_url(url_index().'leave/view');?>" class="btn btn-info btn-circle btn-sm">
                                 <i class="far fa-eye"></i>
                               </a>&nbsp;
                               <a href="#" class="btn btn-danger btn-circle btn-sm">
@@ -272,13 +291,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+      <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
     </div>

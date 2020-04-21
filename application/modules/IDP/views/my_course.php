@@ -181,15 +181,15 @@
 
                         <?php }elseif($val['course_type']==1){ ?>
 
-                            <button target="_blank" class="btn-eva btn btn-success btn-icon-split btn-sm" style="display:block;">
+                            <button target="_blank" class="btn-eva btn btn-success btn-icon-split btn-sm" style="display:initial;">
                                 <span class="icon text-white-50">
                                 <i class="fas fa-tasks"></i>
                                 </span>
                                 <label for="upload-<?php echo $val['course_id'];?>" style="margin-bottom:0;">
-                                    <span class="text">อัพโหลดประเมินหลังเรียน</span>
+                                    <span class="text">อัพโหลดประเมิน</span>
                                 </label>
                             </button>
-                            <input id="upload-<?php echo $val['course_id'];?>" class="upload" course="<?php echo $val['course_id'];?>" type="file" accept="image/*" style="display:none;">
+                            <input id="upload-<?php echo $val['course_id'];?>" class="upload" course="<?php echo $val['course_id'];?>" type="file" accept="image/*" style="display:none;" status="<?php echo isset($enroll[$val['course_id']])?$enroll[$val['course_id']]['status']:'0';?>">
                         <?php } ?>
 
 
@@ -569,37 +569,42 @@
         $('.upload').change(function(){
 
             var course = $(this).attr('course');
+            var status = $(this).attr('status');
 
             var filesToUpload = $(this)[0].files;
             var file = filesToUpload[0];
 
-            if(typeof file != 'undefined'){
-                var img = document.createElement("img");
-                var reader = new FileReader();  
-                reader.onload = function(e) {
-                    img.src = e.target.result;
+            if(status>0){
+                if(typeof file != 'undefined'){
+                  var img = document.createElement("img");
+                  var reader = new FileReader();  
+                  reader.onload = function(e) {
+                      img.src = e.target.result;
 
-                    var data = {
-                        'APP-KEY':'<?php echo $APP_KEY;?>',
-                        token:'<?php echo $token;?>',
-                        ip:'<?php echo $ip;?>',
-                        course:course,
-                        file:img.src
-                    };
+                      var data = {
+                          'APP-KEY':'<?php echo $APP_KEY;?>',
+                          token:'<?php echo $token;?>',
+                          ip:'<?php echo $ip;?>',
+                          course:course,
+                          file:img.src
+                      };
 
-                    $.ajax({
-                        type: "POST",
-                        data:data,
-                        url: "<?php echo base_url(url_index().'idp/api_v1/learn_course'); ?>",
-                        dataType: "json",
-                        success: function(data){
-                            console.log(data);
-                        }
-                    });
-                    
-                }
-                reader.readAsDataURL(file);
+                      $.ajax({
+                          type: "POST",
+                          data:data,
+                          url: "<?php echo base_url(url_index().'idp/api_v1/learn_course'); ?>",
+                          dataType: "json",
+                          success: function(data){
+                              console.log(data);
+                          }
+                      });
+                      
+                  }
+                  reader.readAsDataURL(file);
+              }
             }
+
+            
 
 
         });

@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
+  <title>รายละเอียดการลา - LeaveSystem - med.nu.ac.th</title>
 
 
   <?php echo $this->load->view('inc/css'); ?>
@@ -128,13 +128,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+      <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
     </div>

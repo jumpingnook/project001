@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
+  <title>จัดการปฏิทิน - LeaveSystem - med.nu.ac.th</title>
 
   <?php echo $this->load->view('inc/css'); ?>
 
@@ -36,7 +36,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">จัดการปฏทิน</h1>
+            <h1 class="h3 mb-0 text-gray-800">จัดการปฏิทิน</h1>
           </div>
 
           <div class="row">
@@ -75,13 +75,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+      <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
     </div>

@@ -18,7 +18,7 @@
 </div>
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-  <a class="nav-link" href="<?php echo base_url(url_index().'idp/my_course/');?>">
+  <a class="nav-link" href="<?php echo base_url(url_index().'idp/my_course/'.(isset($_GET['admin']) && $_GET['admin']?'?admin=1':''));?>">
     <i class="fas fa-fw fa-tachometer-alt"></i><span>บทเรียนของฉัน</span></a>
   <!-- <a class="nav-link" href="<?php //echo base_url(url_index().'idp/search_course/');?>">
     <i class="fas fa-fw fa-tachometer-alt"></i><span>ค้นหาบทเรียน</span></a> -->
@@ -72,6 +72,12 @@
 <li class="nav-item">
   <a class="nav-link" href="<?php echo base_url(url_index().'idp/manage_course/?admin=1');?>">
     <i class="fas fa-fw fa-tachometer-alt"></i><span>จัดการบทเรียน</span>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a class="nav-link" href="<?php echo base_url(url_index().'idp/report/?admin=1');?>">
+    <i class="fas fa-fw fa-tachometer-alt"></i><span>รายงาน</span>
   </a>
 </li>
 

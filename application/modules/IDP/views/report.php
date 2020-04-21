@@ -110,8 +110,8 @@
                       <thead>
                         <tr>
                           <th width="70px">#</th>
-                          <th>รายละเอียดผู้เรียน</th>
                           <th width="200px">บทเรียน</th>
+                          <th>รายละเอียดผู้เรียน</th>
                           <th width="200px">วันเวลา</th>
                           <th width="130px">สถานะ</th>
                         </tr>
@@ -120,8 +120,8 @@
                         <?php if(isset($enroll) and count($enroll)>0){ $i = 1; foreach($enroll as $key=>$val){ foreach($val as $key2=>$val2){?>
                         <tr>
                           <td><?php echo $i;?></td>
-                          <td><?php echo isset($personnel[$key])?$personnel[$key]['title'].$personnel[$key]['name_th'].' '.$personnel[$key]['surname_th']:' - ';?></td>
                           <td><?php echo isset($course[$key2])?$course[$key2]['course_name']:' - ';?></td>
+                          <td><?php echo isset($personnel_list[$key])?$personnel_list[$key]['title'].$personnel_list[$key]['name_th'].' '.$personnel_list[$key]['surname_th']:' - ';?></td>
                           <td>
                             <?php if($val2['status']==0){
                               echo date('Y-m-d H:i:s',strtotime($val2['set_date']));

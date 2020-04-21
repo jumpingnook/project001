@@ -12,15 +12,33 @@ class Leave extends Leave_Controller {
     }
     
     function index(){
-        $this->load->view('index');
+        $set = [];
+
+        $set['personnel'] = $this->session_data['personnel'];
+        $this->load->model('sql_personnel/Sql_personnel_model');
+        $this->load->model('personnel/Personnel_model');
+        $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+        $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+        $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+        $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+        $set['personnel']['img']           = $personnel['data'][0]['img'];
+
+        $this->load->view('index',$set);
     }
 
     function add(){
-        $this->load->view('add_leave');
+
+        $this->load->model(['Leave_type_model']);
+        $set = [];
+        $set['personnel'] = $this->session_data['personnel'];
+        $set['leave_type'] = $this->Leave_type_model->get_type();
+        $this->load->view('add_leave',$set);
     }
 
     function view(){
-        $this->load->view('view_leave');
+        $set = [];
+        $set['personnel'] = $this->session_data['personnel'];
+        $this->load->view('view_leave',$set);
     }
 
     function calendar(){
@@ -29,7 +47,7 @@ class Leave extends Leave_Controller {
         $set['APP_KEY']     = $this->api_key;
         $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
         $set['ip']          = get_client_ip();
-
+        $set['personnel'] = $this->session_data['personnel'];
         $this->load->view('calendar',$set);
     }
 

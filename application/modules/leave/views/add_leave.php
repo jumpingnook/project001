@@ -9,8 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
-
+  <title>แบบฟอร์มข้อมูลการลา - LeaveSystem - med.nu.ac.th</title>
 
   <?php echo $this->load->view('inc/css'); ?>
 
@@ -60,16 +59,10 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <select id="type_leave" class="form-control">
-                          <option value="">เลือกประเภทการลา</option>
-                          <option value="1-ลาพักผ่อน">ลาพักผ่อน</option>
-                          <option value="2-ลากิจส่วนตัว">ลากิจส่วนตัว</option>
-                          <option value="3-ลาป่วย">ลาป่วย</option>
-                          <option value="4-ลาคลอดบุตร">ลาคลอดบุตร</option>
-                          <option value="5-ลาไปช่วยเหลือภริยาที่คลอดบุตร">ลาไปช่วยเหลือภริยาที่คลอดบุตร</option>
-                          <option value="6-ลากิจส่วนตัวเพื่อเลี้ยงดูบุตร">ลากิจส่วนตัวเพื่อเลี้ยงดูบุตร</option>
-                          <option value="7-ลาพักผ่อนไปต่างประเทศ">ลาพักผ่อนไปต่างประเทศ</option>
-                          <option value="8-ลาอุปสมบทหรือลาไปประกอบบพิธีการฮัจย์">ลาอุปสมบทหรือลาไปประกอบบพิธีการฮัจย์</option>
-                          <option value="9-ลาเข้ารับการตรวจเลือกหรือเข้ารับการเตรียมพล">ลาเข้ารับการตรวจเลือกหรือเข้ารับการเตรียมพล</option>
+                          <option value="" >เลือกประเภทการลา</option>
+                          <?php if(isset($leave_type) and count($leave_type)>0){foreach($leave_type as $key=>$val){?>
+                            <option value="<?php echo $key.'-'.$val['leave_name'];?>"><?php echo $val['leave_name'];?></option>
+                          <?php }} ?>
                         </select>
                       </div>
                     </div>
@@ -149,9 +142,9 @@
                       <div class="col-sm-6">
                         <label>เรียน</label>
                         <select class="form-control">
-                          <option>คณะบดีคณะแพทยศาสตร์</option>
-                          <option>อธิกาารบดี</option>
-                          <option>อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -488,13 +481,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+      <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
     </div>

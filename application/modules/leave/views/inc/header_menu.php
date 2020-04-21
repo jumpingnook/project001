@@ -27,6 +27,8 @@
   
 </li>
 
+<?php /*
+
 <!-- Divider -->
 <hr class="sidebar-divider">
 
@@ -34,6 +36,7 @@
 <div class="sidebar-heading">
   หัวหน้า
 </div>
+
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
@@ -66,6 +69,7 @@
     </div>
   </div>
 </li>
+*/?>
 
 <!-- Divider -->
 <hr class="sidebar-divider">
@@ -81,6 +85,7 @@
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>จัดการปฏิทิน</span></a>
 
+  <?php /*
   <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
     <i class="fas fa-fw fa-folder"></i>
     <span>Pages</span>
@@ -97,8 +102,10 @@
       <a class="collapse-item active" href="blank.html">Blank Page</a>
     </div>
   </div>
+  */ ?>
 </li>
 
+<?php /*
 <!-- Nav Item - Charts -->
 <li class="nav-item">
   <a class="nav-link" href="charts.html">
@@ -112,6 +119,7 @@
     <i class="fas fa-fw fa-table"></i>
     <span>Tables</span></a>
 </li>
+*/ ?>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">

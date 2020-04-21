@@ -26,13 +26,13 @@ class IDP extends IDP_Controller {
         $set['username']    = isset($this->session_data['authentication']['username'])?$this->session_data['authentication']['username']:'';
         $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
         $set['ip']          = $ip;
-        $sql_personnel = $this->restclient->post(base_url(url_index().'sql_personnel/api_v1/personnel'),$set);
         $primary_course = $this->restclient->post(base_url(url_index().'IDP/api_v1/primary_course'),$set);
 
         $set['personnel_id']    = isset($this->session_data['personnel']['personnel_id'])?$this->session_data['personnel']['personnel_id']:'';
         $enroll = $this->restclient->post(base_url(url_index().'IDP/api_v1/enroll'),$set);
 
-        
+        $this->load->model('sql_personnel/Sql_personnel_model');
+        $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['username'])]);
 
         $set = [];
         $set['personnel'] = $this->session_data['personnel'];
@@ -86,11 +86,6 @@ class IDP extends IDP_Controller {
         $con['personnel_id']    = isset($this->session_data['personnel']['personnel_id'])?$this->session_data['personnel']['personnel_id']:'';
         $enroll = $this->restclient->post(base_url(url_index().'IDP/api_v1/enroll'),$con);
 
-
-
-        
-
-        
         // $set['personnel'] = $this->session_data['personnel'];
         // $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
         // $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
@@ -120,10 +115,15 @@ class IDP extends IDP_Controller {
 
         $con['personnel_list'] = $personnel;
         $personnel = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$con);
-        $set['personnel'] = [];
+        $set['personnel_list'] = [];
         if($personnel['status'] and count($personnel['data'])>0){
-            $set['personnel'] = $personnel['data'];
+            //$set['personnel_list'] = $personnel['data'];
+            foreach($personnel['data'] as $key=>$val){
+                $set['personnel_list'][$val['personnel_id']] = $val;
+            }
         }
+
+        $set['personnel'] = $this->session_data['personnel'];
 
         $this->load->view('report',$set);
     }
@@ -140,6 +140,8 @@ class IDP extends IDP_Controller {
         if($course['status']){
             $set['course'] = $course['data'];
         }
+
+        $set['personnel'] = $this->session_data['personnel'];
 
         $this->load->view('manage_course',$set);
     }
@@ -165,6 +167,8 @@ class IDP extends IDP_Controller {
             $res['tag']         = $group_tag['tag'];
         }
 
+        $res['personnel'] = $this->session_data['personnel'];
+
         $this->load->view('view_m_course',$res);
     }
 
@@ -177,6 +181,7 @@ class IDP extends IDP_Controller {
         $res = [];
         $res['method']  = 'add';
         $res['token']   = $token;
+        $res['personnel'] = $this->session_data['personnel'];
         $this->load->view('add_m_course',$res);
     }
 
@@ -211,6 +216,7 @@ class IDP extends IDP_Controller {
         //echo '<pre>';print_r($res);exit;
         $res['method']  = 'edit';
         $res['token']   = $token;
+        $res['personnel'] = $this->session_data['personnel'];
         $this->load->view('add_m_course',$res);
     }
 
@@ -251,12 +257,14 @@ class IDP extends IDP_Controller {
 
     }
 
-    // function test(){
-    //     $this->load->model('sql_personnel/Sql_personnel_model');
-    //     header("Content-Type: image/jpeg");
-    //     $test = $this->Sql_personnel_model->get_personnel(['username'=>'pimonpanl']);
-    //     echo $test['data'][0]['picture'];
-    // }
+    function test(){
+        $this->load->model('sql_personnel/Sql_personnel_model');
+        //header("Content-Type: image/jpeg");
+        $test = $this->Sql_personnel_model->get_personnel(['username'=>'pimonpanl']);
+        echo base64_encode($test['data'][0]['picture']);
+
+        //echo '<pre>';print_r($test);
+    }
 
 
     
