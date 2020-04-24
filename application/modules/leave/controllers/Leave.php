@@ -28,9 +28,41 @@ class Leave extends Leave_Controller {
 
     function add(){
 
-        $this->load->model(['Leave_type_model']);
+        $this->load->model([
+            'Leave_type_model',
+            'Leave_model'
+        ]);
+        $this->load->model('personnel/Personnel_model');
+
+        
+
         $set = [];
         $set['personnel'] = $this->session_data['personnel'];
+        $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+        $result = $this->Personnel_model->get_boss(['smu_main_id'=>$personnel['data'][0]['smu_main_id']]);
+
+        $set['boss'] = '';
+        $boss_id = [];
+        if($result['count']>0){
+            foreach($result['data'] as $key=>$val){
+                $boss_id[] = $val['personnel_id'];
+            }
+
+            $set['boss'] = $this->Personnel_model->get_personnel(['personnel_list'=>$boss_id]);
+        }
+
+        $set['friend'] = [];
+        $result = $this->Personnel_model->get_personnel(['smu_main_id'=>$personnel['data'][0]['smu_main_id']]);
+        if($result['count']>0){
+            $set['friend'] = $result;
+        }
+
+        $url_qr['personnel'] = $this->Leave_model->url_qr();
+        $url_qr['workmate'] = $this->Leave_model->url_qr();
+        $url_qr['boss'] = $this->Leave_model->url_qr();
+        $set['url_qr'] = $url_qr;
+
+
         $set['leave_type'] = $this->Leave_type_model->get_type();
         $this->load->view('add_leave',$set);
     }
@@ -113,6 +145,11 @@ class Leave extends Leave_Controller {
         $con['array_key'] = true;
 
         echo ($type=='js'?'var date_fix = ':'').json_encode($this->Calendar_model->to_select($con));
+    }
+
+    function test(){
+        $post = $this->input->post();
+        echo '<pre>';print_r($post);
     }
 
 

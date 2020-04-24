@@ -134,7 +134,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-md font-weight-bold text-primary text-uppercase mb-1"><?php echo $val['course_name']; ?></div>
-                      <div class="h8 mb-0 text-gray-800"><?php echo $val['course_detail']; ?></div>
+                      <div class="h8 mb-0 text-gray-800"><?php echo strip_tags(htmlspecialchars_decode($val['course_detail'])); ?></div>
                       
                     </div>
                     <div class="col-auto">

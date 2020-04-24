@@ -219,7 +219,7 @@ class MY_Model extends CI_Model{
 		$con = array();
 		$con['where'] = 'token = "'.$token.'"';
 		$used = $this->to_select($con);
-		return empty($used)?$token:$this->genTOKEN();
+		return empty($used)?$token:$this->user_token();
 	}
 
 	public function genPassword($num = 6){

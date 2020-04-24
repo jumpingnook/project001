@@ -20,7 +20,7 @@ class Personnel extends CI_Controller {
 
         // echo count($res);exit;
 
-        $res = file_get_contents('./View_HR_Personal.json');
+        $res = file_get_contents('./View_HR_Personal_1.json');
         $res = json_decode($res,true);
 
         if(count($res)>0){
@@ -45,6 +45,8 @@ class Personnel extends CI_Controller {
                 $set['email'] 			= isset($val['email'])?trim($val['email']):'';
                 $set['address'] 		= isset($val['address'])?trim($val['address']):'';
                 $set['img'] = '';
+                $set['smu_main_id'] 	= isset($val['departname'])?trim($val['departname']):'';
+		        $set['smu_sub_id'] 		= isset($val['subdepart'])?trim($val['subdepart']):'';
                 // if(trim($val['picture'])!=''){
                 //     $set['img'] = 'data:image/jpeg;base64,'.base64_encode($val['picture']);
                 // }else{
@@ -60,6 +62,46 @@ class Personnel extends CI_Controller {
     function render_img($img=''){
         header("Content-Type: image/jpeg");
         echo $img;
+    }
+
+    function save_boss(){
+        $this->load->model('personnel/Personnel_model');
+        $this->load->model('personnel/Smu_model');
+        $result = $this->Personnel_model->transfer_boss_test();
+        $smu = $this->Smu_model->get_sub_smu();
+
+
+        if(count($result)>0){
+            foreach($result as $key=>$val){
+                $code = explode('|',$val['code']);
+
+                $personnel = $this->Personnel_model->get_personnel(['personnel_code'=>$val['personnel_code']]);
+
+                if(count($code)>0){
+                    foreach($code as $key2=>$val2){
+                        if(trim($val2)!=''){
+                            $code_smu = substr($val2,4);
+
+                            if(isset($smu[$code_smu])){
+                                $set = [];
+                                $set['personnel_id']    = $personnel['data'][0]['personnel_id'];
+                                $set['smu_main_id']     = $smu[$code_smu]['smu_main_id'];
+                                $set['smu_sub_id']      = $smu[$code_smu]['smu_sub_id'];
+                            }else{
+                                $set = [];
+                                $set['personnel_id']    = $personnel['data'][0]['personnel_id'];
+                                $set['smu_main_id']     = $code_smu;
+                                $set['smu_sub_id']      = 0;
+                            }
+
+                            $this->Personnel_model->save_boss($set);
+
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

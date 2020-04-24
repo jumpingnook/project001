@@ -17,6 +17,11 @@
     .form{
       display:none;
     }
+    .qrcode img{
+      width: 150px;
+      margin: auto;
+      margin-top: 10px;
+    }
   </style>
 
 </head>
@@ -73,39 +78,39 @@
                     <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
                   </div>
 
-                  <form class="form leave">
+                  <form class="form leave" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>เขียนที่</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์">
+                        <input type="text" name="write_at" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select class="form-control">
-                          <option>คณะบดีคณะแพทยศาสตร์</option>
-                          <option>อธิกาารบดี</option>
-                          <option>อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                        <select name="to" class="form-control" required>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label>เรื่อง</label>
-                        <input type="text" class="form-control" id="exampleLastName" placeholder="ขอลาป่วย" value="ขอลาป่วย">
+                        <input type="text" name="title" class="leave_title form-control" id="exampleLastName" placeholder="ระบุการลา" value=""  required>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label>ข้าพขอลา... เนื่องจาก</label>
-                        <input type="text" class="form-control" id="exampleLastName" placeholder="ระบุสาเหตุ" value="">
+                        <input type="text" name="detail" class="form-control" id="exampleLastName" placeholder="ระบุสาเหตุ" value=""  required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label>ช่วงเวลา</label>
-                        <select class="type_leave_date form-control">
+                        <select name="period_type" class="type_leave_date form-control" required>
                           <option value="c">กำหนดระยะเวลา</option>
                           <option value="a">เช้า</option>
                           <option value="p">บ่าย</option>
@@ -113,35 +118,45 @@
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="date" class="leave_date_s form-control" value="<?php echo date('Y-m-d');?>">
+                        <input type="date" name="period_start" class="leave_date_s form-control" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ถึงวันที่</label>
-                        <input type="date" class="leave_date_e form-control" value="<?php echo date('Y-m-d');?>">
+                        <input type="date" name="period_end" class="leave_date_e form-control" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label>ช้อมูลติดต่อ</label>
-                        <textarea name="" id="" class="form-control" cols="30" rows="3"></textarea>
+                        <textarea name="contact" id="" class="form-control" cols="30" rows="3" required></textarea>
                       </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="workmate" type="hidden" name="workmate"/>
+                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
+                    <input type="hidden" class="qr_workmate" name="qr_workmate">
+                    <input type="hidden" class="url_workmate" name="url_workmate" value="<?php echo isset($url_qr['workmate'])?$url_qr['workmate']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
 
                   </form>
 
-                  <form class="form oversea">
+                  <form class="form oversea" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>เขียนที่</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์">
+                        <input name="write_at" type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select class="form-control">
+                        <select name="to" class="form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -152,42 +167,51 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>มีความประสงค์จะลา</label>
-                        <input type="text" class="form-control" placeholder="ระบุจุดประสงค์" value="">
+                        <input name="title" type="text" class="form-control" placeholder="ระบุจุดประสงค์" value="" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ณ ประเทศ</label>
-                        <input type="text" class="form-control" placeholder="ระบุประเทศ" value="">
+                        <input name="county_name" type="text" class="form-control" placeholder="ระบุประเทศ" value="" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="date" class="oversea_date_s form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_start" type="date" class="date_s form-control" form="1" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input type="date" class="oversea_date_e form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_end" type="date" class="date_e form-control" form="1" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-user btn-block">บันทึก</button>
-
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="workmate" type="hidden" name="workmate"/>
+                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
+                    <input type="hidden" class="qr_workmate" name="qr_workmate">
+                    <input type="hidden" class="url_workmate" name="url_workmate" value="<?php echo isset($url_qr['workmate'])?$url_qr['workmate']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form ordination">
+                  <form class="form ordination" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>เขียนที่</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์">
+                        <input name="write_at" type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select class="form-control">
-                          <option>คณะบดีคณะแพทยศาสตร์</option>
-                          <option>อธิกาารบดี</option>
-                          <option>อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                        <select name="to" class="form-control" required>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -195,72 +219,78 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ท่านเคยอุปสมหรือไม่</label>
-                        <select class="form-control">
-                          <option>ยังไม่เคย</option>
-                          <option>เคย</option>
+                        <select name="ordination_status" class="form-control" required>
+                          <option value="0">ยังไม่เคย</option>
+                          <option value="1">เคย</option>
                         </select>
                       </div>
                       <div class="col-sm-4"></div>
                       <div class="col-sm-2">
                         <label>จำนวนวัน</label>
-                        <input type="number" class="form-control" value="">
+                        <input type="number" class="period_count form-control" value="1">
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_start" type="date" class="date_s form-control" form="2" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4">
                         <label>ถึงวันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_end" type="date" class="date_e form-control" form="2" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4">
                         <label>วันที่อุปสมบท</label>
-                        <input type="date" class="form-control">
+                        <input name="ordination_date" type="date" class="form-control" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>วัดที่อุปสมบท ณ วัด</label>
-                        <input type="text" class="form-control" placeholder="ชื่อวัดที่อุปสมบท" value="">
+                        <input name="temple_name" type="text" class="temple_name form-control" placeholder="ชื่อวัดที่อุปสมบท" value="" required>
                       </div>
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>ตั้งอยู่ ณ</label>
-                        <input type="text" class="form-control" placeholder="ที่ตั้งวัดที่อุปสมบท" value="">
+                        <input name="temple_address" type="text" class="temple_address form-control" placeholder="ที่ตั้งวัดที่อุปสมบท" value="" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>จำพรรษา ณ วัด</label>
-                        <input type="text" class="form-control" placeholder="ชื่อวัดที่จำพรรษา" value="">
+                        <input name="temple_name2" type="text" class="temple_name_2 form-control" placeholder="ชื่อวัดที่จำพรรษา" value="" required>
                       </div>
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>ตั้งอยู่ ณ</label>
-                        <input type="text" class="form-control" placeholder="ที่ตั้งวัดที่จำพรรษา" value="">
+                        <input name="temple_address2" type="text" class="temple_address_2 form-control" placeholder="ที่ตั้งวัดที่จำพรรษา" value="" required>
                       </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-user btn-block">บันทึก</button>
-
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form help_childcare">
+                  <form class="form help_childcare" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>เขียนที่</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์">
+                        <input name="write_at" type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select class="form-control">
-                          <option>คณะบดีคณะแพทยศาสตร์</option>
-                          <option>อธิกาารบดี</option>
-                          <option>อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                        <select name="to" class="form-control" required>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -268,49 +298,55 @@
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label>มีความประสงค์จะลาไปช่วยเหลือภริยาโดยชอบด้วยกฏหมาย ชื่อ</label>
-                        <input type="text" class="form-control" placeholder="ระบุชื่อภริยา" value="">
+                        <input name="wife_name" type="text" class="form-control" placeholder="ระบุชื่อภริยา" value="" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label>คลอดบุตรเมื่อวันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="child_birthdate" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4">
                         <label>ลาตั้งแต่วันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_start" type="date" class="date_s form-control" form="3" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4">
                         <label>ลาถึงวันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_end" type="date" class="date_e form-control" form="3" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label>ช้อมูลติดต่อ</label>
-                        <textarea name="" id="" class="form-control" cols="30" rows="3"></textarea>
+                        <textarea name="contact" id="" class="form-control" cols="30" rows="3" required></textarea>
                       </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-user btn-block">บันทึก</button>
-
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form leave_childcare">
+                  <form class="form leave_childcare" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>เขียนที่</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์">
+                        <input name="write_at" type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select class="form-control">
-                          <option>คณะบดีคณะแพทยศาสตร์</option>
-                          <option>อธิกาารบดี</option>
-                          <option>อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                        <select name="to" class="form-control" required>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -318,49 +354,55 @@
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label>เรื่อง</label>
-                        <input type="text" class="form-control" value="ขอลากิจส่วนตัวเพื่อเลี้ยงดูบุตร(โดยไม่ได้รับเงินเดือน)">
+                        <input type="text" name="title" class="leave_title form-control" id="exampleLastName" placeholder="ระบุการลา" value=""  required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ได้คลอดบุตรตั้งแต่วันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="child_birthdate_start" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="child_birthdate_end" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ขอลากิจเพื่อเลี้ยงดูบุตรตั้งแต่วันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_start" type="date" class="date_s form-control" form="4" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input nmae="period_end" type="date" class="date_e form-control" form="4" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-user btn-block">บันทึก</button>
-
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form soldier">
+                  <form class="form soldier" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <label>เขียนที่</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์">
+                        <input name="write_at" type="text" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select class="form-control">
-                          <option>คณะบดีคณะแพทยศาสตร์</option>
-                          <option>อธิกาารบดี</option>
-                          <option>อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                        <select name="to" class="form-control" required>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -368,38 +410,45 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ข้าพเจ้าได้รับหมายเรียกของ</label>
-                        <input type="text" class="form-control" placeholder="ระบุข้อมูลหมายเรียก" value="">
+                        <input name="call_soldier" type="text" class="form-control" placeholder="ระบุข้อมูลหมายเรียก" value="" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ที่</label>
-                        <input type="text" class="form-control" placeholder="ระบุที่มาของหมายเรียก" value="">
+                        <input name="call_soldier_form" type="text" class="form-control" placeholder="ระบุที่มาของหมายเรียก" value="" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>หมายเรียกลงวันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="call_date" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ให้รับการฝึกที่</label>
-                        <input type="text" class="form-control" placeholder="ระบุชื่อสถานที่เข้ารับการฝึก" value="">
+                        <input name="train_address" type="text" class="form-control" placeholder="ระบุชื่อสถานที่เข้ารับการฝึก" value="" required>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ฝึกตั้งแต่วันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_start" type="date" class="date_s form-control" form="5" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+                        <input name="period_end" type="date" class="date_e form-control" form="5" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-user btn-block">บันทึก</button>
-
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
+                    
                   </form>
 
                 </div>
@@ -448,11 +497,13 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-lg-12">
-                      <div class="form-group">
+                      <div id="workmate-box" class="form-group" style="display:none;">
                         <label>ผู้ปฏิบัติงานแทน</label>
-                        <select class="form-control">
-                          <option>เลือกผู้ปฏิบัติงานแทน</option>
-                          <option>นายสนาน ราตรีพรทิพย์</option>
+                        <select id="workmate" class="form-control">
+                          <option value="0">เลือกผู้ปฏิบัติงานแทน</option>
+                          <?php if(isset($friend) and count($friend['data'])>0){ foreach($friend['data'] as $key=>$val){ if($val['personnel_id']!=$personnel['personnel_id']){?>
+                            <option value="<?php echo $val['personnel_id'];?>"><?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?></option>
+                            <?php }}} ?>
                         </select>
                       </div>
                     </div>
@@ -461,11 +512,47 @@
                     <div class="col-lg-12">
                       <div class="form-group">
                           <label>ผู้บังคับบัญชา</label>
-                          <select class="form-control">
-                            <option>เลือกผู้บังคับบัญชา</option>
-                            <option>นายสนาน ราตรีพรทิพย์</option>
+                          <select id="boss" class="form-control">
+                            <option value="0">เลือกผู้บังคับบัญชา</option>
+                            <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
+                            <option value="<?php echo $val['personnel_id'];?>"><?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?></option>
+                            <?php }} ?>
                           </select>
                         </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4" style="display:none;">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">ลงลายเซ็น</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label>ลงลายเช็นผู้ลา</label>
+                        <div class="qrcode" id="qrcode1"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label>ลงลายเช็นผู้ทำงานแทน</label>
+                        <div class="qrcode" id="qrcode2"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label>ลงลายเช็นผู้บังคับบัญชา</label>
+                        <div class="qrcode" id="qrcode3"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -496,10 +583,37 @@
   
   <?php echo $this->load->view('inc/js'); ?>
 
+  <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
+
   <script src="<?php echo base_url(url_index().'leave/get_weekend/js');?>" ></script>
 
   <script>
     $(document).ready(function(){
+
+      var qrcode1 = new QRCode("qrcode1", {
+        text: "<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>",
+        width: 300,
+        height: 300,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+      var qrcode2 = new QRCode("qrcode2", {
+        text: "<?php echo isset($url_qr['workmate'])?$url_qr['workmate']:'';?>",
+        width: 300,
+        height: 300,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+      var qrcode3 = new QRCode("qrcode3", {
+        text: "<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>",
+        width: 300,
+        height: 300,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
 
       var leave_type;
       $('#type_leave').change(function(){
@@ -514,27 +628,36 @@
               $('.form.leave').show();
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
+              $('#workmate-box').show();
+              $('.leave_title').val(type[1]);
             }else if(leave_type==5){
               $('.form.help_childcare').show();
               $('.date-cal span').hide();
               $('.date-cal button').show();
+              $('#workmate-box').hide();
             }else if(leave_type==6){
               $('.form.leave_childcare').show();
               $('.date-cal span').hide();
               $('.date-cal button').show();
+              $('#workmate-box').hide();
+              $('.leave_title').val(type[1]);
             }else if(leave_type==7){
               $('.form.oversea').show();
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
+              $('#workmate-box').hide();
             }else if(leave_type==8){
               $('.form.ordination').show();
               $('.date-cal span').hide();
               $('.date-cal button').show();
+              $('#workmate-box').hide();
             }else if(leave_type==9){
               $('.form.soldier').show();
               $('.date-cal span').hide();
               $('.date-cal button').show();
+              $('#workmate-box').hide();
             }
+            $('.type').val(leave_type);
           }
         }else{
           $('.leave-text').text('');
@@ -567,28 +690,24 @@
           var date_end = $('.leave_date_e').val();
           var date_dis = dis_date(date_end,date_start);
 
-          console.log(date_dis);
-
-          //ajax
-
           $('.date-cal button').hide();
-          $('.date-cal span').text((days_between(date_end,date_start) - date_dis)+' วัน').show();
+          var count_date = (days_between(date_end,date_start) - date_dis);
+          $('.date-cal span').text(count_date+' วัน').show();
+          $('.period_count').val(count_date);
         }
       });
 
-      $('.oversea_date_s,.oversea_date_e,.type_leave_date').change(function(){
-        if(leave_type == 7){
-          var date_start = $('.oversea_date_s').val();
-          var date_end = $('.oversea_date_e').val();
+      $('.date_s,.date_e,.type_leave_date').change(function(){
+          var form = $(this).attr('form');
 
-          //ajax
+          var date_start = $('.date_s[form='+form+']').val();
+          var date_end = $('.date_e[form='+form+']').val();
 
           $('.date-cal button').hide();
+          var count_date = days_between(date_end,date_start);
           $('.date-cal span').text(days_between(date_end,date_start)+' วัน').show();
-        }
+          $('.period_count').val(count_date);
       });
-
-      
 
       function days_between(date1, date2) {
         date1 = new Date(date1);
@@ -628,6 +747,41 @@
         return count_dis;
       }
 
+      $('.form').submit(function(){
+
+        var workmate = $('#workmate').val();
+        var boss = $('#boss').val();
+
+        if(leave_type>4){
+          if(boss==0){
+            alert('กรุณาเลือกผู้ปฏิบัติงานแทนและผู้บังคับบัญชาให้ถูกต้อง');
+            return false;
+          }
+        }else{
+          if(boss==0 || workmate==0){
+          alert('กรุณาเลือกผู้ปฏิบัติงานแทนและผู้บังคับบัญชาให้ถูกต้อง');
+          return false;
+        }
+        }
+
+        $('.qr_personnel').val($('#qrcode1 img').attr('src'));
+        $('.qr_workmate').val($('#qrcode2 img').attr('src'));
+        $('.qr_boss').val($('#qrcode3 img').attr('src'));
+        $('.workmate').val(workmate);
+        $('.boss').val(boss);
+      });
+
+      $('.temple_name').change(function(){
+        if($('.temple_name_2').val()==''){
+          $('.temple_name_2').val($('.temple_name').val());
+        }
+      });
+      $('.temple_address').change(function(){
+        if($('.temple_address_2').val()==''){
+          $('.temple_address_2').val($('.temple_address').val());
+        }
+      });
+      
     });
   </script>
 

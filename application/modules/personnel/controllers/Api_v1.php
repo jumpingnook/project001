@@ -58,6 +58,8 @@ class Api_v1 extends REST_Controller {
             $set['internel_tel'] 	= isset($post['self_tel_in'])?preg_replace('/[^0-9]/', '', trim($post['self_tel_in'])):'';
             $set['email'] 			= isset($post['email'])?trim($post['email']):'';
             $set['address'] 		= isset($post['address'])?trim($post['address']):'';
+            $set['smu_main_id'] 	= isset($post['departname'])?trim($post['departname']):'';
+		    $set['smu_sub_id'] 		= isset($post['subdepart'])?trim($post['subdepart']):'';
             if(isset($post['picture']) and trim($post['picture'])!=''){
                 $set['img'] = $post['picture'];
             }else{
@@ -110,6 +112,8 @@ class Api_v1 extends REST_Controller {
             $set['internel_tel'] 	= isset($post['self_tel_in'])?preg_replace('/[^0-9]/', '', trim($post['self_tel_in'])):'';
             $set['email'] 			= isset($post['email'])?trim($post['email']):'';
             $set['address'] 		= isset($post['address'])?trim($post['address']):'';
+            $set['smu_main_id'] 	= isset($post['departname'])?trim($post['departname']):'';
+		    $set['smu_sub_id'] 		= isset($post['subdepart'])?trim($post['subdepart']):'';
             if(isset($post['picture']) and trim($post['picture'])!=''){
                 $set['img'] = $post['picture'];
             }else{

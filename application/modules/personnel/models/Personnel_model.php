@@ -7,10 +7,15 @@ class Personnel_model extends MY_Model {
 	function __construct(){
     	parent::__construct();
       	$this->load->database();
+		$this->tb_default();
+	}
+
+	private function tb_default(){
 		$this->table = 'hr_personnel';
 	}
 
 	function get_personnel($set = []){
+		$this->tb_default();
 		$res = ['count'=>0,'data'=>[]];
 
 		$sql_code = '';
@@ -19,22 +24,26 @@ class Personnel_model extends MY_Model {
 				if($sql_code==''){
 					$sql_code = 'personnel_id = "'.intval($val).'"';
 				}else{
-					$sql_code .= '  and personnel_id = "'.intval($val).'"';
+					$sql_code .= ' or personnel_id = "'.intval($val).'"';
 				}
 			}
 		}elseif(isset($set['username']) and trim($set['username'])!=''){
 			$sql_code = 'internet_account LIKE "'.trim($set['username']).'"';
 		}elseif(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
 			$sql_code = 'personnel_id = "'.intval($set['personnel_id']).'"';
+		}elseif(isset($set['personnel_code']) and trim($set['personnel_code'])!=''){
+			$sql_code = 'personnel_code = "'.trim($set['personnel_code']).'"';
+		}elseif(isset($set['smu_main_id']) and intval($set['smu_main_id'])!=0){
+			$sql_code = 'smu_main_id = "'.intval($set['smu_main_id']).'"';
 		}
 
 		if($sql_code!=''){
 			$con = [];
 			$con['where'] = $sql_code;
-			$count = $this->to_select($con);
+			$count = $this->to_count($con);
 			
 			if($count>0){
-				$con['limit']	= '0,1';
+				//$con['limit']	= '0,1';
 				//$con['array_key'] = true; //auth use index 0
 				$res['data'] = $this->to_select($con);
 				$res['count'] = $count;
@@ -58,6 +67,7 @@ class Personnel_model extends MY_Model {
 		// 	'Personnel_contact_model',
 		// 	'Personnel_promote_model'
 		// ]);
+		$this->tb_default();
 
 		$res = ['status'=>false];
 
@@ -160,6 +170,7 @@ class Personnel_model extends MY_Model {
 	}
 
 	function transfer_update_personnel($set=[]){
+		$this->tb_default();
 		$res = ['status'=>false];
 
 		if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
@@ -203,7 +214,7 @@ class Personnel_model extends MY_Model {
 
 	function transfer_personnel_test($set=[]){
 
-		//$this->table = 'hr_personnel_test';
+		$this->table = 'hr_personnel_clone';
 
 		// $this->load->model([
 		// 	'Subsmu_model',
@@ -249,6 +260,8 @@ class Personnel_model extends MY_Model {
 		$con['data']['email'] 			= isset($set['email'])?trim($set['email']):'';
 		$con['data']['address'] 		= isset($set['address'])?trim($set['address']):'';
 		$con['data']['img'] 			= isset($set['img'])?trim($set['img']):'';
+		$con['data']['smu_main_id'] 	= isset($set['smu_main_id'])?substr($set['smu_main_id'],0,6):'';
+		$con['data']['smu_sub_id'] 		= isset($set['smu_sub_id'])?substr($set['smu_sub_id'],0,6):'';
 		$res['personnel_id'] = $this->to_insert_last_id($con);
 
 		if(intval($res['personnel_id'])==0){
@@ -316,6 +329,47 @@ class Personnel_model extends MY_Model {
 
 		$res['status'] = true;
 		return $res;
+	}
+
+	function transfer_boss_test($set=[]){
+
+		$this->table = 'tarnfer';
+		$con = [];
+		return $this->to_select($con);
+
+	}
+
+	function get_boss($set=[]){
+		$res = ['count'=>0,'data'=>[]];
+
+		$this->table = 'hr_personnel_boss';
+
+		if(isset($set['smu_main_id'])){
+			$con = [];
+			$con['where'] = 'smu_main_id = "'.intval($set['smu_main_id']).'"';
+			$con['array_key'] =	'personnel_id';
+			$res['data'] = $this->to_select($con);
+			$res['count'] = count($res['data']);
+		}
+
+		return $res;
+	}
+
+	function save_boss($set=[]){
+		$res = 0;
+
+		$this->table = 'hr_personnel_boss';
+
+		if(isset($set['personnel_id']) and isset($set['smu_main_id'])){
+			$con = [];
+			$con['data']['personnel_id'] 	= intval($set['personnel_id']);
+			$con['data']['smu_main_id'] 	= intval($set['smu_main_id']);
+			$con['data']['smu_sub_id'] 		= isset($set['smu_sub_id'])?intval($set['smu_sub_id']):0;
+			$con['data']['create_date'] 	= date('Y-m-d H:i:s');
+			$con['data']['status'] 			= 0;
+			$res = $this->to_insert_last_id($con);
+			return $res;
+		}
 	}
 	
 }
