@@ -274,7 +274,9 @@
             'name_th'       =>  (isset($result['name_th'])?$result['name_th']:''),
             'surname_th'    =>  (isset($result['surname_th'])?$result['surname_th']:''),
             'name_en'       =>  (isset($result['name_en'])?$result['name_en']:''),
-            'surname_en'    =>  (isset($result['surname_en'])?$result['surname_en']:'')
+            'surname_en'    =>  (isset($result['surname_en'])?$result['surname_en']:''),
+            'smu_main_id'   =>  (isset($result['smu_main_id'])?$result['smu_main_id']:''),
+            'smu_sub_id'    =>  (isset($result['smu_sub_id'])?$result['smu_sub_id']:'')
         ];
         
         $CI->session->set_userdata($set);

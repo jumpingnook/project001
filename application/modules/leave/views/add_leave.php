@@ -78,7 +78,7 @@
                     <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
                   </div>
 
-                  <form class="form leave" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
+                  <form class="form leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
@@ -134,10 +134,10 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input class="workmate" type="hidden" name="workmate"/>
-                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="workmate" type="hidden" name="worker_personnel_id"/>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
                     <input class="period_count" type="hidden" name="period_count" value="1"/>
-                    <input class="type" type="hidden" name="leave_type"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
                     <input type="hidden" class="qr_workmate" name="qr_workmate">
@@ -147,7 +147,7 @@
 
                   </form>
 
-                  <form class="form oversea" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
+                  <form class="form oversea" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
@@ -178,19 +178,19 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ตั้งแต่วันที่</label>
-                        <input name="period_start" type="date" class="date_s form-control" form="1" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_start" type="date" class="date_s form-control" form_no="1" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input name="period_end" type="date" class="date_e form-control" form="1" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_end" type="date" class="date_e form-control" form_no="1" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input class="workmate" type="hidden" name="workmate"/>
-                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="workmate" type="hidden" name="worker_personnel_id"/>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
                     <input class="period_count" type="hidden" name="period_count" value="1"/>
-                    <input class="type" type="hidden" name="leave_type"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
                     <input type="hidden" class="qr_workmate" name="qr_workmate">
@@ -199,7 +199,7 @@
                     <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form ordination" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
+                  <form class="form ordination" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
@@ -234,11 +234,11 @@
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label>ตั้งแต่วันที่</label>
-                        <input name="period_start" type="date" class="date_s form-control" form="2" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_start" type="date" class="date_s form-control" form_no="2" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4">
                         <label>ถึงวันที่</label>
-                        <input name="period_end" type="date" class="date_e form-control" form="2" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_end" type="date" class="date_e form-control" form_no="2" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4">
                         <label>วันที่อุปสมบท</label>
@@ -269,16 +269,16 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
                     <input class="period_count" type="hidden" name="period_count" value="1"/>
-                    <input class="type" type="hidden" name="leave_type"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
                     <input type="hidden" class="qr_boss" name="qr_boss">
                     <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form help_childcare" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
+                  <form class="form help_childcare" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
@@ -309,11 +309,11 @@
                       </div>
                       <div class="col-sm-4">
                         <label>ลาตั้งแต่วันที่</label>
-                        <input name="period_start" type="date" class="date_s form-control" form="3" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_start" type="date" class="date_s form-control" form_no="3" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4">
                         <label>ลาถึงวันที่</label>
-                        <input name="period_end" type="date" class="date_e form-control" form="3" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_end" type="date" class="date_e form-control" form_no="3" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
@@ -325,16 +325,16 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
                     <input class="period_count" type="hidden" name="period_count" value="1"/>
-                    <input class="type" type="hidden" name="leave_type"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
                     <input type="hidden" class="qr_boss" name="qr_boss">
                     <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form leave_childcare" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
+                  <form class="form leave_childcare" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
@@ -372,25 +372,25 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ขอลากิจเพื่อเลี้ยงดูบุตรตั้งแต่วันที่</label>
-                        <input name="period_start" type="date" class="date_s form-control" form="4" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_start" type="date" class="date_s form-control" form_no="4" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input nmae="period_end" type="date" class="date_e form-control" form="4" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_end" type="date" class="date_e form-control" form_no="4" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
                     <input class="period_count" type="hidden" name="period_count" value="1"/>
-                    <input class="type" type="hidden" name="leave_type"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
                     <input type="hidden" class="qr_boss" name="qr_boss">
                     <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
 
-                  <form class="form soldier" action="<?php echo base_url(url_index().'leave/test');?>" method="post">
+                  <form class="form soldier" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
@@ -432,18 +432,18 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ฝึกตั้งแต่วันที่</label>
-                        <input name="period_start" type="date" class="date_s form-control" form="5" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_start" type="date" class="date_s form-control" form_no="5" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input name="period_end" type="date" class="date_e form-control" form="5" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_end" type="date" class="date_e form-control" form_no="5" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input class="boss" type="hidden" name="boss"/>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
                     <input class="period_count" type="hidden" name="period_count" value="1"/>
-                    <input class="type" type="hidden" name="leave_type"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
                     <input type="hidden" class="qr_boss" name="qr_boss">
@@ -698,7 +698,7 @@
       });
 
       $('.date_s,.date_e,.type_leave_date').change(function(){
-          var form = $(this).attr('form');
+          var form = $(this).attr('form_no');
 
           var date_start = $('.date_s[form='+form+']').val();
           var date_end = $('.date_e[form='+form+']').val();

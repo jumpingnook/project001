@@ -6,7 +6,7 @@ class Api_v1 extends REST_Controller {
 
 	function __construct(){
         parent::__construct();
-        $this->load->model(['leave/Calendar_model','auth/Token_model']);
+        $this->load->model(['leave/Calendar_model','auth/Token_model','leave/Leave_model']);
     }
 
 
@@ -110,6 +110,42 @@ class Api_v1 extends REST_Controller {
         }
 
         return $token;
+    }
+
+    function save_leave_post(){
+        $post = $this->post();
+
+        $token = $this->check_token($post);
+
+        if(isset($post['data']) and count($post['data'])>0){
+            foreach($post['data'] as $key=>$val){
+                if(trim($val)==''){
+                    $this->response([
+                        'status' => false,
+                        'message' => 'Invalid Data'
+                    ], REST_Controller::HTTP_OK); //200
+                }
+            }
+        }else{
+            $this->response([
+                'status' => false,
+                'message' => 'Invalid Data'
+            ], REST_Controller::HTTP_OK); //200
+        }
+
+        $result = $this->Leave_model->save_leave($post['data']);
+        if($result!=0){
+            $this->response([
+                'status' => true,
+                'value' => $result
+            ], REST_Controller::HTTP_OK); //200
+        }else{
+            $this->response([
+                'status' => false,
+                'message' => 'Not Insert'
+            ], REST_Controller::HTTP_OK); //200
+        }
+
     }
 
 

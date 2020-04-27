@@ -9,6 +9,7 @@ class Leave extends Leave_Controller {
         parent::__construct();
         
         $this->session_data = $this->session->userdata();
+        $this->load->library(['restclient']);
     }
     
     function index(){
@@ -33,8 +34,6 @@ class Leave extends Leave_Controller {
             'Leave_model'
         ]);
         $this->load->model('personnel/Personnel_model');
-
-        
 
         $set = [];
         $set['personnel'] = $this->session_data['personnel'];
@@ -62,9 +61,37 @@ class Leave extends Leave_Controller {
         $url_qr['boss'] = $this->Leave_model->url_qr();
         $set['url_qr'] = $url_qr;
 
-
         $set['leave_type'] = $this->Leave_type_model->get_type();
+
         $this->load->view('add_leave',$set);
+    }
+
+    function save_leave(){
+        $post = $this->input->post();
+
+        if(count($post)>0){
+            foreach($post as $key=>$val){
+                if(trim($val)==''){
+                    redirect(url_index().'leave/add/?status=validate');
+                }
+            }
+        }else{
+            redirect(url_index().'leave/add/?status=validate');
+        }
+
+        $api = [];
+        $api['APP-KEY']     = $this->api_key;
+        $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $api['ip']          = get_client_ip();
+        $api['data']        = $post;
+        $api['data']['smu_main_id'] = isset($this->session_data['personnel']['smu_main_id'])?$this->session_data['personnel']['smu_main_id']:'';
+        $result = $this->restclient->post(base_url(url_index().'leave/api_v1/save_leave'),$api);
+
+        if($result['status']){
+            redirect(url_index().'leave/?status=save_complete');// to view
+        }else{
+            redirect(url_index().'leave/add/?status=fail');
+        }
     }
 
     function view(){
@@ -147,10 +174,7 @@ class Leave extends Leave_Controller {
         echo ($type=='js'?'var date_fix = ':'').json_encode($this->Calendar_model->to_select($con));
     }
 
-    function test(){
-        $post = $this->input->post();
-        echo '<pre>';print_r($post);
-    }
+    
 
 
 

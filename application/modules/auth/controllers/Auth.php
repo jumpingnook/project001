@@ -10,21 +10,23 @@ class Auth extends Auth_Controller {
     }
     
     function index(){
+        $get = $this->input->get();
+
         
         $login = $this->session->userdata('authentication');
         if(isset($login['status']) and $login['status']){
-            #destination
-            $dest = 'auth/select_module/'; //default leavesys
-            if(isset($post['dest']) and trim($post['dest'])!=''){
-                $dest = trim($post['dest']);
-            }
+            redirect(url_index().'idp/my_course/');
         }
 
         #generate token_login
         $token = genTOKEN();
-
         $this->session->set_flashdata('token_login', $token);
         $this->load->view('login',['token_login'=>$token]);
+
+        // status=fail
+        if(isset($get['status']) and $get['status']=='fail'){
+
+        }
     }
 
     function login(){
@@ -37,15 +39,8 @@ class Auth extends Auth_Controller {
             redirect(url_index().'auth/?status=validate');//validate input
         }
 
-        $flash_data = $this->session->flashdata('post_login');
-        if(is_array($flash_data) and count($flash_data)>0){
-            $post = $flash_data;
-        }else{
-            $this->session->set_flashdata('post_login', $post);
-
-            if(trim($post['token']) != $this->session->flashdata('token_login')){
-                redirect(url_index().'auth/?status=valid_token');//validate token_login
-            }
+        if(trim($post['token']) != $this->session->flashdata('token_login')){
+            redirect(url_index().'auth/?status=valid_token');//validate token_login
         }
 
 		$this->auth_ldap->Set_User(trim($post['username']),trim($post['password']));
@@ -147,7 +142,9 @@ class Auth extends Auth_Controller {
                 'name_th'       =>  (isset($personnel['name_th'])?$personnel['name_th']:''),
                 'surname_th'    =>  (isset($personnel['surname_th'])?$personnel['surname_th']:''),
                 'name_en'       =>  (isset($personnel['name_en'])?$personnel['name_en']:''),
-                'surname_en'    =>  (isset($personnel['surname_en'])?$personnel['surname_en']:'')
+                'surname_en'    =>  (isset($personnel['surname_en'])?$personnel['surname_en']:''),
+                'smu_main_id'   =>  (isset($personnel['smu_main_id'])?$personnel['smu_main_id']:''),
+                'smu_sub_id'    =>  (isset($personnel['smu_sub_id'])?$personnel['smu_sub_id']:'')
             ]);
 
             #destination
