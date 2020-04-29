@@ -46,6 +46,16 @@ class Auth_Controller extends MY_Controller{
     }
 }
 
+class Monitor_Controller extends MY_Controller{
+    function __construct(){
+        parent::__construct();
+        $login = $this->session->userdata('authentication');
+        if(!isset($login['status']) or (isset($login['status']) and !$login['status'])){
+            redirect(url_index().'auth/?status=exp');
+        }
+    }
+}
+
 class Leave_Controller extends MY_Controller{
     function __construct(){
         parent::__construct();

@@ -4,12 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Leave extends Leave_Controller {
 
     protected $session_data;
+    protected $url_qr;
 
 	function __construct(){
         parent::__construct();
         
         $this->session_data = $this->session->userdata();
         $this->load->library(['restclient']);
+        $this->url_qr = base_url(url_index().'auth?dest=leave/signature/');
     }
     
     function index(){
@@ -18,11 +20,25 @@ class Leave extends Leave_Controller {
         $set['personnel'] = $this->session_data['personnel'];
         $this->load->model('sql_personnel/Sql_personnel_model');
         $this->load->model('personnel/Personnel_model');
+        $this->load->model('leave/Leave_model');
+        $this->load->model('leave/Leave_type_model');
         $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
         $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
         $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
         $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
         $set['personnel']['img']           = $personnel['data'][0]['img'];
+
+        $api = [];
+        $api['APP-KEY']     = $this->api_key;
+        $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $api['ip']          = get_client_ip();
+        $api['personnel_id'] = isset($this->session_data['personnel']['personnel_id'])?$this->session_data['personnel']['personnel_id']:'';
+        $result = $this->restclient->post(base_url(url_index().'leave/api_v1/leave_history'),$api);
+
+        $set['leave_history']['data'] = $result['data'];
+        $set['leave_history']['count'] = $result['count'];
+
+        $set['leave_type'] = $this->Leave_type_model->get_type();
 
         $this->load->view('index',$set);
     }
@@ -84,6 +100,7 @@ class Leave extends Leave_Controller {
         $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
         $api['ip']          = get_client_ip();
         $api['data']        = $post;
+        $api['data']['personnel_id'] = isset($this->session_data['personnel']['personnel_id'])?$this->session_data['personnel']['personnel_id']:'';
         $api['data']['smu_main_id'] = isset($this->session_data['personnel']['smu_main_id'])?$this->session_data['personnel']['smu_main_id']:'';
         $result = $this->restclient->post(base_url(url_index().'leave/api_v1/save_leave'),$api);
 
@@ -94,14 +111,57 @@ class Leave extends Leave_Controller {
         }
     }
 
-    function view(){
-        $set = [];
-        $set['personnel'] = $this->session_data['personnel'];
-        $this->load->view('view_leave',$set);
+    function view($leave_id = 0){
+
+        if(intval($leave_id)!=0){
+            $this->load->model('sql_personnel/Sql_personnel_model');
+            $this->load->model('personnel/Personnel_model');
+            $this->load->model('leave/Leave_type_model');
+
+            $set = [];
+
+            $api = [];
+            $api['APP-KEY']     = $this->api_key;
+            $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+            $api['ip']          = get_client_ip();
+            $api['leave_id'] = intval($leave_id);
+            $result = $this->restclient->post(base_url(url_index().'leave/api_v1/view_leave'),$api);
+            $set['data'] = $result['data'];
+            
+            $set['personnel'] = $this->session_data['personnel'];
+            $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+            $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+            $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+            $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+            $set['personnel']['img']           = $personnel['data'][0]['img'];
+            $set['personnel']['data']          = $personnel['data'][0];
+
+            $set['leave_type'] = $this->Leave_type_model->get_type();
+
+            $set['workmate'] = [];
+            if(intval($set['data']['worker_personnel_id'])!=0){
+                $workmate = $this->Personnel_model->get_personnel(['personnel_id'=>trim($set['data']['worker_personnel_id'])]);
+                $set['workmate'] = $workmate['data'][0];
+            }
+
+            $set['boss'] = [];
+            $boss = $this->Personnel_model->get_personnel(['personnel_id'=>trim($set['data']['boss_personnel_id'])]);
+            $set['boss'] = $boss['data'][0];
+
+            $this->load->view('view_leave',$set);
+
+        }else{
+            redirect(url_index().'leave');
+        }
+    }
+
+    function check_print(){
+        //auth login
+        //dest to check print
+        //scan
     }
 
     function calendar(){
-
         $set = [];
         $set['APP_KEY']     = $this->api_key;
         $set['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
@@ -173,6 +233,91 @@ class Leave extends Leave_Controller {
 
         echo ($type=='js'?'var date_fix = ':'').json_encode($this->Calendar_model->to_select($con));
     }
+
+    function signature($signature=''){ //dest to this
+
+        $this->load->model('sql_personnel/Sql_personnel_model');
+        $this->load->model('personnel/Personnel_model');
+        $this->load->model('leave/Leave_type_model');
+
+        if(trim($signature)!=''){
+            $set = [];
+
+            $this->load->model(['leave/Leave_model']);
+
+            $url_signature = $this->url_qr.$signature;
+            $result = $this->Leave_model->view_leave(['signature'=>$url_signature]);
+
+            $set['signature_type'] = 0;
+            $set['personnel_id'] = 0;
+            
+            if($result['data']['url_personnel'] == $url_signature){
+                $set['signature_type'] = 1;
+                $set['personnel_id'] = $result['data']['personnel_id'];
+            }elseif($result['data']['url_workmate'] == $url_signature){
+                $set['signature_type'] = 2;
+                $set['personnel_id'] = $result['data']['worker_personnel_id'];
+            }elseif($result['data']['url_boss'] == $url_signature){
+                $set['signature_type'] = 3;
+                $set['personnel_id'] = $result['data']['boss_personnel_id'];
+            }
+
+            $leave_id = $set['leave_id'] = $result['data']['leave_id'];
+
+            $personnel = $this->session_data['personnel'];
+            if($personnel['personnel_id']!=$set['personnel_id']){
+                redirect(base_url(url_index().'leave'));
+            }
+
+            $api = [];
+            $api['APP-KEY']     = $this->api_key;
+            $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+            $api['ip']          = get_client_ip();
+            $api['leave_id'] = intval($leave_id);
+            $result = $this->restclient->post(base_url(url_index().'leave/api_v1/view_leave'),$api);
+            $set['data'] = $result['data'];
+            
+            $set['personnel'] = $this->session_data['personnel'];
+            $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+            $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+            $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+            $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+            $set['personnel']['img']           = $personnel['data'][0]['img'];
+            $set['personnel']['data']          = $personnel['data'][0];
+
+            $set['leave_type'] = $this->Leave_type_model->get_type();
+
+            $set['workmate'] = [];
+            if(intval($set['data']['worker_personnel_id'])!=0){
+                $workmate = $this->Personnel_model->get_personnel(['personnel_id'=>trim($set['data']['worker_personnel_id'])]);
+                $set['workmate'] = $workmate['data'][0];
+            }
+
+            $set['boss'] = [];
+            $boss = $this->Personnel_model->get_personnel(['personnel_id'=>trim($set['data']['boss_personnel_id'])]);
+            $set['boss'] = $boss['data'][0];
+
+            $this->load->view('signature',$set);
+
+        }else{
+            redirect(base_url(url_index().'leave'));
+        }
+
+    }
+
+    function save_signature(){
+        $post = $this->input->post();
+
+        if(count($post)==4 and isset($post['personnel_id']) and isset($post['type']) and isset($post['leave_id']) and isset($post['signature']) and intval($post['personnel_id'])!=0 and intval($post['leave_id'])!=0 and intval($post['type'])!=0){
+
+            $this->load->model('leave/Leave_model');
+            $this->Leave_model->save_signature($post);
+
+        }
+
+        redirect(base_url(url_index().'leave'));
+    }
+
 
     
 

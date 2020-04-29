@@ -12,9 +12,10 @@ class Auth extends Auth_Controller {
     function index(){
         $get = $this->input->get();
 
-        
         $login = $this->session->userdata('authentication');
-        if(isset($login['status']) and $login['status']){
+        if(isset($login['status']) and $login['status'] and isset($get['dest']) and trim($get['dest'])!=''){
+            redirect(url_index().trim($get['dest']));
+        }elseif(isset($login['status']) and $login['status']){
             redirect(url_index().'idp/my_course/');
         }
 
@@ -25,7 +26,7 @@ class Auth extends Auth_Controller {
 
         // status=fail
         if(isset($get['status']) and $get['status']=='fail'){
-
+            
         }
     }
 

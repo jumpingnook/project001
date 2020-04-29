@@ -148,6 +148,51 @@ class Api_v1 extends REST_Controller {
 
     }
 
+    function leave_history_post(){
+        $post = $this->post();
+        $token = $this->check_token($post);
+
+        if(isset($post['personnel_id']) and intval($post['personnel_id'])!=0){
+
+            $result = $this->Leave_model->leave_history(['personnel_id'=>intval($post['personnel_id'])]);
+            $this->response([
+                'status' => true,
+                'data' => $result['data'],
+                'count' => $result['count']
+            ], REST_Controller::HTTP_OK); //200
+
+        }else{
+            $this->response([
+                'status' => true,
+                'data' => [],
+                'count' => 0
+            ], REST_Controller::HTTP_OK); //200
+        }
+
+    }
+
+    function view_leave_post(){
+        $post = $this->post();
+        $token = $this->check_token($post);
+
+        if(isset($post['leave_id']) and intval($post['leave_id'])!=0){
+
+            $result = $this->Leave_model->view_leave(['leave_id'=>intval($post['leave_id'])]);
+            $this->response([
+                'status' => true,
+                'data' => $result['data']
+            ], REST_Controller::HTTP_OK); //200
+
+        }else{
+            $this->response([
+                'status' => true,
+                'data' => [],
+                'count' => 0
+            ], REST_Controller::HTTP_OK); //200
+        }
+
+    }
+
 
 
     

@@ -168,7 +168,7 @@
                           <div class="col-lg-10"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">ประเภทงาน</div>
+                          <div class="col-lg-2 text-md font-weight-bold">ประเภทงานพนักงาน</div>
                           <div class="col-lg-10"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
                         </div>
                       </div>
@@ -213,70 +213,36 @@
                           <th>การจัดการ</th>
                         </tr>
                       </thead>
-                      <tfoot>
-                        <tr>
-                          <th colspan="2">รวม 3 รายการ</th>
-                          <th colspan="3"></th>
-                          <th colspan="3">รวม 1.5 วัน</th>
-                        </tr>
-                      </tfoot>
+                      
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>2020030955</td>
-                          <td>ลาพักผ่อน</td>
-                          <td>25 มี.ค. 2563</td>
-                          <td>26 มี.ค. 2563 - 26 มี.ค. 2563</td>
-                          <td>0.5(AM)</td>
-                          <td>ดำเนินการ</td>
-                          <td>
-                            <a href="<?php echo base_url(url_index().'leave/view');?>" class="btn btn-info btn-circle btn-sm">
-                              <i class="far fa-eye"></i>
-                            </a>&nbsp;
-                            <a href="#" class="btn btn-danger btn-circle btn-sm">
-                              <i class="far fa-trash-alt"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>2020030955</td>
-                          <td>ลาพักผ่อน</td>
-                          <td>25 มี.ค. 2563</td>
-                          <td>26 มี.ค. 2563 - 26 มี.ค. 2563</td>
-                          <td>0.5(AM)</td>
-                          <td>ดำเนินการ</td>
-                          <td>
-                            <a href="<?php echo base_url(url_index().'leave/view');?>" class="btn btn-info btn-circle btn-sm">
-                              <i class="far fa-eye"></i>
-                            </a>&nbsp;
-                            <a href="#" class="btn btn-danger btn-circle btn-sm">
-                              <i class="far fa-trash-alt"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <?php for($i=3;$i<=100;$i++){?>
+                        <?php if(isset($leave_history['data']) and count($leave_history['data'])>0){ $sum_day = 0; $i=1;foreach($leave_history['data'] as $key=>$val){?>
                           <tr>
                             <td><?php echo $i;?></td>
-                            <td>2020030955</td>
-                            <td>ลาพักผ่อน</td>
-                            <td>25 มี.ค. 2563</td>
-                            <td>26 มี.ค. 2563 - 26 มี.ค. 2563</td>
-                            <td>0.5(AM)</td>
-                            <td>ดำเนินการ</td>
+                            <td><?php echo $val['leave_no'];?></td>
+                            <td><?php echo isset($leave_type[$val['leave_type_id']])?$leave_type[$val['leave_type_id']]['leave_name']:' - ';?></td>
+                            <td><?php echo date('Y/m/d',strtotime($val['create_date']));?></td>
+                            <td><?php echo date('Y/m/d',strtotime($val['period_start'])).($val['period_end']!=''?' - '.date('Y/m/d',strtotime($val['period_end'])):'');?></td>
+                            <td><?php $sum_day+=$val['period_count']; echo $val['period_count'].($val['period_type']!='a'?$val['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)');?></td>
                             <td>
-                              <a href="<?php echo base_url(url_index().'leave/view');?>" class="btn btn-info btn-circle btn-sm">
+                              <?php //check?>
+                              ดำเนินการ
+
+                            </td>
+                            <td>
+                              <a href="<?php echo base_url(url_index().'leave/view/'.$val['leave_id']);?>" class="btn btn-info btn-circle btn-sm">
                                 <i class="far fa-eye"></i>
-                              </a>&nbsp;
-                              <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                <i class="far fa-trash-alt"></i>
                               </a>
                             </td>
                           </tr>
-                        <?php }?>
-                        
-
+                        <?php $i++;}}?>
                       </tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="2">รวมทั้งหมด <?php echo isset($leave_history)?number_format($leave_history['count']):0;?> รายการ</th>
+                          <th colspan="3"></th>
+                          <th colspan="3">รวมทั้งหมด <?php echo number_format($sum_day,1,'.',',').' วัน';?></th>
+                        </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>
