@@ -168,6 +168,10 @@
                           <div class="col-lg-10"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></div>
                         </div>
                         <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">หน่วยงาน</div>
+                          <div class="col-lg-10"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></div>
+                        </div>
+                        <div class="row">
                           <div class="col-lg-2 text-md font-weight-bold">ประเภทงานพนักงาน</div>
                           <div class="col-lg-10"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
                         </div>
@@ -215,7 +219,7 @@
                       </thead>
                       
                       <tbody>
-                        <?php if(isset($leave_history['data']) and count($leave_history['data'])>0){ $sum_day = 0; $i=1;foreach($leave_history['data'] as $key=>$val){?>
+                        <?php $sum_day = 0; if(isset($leave_history['data']) and count($leave_history['data'])>0){  $i=1;foreach($leave_history['data'] as $key=>$val){?>
                           <tr>
                             <td><?php echo $i;?></td>
                             <td><?php echo $val['leave_no'];?></td>

@@ -78,6 +78,69 @@
                     <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
                   </div>
 
+                  <form class="form sleep" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
+
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>เขียนที่</label>
+                        <input type="text" name="write_at" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
+                      </div>
+                      <div class="col-sm-6">
+                        <label>เรียน</label>
+                        <select name="to" class="form-control" required>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label>เรื่อง</label>
+                        <input type="text" name="title" class="leave_title form-control" id="exampleLastName" placeholder="ระบุการลา" value=""  required>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label>ช่วงเวลา</label>
+                        <select name="period_type" class="type_leave_date form-control" required>
+                          <option value="c">กำหนดระยะเวลา</option>
+                          <option value="a">เช้า</option>
+                          <option value="p">บ่าย</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-4 mb-3 mb-sm-0">
+                        <label>ตั้งแต่วันที่</label>
+                        <input type="date" name="period_start" class="leave_date_s form-control" form_no="1" value="<?php echo date('Y-m-d');?>" required>
+                      </div>
+                      <div class="col-sm-4 mb-3 mb-sm-0">
+                        <label>ถึงวันที่</label>
+                        <input type="date" name="period_end" class="leave_date_e form-control" form_no="2" value="<?php echo date('Y-m-d');?>" required>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label>ช้อมูลติดต่อ</label>
+                        <textarea name="contact" id="" class="form-control" cols="30" rows="3" required></textarea>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="workmate" type="hidden" name="worker_personnel_id"/>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
+                    <input type="hidden" class="qr_workmate" name="qr_workmate">
+                    <input type="hidden" class="url_workmate" name="url_workmate" value="<?php echo isset($url_qr['workmate'])?$url_qr['workmate']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
+
+                  </form>
+
                   <form class="form leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
@@ -118,11 +181,11 @@
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="date" name="period_start" class="leave_date_s form-control" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="date" name="period_start" class="leave_date_s form-control" form_no="2" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ถึงวันที่</label>
-                        <input type="date" name="period_end" class="leave_date_e form-control" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="date" name="period_end" class="leave_date_e form-control" form_no="2" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
@@ -134,14 +197,77 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-                    <input class="workmate" type="hidden" name="worker_personnel_id"/>
                     <input class="boss" type="hidden" name="boss_personnel_id"/>
                     <input class="period_count" type="hidden" name="period_count" value="1"/>
                     <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
-                    <input type="hidden" class="qr_workmate" name="qr_workmate">
-                    <input type="hidden" class="url_workmate" name="url_workmate" value="<?php echo isset($url_qr['workmate'])?$url_qr['workmate']:'';?>">
+                    <input type="hidden" class="qr_boss" name="qr_boss">
+                    <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
+
+                  </form>
+
+                  <form class="form brith" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
+
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>เขียนที่</label>
+                        <input type="text" name="write_at" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
+                      </div>
+                      <div class="col-sm-6">
+                        <label>เรียน</label>
+                        <select name="to" class="form-control" required>
+                          <option value="1">คณะบดีคณะแพทยศาสตร์</option>
+                          <option value="2">อธิกาารบดี</option>
+                          <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label>เรื่อง</label>
+                        <input type="text" name="title" class="leave_title form-control" id="exampleLastName" placeholder="ระบุการลา" value=""  required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label>ข้าพขอลา... เนื่องจาก</label>
+                        <input type="text" name="detail" class="form-control" id="exampleLastName" placeholder="ระบุสาเหตุ" value=""  required>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label>ช่วงเวลา</label>
+                        <select name="period_type" class="type_leave_date form-control" required>
+                          <option value="c">กำหนดระยะเวลา</option>
+                          <option value="a">เช้า</option>
+                          <option value="p">บ่าย</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-4 mb-3 mb-sm-0">
+                        <label>ตั้งแต่วันที่</label>
+                        <input type="date" name="period_start" class="leave_date_s form-control" form_no="3" value="<?php echo date('Y-m-d');?>" required>
+                      </div>
+                      <div class="col-sm-4 mb-3 mb-sm-0">
+                        <label>ถึงวันที่</label>
+                        <input type="date" name="period_end" class="leave_date_e form-control" form_no="3" value="<?php echo date('Y-m-d');?>" required>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label>ช้อมูลติดต่อ</label>
+                        <textarea name="contact" id="" class="form-control" cols="30" rows="3" required></textarea>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
+                    <input class="boss" type="hidden" name="boss_personnel_id"/>
+                    <input class="period_count" type="hidden" name="period_count" value="1"/>
+                    <input class="type" type="hidden" name="leave_type_id"/>
+                    <input type="hidden" class="qr_personnel" name="qr_personnel">
+                    <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
                     <input type="hidden" class="qr_boss" name="qr_boss">
                     <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
 
@@ -175,14 +301,16 @@
                       </div>
                     </div>
 
+                    
+
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ตั้งแต่วันที่</label>
-                        <input name="period_start" type="date" class="date_s form-control" form_no="1" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_start" type="date" class="leave_date_s form-control" form_no="4" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input name="period_end" type="date" class="date_e form-control" form_no="1" value="<?php echo date('Y-m-d');?>" required>
+                        <input name="period_end" type="date" class="leave_date_e form-control" form_no="4" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                     </div>
 
@@ -193,8 +321,6 @@
                     <input class="type" type="hidden" name="leave_type_id"/>
                     <input type="hidden" class="qr_personnel" name="qr_personnel">
                     <input type="hidden" class="url_personnel" name="url_personnel" value="<?php echo isset($url_qr['personnel'])?$url_qr['personnel']:'';?>">
-                    <input type="hidden" class="qr_workmate" name="qr_workmate">
-                    <input type="hidden" class="url_workmate" name="url_workmate" value="<?php echo isset($url_qr['workmate'])?$url_qr['workmate']:'';?>">
                     <input type="hidden" class="qr_boss" name="qr_boss">
                     <input type="hidden" class="url_boss" name="url_boss" value="<?php echo isset($url_qr['boss'])?$url_qr['boss']:'';?>">
                   </form>
@@ -624,11 +750,23 @@
             leave_type = type[0];
             $('.leave-text').text(type[1]);
             $('.form').hide();
-            if(type[0]>=1 && type[0]<=4){
-              $('.form.leave').show();
+            if(type[0]==1){
+              $('.form.sleep').show();
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
               $('#workmate-box').show();
+              $('.leave_title').val(type[1]);
+            }else if(type[0]>=2 && type[0]<=3){
+              $('.form.leave').show();
+              $('.date-cal button').hide();
+              $('.date-cal span').text('1 วัน').show();
+              $('#workmate-box').hide();
+              $('.leave_title').val(type[1]);
+            }else if(type[0]==4){
+              $('.form.brith').show();
+              $('.date-cal button').hide();
+              $('.date-cal span').text('1 วัน').show();
+              $('#workmate-box').hide();
               $('.leave_title').val(type[1]);
             }else if(leave_type==5){
               $('.form.help_childcare').show();
@@ -645,7 +783,7 @@
               $('.form.oversea').show();
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
-              $('#workmate-box').hide();
+              $('#workmate-box').show();
             }else if(leave_type==8){
               $('.form.ordination').show();
               $('.date-cal span').hide();
@@ -685,14 +823,18 @@
       });
 
       $('.leave_date_s,.leave_date_e,.type_leave_date').change(function(){
+        var form = $(this).attr('form_no');
         if(type_leave_date == 'c'){
-          var date_start = $('.leave_date_s').val();
-          var date_end = $('.leave_date_e').val();
+          var date_start = $('.leave_date_s[form_no='+form+']').val();
+          var date_end = $('.leave_date_e[form_no='+form+']').val();
           var date_dis = dis_date(date_end,date_start);
 
           $('.date-cal button').hide();
           var count_date = (days_between(date_end,date_start) - date_dis);
           $('.date-cal span').text(count_date+' วัน').show();
+
+          console.log(count_date);
+
           $('.period_count').val(count_date);
         }
       });
@@ -700,8 +842,8 @@
       $('.date_s,.date_e,.type_leave_date').change(function(){
           var form = $(this).attr('form_no');
 
-          var date_start = $('.date_s[form='+form+']').val();
-          var date_end = $('.date_e[form='+form+']').val();
+          var date_start = $('.date_s[form_no='+form+']').val();
+          var date_end = $('.date_e[form_no='+form+']').val();
 
           $('.date-cal button').hide();
           var count_date = days_between(date_end,date_start);
@@ -732,12 +874,12 @@
       function dis_date(date1, date2){
         var count_dis = 0;
         const count = days_between(date1, date2);
+        
         if(count>0){
           for(var i = 0;i<count;i++){
             var date = new Date(date2);
             date.setDate(date.getDate() + i);
             var get_date = date.toISOString().substring(0, 10);
-
             if(typeof date_fix[get_date] !== 'undefined'){
               count_dis++;
             }
@@ -752,16 +894,16 @@
         var workmate = $('#workmate').val();
         var boss = $('#boss').val();
 
-        if(leave_type>4){
-          if(boss==0){
+        if(leave_type==1 || leave_type==7){
+          if(boss==0 || workmate==0){
             alert('กรุณาเลือกผู้ปฏิบัติงานแทนและผู้บังคับบัญชาให้ถูกต้อง');
             return false;
           }
         }else{
-          if(boss==0 || workmate==0){
-          alert('กรุณาเลือกผู้ปฏิบัติงานแทนและผู้บังคับบัญชาให้ถูกต้อง');
-          return false;
-        }
+          if(boss==0){
+            alert('กรุณาเลือกผู้บังคับบัญชา');
+            return false;
+          }
         }
 
         $('.qr_personnel').val($('#qrcode1 img').attr('src'));

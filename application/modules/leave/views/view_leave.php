@@ -30,7 +30,6 @@
     }
     @media print{
 
-
     }
   </style>
 
@@ -215,6 +214,7 @@
                       -
                     </div>
                   </div>
+                  <?php /*
                   <hr/>
                   <div class="text-s font-weight-bold text-primary text-uppercase mb-1">ข้อมูลผู้อนุมัติ</div>
                   <?php if(isset($workmate) && is_array($workmate)){ ?>
@@ -251,10 +251,11 @@
                       ?>
                     </div>
                   </div>
+                  */ ?>
                   <hr/>
                   <div id="document" class="row mb-2" style="border: 1px solid #ccc;">
                     <div class="col-lg-12 document" >
-                      <?php $doc = ''; if(isset($data['leave_type_id']) and intval($data['leave_type_id'])==1){$doc = 'document/leave/1,7.jpg';?>
+                      <?php $doc = []; if(isset($data['leave_type_id']) and intval($data['leave_type_id'])==1){$doc[0] = 'document/leave/1.jpg';?>
                         <span style="top: calc(100% - 87.4%);left: calc(100% - 42%);">20</span>
                         <span style="top: calc(100% - 87.4%);left: calc(100% - 32%);">เมษายน</span>
                         <span style="top: calc(100% - 87.4%);left: calc(100% - 17%);">2563</span>
@@ -291,6 +292,47 @@
                         <span style="top: calc(100% - 50.8%);left: calc(100% - 45%)"><?php echo isset($workmate) && is_array($workmate)?$workmate['title'].$workmate['name_th'].' '.$workmate['surname_th']:' - ';?></span>
 
                         <span style="top: calc(100% - 41.6%);left: calc(100% - 45%)"><?php echo isset($boss) && is_array($boss)?$boss['title'].$boss['name_th'].' '.$boss['surname_th']:' - ';?></span>
+                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])>=2 and intval($data['leave_type_id'])<=3){ $doc[0] = 'document/leave/2-3.jpg';?>
+                        <span style="top: calc(100% - 86.7%);left: calc(100% - 42%);">20</span>
+                        <span style="top: calc(100% - 86.7%);left: calc(100% - 32%);">เมษายน</span>
+                        <span style="top: calc(100% - 86.7%);left: calc(100% - 17%);">2563</span>
+                        <span style="top: calc(100% - 82.8%);left: calc(100% - 78%);"><?php echo isset($data['leave_type_id']) && isset($leave_type[$data['leave_type_id']])?$leave_type[$data['leave_type_id']]['leave_name']:' - ';?></span>
+                        <span style="top: calc(100% - 75.2%);left: calc(100% - 72%);">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+                        <span style="top: calc(100% - 75.2%);left: calc(100% - 37%);"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
+
+                        <span style="top: calc(100% - 72.6%);left: calc(100% - 76%);"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
+
+                        <span style="top: calc(100% - 70%);left: calc(100% - 36%);"><?php echo isset($data['detail'])?htmlspecialchars_decode($data['detail']):'-';?></span>
+
+                        <span style="top: calc(100% - 62.3%);left: calc(100% - 79%);"><?php echo date('Y/m/d',strtotime($data['period_start']));?></span>
+
+                        <span style="top: calc(100% - 62.3%);left: calc(100% - 53%);"><?php echo ($data['period_end']!=''?date('Y/m/d',strtotime($data['period_end'])):'');?></span>
+
+                        <span style="top: calc(100% - 62.3%);left: calc(100% - 23%);"><?php echo isset($data['period_count'])?floatval($data['period_count']).(($data['period_type']!='a'?$data['period_type']=='p'?' (บ่าย)':'':' (เช้า)')):'-';?></span>
+
+                        <span style="top: calc(100% - 57.3%);left: calc(100% - 71%);"><?php echo date('Y/m/d',strtotime($data['period_start']));?></span>
+
+                        <span style="top: calc(100% - 57.3%);left: calc(100% - 49%);"><?php echo ($data['period_end']!=''?date('Y/m/d',strtotime($data['period_end'])):'');?></span>
+
+                        <span style="top: calc(100% - 57.3%);left: calc(100% - 20%);"><?php echo isset($data['period_count'])?floatval($data['period_count']).(($data['period_type']!='a'?$data['period_type']=='p'?' (บ่าย)':'':' (เช้า)')):'-';?></span>
+
+                        <span style="top: calc(100% - 54.6%);left: calc(100% - 63%);"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
+
+                        <span style="top: calc(100% - 44.2%);left: calc(100% - 47%);">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+
+                        <span style="top: calc(100% - 32.6%);left: calc(100% - 42%)"><?php echo isset($boss) && is_array($boss)?$boss['title'].$boss['name_th'].' '.$boss['surname_th']:' - ';?></span>
 
 
 
@@ -299,13 +341,7 @@
 
 
 
-
-                        
-
-
-
-
-                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])>=2 and intval($data['leave_type_id'])<=4){ $doc = 'document/leave/2-4.jpg';?>
+                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==4){ $doc[0] = 'document/leave/4-2.jpg';$doc[1] = 'document/leave/4.jpg';?>
                         <span style="top: calc(100% - 86.7%);left: calc(100% - 42%);">20</span>
                         <span style="top: calc(100% - 86.7%);left: calc(100% - 32%);">เมษายน</span>
                         <span style="top: calc(100% - 86.7%);left: calc(100% - 17%);">2563</span>
@@ -357,7 +393,7 @@
 
 
                         
-                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==5){$doc = 'document/leave/5.jpg';?>
+                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==5){$doc[0] = 'document/leave/5.jpg';?>
                         <span style="top: calc(100% - 91.8%);left: calc(100% - 29%);"><?php echo isset($data['write_at'])?$data['write_at']:'-';?></span>
                         <span style="top: calc(100% - 89.2%);left: calc(100% - 39%);">20</span>
                         <span style="top: calc(100% - 89.2%);left: calc(100% - 31%);">เมษายน</span>
@@ -423,17 +459,172 @@
 
 
 
-                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==6){$doc = 'document/leave/6.jpg';?>
+                      
+                      
+                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==6){$doc[0] = 'document/leave/6-2.jpg';$doc[1] = 'document/leave/6.jpg';?>
+                        <span style="top: calc(100% - 86.7%);left: calc(100% - 42%);">20</span>
+                        <span style="top: calc(100% - 86.7%);left: calc(100% - 32%);">เมษายน</span>
+                        <span style="top: calc(100% - 86.7%);left: calc(100% - 17%);">2563</span>
+                        <span style="top: calc(100% - 82.8%);left: calc(100% - 78%);"><?php echo isset($data['leave_type_id']) && isset($leave_type[$data['leave_type_id']])?$leave_type[$data['leave_type_id']]['leave_name']:' - ';?></span>
+                        <span style="top: calc(100% - 75.2%);left: calc(100% - 72%);">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+                        <span style="top: calc(100% - 75.2%);left: calc(100% - 37%);"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
 
-                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==7){$doc = 'document/leave/7.jpg';?>
+                        <span style="top: calc(100% - 72.6%);left: calc(100% - 76%);"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
 
-                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==8){$doc = 'document/leave/8.jpg';?>
+                        <span style="top: calc(100% - 70%);left: calc(100% - 36%);"><?php echo isset($data['detail'])?htmlspecialchars_decode($data['detail']):'-';?></span>
 
-                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==9){$doc = 'document/leave/9.jpg';?>
-                          
+                        <span style="top: calc(100% - 62.3%);left: calc(100% - 79%);"><?php echo date('Y/m/d',strtotime($data['period_start']));?></span>
+
+                        <span style="top: calc(100% - 62.3%);left: calc(100% - 53%);"><?php echo ($data['period_end']!=''?date('Y/m/d',strtotime($data['period_end'])):'');?></span>
+
+                        <span style="top: calc(100% - 62.3%);left: calc(100% - 23%);"><?php echo isset($data['period_count'])?floatval($data['period_count']).(($data['period_type']!='a'?$data['period_type']=='p'?' (บ่าย)':'':' (เช้า)')):'-';?></span>
+
+                        <span style="top: calc(100% - 57.3%);left: calc(100% - 71%);"><?php echo date('Y/m/d',strtotime($data['period_start']));?></span>
+
+                        <span style="top: calc(100% - 57.3%);left: calc(100% - 49%);"><?php echo ($data['period_end']!=''?date('Y/m/d',strtotime($data['period_end'])):'');?></span>
+
+                        <span style="top: calc(100% - 57.3%);left: calc(100% - 20%);"><?php echo isset($data['period_count'])?floatval($data['period_count']).(($data['period_type']!='a'?$data['period_type']=='p'?' (บ่าย)':'':' (เช้า)')):'-';?></span>
+
+                        <span style="top: calc(100% - 54.6%);left: calc(100% - 63%);"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
+
+                        <span style="top: calc(100% - 44.2%);left: calc(100% - 47%);">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+
+                        <span style="top: calc(100% - 32.6%);left: calc(100% - 42%)"><?php echo isset($boss) && is_array($boss)?$boss['title'].$boss['name_th'].' '.$boss['surname_th']:' - ';?></span>
+                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==7){$doc[0] = 'document/leave/7-1.jpg';$doc[1] = 'document/leave/7.jpg';?>
+                        <span style="top: calc(100% - 87.4%);left: calc(100% - 42%);">20</span>
+                        <span style="top: calc(100% - 87.4%);left: calc(100% - 32%);">เมษายน</span>
+                        <span style="top: calc(100% - 87.4%);left: calc(100% - 17%);">2563</span>
+                        <span style="top: calc(100% - 78.7%);left: calc(100% - 69%);">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+                        <span style="top: calc(100% - 78.7%);left: calc(100% - 36%);"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
+
+                        <span style="top: calc(100% - 76.6%);left: calc(100% - 80%);"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
+
+                        <span style="top: calc(100% - 74.6%);left: calc(100% - 72%);">99*</span>
+                        <span style="top: calc(100% - 74.6%);left: calc(100% - 23%);">99*</span>
+
+                        <span style="top: calc(100% - 72.3%);left: calc(100% - 70%);"><?php echo date('Y/m/d',strtotime($data['period_start']));?></span>
+
+                        <span style="top: calc(100% - 72.3%);left: calc(100% - 44%);"><?php echo ($data['period_end']!=''?date('Y/m/d',strtotime($data['period_end'])):'');?></span>
+
+                        <span style="top: calc(100% - 72.3%);left: calc(100% - 17%);"><?php echo isset($data['period_count'])?floatval($data['period_count']).(($data['period_type']!='a'?$data['period_type']=='p'?' (บ่าย)':'':' (เช้า)')):'-';?></span>
+
+                        <span style="top: calc(100% - 70.1%);left: calc(100% - 63%);"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
+
+                        <span style="top: calc(100% - 59.4%);left: calc(100% - 44%);">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+
+                        <span style="top: calc(100% - 50.8%);left: calc(100% - 45%)"><?php echo isset($workmate) && is_array($workmate)?$workmate['title'].$workmate['name_th'].' '.$workmate['surname_th']:' - ';?></span>
+
+                        <span style="top: calc(100% - 41.6%);left: calc(100% - 45%)"><?php echo isset($boss) && is_array($boss)?$boss['title'].$boss['name_th'].' '.$boss['surname_th']:' - ';?></span>
+
+                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==8){$doc[0] = 'document/leave/8.jpg';?>
+
+                        <span style="top: 7.5%;left: 69%;"><?php echo isset($data['write_at'])?$data['write_at']:'-';?></span>
+                        <span style="top: 10%;left: 59%;">20</span>
+                        <span style="top: 10%;left: calc(100% - 31%);">เมษายน</span>
+                        <span style="top: 10%;left: 82%;">2563</span>
+
+                        <span style="top: 20.8%;left: 31%;">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+                        <span style="top: 20.8%;left: 68%;"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
+
+                        <span style="top: 23.4%;left: 18%;">99*</span>
+
+                        <span style="top: 26%;left: 20%;"><?php echo isset($personnel['data']['brithdate'])?$personnel['data']['brithdate']:'-';?></span>
+                        <span style="top: 26%;left: 59%;"><?php echo isset($personnel['data']['brithdate'])?$personnel['data']['brithdate']:'-';?></span>
+
+
+                        <span style="top: 31.1%;left: 14.3%;"><?php echo isset($data['temple_name'])?$data['temple_name']:'-';?></span>
+                        <span style="top: 33.8%;left: 14.3%;"><?php echo isset($data['temple_address'])?$data['temple_address']:'-';?></span>
+
+                        <span style="top: 36.5%;left: 23%;"><?php echo isset($data['ordination_date'])?$data['ordination_date']:'-';?></span>
+
+                        <span style="top: 36.4%;left: 63.3%;"><?php echo isset($data['temple_name2'])?$data['temple_name2']:'-';?></span>
+                        <span style="top: 39%;left: 20.3%;"><?php echo isset($data['temple_address2'])?$data['temple_address2']:'-';?></span>
+
+                        <span style="top: 41.6%;left: 38%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'-';?></span>
+
+                        <span style="top: 41.6%;left: 55%;"><?php echo isset($data['period_start'])?$data['period_start']:'-';?></span>
+                        <span style="top: 44.2%;left: 19%;"><?php echo isset($data['period_end'])?$data['period_end']:'-';?></span>
+
+                        <span style="top: 56%;left: 54%;">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </span>
+
+                        <span style="top: 67.8%;left:  54%;;"><?php echo isset($boss) && is_array($boss)?$boss['title'].$boss['name_th'].' '.$boss['surname_th']:' - ';?></span>
+
+                        <span style="top: 73%;left: 51%;"><?php echo isset($data['signature_boss_date'])?$data['signature_boss_date']:'-';?></span>
+
+
+                        
+                      <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==9){$doc[0] = 'document/leave/9.jpg';?>
+                        <span style="top: 7.9%;left: 79%;">20</span>
+                        <span style="top: 10.1%;left: 69%;">99*</span>
+                        <span style="top: 10.1%;left: 77%;">99*</span>
+                        <span style="top: 10.1%;left: 88%;">99*</span>
+                        <span style="top: 14.2%;left: 22%;">99*</span>
+
+                        <span style="top: 20.8%;left: 38%;">99*</span>
+                        <span style="top: 20.8%;left: 72%;">99*</span>
+                        <span style="top: 22.8%;left: 21%;">99*</span>
+                        <span style="top: 22.8%;left: 43%;">99*</span>
+                        <span style="top: 25%;left: 31%;">99*</span>
+                        <span style="top: 27.2%;left: 18%;">99*</span>
+                        <span style="top: 27.2%;left: 62%;">99*</span>
+                        <span style="top: 27.2%;left: 70%;">99*</span>
+                        <span style="top: 27.2%;left: 83%;">99*</span>
+                        <span style="top: 29.4%;left: 25.6%;">99*</span>
+                        <span style="top: 31.4%;left: 16.6%;">99*</span>
+                        <span style="top: 31.4%;left: 64.6%;">99*</span>
+                        <span style="top: 33.6%;left: 21.6%;">99*</span>
+                        <span style="top: 33.6%;left: 30.2%;">99*</span>
+                        <span style="top: 33.6%;left: 43%;">99*</span>
+                        <span style="top: 33.6%;left: 57%;">99*</span>
+
+                        <span style="top: 44.4%;left: 58%;">99*</span>
+                        <span style="top: 46.4%;left: 58%;">99*</span>
+                        <span style="top: 48.6%;left: 56%;">99*</span>
                       <?php } ?>
-                      <img src="<?php echo base_url(load_file($doc));?>" style="width:100%;">
+                      <img src="<?php echo base_url(load_file($doc[0]));?>" style="width:100%;">
+                      
                     </div>
+                    <?php if(isset($doc[1])){ ?>
+                      <div class="col-lg-12 document" >
+                        <img src="<?php echo base_url(load_file($doc[1]));?>" style="width:100%;">
+                      </div>
+                    <?php } ?>
                   </div>
                 </div>
               </div>
@@ -648,10 +839,10 @@
         $('#print').click(function(){
             var divContents = document.getElementById("document").innerHTML; 
             var a = window.open(); 
-            a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#555555;}.document span{position:absolute;font-size:2vw;line-height: 56px;}@media print{.document span{position:absolute;font-size:16px;line-height: 24px;}}</style>"); 
+            a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#555555;}.document span{position:absolute;font-size:2vw;line-height: 60px;}@media print{.document span{position:absolute;font-size:16px;line-height: 30px;}}</style>"); 
             a.document.write(divContents); 
             a.print(); 
-            a.close();
+            //a.close();
         });
         
       });

@@ -26,6 +26,7 @@ class Leave extends Leave_Controller {
         $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
         $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
         $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+        $set['personnel']['department_name'] = substr($sql_personnel['data'][0]['departname'],7);
         $set['personnel']['img']           = $personnel['data'][0]['img'];
 
         $api = [];
@@ -105,7 +106,7 @@ class Leave extends Leave_Controller {
         $result = $this->restclient->post(base_url(url_index().'leave/api_v1/save_leave'),$api);
 
         if($result['status']){
-            redirect(url_index().'leave/?status=save_complete');// to view
+            redirect(url_index().'leave/view/'.(intval($result['value'])).'?status=save_complete');// to view
         }else{
             redirect(url_index().'leave/add/?status=fail');
         }
@@ -126,6 +127,11 @@ class Leave extends Leave_Controller {
             $api['ip']          = get_client_ip();
             $api['leave_id'] = intval($leave_id);
             $result = $this->restclient->post(base_url(url_index().'leave/api_v1/view_leave'),$api);
+
+            if(count($result['data'])==0){
+                redirect(url_index().'leave');
+            }
+
             $set['data'] = $result['data'];
             
             $set['personnel'] = $this->session_data['personnel'];
@@ -149,6 +155,7 @@ class Leave extends Leave_Controller {
             $set['boss'] = $boss['data'][0];
 
             $this->load->view('view_leave',$set);
+            
 
         }else{
             redirect(url_index().'leave');
@@ -265,9 +272,9 @@ class Leave extends Leave_Controller {
             $leave_id = $set['leave_id'] = $result['data']['leave_id'];
 
             $personnel = $this->session_data['personnel'];
-            if($personnel['personnel_id']!=$set['personnel_id']){
-                redirect(base_url(url_index().'leave'));
-            }
+            // if($personnel['personnel_id']!=$set['personnel_id']){
+            //     redirect(base_url(url_index().'leave'));
+            // }
 
             $api = [];
             $api['APP-KEY']     = $this->api_key;

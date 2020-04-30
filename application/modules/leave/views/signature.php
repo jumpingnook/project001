@@ -50,7 +50,7 @@
         }
         .box-button {
             position: relative;
-            width: calc(100vw - 40px);
+            width: 560px;
             margin: auto;
             -moz-user-select: none;
             -webkit-user-select: none;
@@ -83,7 +83,7 @@
             border: 1px solid #555555;
             border-radius: 5px;
             height: 30px;
-            width: 100%;
+            width: 556px;
             font-size: 0.8em;
             padding-left:4px;
         }
@@ -220,7 +220,7 @@
                 <tr>
                     <td colspan="2" style="font-weight: bold;">ข้อมูลผู้อนุมัติ</td>
                 </tr>
-                <?php if(isset($workmate) && is_array($workmate)){ ?>
+                <?php if(isset($workmate) && is_array($workmate) && count($workmate)>0){ ?>
                 <tr>
                     <td>ผู้ทำงานแทน</td>
                     <td><?php echo isset($workmate) && is_array($workmate)?$workmate['title'].$workmate['name_th'].' '.$workmate['surname_th']:' - ';?></td>
