@@ -23,14 +23,37 @@ class Api_v1 extends REST_Controller {
             $result = $this->Personnel_model->get_personnel(['username'=>trim($post['username'])]);
             $result['status'] = true;
             $this->response($result, REST_Controller::HTTP_OK); //200
+        }elseif(isset($post['term']) and trim($post['term'])!='' and strlen($post['term'])>=4){
+            $result = $this->Personnel_model->get_personnel(['term'=>trim($post['term'])]);
+            $result['status'] = true;
+            $this->response($result, REST_Controller::HTTP_OK); //200
+
+        }elseif(isset($post['smu']) and trim($post['smu'])!=''){
+            $result['workmate'] = $this->Personnel_model->get_personnel(['smu_main_id'=>$post['smu']]);
+            $boss = $this->Personnel_model->get_boss(['smu_main_id'=>$post['smu']]);
+
+            $boss_id = [];
+            $result['boss']['data'] = [];
+            $result['boss']['count'] = 0;
+
+            if($boss['count']>0){
+                foreach($boss['data'] as $key=>$val){
+                    $boss_id[] = $val['personnel_id'];
+                }
+                $result['boss'] = $this->Personnel_model->get_personnel(['personnel_list'=>$boss_id]);
+            }
+
+            $this->Personnel_model->get_personnel(['personnel_list'=>$boss_id]);
+
+
+            $result['status'] = true;
+            $this->response($result, REST_Controller::HTTP_OK); //200
 		}else{
             $this->response([
                 'status' => false,
                 'message' => 'Invalid Data'
             ], REST_Controller::HTTP_NOT_FOUND); //404
         }
-
-
     }
 
     function transfer_personnel_post(){

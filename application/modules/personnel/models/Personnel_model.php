@@ -3,11 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Personnel_model extends MY_Model {
 
 	protected $token_time = 25;
+	protected $url_qr;
 
 	function __construct(){
     	parent::__construct();
       	$this->load->database();
 		$this->tb_default();
+		$this->url_qr = base_url(url_index().'auth?dest=leave/signature/');
 	}
 
 	private function tb_default(){
@@ -16,15 +18,17 @@ class Personnel_model extends MY_Model {
 
 	function get_personnel($set = []){
 		$this->tb_default();
-		$res = ['count'=>0,'data'=>[]];
-
+		$res = ['count'=>0,'data'=>[],'process'=>false];
+		$con = [];
 		$sql_code = '';
 		if(isset($set['personnel_list']) and count($set['personnel_list'])>0){
 			foreach($set['personnel_list'] as $key=>$val){
-				if($sql_code==''){
-					$sql_code = 'personnel_id = "'.intval($val).'"';
-				}else{
-					$sql_code .= ' or personnel_id = "'.intval($val).'"';
+				if(intval($val)>0){
+					if($sql_code==''){
+						$sql_code = 'personnel_id = "'.intval($val).'"';
+					}else{
+						$sql_code .= ' or personnel_id = "'.intval($val).'"';
+					}
 				}
 			}
 		}elseif(isset($set['username']) and trim($set['username'])!=''){
@@ -35,18 +39,27 @@ class Personnel_model extends MY_Model {
 			$sql_code = 'personnel_code = "'.trim($set['personnel_code']).'"';
 		}elseif(isset($set['smu_main_id']) and intval($set['smu_main_id'])!=0){
 			$sql_code = 'smu_main_id = "'.intval($set['smu_main_id']).'"';
+		}elseif(isset($set['url_signature']) and trim($set['url_signature'])!=''){
+			$sql_code = 'url_signature = "'.trim($set['url_signature']).'"';
+		}elseif(isset($set['term']) and trim($set['term'])!='' and strlen($set['term'])>=4){
+			$sql_code = '(name_th LIKE "'.trim($set['term']).'%")';
+			$con['limit'] = '0,10';
 		}
 
 		if($sql_code!=''){
-			$con = [];
+			
 			$con['where'] = $sql_code;
 			$count = $this->to_count($con);
 			
 			if($count>0){
 				//$con['limit']	= '0,1';
-				//$con['array_key'] = true; //auth use index 0
+				if(isset($set['array_key']) and $set['array_key'] ){
+					$con['array_key'] = true;
+				}
+
 				$res['data'] = $this->to_select($con);
 				$res['count'] = $count;
+				$res['process'] = true;
 			}
 		}
 		
@@ -342,14 +355,15 @@ class Personnel_model extends MY_Model {
 	function get_boss($set=[]){
 		$res = ['count'=>0,'data'=>[]];
 
-		$this->table = 'hr_personnel_boss';
-
 		if(isset($set['smu_main_id'])){
+
+			$this->table = 'hr_personnel_boss';
 			$con = [];
 			$con['where'] = 'smu_main_id = "'.intval($set['smu_main_id']).'"';
 			$con['array_key'] =	'personnel_id';
 			$res['data'] = $this->to_select($con);
 			$res['count'] = count($res['data']);
+
 		}
 
 		return $res;
@@ -370,6 +384,45 @@ class Personnel_model extends MY_Model {
 			$res = $this->to_insert_last_id($con);
 			return $res;
 		}
+	}
+
+	function url_qr_personnel($personnel_id=0,$num = 16){
+		$this->load->helper('string');
+		$token = random_string('alnum', $num);
+		$token = $this->url_qr.$token;
+
+		$con = array();
+		$con['where'] = 'url_signature = "'.$token.'"';
+		$used = $this->to_select($con);
+
+		if(empty($used)){
+
+			$con = array();
+			$con['data']['url_signature'] = $token;
+			$con['where'] = 'personnel_id = "'.$personnel_id.'"';
+			$this->to_update($con);
+
+			return $token;
+		}else{
+			return $this->url_qr();
+		}
+	}
+
+	function save_signature_personnel($set=[]){
+
+		if(count($set)==2 and isset($set['personnel_id']) and isset($set['signature']) and intval($set['personnel_id'])!=0 ){
+
+			$con = [];
+			$con['data']['signature'] = isset($set['signature'])?trim($set['signature']):'';
+			$con['where'] = 'personnel_id = "'.intval($set['personnel_id']).'"';
+			$this->to_update($con);
+			
+			return true;
+
+		}
+		
+		return false;
+
 	}
 	
 }

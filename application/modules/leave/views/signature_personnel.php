@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ลงลายเซ็น - med.nu.ac.th</title>
+    <title>เพิ่มลายเซ็น - med.nu.ac.th</title>
     
 
     <style>
@@ -122,22 +122,22 @@
         </div>
 
         <div class="box-button">
-            <?php if($signature_type==3){?>
+            <?php /*if($signature_type==3){?>
                 <input type="text" name="boss_comment" value="" form="form" placeholder="บันทึกความเห็นการลาที่นี่" ><br/><br/>
-            <?php } ?>
+            <?php }*/ ?>
 
             <a href="<?php echo base_url(url_index().'leave');?>"><button type="button" style="background-color: #cccccc;">< กลับไปที่ระบบลา</button></a>&nbsp;&nbsp;
 
             <button type="button" id="clear" style="background-color: #cccccc;">ลบลายเซ็น</button>&nbsp;&nbsp;
-            <button type="button" id="save-png" style="background-color: #FF9800;color: #222222;"><?php echo $signature_type==3?'อนุญาติและให้':'';?>บันทึกลายเซ็น</button>&nbsp;&nbsp;
+            <button type="button" id="save-png" style="background-color: #FF9800;color: #222222;">บันทึกลายเซ็น</button>&nbsp;&nbsp;
 
-            <?php if($signature_type==3){?>
+            <?php /*if($signature_type==3){?>
                 <button type="button" id="cancel" style="background-color: #e02525;color: #ffffff;">ไม่อนุญาติให้ลา</button>
-            <?php } ?>
+            <?php }*/ ?>
         </div>
 
         <div id="detail">
-            <table>
+            <!-- <table>
                 <tr>
                     <td colspan="2" style="background-color: #fff;font-weight: bold;padding: 5px;">รายละเอียดข้อมูลการลา</td>
                 </tr>
@@ -243,16 +243,14 @@
                       ?></td>
                 </tr>
 
-            </table>
+            </table> -->
         </div>
         
         
     </div>
 
-    <form id="form" action="<?php echo base_url(url_index().'leave/save_signature');?>" method="post">
+    <form id="form" action="<?php echo base_url(url_index().'leave/save_signature_personnel');?>" method="post">
         <input type="hidden" name="personnel_id" value="<?php echo $personnel_id;?>">
-        <input type="hidden" name="type" value="<?php echo $signature_type;?>">
-        <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
         <input type="hidden" id="signature_gen" name="signature" value="">
     </form>
 

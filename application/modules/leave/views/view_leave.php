@@ -419,10 +419,6 @@
                         <span style="top: calc(100% - 71.2%);left: calc(100% - 64%);">99*</span>
                         <span style="top: calc(100% - 71.2%);left: calc(100% - 51.7%);">99*</span>
 
-                        <span style="top: calc(100% - 71.2%);left: calc(100% - 71%);">99*</span>
-                        <span style="top: calc(100% - 71.2%);left: calc(100% - 64%);">99*</span>
-                        <span style="top: calc(100% - 71.2%);left: calc(100% - 51.7%);">99*</span>
-
                         <span style="top: 31.3%;left: 17.3%;">99*</span>
                         <span style="top: 31.3%;left: 24.3%;">99*</span>
                         <span style="top: 31.3%;left: 35.3%;">99*</span>
@@ -591,27 +587,28 @@
                         
                       <?php }elseif(isset($data['leave_type_id']) and intval($data['leave_type_id'])==9){$doc[0] = 'document/leave/9.jpg';?>
                         <span style="top: 7.9%;left: 79%;">20</span>
-                        <span style="top: 10.1%;left: 69%;">99*</span>
-                        <span style="top: 10.1%;left: 77%;">99*</span>
-                        <span style="top: 10.1%;left: 88%;">99*</span>
+                        <span style="top: 10.1%;left: 70%;">99*</span>
+                        <span style="top: 10.1%;left: 78%;">99*</span>
+                        <span style="top: 10.1%;left: 89%;">99*</span>
                         <span style="top: 14.2%;left: 22%;">99*</span>
 
                         <span style="top: 20.8%;left: 38%;">99*</span>
-                        <span style="top: 20.8%;left: 72%;">99*</span>
-                        <span style="top: 22.8%;left: 21%;">99*</span>
-                        <span style="top: 22.8%;left: 43%;">99*</span>
+                        <span style="top: 20.8%;left: 73%;">99*</span>
+                        <span style="top: 22.8%;left: 22%;">99*</span>
+                        <span style="top: 22.8%;left: 44%;">99*</span>
                         <span style="top: 25%;left: 31%;">99*</span>
-                        <span style="top: 27.2%;left: 18%;">99*</span>
-                        <span style="top: 27.2%;left: 62%;">99*</span>
-                        <span style="top: 27.2%;left: 70%;">99*</span>
-                        <span style="top: 27.2%;left: 83%;">99*</span>
+                        <span style="top: 27.2%;left: 19%;">99*</span>
+                        <span style="top: 27.2%;left: 63%;">99*</span>
+                        <span style="top: 27.2%;left: 71%;">99*</span>
+                        <span style="top: 27.2%;left: 85%;">99*</span>
+                        <span style="top: 29.4%;left: 25.6%;">99*</span>
                         <span style="top: 29.4%;left: 25.6%;">99*</span>
                         <span style="top: 31.4%;left: 16.6%;">99*</span>
-                        <span style="top: 31.4%;left: 64.6%;">99*</span>
-                        <span style="top: 33.6%;left: 21.6%;">99*</span>
-                        <span style="top: 33.6%;left: 30.2%;">99*</span>
-                        <span style="top: 33.6%;left: 43%;">99*</span>
-                        <span style="top: 33.6%;left: 57%;">99*</span>
+                        <span style="top: 31.4%;left: 65.6%;">99*</span>
+                        <span style="top: 33.6%;left: 22.6%;">99*</span>
+                        <span style="top: 33.6%;left: 31.2%;">99*</span>
+                        <span style="top: 33.6%;left: 44%;">99*</span>
+                        <span style="top: 33.6%;left: 58%;">99*</span>
 
                         <span style="top: 44.4%;left: 58%;">99*</span>
                         <span style="top: 46.4%;left: 58%;">99*</span>
@@ -622,6 +619,107 @@
                     </div>
                     <?php if(isset($doc[1])){ ?>
                       <div class="col-lg-12 document" >
+
+                        <?php if(isset($data['leave_type_id']) and intval($data['leave_type_id'])==4){ ?>
+                          <span style="top: 13%;left: 16%;"><?php echo isset($data['write_at'])?$data['write_at']:'-';?></span>
+                          <span style="top: 13%;left: 54%">20</span>
+                          <span style="top: 13%;left: 57%;">เมษายน</span>
+                          <span style="top: 13%;left: 66%;">พ.ศ. 2563</span>
+
+                          <span style="top: 22.6%;left: 35%;">99*</span>
+                          <span style="top: 22.6%;left: 70%;">99*</span>
+                          <span style="top: 31.2%;left: 31%;">99*</span>
+                          <span style="top: 31.2%;left: 40%;">99*</span>
+                          <span style="top: 31.2%;left: 52%;">99*</span>
+                          <span style="top: 31.2%;left: 67%;">99*</span>
+                          <span style="top: 31.2%;left: 76%;">99*</span>
+                          <span style="top: 33.4%;left: 18%;">99*</span>
+                          <span style="top: 33.4%;left: 39%;">99*</span>
+                          <span style="top: 33.4%;left: 46%;">99*</span>
+                          <span style="top: 37%;left: 55%;">99*</span>
+                          <span style="top: 37%;left: 63%;">99*</span>
+                          <span style="top: 37%;left: 78%;">99*</span>
+                          <span style="top: 39%;left: 18%;">99*</span>
+                          <span style="top: 39%;left: 28%;">99*</span>
+                          <span style="top: 39%;left: 42%;">99*</span>
+                          <span style="top: 39%;left: 62%;">99*</span>
+                          <span style="top: 39%;left: 70%;">99*</span>
+                          <span style="top: 51%;left: 52%;">99*</span>
+                          <span style="top: 53%;left: 58%;">99*</span>
+
+                        <?php }else if(isset($data['leave_type_id']) and intval($data['leave_type_id'])==6){ ?>
+                          <span style="top: 13%;left: 16%;"><?php echo isset($data['write_at'])?$data['write_at']:'-';?></span>
+                          <span style="top: 13%;left: 55%">20</span>
+                          <span style="top: 13%;left: 58%;">เมษายน</span>
+                          <span style="top: 13%;left: 67%;">พ.ศ. 2563</span>
+
+                          <span style="top: 22.6%;left: 35%;">99*</span>
+                          <span style="top: 22.6%;left: 70%;">99*</span>
+                          <span style="top: 31.2%;left: 31%;">99*</span>
+                          <span style="top: 31.2%;left: 40%;">99*</span>
+                          <span style="top: 31.2%;left: 52%;">99*</span>
+                          <span style="top: 31.2%;left: 67%;">99*</span>
+                          <span style="top: 31.2%;left: 76%;">99*</span>
+                          <span style="top: 33.4%;left: 18%;">99*</span>
+                          <span style="top: 33.4%;left: 39%;">99*</span>
+                          <span style="top: 33.4%;left: 46%;">99*</span>
+                          <span style="top: 38.5%;left: 22%;">99*</span>
+                          <span style="top: 38.5%;left: 29%;">99*</span>
+                          <span style="top: 38.5%;left: 43%;">99*</span>
+                          <span style="top: 38.5%;left: 56%;">99*</span>
+                          <span style="top: 38.5%;left: 66%;">99*</span>
+                          <span style="top: 38.5%;left: 80%;">99*</span>
+                          <span style="top: 50.3%;left: 52%;">99*</span>
+                          <span style="top: 52.5%;left: 58%;">99*</span>
+
+                        <?php }else if(isset($data['leave_type_id']) and intval($data['leave_type_id'])==7){ ?>
+                          <span style="top: 11%;left: 67%;"><?php echo isset($data['write_at'])?$data['write_at']:'-';?></span>
+                          <span style="top: 15%;left: 65%;">99*</span>
+                          <span style="top: 15%;left: 80%;">99*</span>
+                          <span style="top: 18.2%;left: 20%;">99*</span>
+                          <span style="top: 28.2%;left: 26%;">99*</span>
+                          <span style="top: 28.2%;left: 55%;">99*</span>
+                          <span style="top: 28.2%;left: 65%;">99*</span>
+                          <span style="top: 28.2%;left: 80%;">99*</span>
+                          <span style="top: 31.8%;left: 17%;">99*</span>
+                          <span style="top: 31.8%;left: 42%;">99*</span>
+                          <span style="top: 31.8%;left: 53%;">99*</span>
+                          <span style="top: 31.8%;left: 70%;">99*</span>
+                          <span style="top: 35%;left: 37%;">99*</span>
+                          <span style="top: 35%;left: 71%;">99*</span>
+                          <span style="top: 38.5%;left: 19%;">99*</span>
+                          <span style="top: 38.5%;left: 54%;">99*</span>
+
+                          <span style="top: 42%;left: 17%;">99*</span>
+                          <span style="top: 42%;left: 58%;">99*</span>
+                          <span style="top: 45.2%;left: 14%;">99*</span>
+                          <span style="top: 45.2%;left: 52%;">99*</span>
+                          <span style="top: 45.2%;left: 79%;">99*</span>
+                          <span style="top: 48.8%;left: 14%;">99*</span>
+                          <span style="top: 48.8%;left: 30%;">99*</span>
+                          <span style="top: 48.8%;left: 48%;">99*</span>
+                          <span style="top: 48.8%;left: 59%;">99*</span>
+                          <span style="top: 48.8%;left: 76%;">99*</span>
+                          <span style="top: 52%;left: 20%;">99*</span>
+                          <span style="top: 52%;left: 41%;">99*</span>
+                          <span style="top: 55.5%;left: 39%;">99*</span>
+                          <span style="top: 59%;left: 23%;">99*</span>
+                          <span style="top: 59%;left: 50%;">99*</span>
+                          <span style="top: 59%;left: 62%;">99*</span>
+                          <span style="top: 59%;left: 76%;">99*</span>
+                          <span style="top: 62.2%;left: 29%;">99*</span>
+                          <span style="top: 62.2%;left: 42%;">99*</span>
+                          <span style="top: 62.2%;left: 58%;">99*</span>
+                          <span style="top: 62.2%;left: 78%;">99*</span>
+                          <span style="top: 65.6%;left: 18%;">99*</span>
+                          <span style="top: 65.6%;left: 35%;">99*</span>
+
+                          <span style="top: 82.4%;left: 61%;">99*</span>
+                          <span style="top: 85.8%;left: 56%;">99*</span>
+
+
+                        <?php } ?>
+
                         <img src="<?php echo base_url(load_file($doc[1]));?>" style="width:100%;">
                       </div>
                     <?php } ?>
@@ -839,10 +937,10 @@
         $('#print').click(function(){
             var divContents = document.getElementById("document").innerHTML; 
             var a = window.open(); 
-            a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#555555;}.document span{position:absolute;font-size:2vw;line-height: 60px;}@media print{.document span{position:absolute;font-size:16px;line-height: 30px;}}</style>"); 
+            a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#000000;}.document span{position:absolute;font-size:2vw;line-height: 60px;}@media print{.document span{position:absolute;font-size:16px;line-height: 30px;}.document:nth-child(2) span{margin-left:10px;position:absolute;font-size:16px;line-height: 35px;}}</style>"); 
             a.document.write(divContents); 
             a.print(); 
-            //a.close();
+            a.close();
         });
         
       });

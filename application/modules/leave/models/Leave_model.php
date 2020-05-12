@@ -2,23 +2,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Leave_model extends MY_Model {
 
-	protected $url_qr;
+	protected $url_approve;
 
 	function __construct(){
     	parent::__construct();
       	$this->load->database();
 		$this->table = 'hr_leave';
-		$this->url_qr = base_url(url_index().'auth?dest=leave/signature/');
+		$this->url_approve = base_url(url_index().'auth?dest=leave/approve/');
 	}
 
-	function url_qr($num = 16){
+	function url_approve($num = 16){
 		$this->load->helper('string');
 		$token = random_string('alnum', $num);
-		$token = $this->url_qr.$token;
+		$token = $this->url_approve.$token;
 		$con = array();
-		$con['where'] = 'url_personnel = "'.$token.'" or url_workmate = "'.$token.'" or url_boss = "'.$token.'"';
+		$con['where'] = 'url_workmate = "'.$token.'" or url_head_unit = "'.$token.'" or url_head_dept = "'.$token.'" or url_supervisor = "'.$token.'" or url_deputy_dean = "'.$token.'" or url_hr = "'.$token.'"';
 		$used = $this->to_select($con);
-		return empty($used)?$token:$this->url_qr();
+		return empty($used)?$token:$this->url_approve();
 	}
 
 	function save_leave($set=[]){
@@ -32,6 +32,25 @@ class Leave_model extends MY_Model {
 			return 0;
 		}
 
+		if(!isset($set['personnel_id']) || (isset($set['personnel_id']) and $set['personnel_id']==0)){
+			unset($set['url_personnel']);
+		}
+		if(!isset($set['worker_personnel_id']) || (isset($set['worker_personnel_id']) and $set['worker_personnel_id']==0)){
+			unset($set['url_workmate']);
+		}
+		if(!isset($set['head_unit_personnel_id']) || (isset($set['head_unit_personnel_id']) and $set['head_unit_personnel_id']==0)){
+			unset($set['url_head_unit']);
+		}
+		if(!isset($set['head_dept_personnel_id']) || (isset($set['head_dept_personnel_id']) and $set['head_dept_personnel_id']==0)){
+			unset($set['url_head_dept']);
+		}
+		if(!isset($set['supervisor_personnel_id']) || (isset($set['supervisor_personnel_id']) and $set['supervisor_personnel_id']==0)){
+			unset($set['url_supervisor']);
+		}
+		if(!isset($set['deputy_dean_personnel_id']) || (isset($set['deputy_dean_personnel_id']) and $set['deputy_dean_personnel_id']==0)){
+			unset($set['url_deputy_dean']);
+		}
+
 		$con['data'] = $set;
 		$con['data']['create_date'] = date('Y-m-d H:i:s');
 		$con['data']['status'] 		= 0;
@@ -39,7 +58,6 @@ class Leave_model extends MY_Model {
 		$result = $this->to_insert_last_id($con);
 
 		return $result;
-		
 	}
 
 	function leave_no(){
@@ -97,7 +115,7 @@ class Leave_model extends MY_Model {
 			}
 		}elseif(isset($set['signature']) and trim($set['signature'])!=''){
 			$con = [];
-			$con['where'] = 'url_personnel = "'.trim($set['signature']).'" or url_workmate = "'.trim($set['signature']).'" or url_boss = "'.trim($set['signature']).'"';
+			$con['where'] = 'url_workmate = "'.trim($set['signature']).'" or url_head_unit = "'.trim($set['signature']).'"';
 			$result = $this->to_select($con);
 
 			if(count($result)==1){
@@ -108,24 +126,37 @@ class Leave_model extends MY_Model {
 		return $res;
 	}
 
-	function save_signature($set=[]){
+	function save_approve($set=[]){
 
-		if(count($set)==4 and isset($set['personnel_id']) and isset($set['type']) and isset($set['leave_id']) and isset($set['signature']) and intval($set['personnel_id'])!=0 and intval($set['leave_id'])!=0 and intval($set['type'])!=0){
+		
+
+		if(count($set)==4 and isset($set['personnel_id']) and isset($set['type']) and isset($set['leave_id'])and isset($set['approve']) and intval($set['personnel_id'])!=0 and intval($set['leave_id'])!=0 and intval($set['type'])!=0 and (intval($set['approve']) == 1 or intval($set['approve'])==2)){
 
 			$con = [];
+			$colum = '';
 			if(intval($set['type'])==1){
-				$con['data']['signature_personnel'] = isset($set['signature'])?trim($set['signature']):'';
-				$con['data']['signature_personnel_date'] = date('Y-m-d H:i:s');
-			}elseif(intval($set['type'])==2){
-				$con['data']['signature_workmate'] = isset($set['signature'])?trim($set['signature']):'';
 				$con['data']['signature_workmate_date'] = date('Y-m-d H:i:s');
+				$colum = 'workmate_personnel_id  = ';
+			}elseif(intval($set['type'])==2){
+				$con['data']['signature_head_unit_date'] = date('Y-m-d H:i:s');
+				$colum = 'head_unit_personnel_id  = ';
 			}elseif(intval($set['type'])==3){
-				$con['data']['signature_boss'] = isset($set['signature'])?trim($set['signature']):'';
-				$con['data']['signature_boss_date'] = date('Y-m-d H:i:s');
+				$con['data']['signature_head_dept_date'] = date('Y-m-d H:i:s');
+				$colum = 'head_dept_personnel_id  = ';
+			}elseif(intval($set['type'])==4){
+				$con['data']['signature_supervisor_date'] = date('Y-m-d H:i:s');
+				$colum = 'supervisor_personnel_id  = ';
+			}elseif(intval($set['type'])==5){
+				$con['data']['signature_deputy_dean_date'] = date('Y-m-d H:i:s');
+				$colum = 'deputy_dean_personnel_id  = ';
 			}else{
 				return false;
 			}
-			$con['where'] = 'leave_id = "'.intval($set['leave_id']).'"';
+
+			$colum = $colum!=''?' and '.$colum.intval($set['personnel_id']):'';
+
+			$con['where'] = 'leave_id = "'.intval($set['leave_id']).'"'.$colum;
+
 			$this->to_update($con);
 			
 			return true;

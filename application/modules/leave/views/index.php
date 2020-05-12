@@ -175,6 +175,30 @@
                           <div class="col-lg-2 text-md font-weight-bold">ประเภทงานพนักงาน</div>
                           <div class="col-lg-10"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
                         </div>
+                        <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">อีเมล</div>
+                          <div class="col-lg-10"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">ลายเซ็น</div>
+                          <div class="col-lg-10">
+                            <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
+                              <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#signature">
+                                <span class="icon text-white-50">
+                                  <i class="fas fa-signature"></i>
+                                </span>
+                                <span class="text">ลายเซ็นในระบบของท่าน</span>
+                              </a>
+                            <?php }else{ ?>
+                              <a href="#" id="add-sig" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#signature">
+                                <span class="icon text-white-50">
+                                  <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">เพิ่มลายเซ็นของท่าน</span>
+                              </a>
+                            <?php } ?>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     
@@ -273,8 +297,106 @@
   <?php echo $this->load->view('inc/scroll_to'); ?>
   
   <?php echo $this->load->view('inc/logout'); ?>
-  
+
   <?php echo $this->load->view('inc/js'); ?>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ลายเซ็นในระบบของท่าน</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
+            <div class="row">
+               <div class="col-lg-12 mb-4">
+               <center><img src="<?php echo $personnel['signature'];?>" alt="" style="max-width:340px;"></center><br/><center><span class="text-lg ">*หากท่านต้องการแก้ไขลายเซ็น กรุณาติดต่อ</span></center>
+              </div>
+            </div>
+          <?php }else{ ?>
+
+            <style>
+              #qrcode1 img{
+                margin: auto;
+              }
+            </style>
+
+            <div class="row">
+               <div class="col-lg-6 mb-4">
+                <div id="qrcode1"></div>
+               </div>
+               <div class="col-lg-6"><br/><br/>
+                <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
+                  <center>------ หรือ ------</center><br/><br/>
+                  <center>
+                    <a href="<?php echo $personnel['signature_url'];?>" target="_blank" class="btn btn-primary btn-icon-split">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-link"></i>
+                      </span>
+                      <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็น</span>
+                    </a>
+                  </center>
+               </div>
+            </div>
+
+            <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
+            <script>
+
+              var qrcode1 = new QRCode("qrcode1", {
+                text: "<?php echo $personnel['signature_url'];?>",
+                width: 300,
+                height: 300,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+              });
+
+              $(document).ready(function(){
+
+                if(getCookie('modal_sig')==''){
+                  setCookie('modal_sig', true, 20);
+                  $('#add-sig').click();
+                }
+
+                $('#signature .close').click(function(){
+                  location.reload();
+                });
+
+                function setCookie(cname, cvalue, min) {
+                  var d = new Date();
+                  d.setTime(d.getTime() + (min*60*1000));
+                  var expires = "expires="+ d.toUTCString();
+                  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                }
+
+                function getCookie(cname) {
+                  var name = cname + "=";
+                  var decodedCookie = decodeURIComponent(document.cookie);
+                  var ca = decodedCookie.split(';');
+                  for(var i = 0; i <ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                      c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                      return c.substring(name.length, c.length);
+                    }
+                  }
+                  return "";
+                }
+
+              });
+
+            </script>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     $(document).ready(function(){

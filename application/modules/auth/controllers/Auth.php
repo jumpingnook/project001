@@ -30,8 +30,13 @@ class Auth extends Auth_Controller {
         }
     }
 
-    function login(){
+    function login($re_login = []){
         $post = $this->input->post();
+
+        if(count($re_login)>0){
+            $post = $re_login;
+            unset($re_login);
+        }
 
         if(!isset($post['username']) or !isset($post['password']) or !isset($post['token'])){
             redirect(url_index().'auth/?status=error');//not submit
@@ -40,7 +45,7 @@ class Auth extends Auth_Controller {
             redirect(url_index().'auth/?status=validate');//validate input
         }
 
-        if(trim($post['token']) != $this->session->flashdata('token_login')){
+        if(count($re_login)==0 and trim($post['token']) != $this->session->flashdata('token_login')){
             redirect(url_index().'auth/?status=valid_token');//validate token_login
         }
 
@@ -58,6 +63,11 @@ class Auth extends Auth_Controller {
         $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$set);
 
         $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data'][0]['personnel_id']:0;
+
+        if(count($re_login)==0 and isset($result['process']) and !$result['process']){
+            $this->login($post);
+            exit;
+        }
 
         #check new tb personnel
         if(isset($result['status']) and $result['status'] and !intval($result['count'])){
