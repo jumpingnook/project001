@@ -327,37 +327,44 @@ class Leave extends Leave_Controller {
 
     function approve($signature=''){ //dest to this
 
-        $this->load->model('sql_personnel/Sql_personnel_model');
-        $this->load->model('personnel/Personnel_model');
-        $this->load->model('leave/Leave_type_model');
-
         if(trim($signature)!=''){
-            $set = [];
-
+            $this->load->model('sql_personnel/Sql_personnel_model');
+            $this->load->model('personnel/Personnel_model');
+            $this->load->model('leave/Leave_type_model');
             $this->load->model(['leave/Leave_model']);
+
+            $set = [];
 
             $url_signature = $this->url_approve.$signature;
             $result = $this->Leave_model->view_leave(['signature'=>$url_signature]);
 
             $set['signature_type'] = 0;
             $set['personnel_id'] = 0;
-            
+            $set['approve_status'] = false;
+
             if($result['data']['url_workmate'] == $url_signature){
                 $set['signature_type'] = 1;
                 $set['personnel_id'] = $result['data']['worker_personnel_id'];
+                $set['approve_status'] = $result['data']['signature_worker_date']!=''?false:true;
             }elseif($result['data']['url_head_unit'] == $url_signature){
                 $set['signature_type'] = 2;
                 $set['personnel_id'] = $result['data']['head_unit_personnel_id'];
+                $set['approve_status'] = $result['data']['signature_head_unit_date']!=''?false:true;
             }elseif($result['data']['url_head_dept'] == $url_signature){
                 $set['signature_type'] = 3;
                 $set['personnel_id'] = $result['data']['head_dept_personnel_id'];
+                $set['approve_status'] = $result['data']['signature_head_dept_date']!=''?false:true;
             }elseif($result['data']['url_supervisor'] == $url_signature){
                 $set['signature_type'] = 4;
-                $set['personnel_id'] = $result['data']['head_supervisor_personnel_id'];
+                $set['personnel_id'] = $result['data']['supervisor_personnel_id'];
+                $set['approve_status'] = $result['data']['signature_supervisor_date']!=''?false:true;
             }elseif($result['data']['url_deputy_dean'] == $url_signature){
                 $set['signature_type'] = 5;
-                $set['personnel_id'] = $result['data']['head_deputy_dean_personnel_id'];
+                $set['personnel_id'] = $result['data']['deputy_dean_personnel_id'];
+                $set['approve_status'] = $result['data']['signature_deputy_dean_date']!=''?false:true;
             }
+
+            $set['signature_url'] = $this->Personnel_model->url_qr_personnel($set['personnel_id']);
 
             $leave_id = $set['leave_id'] = $result['data']['leave_id'];
 
@@ -392,6 +399,10 @@ class Leave extends Leave_Controller {
             $con[] = $set['data']['deputy_dean_personnel_id'];
             $set['personnel_list'] = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
 
+            
+
+            //echo '<pre>';print_r($set);exit;
+
             $this->load->view('approve',$set);
 
         }else{
@@ -410,7 +421,9 @@ class Leave extends Leave_Controller {
 
         }
 
-        redirect(base_url(url_index().'leave'));
+        #email
+
+        redirect(base_url(url_index().'leave?approve=ds1df4d51s8af4dsa1'));
     }
 
 }

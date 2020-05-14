@@ -65,8 +65,7 @@ class Auth extends Auth_Controller {
         $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data'][0]['personnel_id']:0;
 
         if(count($re_login)==0 and isset($result['process']) and !$result['process']){
-            $this->login($post);
-            exit;
+            return $this->login($post);
         }
 
         #check new tb personnel

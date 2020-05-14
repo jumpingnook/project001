@@ -1,192 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ลงลายเซ็น - med.nu.ac.th</title>
-    
 
-    <style>
-        body{
-            padding:0px;
-            margin:0px;
-            background-color: #863920;
-        }
-        .signature{
-            position: relative;
-            width: 568px;
-            height: 100vh;
-            overflow-x: scroll;
-            margin: auto;
-        }
-        
-        input[type=text]{
-            border: 1px solid #555555;
-            border-radius: 5px;
-            height: 30px;
-            width: 556px;
-            font-size: 0.8em;
-            padding-left:4px;
-        }
-        table{
-            width: calc(100% - 20px);
-            margin: auto;
-            
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border-collapse: collapse;
-        }
-        table,tr,td{
-            border: 1px solid #555;
-        }
-        table td{
-            padding:2px;
-            background-color: #ffffff;
-        }
-        table tr td:first-child{
-            background-color: #ccc;
-        }
-    </style>
-    
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
+  <title>รายละเอียดการลา - LeaveSystem - med.nu.ac.th</title>
+
+  <?php echo $this->load->view('inc/css'); ?>
 
 </head>
-<body>
 
-    <div class="signature">
+<body id="page-top">
 
-        <div id="detail">
-            <table>
-                <tr>
-                    <td colspan="2" style="background-color: #fff;font-weight: bold;padding: 5px;">รายละเอียดข้อมูลการลา</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="font-weight: bold;">ข้อมูลผู้ลา</td>
-                </tr>
-                <tr>
-                    <td>รหัสพนักงาน</td>
-                    <td><?php echo isset($personnel['personnel_code'])?$personnel['personnel_code']:'-';?></td>
-                </tr>
-                <tr>
-                    <td width="150px">ชื่อ - นามสกุล</td>
-                    <td><?php 
-                        echo isset($personnel['title'])?$personnel['title']:'-'; 
-                        echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
-                        echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
-                      ?></td>
-                </tr>
-                <tr>
-                    <td>ตำแหน่ง</td>
-                    <td><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></td>
-                </tr>
-                <tr>
-                    <td>ประเภทงานพนักงาน</td>
-                    <td><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></td>
-                </tr>
-                <tr>
-                    <td>เบอร์โทรศัพท์</td>
-                    <td><?php echo isset($personnel['data']['phone'])?$personnel['data']['phone']:'-';?></td>
-                </tr>
-                <tr>
-                    <td>เบอร์โทรศัพท์ภายใน</td>
-                    <td><?php echo isset($personnel['data']['internal_tel'])?$personnel['data']['internal_tel']:'-';?></td>
-                </tr>
-                <tr>
-                    <td>อีเมล</td>
-                    <td><?php echo isset($personnel['data']['email'])?$personnel['data']['email']:'-';?></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="font-weight: bold;">ข้อมูลการลา</td>
-                </tr>
-                <tr>
-                    <td>ประเภทการลา</td>
-                    <td><?php echo isset($data['leave_type_id']) && isset($leave_type[$data['leave_type_id']])?$leave_type[$data['leave_type_id']]['leave_name']:' - ';?></td>
-                </tr>
-                <tr>
-                    <td>เลขที่</td>
-                    <td><?php echo isset($data['leave_no'])?$data['leave_no']:'0';?></td>
-                </tr>
-                <?php if(isset($data['title']) and trim($data['title'])!=''){ ?>
-                <tr>
-                    <td>เรื่อง</td>
-                    <td><?php echo isset($data['title'])?htmlspecialchars_decode($data['title']):'-';?></td>
-                </tr>
-                <?php } ?>
-                <?php if(isset($data['detail']) and trim($data['detail'])!=''){ ?>
-                <tr>
-                    <td>รายละเอียด</td>
-                    <td><?php echo isset($data['detail'])?htmlspecialchars_decode($data['detail']):'-';?></td>
-                </tr>
-                <?php } ?>
-                <?php if(isset($data['contact']) and trim($data['contact'])!=''){ ?>
-                <tr>
-                    <td>ข้อมูลการติดต่อ</td>
-                    <td><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></td>
-                </tr>
-                <?php } ?>
-                <tr>
-                    <td>ลาช่วงวันที่</td>
-                    <td><?php echo date('Y/m/d',strtotime($data['period_start'])).($data['period_end']!=''?' - '.date('Y/m/d',strtotime($data['period_end'])):'');?></td>
-                </tr>
-                <tr>
-                    <td>จำนวนวันลารวม</td>
-                    <td><?php echo isset($data['period_count'])?floatval($data['period_count']).(($data['period_type']!='a'?$data['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)')):'-';?></td>
-                </tr>
-                <tr>
-                    <td>ลงข้อมูลลาวันที่</td>
-                    <td><?php echo date('Y/m/d',strtotime($data['create_date']));?></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="font-weight: bold;">ข้อมูลผู้อนุมัติ</td>
-                </tr>
-                <?php if(isset($workmate) && is_array($workmate) && count($workmate)>0){ ?>
-                <tr>
-                    <td>ผู้ทำงานแทน</td>
-                    <td><?php echo isset($workmate) && is_array($workmate)?$workmate['title'].$workmate['name_th'].' '.$workmate['surname_th']:' - ';?></td>
-                </tr>
-                <?php } ?>
-                <tr>
-                    <td>ผู้บังคับบัญชา</td>
-                    <td><?php echo isset($boss) && is_array($boss)?$boss['title'].$boss['name_th'].' '.$boss['surname_th']:' - ';?></td>
-                </tr>
-                <tr>
-                    <td>ผู้บริหารระดับสูง</td>
-                    <td><?php 
-                        if(isset($data['to']) and $data['to']==1){
-                          echo 'คณะบดีคณะแพทยศาสตร์';
-                        }elseif(isset($data['to']) and $data['to']==2){
-                          echo 'อธิกาารบดี';
-                        }else{
-                          echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+
+    <?php echo $this->load->view('inc/header_menu'); ?>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+      <?php echo $this->load->view('inc/top_bar'); ?>
+        
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center mb-4">
+            <h1 class="h3 mb-0 text-gray-800">พิจารณาข้อมูลเลขที่ <?php echo isset($data['leave_no'])?$data['leave_no']:'0';?></h1>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-9">
+              
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">รายละเอียดการลา</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="row mb-2">
+                        <div class="col-lg-12 font-weight-bold">
+                          <img src="<?php echo isset($personnel['img'])&&trim($personnel['img'])!=''?$personnel['img']:'';?>" style="max-width: 200px;width: 100%;display: block;min-height: 235px;background-color: #ccc;"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-9">
+                      <div class="text-s font-weight-bold text-primary text-uppercase mb-1">ข้อมูลผู้ลา</div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          รหัสพนักงาน
+                        </div>
+                        <div class="col-lg-9">
+                          <?php echo isset($personnel['personnel_code'])?$personnel['personnel_code']:'-';?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          ชื่อ - นามสกุล
+                        </div>
+                        <div class="col-lg-9">
+                          <?php 
+                            echo isset($personnel['title'])?$personnel['title']:'-'; 
+                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                          ?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          ตำแหน่ง
+                        </div>
+                        <div class="col-lg-9">
+                          <?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          ประเภทงานพนักงาน
+                        </div>
+                        <div class="col-lg-9">
+                          <?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          เบอร์โทรศัพท์
+                        </div>
+                        <div class="col-lg-9">
+                          <?php echo isset($personnel['data']['phone'])?$personnel['data']['phone']:'-';?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          เบอร์โทรศัพท์ภายใน
+                        </div>
+                        <div class="col-lg-9">
+                          <?php echo isset($personnel['data']['internal_tel'])?$personnel['data']['internal_tel']:'-';?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          อีเมล
+                        </div>
+                        <div class="col-lg-9">
+                          <?php echo isset($personnel['data']['email'])?$personnel['data']['email']:'-';?>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr/>
+                  <?php $this->load->view('document'); ?>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-lg-3">
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <!-- Basic Card Example -->
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">การจัดการ</h6>
+                    </div>
+                    <div class="card-body">
+
+                      <?php 
+                        if($signature_type>=2 and $signature_type!=5){
+                          $btn[] = 'เห็นควรอนุญาติ';
+                          $btn[] = 'เห็นควรไม่อนุญาติ';
+                          $title = 'การพิจารณาอนุมัติการลา';
+                        }elseif($signature_type==1){
+                          $btn[] = 'ยอมรับการปฏิบัติงานแทน';
+                          $btn[] = 'ไม่ยอมรับการปฏิบัติงานแทน';
+                          $title = 'ผู้ปฏิบัติงานแทน';
+                        }elseif($signature_type==5){
+                          $btn[] = 'อนุญาต';
+                          $btn[] = 'ไม่อนุญาต';
+                          $title = 'การคำสั่งอนุมัติการลา';
                         }
-                      ?></td>
-                </tr>
+                      ?>
 
-            </table>
-        </div>
+                      <div class="row">
+                        <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การพิจารณา<?php echo $title;?></div>
+                      </div>
 
-        <div class="box-button">
-            <a href="<?php echo base_url(url_index().'leave');?>"><button type="button" style="background-color: #cccccc;">< กลับไปที่ระบบลา</button></a>&nbsp;&nbsp;
-            <?php if($signature_type>=2 and $signature_type!=5){?>
-                <button type="submit" name="approve" form="form" value="1">เห็นควรอนุญาติ</button>
-                <button type="submit" name="approve" form="form" value="2">เห็นควรไม่อนุญาติ</button>
-            <?php } ?>
+                      <?php if($approve_status){ ?>
+
+                      <div class="row mb-1">
+                        <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
+                          <span class="icon text-white-50">
+                            <i class="fas fa-check"></i>
+                          </span>
+                          <span class="text"><?php echo $btn[0];?></span>
+                        </button>
+                      </div>
+
+                      <div class="row mb-1">
+                        <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split">
+                          <span class="icon text-white-600">
+                            <i class="fas fa-times"></i>
+                          </span>
+                          <span class="text"><?php echo $btn[1];?></span>
+                        </button>
+                      </div>
+
+                      <?php } ?>
+
+                      <form id="form" action="<?php echo base_url(url_index().'leave/save_approve');?>" method="post">
+                          <input type="hidden" name="personnel_id" value="<?php echo $personnel_id;?>">
+                          <input type="hidden" name="type" value="<?php echo $signature_type;?>">
+                          <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <?php echo $this->load->view('inc/footer'); ?>
+      <!-- End of Footer -->
 
     </div>
+    <!-- End of Content Wrapper -->
 
-    <form id="form" action="<?php echo base_url(url_index().'leave/save_approve');?>" method="post">
-        <input type="hidden" name="personnel_id" value="<?php echo $personnel_id;?>">
-        <input type="hidden" name="type" value="<?php echo $signature_type;?>">
-        <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
-    </form>
+  </div>
+  <!-- End of Page Wrapper -->
 
-    <script src="<?php echo base_url(load_file('assets/vendor/jquery/jquery.min.js'));?>"></script>
-    <script src="<?php echo base_url(load_file('assets/js/helper-js.js'));?>"></script>
-    <script>
-        $(document).ready(function(){
+  <?php echo $this->load->view('inc/scroll_to'); ?>
+  
+  <?php echo $this->load->view('inc/logout'); ?>
+  
+  <?php echo $this->load->view('inc/js'); ?>
 
+  <!-- Logout Modal-->
+  <?php if(isset($personnel_list['data'][$personnel_id]['signature']) and trim($personnel_list['data'][$personnel_id]['signature'])==''){ ?>
+    <a href="#" id="add-sig" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#signature" style="display:none;"></a>
+  
+  
+  <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ลายเซ็นในระบบของท่าน</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <style>
+              #qrcode1 img{
+                margin: auto;
+              }
+            </style>
+
+            <div class="row">
+               <div class="col-lg-6 mb-4">
+                <div id="qrcode1"></div>
+               </div>
+               <div class="col-lg-6"><br/><br/>
+                <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
+                  <center>------ หรือ ------</center><br/><br/>
+                  <center>
+                    <a href="<?php echo $signature_url;?>" target="_blank" class="btn btn-primary btn-icon-split">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-link"></i>
+                      </span>
+                      <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็น</span>
+                    </a>
+                  </center>
+               </div>
+            </div>
+
+            <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
+            <script>
+
+              var qrcode1 = new QRCode("qrcode1", {
+                text: "<?php echo $signature_url;?>",
+                width: 300,
+                height: 300,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+              });
+
+              $(document).ready(function(){
+                $('#add-sig').click();
+
+                $('#signature .close').click(function(){
+                  location.reload();
+                });
+
+              });
+
+            </script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <?php } ?>
+
+  <script>
+
+      $(document).ready(function(){
+        $('#form').submit(function(){
+          var con = confirm('ท่านต้องบันทึกผลการพิจารณานี้ใช่หรือไม่');
+          if(con){
+            return true;
+          }
+          return false;
         });
-    </script>
+        
+      });
+
+  </script>
+
 </body>
+
 </html>

@@ -1057,7 +1057,7 @@
               $('.input_hide').attr('form','form_sleep');
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
-              $('#workmate-box select').removeAttr('disabled');
+              $('#workmate-box input').removeAttr('disabled');
               $('#workmate-box').show();
               $('.leave_title').val(type[1]);
             }else if(type[0]>=2 && type[0]<=3){
@@ -1066,7 +1066,7 @@
               $('.input_hide').attr('form','form_leave');
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
-              $('#workmate-box select').removeAttr('disabled');
+              $('#workmate-box input').removeAttr('disabled');
               $('#workmate-box').show();
               $('.leave_title').val(type[1]);
             }else if(type[0]==4){
@@ -1075,7 +1075,7 @@
               $('.input_hide').attr('form','form_brith');
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
-              $('#workmate-box select').removeAttr('disabled');
+              $('#workmate-box input').removeAttr('disabled');
               $('#workmate-box').show();
               $('.leave_title').val(type[1]);
             }else if(leave_type==5){
@@ -1084,7 +1084,7 @@
               $('.input_hide').attr('form','form_help_childcare');
               $('.date-cal span').hide();
               $('.date-cal button').show();
-              $('#workmate-box select').attr('disabled','disabled');
+              $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }else if(leave_type==6){
               $('.form.leave_childcare').show();
@@ -1092,7 +1092,7 @@
               $('.input_hide').attr('form','form_leave_childcare');
               $('.date-cal span').hide();
               $('.date-cal button').show();
-              $('#workmate-box select').attr('disabled','disabled');
+              $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
               $('.leave_title').val(type[1]);
             }else if(leave_type==7){
@@ -1101,7 +1101,7 @@
               $('.input_hide').attr('form','form_oversea');
               $('.date-cal button').hide();
               $('.date-cal span').text('1 วัน').show();
-              $('#workmate-box select').removeAttr('disabled');
+              $('#workmate-box input').removeAttr('disabled');
               $('#workmate-box').show();
             }else if(leave_type==8){
               $('.form.ordination').show();
@@ -1109,7 +1109,7 @@
               $('.input_hide').attr('form','form_ordination');
               $('.date-cal span').hide();
               $('.date-cal button').show();
-              $('#workmate-box select').attr('disabled','disabled');
+              $('#workmate input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }else if(leave_type==9){
               $('.form.soldier').show();
@@ -1117,7 +1117,7 @@
               $('.input_hide').attr('form','form_soldier');
               $('.date-cal span').hide();
               $('.date-cal button').show();
-              $('#workmate-box select').attr('disabled','disabled');
+              $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }
             $('.type').val(leave_type);
