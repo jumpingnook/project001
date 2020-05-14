@@ -33,9 +33,10 @@ class Auth extends Auth_Controller {
     function login($re_login = []){
         $post = $this->input->post();
 
-        if(count($re_login)>0){
-            $post = $re_login;
-            unset($re_login);
+        $f_data = $this->session->flashdata('re_login');
+
+        if(count($f_data)>0){
+            $post = $f_data;
         }
 
         if(!isset($post['username']) or !isset($post['password']) or !isset($post['token'])){
@@ -45,7 +46,7 @@ class Auth extends Auth_Controller {
             redirect(url_index().'auth/?status=validate');//validate input
         }
 
-        if(count($re_login)==0 and trim($post['token']) != $this->session->flashdata('token_login')){
+        if(!isset($post['skip']) and trim($post['token']) != $this->session->flashdata('token_login')){
             redirect(url_index().'auth/?status=valid_token');//validate token_login
         }
 
@@ -64,12 +65,14 @@ class Auth extends Auth_Controller {
 
         $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data'][0]['personnel_id']:0;
 
-        if(count($re_login)==0 and isset($result['process']) and !$result['process']){
-            return $this->login($post);
+        if(count($re_login)==0 and ((isset($result['status']) and !$result['status']) or !isset($result['status']))){
+            $post['skip'] = true;
+            $this->session->set_flashdata('re_login', $post);
+            redirect(url_index().'auth/login');//validate token_login
         }
 
         #check new tb personnel
-        if(isset($result['status']) and $result['status'] and !intval($result['count'])){
+        if(isset($result['status']) and $result['status'] and intval($result['count'])==0){
 
             $this->load->model('sql_personnel/Sql_personnel_model');
             $result = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['username'])]);
@@ -98,7 +101,7 @@ class Auth extends Auth_Controller {
                 }
 
             }
-        }elseif(intval($personnel_id) != 0){
+        }elseif(intval($personnel_id) != 0 and isset($result['status']) and $result['status']){
             #update old tb personnel to new tb personnel
 
             $this->load->model('sql_personnel/Sql_personnel_model');
@@ -122,6 +125,12 @@ class Auth extends Auth_Controller {
             }
             
         }
+
+
+
+
+
+
 
         $this->Token_model->update_token_user(['personnel_id'=>intval($personnel_id),'token'=>$token]);
 
