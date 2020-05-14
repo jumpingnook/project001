@@ -118,6 +118,8 @@
             return $strMonthCut[$strMonth];
         elseif($use == 9):
             return $strMonthFull[$strMonth];
+        elseif($use == 10):
+            return $strYear;
         else:
             return "$strDay $strMonthThai $strYear $strHour:$strMinute:$strSeconds";
         endif;

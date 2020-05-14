@@ -497,6 +497,13 @@
                     </div>
 
                     <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label>ให้เข้ารับการ</label>
+                        <input name="call_soldier_detail" type="text" class="form-control" placeholder="ระบุรายละเอียด" value="" required>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
                       <div class="col-sm-6">
                         <label>หมายเรียกลงวันที่</label>
                         <input type="text" class="date_n form-control" value="<?php echo date('Y-m-d');?>" required>

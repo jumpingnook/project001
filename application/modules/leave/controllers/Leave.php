@@ -165,21 +165,23 @@ class Leave extends Leave_Controller {
             $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
             $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
             $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+            $set['personnel']['department_name'] = substr($sql_personnel['data'][0]['departname'],7);
             $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
             $set['personnel']['img']           = $personnel['data'][0]['img'];
             $set['personnel']['data']          = $personnel['data'][0];
 
             $set['leave_type'] = $this->Leave_type_model->get_type();
 
-            $set['workmate'] = [];
-            if(intval($set['data']['worker_personnel_id'])!=0){
-                $workmate = $this->Personnel_model->get_personnel(['personnel_id'=>trim($set['data']['worker_personnel_id'])]);
-                $set['workmate'] = $workmate['data'][0];
-            }
 
-            $set['boss'] = [];
-            $boss = $this->Personnel_model->get_personnel(['personnel_id'=>trim($set['data']['head_unit_personnel_id'])]);
-            $set['boss'] = $boss['data'][0];
+            $con = [];
+            $con[] = $set['data']['worker_personnel_id'];
+            $con[] = $set['data']['head_unit_personnel_id'];
+            $con[] = $set['data']['head_dept_personnel_id'];
+            $con[] = $set['data']['supervisor_personnel_id'];
+            $con[] = $set['data']['deputy_dean_personnel_id'];
+            $set['personnel_list'] = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
+
+            //echo '<pre>';print_r($set);exit;
 
             $this->load->view('view_leave',$set);
             

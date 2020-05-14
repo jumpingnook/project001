@@ -117,7 +117,7 @@
                 <canvas id="signature-pad" class="signature-pad"></canvas>
             </div>
             <div class="line"></div>
-            <div class="text-sig">* กรณุาปรับอุปกร์ของท่านให้อยู่ในแนวนอน</div>
+            <div class="text-sig">* กรณุาปรับอุปกรณ์ของท่านให้อยู่ในแนวนอน</div>
             <div style="position: absolute;top: 6px;right:0;left:0;margin:auto;"><center><img src="<?php echo base_url(load_file('assets/img/logo.med.single.png'));?>" style=" max-width: 120px;opacity: 0.3;"></center></div>
         </div>
 
