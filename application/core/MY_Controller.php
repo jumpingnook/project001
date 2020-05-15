@@ -80,4 +80,11 @@ class IDP_Controller extends MY_Controller{
     }
 }
 
+class EMAIL_Controller extends MY_Controller{
+    function __construct(){
+        parent::__construct();
+        
+    }
+}
+
 ?>
