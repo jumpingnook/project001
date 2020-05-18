@@ -31,6 +31,7 @@ class Auth extends Auth_Controller {
     }
 
     function login($re_login = []){
+
         $post = $this->input->post();
 
         $f_data = $this->session->flashdata('re_login');
@@ -163,7 +164,9 @@ class Auth extends Auth_Controller {
                 'name_en'       =>  (isset($personnel['name_en'])?$personnel['name_en']:''),
                 'surname_en'    =>  (isset($personnel['surname_en'])?$personnel['surname_en']:''),
                 'smu_main_id'   =>  (isset($personnel['smu_main_id'])?$personnel['smu_main_id']:''),
-                'smu_sub_id'    =>  (isset($personnel['smu_sub_id'])?$personnel['smu_sub_id']:'')
+                'smu_sub_id'    =>  (isset($personnel['smu_sub_id'])?$personnel['smu_sub_id']:''),
+                'work_start_date'   =>  (isset($personnel['work_start_date'])?$personnel['work_start_date']:''),
+                'work_end_date'     =>  (isset($personnel['work_end_date'])?$personnel['work_end_date']:'')
             ]);
 
             #destination
@@ -177,6 +180,8 @@ class Auth extends Auth_Controller {
             redirect(url_index().'auth/?status=fail'); //login fail
         }
     }
+
+    
 
     function logout(){
         $session = $this->session->userdata('authentication');

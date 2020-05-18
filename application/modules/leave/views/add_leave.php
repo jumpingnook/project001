@@ -114,12 +114,12 @@
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="text" class="leave_date_s form-control" form_no="1" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_s form-control" form_no="1" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="leave_date_s_value form-control" form_no="1" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ถึงวันที่</label>
-                        <input type="text" class="leave_date_e form-control" form_no="1" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_e form-control" form_no="1" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="leave_date_e_value form-control" form_no="1" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -173,12 +173,12 @@
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="text" class="leave_date_s form-control" form_no="2" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_s form-control" form_no="2" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="leave_date_s_value form-control" form_no="2" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ถึงวันที่</label>
-                        <input type="text" class="leave_date_e form-control" form_no="2" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_e form-control" form_no="2" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="leave_date_e_value form-control" form_no="2" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -232,12 +232,12 @@
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="text" class="leave_date_s form-control" form_no="3" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_s form-control" form_no="3" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="leave_date_s_value form-control" form_no="3" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-4 mb-3 mb-sm-0">
                         <label>ถึงวันที่</label>
-                        <input type="text" class="leave_date_e form-control" form_no="3" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_e form-control" form_no="3" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="leave_date_e_value form-control" form_no="3" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -283,12 +283,12 @@
                       <input type="hidden" class="type_leave_date form-control" form_no="4" value="c">
                       <div class="col-sm-6">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="text" class="leave_date_s form-control" form_no="4" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_s form-control" form_no="4" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="leave_date_s_value form-control" form_no="4" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input type="text" class="leave_date_e form-control" form_no="4" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="leave_date_e form-control" form_no="4" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="leave_date_e_value form-control" form_no="4" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -329,12 +329,12 @@
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label>ตั้งแต่วันที่</label>
-                        <input type="text" class="date_s form-control" form_no="5" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_s form-control" form_no="5" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="date_s_value form-control" form_no="5" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-4">
                         <label>ถึงวันที่</label>
-                        <input type="text" class="date_e form-control" form_no="5" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_e form-control" form_no="5" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="5" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-4">
@@ -394,17 +394,17 @@
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label>คลอดบุตรเมื่อวันที่</label>
-                        <input type="text" class="date_n form-control" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_n form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input name="child_birthdate" type="hidden" class="form-control" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-4">
                         <label>ลาตั้งแต่วันที่</label>
-                        <input type="text" class="date_s form-control" form_no="6" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_s form-control" form_no="6" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="date_s_value form-control" form_no="6" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-4">
                         <label>ลาถึงวันที่</label>
-                        <input type="text" class="date_e form-control" form_no="6" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_e form-control" form_no="6" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="6" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -444,12 +444,12 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ได้คลอดบุตรตั้งแต่วันที่</label>
-                        <input type="text" class="date_n form-control" date_type="child_birthdate_s" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_n form-control" date_type="child_birthdate_s" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input name="child_birthdate_start" type="hidden" class="child_birthdate_s_value form-control" value="<?php echo date('Y-m-d');?>" required>
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input  type="text" class="date_n form-control" date_type="child_birthdate_e" value="<?php echo date('Y-m-d');?>" required>
+                        <input  type="text" class="date_n form-control" date_type="child_birthdate_e" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input name="child_birthdate_end" type="hidden" class="child_birthdate_e_value form-control" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -457,12 +457,12 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ขอลากิจเพื่อเลี้ยงดูบุตรตั้งแต่วันที่</label>
-                        <input type="text" class="date_s form-control" form_no="7" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_s form-control" form_no="7" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="date_s_value form-control" form_no="7" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input type="text" class="date_e form-control" form_no="7" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_e form-control" form_no="7" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="7" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -506,7 +506,7 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>หมายเรียกลงวันที่</label>
-                        <input type="text" class="date_n form-control" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_n form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input name="call_date" type="hidden" class="form-control" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-6">
@@ -518,12 +518,12 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label>ฝึกตั้งแต่วันที่</label>
-                        <input type="text" class="date_s form-control" form_no="8" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_s form-control" form_no="8" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_start" class="date_s_value form-control" form_no="8" value="<?php echo date('Y-m-d');?>">
                       </div>
                       <div class="col-sm-6">
                         <label>ถึงวันที่</label>
-                        <input type="text" class="date_e form-control" form_no="8" value="<?php echo date('Y-m-d');?>" required>
+                        <input type="text" class="date_e form-control" form_no="8" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="8" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
@@ -1233,6 +1233,9 @@
       });
       
     });
+
+
+
     
     $(function(){
       $( ".date_n" ).datepicker({
@@ -1304,9 +1307,11 @@
         var date_end = $('.leave_date_e_value[form_no='+form+']').val();
 
         if(date_start>date_end){
-          alert('กรุณากรอกช่วงวันลาให้ถูกต้อง');
           $('.leave_date_e_value[form_no='+form+']').val(date_start);
-          $('.leave_date_e[form_no='+form+']').val(date_start);
+          var strMonthFull = ["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+          var date_split = date_start.split('-');
+          $('.leave_date_e[form_no='+form+']').val(date_split[2]+' '+strMonthFull[parseInt(date_split[1])]+' '+date_split[0]);
+
           date_start = $('.leave_date_s_value[form_no='+form+']').val();
           date_end = $('.leave_date_e_value[form_no='+form+']').val();
         }
@@ -1357,9 +1362,11 @@
       var date_end = $('.date_e_value[form_no='+form+']').val();
 
       if(date_start>date_end){
-        alert('กรุณากรอกช่วงวันลาให้ถูกต้อง');
         $('.date_e_value[form_no='+form+']').val(date_start);
-        $('.date_e[form_no='+form+']').val(date_start);
+        var strMonthFull = ["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+        var date_split = date_start.split('-');
+        $('.date_e[form_no='+form+']').val(date_split[2]+' '+strMonthFull[parseInt(date_split[1])]+' '+date_split[0]);
+
         date_start = $('.date_s_value[form_no='+form+']').val();
         date_end = $('.date_e_value[form_no='+form+']').val();
       }
@@ -1440,6 +1447,9 @@
             dataType: "jsonp",
             data: data,
             success: function(data) {
+
+              console.log(data);
+
               let res = [];
 
               if(!data.status){
@@ -1451,8 +1461,8 @@
 
                 $.each( data.data, function( key, value ) {
                   res[key] = {'value':'','label':'','id':''};
-                  res[key].value = value.title+value.name_th+' '+value.surname_th;
-                  res[key].label = value.title+value.name_th+' '+value.surname_th;
+                  res[key].value = value.title+value.name_th+' '+value.surname_th+', '+value.email;
+                  res[key].label = value.title+value.name_th+' '+value.surname_th+', '+value.email;
                   res[key].boss  = value.position_boss;
                   res[key].id    = value.personnel_id;
                 });

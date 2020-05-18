@@ -120,6 +120,10 @@
             return $strMonthFull[$strMonth];
         elseif($use == 10):
             return $strYear;
+        elseif($use == 11):
+            return "$strDay $strMonthFull[$strMonth] $strYear";
+        elseif($use == 12):
+            return "$strDay $strMonthFull[$strMonth] ".$strYear-=543;
         else:
             return "$strDay $strMonthThai $strYear $strHour:$strMinute:$strSeconds";
         endif;
@@ -219,20 +223,6 @@
         return $filepath.'?v='.$filemtime;
     }
 
-    function get_layout_campaign($c){
-        switch ($c) {
-            case '1':
-                return array('share_img');
-                break;
-            case '2':
-                return array('square_img','square_img');
-                break;
-            default:
-                return array('square_img','square_img','square_img','square_img','square_img');
-                break;
-        }
-    }
-
     function url_index(){
         return 'index.php/';
     }
@@ -278,7 +268,9 @@
             'name_en'       =>  (isset($result['name_en'])?$result['name_en']:''),
             'surname_en'    =>  (isset($result['surname_en'])?$result['surname_en']:''),
             'smu_main_id'   =>  (isset($result['smu_main_id'])?$result['smu_main_id']:''),
-            'smu_sub_id'    =>  (isset($result['smu_sub_id'])?$result['smu_sub_id']:'')
+            'smu_sub_id'    =>  (isset($result['smu_sub_id'])?$result['smu_sub_id']:''),
+            'work_start_date'   =>  (isset($result['work_start_date'])?$result['work_start_date']:''),
+            'work_end_date'     =>  (isset($result['work_end_date'])?$result['work_end_date']:''),
         ];
         
         $CI->session->set_userdata($set);

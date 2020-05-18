@@ -22,12 +22,29 @@
     margin-left: -8%;
     margin-top: -11%;
   }
+  #qrcode1 img,#qrcode2 img{
+    max-width: 5vw;
+  }
+  .leave_no{
+    margin-top: -5px;
+  }
   @media print{
 
   }
 </style>
 <div id="document" class="row mb-2" style="border: 1px solid #ccc;">
   <div class="col-lg-12 document" >
+
+
+    <?php if(isset($data['leave_type_id']) && intval($data['leave_type_id'])!=6){ ?>
+      <span style="top: 4.2%;left: 13.6%;"><div id="qrcode1"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+    <?php }else{ ?>
+      <span style="bottom: 20%;left: 80%;"><div id="qrcode1"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+    <?php } ?>
+
+
+
+
     <?php $doc = []; if(isset($data['leave_type_id']) && intval($data['leave_type_id'])==1){$doc[0] = 'document/leave/1.jpg';?>
       <span style="top: calc(100% - 87.4%);left: calc(100% - 42%);"><?php echo date('d',strtotime($data['create_date']));?></span>
       <span style="top: calc(100% - 87.4%);left: calc(100% - 32%);"><?php echo date_th($data['create_date'],9);?></span>
@@ -926,6 +943,14 @@
   </div>
   <?php if(isset($doc[1])){ ?>
     <div class="col-lg-12 document" >
+
+      
+
+      <?php if(isset($data['leave_type_id']) && intval($data['leave_type_id'])!=7){ ?>
+        <span style="bottom: 20%;left: 80%;"><div id="qrcode2"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+      <?php }else{ ?>
+        <span style="top: 4.2%;left: 13.6%;"><div id="qrcode2"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+      <?php } ?>
 
       <?php if(isset($data['leave_type_id']) && intval($data['leave_type_id'])==4){ ?>
         <span style="top: 13%;left: 16%;"><?php echo isset($data['write_at'])?$data['write_at']:'-';?></span>

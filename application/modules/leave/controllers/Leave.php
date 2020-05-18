@@ -70,25 +70,25 @@ class Leave extends Leave_Controller {
         $set['smu_main_id'] = $personnel['data'][0]['smu_main_id'];
         $result = $this->Personnel_model->get_boss(['smu_main_id'=>$set['smu_main_id']]);
 
-        $set['boss'] = '';
-        $boss_id = [];
-        if($result['count']>0){
-            foreach($result['data'] as $key=>$val){
-                $boss_id[] = $val['personnel_id'];
-            }
+        // $set['boss'] = '';
+        // $boss_id = [];
+        // if($result['count']>0){
+        //     foreach($result['data'] as $key=>$val){
+        //         $boss_id[] = $val['personnel_id'];
+        //     }
 
-            $set['boss'] = $this->Personnel_model->get_personnel(['personnel_list'=>$boss_id]);
+        //     $set['boss'] = $this->Personnel_model->get_personnel(['personnel_list'=>$boss_id]);
 
-        }
+        // }
 
-        $set['friend'] = [];
-        $result = $this->Personnel_model->get_personnel(['smu_main_id'=>$set['smu_main_id']]);
-        if($result['count']>0){
-            $set['friend'] = $result;
-            foreach($set['friend']['data'] as $key=>$val){
-                $set['boss']['data'][] = $val;
-            }
-        }
+        // $set['friend'] = [];
+        // $result = $this->Personnel_model->get_personnel(['smu_main_id'=>$set['smu_main_id']]);
+        // if($result['count']>0){
+        //     $set['friend'] = $result;
+        //     foreach($set['friend']['data'] as $key=>$val){
+        //         $set['boss']['data'][] = $val;
+        //     }
+        // }
 
         $url_approve['workmate'] = $this->Leave_model->url_approve();
         $url_approve['head_unit'] = $this->Leave_model->url_approve();
@@ -99,6 +99,8 @@ class Leave extends Leave_Controller {
         $set['url_approve'] = $url_approve;
 
         $set['leave_type'] = $this->Leave_type_model->get_type();
+
+        //echo '<pre>';print_r($set);exit;
 
         $this->load->view('add_leave',$set);
     }
@@ -172,7 +174,6 @@ class Leave extends Leave_Controller {
 
             $set['leave_type'] = $this->Leave_type_model->get_type();
 
-
             $con = [];
             $con[] = $set['data']['worker_personnel_id'];
             $con[] = $set['data']['head_unit_personnel_id'];
@@ -180,6 +181,8 @@ class Leave extends Leave_Controller {
             $con[] = $set['data']['supervisor_personnel_id'];
             $con[] = $set['data']['deputy_dean_personnel_id'];
             $set['personnel_list'] = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
+
+            $set['leave_id'] =intval($leave_id);
 
             //echo '<pre>';print_r($set);exit;
 
@@ -189,12 +192,6 @@ class Leave extends Leave_Controller {
         }else{
             redirect(url_index().'leave');
         }
-    }
-
-    function check_print(){
-        //auth login
-        //dest to check print
-        //scan
     }
 
     function calendar(){
@@ -424,6 +421,194 @@ class Leave extends Leave_Controller {
         #email
 
         redirect(base_url(url_index().'leave?approve=ds1df4d51s8af4dsa1'));
+    }
+
+    function send_first_approve(){
+        $post = $this->input->post();
+        $res = ['status'=> false];
+
+        if(isset($post['leave']) and intval($post['leave'])!=0){
+
+            $set = [];
+
+            $api = [];
+            $api['APP-KEY']     = $this->api_key;
+            $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+            $api['ip']          = get_client_ip();
+            $api['leave_id']    = intval($post['leave']);
+            $result = $this->restclient->post(base_url(url_index().'leave/api_v1/view_leave'),$api);
+
+            $ex_personnel_id = 0;
+            $type = '';
+
+            if(isset($result['data']) and count($result['data']>0)){
+
+                if(intval($result['data']['worker_personnel_id']) != 0 and intval($result['data']['workmate_approve']) == 0 and $ex_personnel_id == 0){
+                    $ex_personnel_id = intval($result['data']['worker_personnel_id']);
+                    $type = 'workmate';
+                }
+                if(intval($result['data']['head_unit_personnel_id']) != 0 and intval($result['data']['head_unit_approve']) == 0 and $ex_personnel_id == 0){
+                    $ex_personnel_id = intval($result['data']['head_unit_personnel_id']);
+                    $type = 'head_unit';
+                }
+                if(intval($result['data']['head_dept_personnel_id']) != 0 and intval($result['data']['head_dept_approve']) == 0 and $ex_personnel_id == 0){
+                    $ex_personnel_id = intval($result['data']['head_dept_personnel_id']);
+                    $type = 'head_dept';
+                }
+                if(intval($result['data']['supervisor_personnel_id']) != 0 and intval($result['data']['supervisor_approve']) == 0 and $ex_personnel_id == 0){
+                    $ex_personnel_id = intval($result['data']['supervisor_personnel_id']);
+                    $type = 'supervisor';
+                }
+                if(intval($result['data']['deputy_dean_personnel_id']) != 0 and intval($result['data']['deputy_dean_approve']) == 0 and $ex_personnel_id == 0){
+                    $ex_personnel_id = intval($result['data']['deputy_dean_personnel_id']);
+                    $type = 'deputy_dean';
+                }
+
+                if($ex_personnel_id!=0 and intval($result['data']['status'])==0){
+                    $this->load->model('sql_personnel/Sql_personnel_model');
+                    $this->load->model('personnel/Personnel_model');
+                    $this->load->model('leave/Leave_type_model');
+                    $this->load->model('leave/Leave_model');
+
+                    $set['personnel_receive'] = $this->Personnel_model->get_personnel(['personnel_id'=>$ex_personnel_id]);
+
+                    $set['personnel'] = $this->session_data['personnel'];
+                    $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+                    $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+                    $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+                    $set['personnel']['department_name'] = substr($sql_personnel['data'][0]['departname'],7);
+                    $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+                    $set['personnel']['data']          = $personnel['data'][0];
+
+                    $set['leave_type'] = $this->Leave_type_model->get_type();
+
+                    $set['leave_data'] = $result['data'];
+
+                    $set['url_type'] = $type;
+
+                    $html = $this->load->view('email/approve',$set,true);
+
+                    if(isset($set['personnel_receive']['data'][0]['email']) and trim($set['personnel_receive']['data'][0]['email'])!=''){
+
+                        $api['subject']     = '[ระบบลา] พิจารณาการลา เลขที่ '.$set['leave_data']['leave_no'];
+                        $api['body']        = $html;
+                        $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email'];
+                        $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
+
+                        if($send['status']){
+                            $this->Leave_model->set_first_approve(intval($post['leave']));
+                        }
+                    }
+                    
+                    $res['status'] = $send['status'];
+                    echo json_encode($res);exit;
+
+                }else{
+                    echo json_encode($res);exit;
+                }
+            }else{
+                echo json_encode($res);exit;
+            }
+            echo json_encode($res);exit;
+        }
+    }
+
+    function print(){
+        $post = $this->input->post();
+        $res= ['status'=>false,'token'=>''];
+
+        $post['leave'] = 4;
+
+        if(isset($post['leave']) and intval($post['leave'])!=0){
+            
+            $this->load->model(['Leave_print_model','Leave_model']);
+            $personnel = $this->session_data['personnel'];
+            $leave = $this->Leave_model->view_leave(['leave_id'=>intval($post['leave'])]);
+
+            $result = $this->Leave_print_model->gen_token(['leave_id'=>intval($post['leave']),'personnel'=>$personnel,'leave'=>$leave]);
+
+            echo json_encode(['status'=>true,'data'=>$result]);exit;
+
+        }
+
+        echo json_encode(['status'=>false]);exit;
+    }
+
+    function cancel_leave($type=''){
+        $post = $this->input->post();
+        
+        $post['leave'] = 4;
+        $type = b;
+
+
+        if(trim($type)=='b' and isset($post['leave']) and intval($post['leave'])!=0){
+            $this->load->model(['Leave_model']);
+            $result = $this->Leave_model->cancel($post['leave'],99);
+
+            echo json_encode(['status'=>true]);exit;
+
+        }// type == a
+    }
+
+    function check_print($token=''){
+
+        if(trim($token)!=''){
+            $this->load->model('sql_personnel/Sql_personnel_model');
+            $this->load->model('personnel/Personnel_model');
+            $this->load->model('leave/Leave_type_model');
+            $this->load->model(['leave/Leave_model']);
+            $this->load->model(['leave/Leave_print_model']);
+
+            $set = [];
+
+            $token = $token;
+            $check = $this->Leave_print_model->check_print($token);
+
+            $leave_id = 0;
+            if(isset($check['status']) and $check['status'] and count($check['data'])!=0){
+                $leave_id = $check['data'][0]['leave_id'];
+            }else{
+                $set['view_only'] = false;
+                $this->load->view('view_leave',$set);
+                return true;
+            }
+
+            $result = $this->Leave_model->view_leave(['leave_id'=>$leave_id]);
+            $leave_id = $set['leave_id'] = $result['data']['leave_id'];
+
+            if(count($result['data'])<=0){
+                $set['view_only'] = false;
+                $this->load->view('view_leave',$set);
+                return true;
+            }
+             
+            $set['data'] = $result['data'];
+            
+            $set['personnel'] = $this->session_data['personnel'];
+            $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+            $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+            $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+            $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+            $set['personnel']['img']           = $personnel['data'][0]['img'];
+            $set['personnel']['data']          = $personnel['data'][0];
+
+            $set['leave_type'] = $this->Leave_type_model->get_type();
+
+            $con = [];
+            $con[] = $set['data']['worker_personnel_id'];
+            $con[] = $set['data']['head_unit_personnel_id'];
+            $con[] = $set['data']['head_dept_personnel_id'];
+            $con[] = $set['data']['supervisor_personnel_id'];
+            $con[] = $set['data']['deputy_dean_personnel_id'];
+            $set['personnel_list'] = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
+
+            $set['view_only'] = true;
+            $this->load->view('view_leave',$set);
+            return true;
+
+        }else{
+            redirect(base_url(url_index().'leave'));
+        }
     }
 
 }

@@ -42,7 +42,8 @@ class Personnel_model extends MY_Model {
 		}elseif(isset($set['url_signature']) and trim($set['url_signature'])!=''){
 			$sql_code = 'url_signature = "'.trim($set['url_signature']).'"';
 		}elseif(isset($set['term']) and trim($set['term'])!='' and strlen($set['term'])>=4){
-			$sql_code = '(name_th LIKE "'.trim($set['term']).'%")';
+			$con['select'] = 'personnel_id,position_boss,title,name_th,surname_th,email';
+			$sql_code = '(name_th LIKE "'.trim($set['term']).'%") and email <> ""';
 			$con['limit'] = '0,10';
 		}
 

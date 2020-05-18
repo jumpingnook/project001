@@ -35,7 +35,11 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center mb-4">
-            <h1 class="h3 mb-0 text-gray-800">ข้อมูลการลาเลขที่ <?php echo isset($data['leave_no'])?$data['leave_no']:'0';?></h1>
+            <?php if(!isset($view_only) or (isset($view_only) and $view_only)){ ?>
+              <h1 class="h3 mb-0 text-gray-800">ข้อมูลการลาเลขที่ <?php echo isset($data['leave_no'])?$data['leave_no']:'0';?></h1>
+            <?php }elseif(isset($view_only) and !$view_only){ ?>
+              <h1 class="h3 mb-0 text-gray-800">ไม่พบบข้อมูลการลา</h1>
+            <?php } ?>
           </div>
 
           <div class="row">
@@ -46,7 +50,9 @@
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">รายละเอียดการลา</h6>
                 </div>
+
                 <div class="card-body">
+                <?php if(!isset($view_only) or (isset($view_only) and $view_only)){ ?>
                   <div class="row">
                     <div class="col-lg-3">
                       <div class="row mb-2">
@@ -122,10 +128,16 @@
 
                   <hr/>
                   <?php $this->load->view('document'); ?>
+                <?php }elseif(isset($view_only) and !$view_only){ ?>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <center><h1>ไม่พบบข้อมูลการลา</h1></center>
+                    </div>
+                  </div>
+                <?php } ?>
                 </div>
               </div>
-
-
+              
             </div>
             <div class="col-lg-3">
 
@@ -138,26 +150,62 @@
                     </div>
                     <div class="card-body">
 
+                      <?php if(!isset($view_only)){ ?>
                       <div class="row">
                         <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การจัดการ</div>
                       </div>
-                      <div class="row mb-1">
-                        <a href="#" class="btn btn-primary btn-icon-split">
+                      <?php if(trim($data['send_mail_date'])=='' and trim($data['status'])<98){?>
+                        <div class="row mb-1">
+                          <button id="send_approve" class="btn btn-info btn-icon-split">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-user-check"></i>
+                            </span>
+                            <span class="text">ส่งอีเมลเพื่อเริ่มพิจารณา</span>
+                          </button>
+                        </div>
+
+                        <div class="row mb-1">
+                          <button id="cancel_leave" cancel="before" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-trash"></i>
+                            </span>
+                            <span class="text">ยกเลิกการลานี้</span>
+                          </button>
+                        </div>
+                      <?php } ?>
+                      
+                      <?php if(trim($data['status'])<98){?>
+                        <div class="row mb-1">
+                          <a href="#" id="print" class="btn btn-light btn-icon-split">
+                            <span class="icon text-gray-600">
+                              <i class="fas fa-file-alt"></i>
+                            </span>
+                            <span class="text">ดูหรือพิมพ์ใบลา</span>
+                          </a>
+                        </div>
+                      <?php }else{ ?>
+                        <button class="btn btn-primary btn-icon-split">
                           <span class="icon text-white-50">
                             <i class="fas fa-trash"></i>
                           </span>
-                          <span class="text">ยกเลิกการลานี้</span>
-                        </a>
-                      </div>
-
-                      <div class="row mb-1">
-                        <a href="#" id="print" class="btn btn-light btn-icon-split">
-                          <span class="icon text-gray-600">
-                            <i class="fas fa-file-alt"></i>
+                          <span class="text">ยกเลิกการลาเมื่อวันที่<br/><?php echo date_th($data['cancel_date'],2);?></span>
+                        </button>
+                      <?php } ?>
+                      <?php }elseif(isset($view_only) and $view_only){ ?>
+                        <button class="btn btn-warning btn-icon-split">
+                          <span class="icon text-white-50">
+                            <i class="fas fa-check"></i>
                           </span>
-                          <span class="text">ดูหรือพิมพ์ใบลา</span>
-                        </a>
-                      </div>
+                          <span class="text">พบข้อมูล</span>
+                        </button>
+                      <?php }elseif(isset($view_only) and !$view_only){ ?>
+                        <button class="btn btn-primary btn-icon-split">
+                          <span class="icon text-white-50">
+                            <i class="fas fa-times"></i>
+                          </span>
+                          <span class="text">ไม่พบข้อมูล</span>
+                        </button> 
+                      <?php } ?>
 
                     </div>
                   </div>
@@ -189,6 +237,12 @@
   
   <?php echo $this->load->view('inc/js'); ?>
 
+  <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
+
+  <div id="preload" style="position: absolute;width: 100vw;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 99;top: 0;left: 0;display:none;">
+    <img src="<?php echo base_url(load_file('assets/img/loading.gif'));?>" style="position: fixed;left: 0;right: 0;margin: auto;top: 25%;">
+  </div>
+
   <script>
       
       function open_qr(data){
@@ -214,13 +268,120 @@
 
       $(document).ready(function(){
         $('#print').click(function(){
-            var divContents = document.getElementById("document").innerHTML; 
-            var a = window.open(); 
-            a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#000000;}.document span{position:absolute;font-size:2vw;line-height: 60px;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -11%;} @media print{.document span{position:absolute;font-size:16px;line-height: 30px;}.document:nth-child(2) span{margin-left:10px;position:absolute;font-size:16px;line-height: 35px;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -6%;}}</style>");
-            a.document.write(divContents);
-            a.print(); 
-            //a.close();
+
+            $.ajax({
+              type: "POST",
+              data:{leave:'<?php echo intval($leave_id);?>'},
+              url: "<?php echo base_url(url_index().'leave/print');?>",
+              dataType: "json",
+              success: function(data){
+                if(data.status){
+                  $('#preload').show();
+
+                  $('#qrcode1 img,#qrcode2 img').attr('src','');
+
+                  var qrcode1 = new QRCode("qrcode1", {
+                    text: data.data.url,
+                    width: 300,
+                    height: 300,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                  });
+
+                  var element = document.getElementById("qrcode2");
+
+                  if(typeof(element) != 'undefined' && element != null){
+                    var qrcode2 = new QRCode("qrcode2", {
+                      text: data.data.url,
+                      width: 300,
+                      height: 300,
+                      colorDark : "#000000",
+                      colorLight : "#ffffff",
+                      correctLevel : QRCode.CorrectLevel.H
+                    });
+                  }
+                  
+
+                  setTimeout(function(){
+                    var divContents = document.getElementById("document").innerHTML; 
+                    var a = window.open(); 
+                    a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#000000;}.document span{position:absolute;font-size:2vw;line-height: 4vw;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -11%;}#qrcode1 img,#qrcode2 img{max-width: 7vw;}.leave_no{margin-top: -20px;} @media print{.document span{position:absolute;font-size:16px;line-height: 30px;}.document:nth-child(2) span{margin-left:10px;position:absolute;font-size:16px;line-height: 35px;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -6%;}#qrcode1 img,#qrcode2 img{max-width: 8vw;}.leave_no{margin-top: 0px;}}</style>");
+                    a.document.write(divContents);
+                    a.print(); 
+                    //a.close();
+                    $('#preload').hide();
+                  }, 1000);
+
+
+                }else{
+                  alert('ระบบไม่สามารถพิมพ์ใบลาได้ กรุณาลองให้ภายหลัง');
+                }
+              }
+            });
+
+            
         });
+
+        $('#send_approve').click(function(){
+          alert('กรุณาตรวจสอบรายละเอียดการลาให้ถูกต้องก่อนส่งอีเมลเพื่อพิจารณา');
+          var con = confirm('ท่านต้องการส่งอีเมลเพื่อพิจารณาใช่หรือไม่');
+          if(con){
+            $('#preload').show();
+            $.ajax({
+              type: "POST",
+              data:{leave:'<?php echo intval($leave_id);?>'},
+              url: "<?php echo base_url(url_index().'leave/send_first_approve');?>",
+              dataType: "json",
+              success: function(data){
+                if(data.status){
+                  $('#preload').hide();
+                  alert('ระบบได้ส่งอีเมลเพื่อพิจารณาการลาเรียบร้อยแล้ว ท่านสามารถติดตามการพิจารณาที่หน้ารายละเอียดการลา');
+                  location.reload();
+                }else{
+                  alert('ระบบไม่สามารถส่งอีเมลได้ กรุณาลองใหม่อีกครั้ง');
+                  $('#preload').hide();
+                }
+              }
+            });
+          }
+        });
+
+        <?php if(trim($data['send_mail_date'])==''){?>
+          $('#cancel_leave').click(function(){
+            var type = $(this).attr('cancel');
+
+            if(type == 'before'){
+              var con = confirm('ท่านต้องการยกเลิกการลานี้ใช่หรือไม่ (กรณีก่อนส่งพิจารณา)');
+
+              if(con){
+                $('#preload').show();
+                $.ajax({
+                  type: "POST",
+                  data:{leave:'<?php echo intval($leave_id);?>'},
+                  url: "<?php echo base_url(url_index().'leave/cancel_leave/b');?>",
+                  dataType: "json",
+                  success: function(data){
+                    console.log(data);
+                    if(data.status){
+                      alert('ระบบได้ทำการยกเลิกการลาเรียบร้อยแล้ว');
+                    }else{
+                      alert('ระบบไม่สามารถยกเลิกการลานี้ได้กรุณาลองใหม่ภายหลัง');
+                    }
+                    $('#preload').hide();
+                  }
+                });
+
+              }else{
+                return false;
+              }
+
+            }
+
+            return false;
+
+          });
+        <?php } ?>
         
       });
 

@@ -171,4 +171,31 @@ class Leave_model extends MY_Model {
 		return false;
 
 	}
+
+	function set_first_approve($leave=0){
+		$con = [];
+		$con['where'] = 'leave_id = "'.intval($leave).'"';
+		$result = $this->to_select($con);
+
+		if(count($result)>0 and $result[0]['status']==0){
+			$con['data']['status'] = 1;
+			$con['data']['send_mail_date'] = date('Y-m-d H:i:s');
+			$this->to_update($con);
+		}
+	}
+
+	function cancel($id=0,$type=0){
+		if(intval($id)!=0 and intval($type)!=0){
+			$con = [];
+			$con['data']['status'] = intval($type)==98?98:99;
+			$con['data']['cancel_date'] = date('Y-m-d H:i:s');
+			$con['where'] = 'leave_id = "'.intval($id).'"';
+			$this->to_update($con);
+
+			return ['status'=>true];
+		}else{
+			return ['status'=>false];
+		}
+	}
+
 }
