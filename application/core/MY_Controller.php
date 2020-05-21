@@ -66,6 +66,11 @@ class Leave_Controller extends MY_Controller{
             redirect(url_index().'auth/?status=exp');
         }
 
+        $personnel = $this->session->userdata('personnel');
+        if(isset($personnel['personnel_id'])){ 
+            $this->load->model('leave/Leave_quota_model');
+            $this->Leave_quota_model->check_seed(['personnel_id'=>$personnel['personnel_id']]);
+        }
 
     }
 }

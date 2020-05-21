@@ -80,6 +80,7 @@
                     <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
                   </div>
 
+                  <?php if(isset($check_leave) and $check_leave['status']){ ?>
                   <form id="form_sleep" class="form sleep" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
@@ -132,6 +133,7 @@
                     </div>
 
                   </form>
+                  <?php } ?>
 
                   <form id="form_leave" class="form leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
@@ -290,6 +292,7 @@
                         <label>ถึงวันที่</label>
                         <input type="text" class="leave_date_e form-control" form_no="4" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="leave_date_e_value form-control" form_no="4" value="<?php echo date('Y-m-d');?>">
+                        <input type="hidden" name="period_type" value="c">
                       </div>
                     </div>
                   </form>
@@ -336,6 +339,7 @@
                         <label>ถึงวันที่</label>
                         <input type="text" class="date_e form-control" form_no="5" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="5" value="<?php echo date('Y-m-d');?>">
+                        <input type="hidden" name="period_type" value="c">
                       </div>
                       <div class="col-sm-4">
                         <label>วันที่อุปสมบท</label>
@@ -406,6 +410,7 @@
                         <label>ลาถึงวันที่</label>
                         <input type="text" class="date_e form-control" form_no="6" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="6" value="<?php echo date('Y-m-d');?>">
+                        <input type="hidden" name="period_type" value="c">
                       </div>
                     </div>
 
@@ -464,6 +469,7 @@
                         <label>ถึงวันที่</label>
                         <input type="text" class="date_e form-control" form_no="7" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="7" value="<?php echo date('Y-m-d');?>">
+                        <input type="hidden" name="period_type" value="c">
                       </div>
                     </div>
                   </form>
@@ -525,6 +531,7 @@
                         <label>ถึงวันที่</label>
                         <input type="text" class="date_e form-control" form_no="8" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
                         <input type="hidden" name="period_end" class="date_e_value form-control" form_no="8" value="<?php echo date('Y-m-d');?>">
+                        <input type="hidden" name="period_type" value="c">
                       </div>
                     </div>
                   </form>

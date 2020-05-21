@@ -118,6 +118,35 @@
                           <?php echo isset($personnel['data']['email'])?$personnel['data']['email']:'-';?>
                         </div>
                       </div>
+                      <div class="row">
+                        <div class="col-lg-3 font-weight-bold">
+                          อายุงาน
+                        </div>
+                        <div class="col-lg-9">
+                          <?php 
+                            if(!isset($personnel['data']['work_end_date'])){
+
+                              $datetime1 = date_create($personnel['data']['work_start_date']); 
+                              $datetime2 = date_create(date('Y-m-d')); 
+                                
+                              $interval = date_diff($datetime1, $datetime2);
+
+                              if($interval->y!=0){
+                                echo $interval->y.' ปี ';
+                              }
+                              if($interval->m!=0){
+                                echo $interval->m.' เดือน ';
+                              }
+                              if($interval->d!=0){
+                                echo $interval->d.' วัน ';
+                              }
+
+                            }else{
+                              echo date_th($personnel['data']['work_start_date'],2).' - '.date_th($personnel['data']['work_end_date'],2);
+                            }
+                          ?>
+                        </div>
+                      </div>
                     </div>
                   </div>
 

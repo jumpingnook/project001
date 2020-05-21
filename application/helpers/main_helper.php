@@ -288,5 +288,21 @@
         return '';
     }
 
+    function check_leave_type($date=''){
+
+        if(trim($date)!=''){
+            $startTimeStamp = strtotime($date);
+            $endTimeStamp = strtotime(date('Y-m-d'));
+
+            $timeDiff = abs($endTimeStamp - $startTimeStamp);
+
+            $numberDays = $timeDiff/86400;  // 86400 seconds in one day
+
+            return ['status'=>(intval($numberDays)>=180?true:false), 'count_date'=>intval($numberDays)];
+        }
+
+        return ['status'=>false];
+    }
+
 
 

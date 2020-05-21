@@ -23,6 +23,7 @@
     margin-top: -11%;
   }
   #qrcode1 img,#qrcode2 img{
+    display:none;
     max-width: 5vw;
   }
   .leave_no{

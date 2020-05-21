@@ -87,17 +87,37 @@ class Leave_model extends MY_Model {
 	function leave_history($set=[]){
 		
 		$res = [];
-		$res['count'] 	= 0;
-		$res['data'] 	= [];
 
+		$con = [];
+		
+		$sql = '';
 		if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
-			$con = [];
-			$con['where'] 		= 'personnel_id = "'.intval($set['personnel_id']).'"';
-			$con['order_by']	= 'leave_id DESC';
-			$con['array_key']	= true;
-			$res['data'] = $this->to_select($con);
-			$res['count'] = count($res['data']);
+			if($sql!=''){
+				$sql .= ' and (personnel_id = "'.intval($set['personnel_id']).'") ';
+			}else{
+				$sql = '(personnel_id = "'.intval($set['personnel_id']).'")';
+			}
 		}
+		if(isset($set['leave_type_id']) and intval($set['leave_type_id'])!=0){
+			if($sql!=''){
+				$sql .= ' and (leave_type_id = "'.intval($set['leave_type_id']).'") ';
+			}else{
+				$sql = '(leave_type_id = "'.intval($set['leave_type_id']).'")';
+			}
+		}
+		if(isset($set['leave_year']) and intval($set['leave_year'])!=0){
+			if($sql!=''){
+				$sql .= ' and (period_start LIKE "'.intval($set['leave_year']).'%") ';
+			}else{
+				$sql = '(period_start LIKE "'.intval($set['leave_year']).'%")';
+			}
+		}
+
+		$con['where'] 		= $sql;
+		$con['order_by']	= 'leave_id DESC';
+		$con['array_key']	= true;
+		$res['data'] = $this->to_select($con);
+		$res['count'] = count($res['data']);
 
 		return $res;
 	}

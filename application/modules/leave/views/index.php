@@ -180,6 +180,34 @@
                           <div class="col-lg-10"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></div>
                         </div>
                         <div class="row">
+                          <div class="col-lg-2 text-md font-weight-bold">อายุงาน</div>
+                          <div class="col-lg-10">
+                            <?php 
+                              if(!isset($personnel['work_end_date'])){
+
+                                $datetime1 = date_create($personnel['work_start_date']); 
+                                $datetime2 = date_create(date('Y-m-d')); 
+                                  
+                                $interval = date_diff($datetime1, $datetime2);
+
+                                if($interval->y!=0){
+                                  echo $interval->y.' ปี ';
+                                }
+                                if($interval->m!=0){
+                                  echo $interval->m.' เดือน ';
+                                }
+                                if($interval->d!=0){
+                                  echo $interval->d.' วัน ';
+                                }
+
+                              }else{
+                                echo date_th($personnel['work_start_date'],2).' - '.date_th($personnel['work_end_date'],2);
+                              }
+                            ?>
+                          
+                          </div>
+                        </div>
+                        <div class="row">
                           <div class="col-lg-2 text-md font-weight-bold">ลายเซ็น</div>
                           <div class="col-lg-10">
                             <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
