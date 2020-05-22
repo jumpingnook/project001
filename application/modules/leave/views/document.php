@@ -107,7 +107,7 @@
           echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
         ?>
       </span>
-      <span style="top: 46.6%;left: 58%;"><img src="<?php echo isset($data['worker_personnel_id']) && intval($data['worker_personnel_id'])!=0 && $data['signature_workmate_date']!='' && isset($personnel_list['data'][$data['worker_personnel_id']]) ?$personnel_list['data'][$data['worker_personnel_id']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
+      <span style="top: 46.6%;left: 58%;"><img src="<?php echo isset($data['worker_personnel_id']) && intval($data['worker_personnel_id'])!=0 && $data['signature_workmate_date']!='' && isset($personnel_list['data'][$data['worker_personnel_id']])?$personnel_list['data'][$data['worker_personnel_id']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 48.7%;left: 58%;">
         <?php 
           if(isset($data['worker_personnel_id']) && intval($data['worker_personnel_id'])!=0 && isset($personnel_list['data'][$data['worker_personnel_id']])){
@@ -261,7 +261,7 @@
           echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
         ?>
       </span>
-      <span style="top: 60.4%;left: 60%;"><img src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
+      <span style="top: 60.4%;left: 60%;"><img src="<?php echo isset($data['worker_personnel_id']) && intval($data['worker_personnel_id'])!=0 && $data['signature_workmate_date']!='' && isset($personnel_list['data'][$data['worker_personnel_id']])?$personnel_list['data'][$data['worker_personnel_id']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 62.4%;left: 60%;">
         <?php 
           if(isset($data['worker_personnel_id']) && intval($data['worker_personnel_id'])!=0 && isset($personnel_list['data'][$data['worker_personnel_id']])){
@@ -769,7 +769,7 @@
       
       <span style="top: 59.2%;left: 21%;">
         <?php 
-          if(isset($data['hr_personnel_id']) && intval($data['hr_personnel_id'])!=0 && isset($personnel_list['data'][$data['worker_personnel_id']])){
+          if(isset($data['hr_personnel_id']) && intval($data['hr_personnel_id'])!=0 && isset($personnel_list['data'][$data['hr_personnel_id']])){
             echo $personnel_list['data'][$data['hr_personnel_id']]['title']; 
             echo $personnel_list['data'][$data['hr_personnel_id']]['name_th']; 
             echo $personnel_list['data'][$data['hr_personnel_id']]['surname_th'];

@@ -39,102 +39,7 @@
           </div>
 
           <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">วันลาสะสมปีงบ 2563</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">20 วัน</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">ใช้วันลาไปแล้ว</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">2.5(+0.5) วัน</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">คงเหลือวันลา</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">17.5(-0.5) วัน</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-md font-weight-bold text-warning text-uppercase mb-1">คำขอที่ดำเนินการอยู่</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <?php /*
-          <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-lg-12 mb-4">
-              <div class="card bg-danger text-white shadow">
-                <div class="card-body">
-
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-lg font-weight-bold text-uppercase mb-1">ข้อความแจ้ง</div>
-                      <div class="text-md mb-0 font-weight-bold text-white-100">ท่านยังไม่สามารถใช่สิทธิลาผักผ่อนได้</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-white-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          */?>
-
-          <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
               <!-- Collapsable Card Example -->
               <div class="card shadow mb-4">
                 <!-- Card Header - Accordion -->
@@ -145,17 +50,17 @@
                 <div class="collapse show" id="collapseCardExample">
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-lg-2">
+                      <div class="col-lg-4">
                         <img src="<?php echo isset($personnel['img'])&&trim($personnel['img'])!=''?$personnel['img']:'';?>" style="max-width: 200px;width: 100%;display: block;min-height: 200px;background-color: #ccc;"/>
                       </div>
-                      <div class="col-lg-10">
+                      <div class="col-lg-8">
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">รหัสพนักงาน</div>
-                          <div class="col-lg-10"><?php echo isset($personnel['personnel_code'])?$personnel['personnel_code']:'-';?></div>
+                          <div class="col-lg-4 text-md font-weight-bold">รหัสพนักงาน</div>
+                          <div class="col-lg-8"><?php echo isset($personnel['personnel_code'])?$personnel['personnel_code']:'-';?></div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">ชื่อ - นามสกุล</div>
-                          <div class="col-lg-10">
+                          <div class="col-lg-4 text-md font-weight-bold">ชื่อ - นามสกุล</div>
+                          <div class="col-lg-8">
                             <?php 
                               echo isset($personnel['title'])?$personnel['title']:'-'; 
                               echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
@@ -164,24 +69,24 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">ตำแหน่ง</div>
-                          <div class="col-lg-10"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></div>
+                          <div class="col-lg-4 text-md font-weight-bold">ตำแหน่ง</div>
+                          <div class="col-lg-8"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">หน่วยงาน</div>
-                          <div class="col-lg-10"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></div>
+                          <div class="col-lg-4 text-md font-weight-bold">หน่วยงาน</div>
+                          <div class="col-lg-8"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">ประเภทงานพนักงาน</div>
-                          <div class="col-lg-10"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
+                          <div class="col-lg-4 text-md font-weight-bold">ประเภทงานพนักงาน</div>
+                          <div class="col-lg-8"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">อีเมล</div>
-                          <div class="col-lg-10"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></div>
+                          <div class="col-lg-4 text-md font-weight-bold">อีเมล</div>
+                          <div class="col-lg-8"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">อายุงาน</div>
-                          <div class="col-lg-10">
+                          <div class="col-lg-4 text-md font-weight-bold">อายุงาน</div>
+                          <div class="col-lg-8">
                             <?php 
                               if(!isset($personnel['work_end_date'])){
 
@@ -208,8 +113,8 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-2 text-md font-weight-bold">ลายเซ็น</div>
-                          <div class="col-lg-10">
+                          <div class="col-lg-4 text-md font-weight-bold">ลายเซ็น</div>
+                          <div class="col-lg-8">
                             <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
                               <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#signature">
                                 <span class="icon text-white-50">
@@ -230,6 +135,57 @@
                       </div>
                     </div>
                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="row">
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-lg-12 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-md font-weight-bold text-primary text-uppercase mb-1">จำนวนวันลาพักผ่อนคงเหลือ</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            <?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?> วัน<br/>
+                            <span class="mb-0 font-weight-bold text-gray-600" style="font-size:0.6em;"><?php echo isset($leave_quota) && count($leave_quota)>0?'ข้อมูลเมื่อวันที่ '.date_th($leave_quota[0]['create_date'],2):'';?></span>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pending Requests Card Example -->
+                <div class="col-lg-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-md font-weight-bold text-warning text-uppercase mb-1">กำลังดำเนินการ</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $leave_history['count_new'];?> รายการ</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pending Requests Card Example -->
+                <div class="col-lg-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-md font-weight-bold text-info text-uppercase mb-1">ดำเนินการเสร็จสิ้น</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $leave_history['count_end'];?> รายการ</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -276,8 +232,8 @@
                             <td><?php echo $i;?></td>
                             <td><?php echo $val['leave_no'];?></td>
                             <td><?php echo isset($leave_type[$val['leave_type_id']])?$leave_type[$val['leave_type_id']]['leave_name']:' - ';?></td>
-                            <td><?php echo date('Y/m/d',strtotime($val['create_date']));?></td>
-                            <td><?php echo date('Y/m/d',strtotime($val['period_start'])).($val['period_end']!=''?' - '.date('Y/m/d',strtotime($val['period_end'])):'');?></td>
+                            <td><?php echo date_th($val['create_date'],2);?></td>
+                            <td><?php echo date_th($val['period_start'],2).($val['period_end']!=''?' - '.date_th($val['period_end'],2):'');?></td>
                             <td><?php $sum_day+=$val['period_count']; echo $val['period_count'].($val['period_type']!='a'?$val['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)');?></td>
                             <td>
                               <?php //check?>

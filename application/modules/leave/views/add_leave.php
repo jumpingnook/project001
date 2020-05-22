@@ -90,7 +90,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -144,7 +144,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -203,7 +203,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -262,7 +262,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -306,7 +306,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -380,7 +380,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -431,7 +431,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -483,7 +483,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select name="to" class="form-control" required>
+                        <select classname="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -639,261 +639,10 @@
                     </div>
                   </div>
 
-                  <!-- <div class="row approve_list" /*style="display:none;"*/>
-
-                    <div class="a1 col-lg-6" id="workmate-box" style="display:none;">
-                      <div class="form-group">
-                          <label>ผู้ปกิบัติงานแทน *</label>
-                          <select id="workmate" class="input_hide form-control" name="worker_personnel_id" form="" require disabled>
-                            <option value="0">เลือกผู้ปฏิบัติงานแทน</option>
-                            <?php /*if(isset($friend) and count($friend['data'])>0){ foreach($friend['data'] as $key=>$val){ if($val['personnel_id']!=$personnel['personnel_id']){?>
-                              <option value="<?php echo $val['personnel_id'];?>"><?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?></option>
-                              <?php }}}*/ ?>
-                          </select>
-                        </div>
-                    </div>
-
-                    <?php //if(!(isset($personnel['smu_main_id']) and intval($personnel['smu_main_id'])!=0 and substr($personnel['smu_main_id'],0,1) == 2)){?>
-                      <div class="a2 col-lg-6" >
-                        <div class="form-group">
-                            <label>หัวหน้าหน่วย *</label>
-                            <select id="head_unit" class="select_app input_hide form-control" name="head_unit_personnel_id" form="" require>
-                              <option value="">เลือกหัวหน้าหน่วย</option>
-                              <option value="0">ไม่มีหัวหน้าหน่วย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                            <input id="head_unit_position" type="text" class="input_hide form-control" name="head_unit_position" form="" placeholder="ระบุชื่อตำแหน่ง" disabled/>
-                          </div>
-                      </div>
-                      <div class="a3 col-lg-6" >
-                        <div class="form-group">
-                            <label>หัวหน้างาน *</label>
-                            <select id="head_dept" class="select_app input_hide form-control" name="head_dept_personnel_id" form="" require>
-                              <option value="">เลือกหัวหน้างาน</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                            <input id="head_dept_position" type="text" class="input_hide form-control" name="head_dept_position" form="" placeholder="ระบุชื่อตำแหน่ง" disabled/>
-                          </div>
-                      </div>
-                      <div class="a4 col-lg-6" >
-                        <div class="form-group">
-                            <label>หัวหน้าฝ่าย *</label>
-                            <select id="supervisor" class="select_app input_hide form-control" name="supervisor_personnel_id" form="" require>
-                              <option value="">เลือกหัวหน้าฝ่าย</option>
-                              <option value="0">ไม่มีหัวหน้าฝ่าย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                            <input id="supervisor_position" type="text" class="input_hide form-control" name="supervisor_position" form="" placeholder="ระบุชื่อตำแหน่ง" disabled/>
-                          </div>
-                      </div>
-                    <?php //} ?>
-                    
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                          <label>รองคณบดี หรือหัวหน้าภาควิชา *</label>
-                          <select id="deputy_dean" class="input_hide form-control" name="deputy_dean_personnel_id" form="" require>
-                            <option value="0">เลือกรองคณบดี หรือหัวหน้าภาควิชา</option>
-                            <?php /*if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                              <option value="<?php echo $val['personnel_id'];?>">
-                                <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                              </option>
-                            <?php }}*/ ?>
-                          </select>
-                          <input id="deputy_dean_position" type="text" class="input_hide form-control" name="deputy_dean_position" form="" placeholder="ระบุชื่อตำแหน่ง" require/>
-                        </div>
-                    </div>
-                  </div> -->
-                  <button type="submit" id="submit-form" form="" class="btn btn-primary btn-user btn-block" style="display:none;">บันทึก</button>
+                  <button type="submit" id="submit-form" status_sub="false" form="" class="btn btn-primary btn-user btn-block" style="display:none;">บันทึก</button>
 
                 </div>
               </div>
-
-              <!-- Basic Card Example -->
-              <?php /*
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">ตัวเลือกเพื่อการอนุมัติ</h6>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <?php if(isset($personnel['smu_main_id']) and intval($personnel['smu_main_id'])!=0 and substr($personnel['smu_main_id'],0,1) == 2){ ?>
-
-                      <div class="col-lg-4">
-                        <div id="workmate-box" class="form-group" style="display:none;">
-                          <label>ผู้ปฏิบัติงานแทน</label>
-                          <select id="workmate" class="form-control">
-                            <option value="0">เลือกผู้ปฏิบัติงานแทน</option>
-                            <?php if(isset($friend) and count($friend['data'])>0){ foreach($friend['data'] as $key=>$val){ if($val['personnel_id']!=$personnel['personnel_id']){?>
-                              <option value="<?php echo $val['personnel_id'];?>"><?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?></option>
-                              <?php }}} ?>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>หัวหน้าหน่วย</label>
-                            <select id="boss" class="form-control">
-                              <option value="0">เลือกหัวหน้าหน่วย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                          </div>
-                      </div>
-
-                    <?php }else{ ?>
-
-                  <!-- <div class="col-lg-4">
-                        <div id="workmate-box" class="form-group">
-                          <label>ผู้ปฏิบัติงานแทน</label>
-                          <select id="workmate" class="form-control">
-                            <option value="0">เลือกผู้ปฏิบัติงานแทน</option>
-                            <?php if(isset($friend) and count($friend['data'])>0){ foreach($friend['data'] as $key=>$val){ if($val['personnel_id']!=$personnel['personnel_id']){?>
-                              <option value="<?php echo $val['personnel_id'];?>"><?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?></option>
-                              <?php }}} ?>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>หัวหน้าหน่วย</label>
-                            <select id="head_unit" class="form-control">
-                              <option value="0">เลือกหัวหน้าหน่วย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>หัวหน้างาน</label>
-                            <select id="head_dept" class="form-control">
-                              <option value="0">เลือกหัวหน้างาน</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>หัวหน้าฝ่าย</label>
-                            <select id="supervisor" class="form-control">
-                              <option value="0">เลือกหัวหน้าฝ่าย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="col-lg-8">
-                        <div class="form-group">
-                            <label>รองคณบดี / หัวหน้าภาควิชา</label>
-                            <select id="deputy_dean" class="form-control">
-                              <option value="0">รองคณบดี / หัวหน้าภาควิชา</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                          </div>
-                      </div> -->
-                      
-                      <!-- <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>ผู้ปกิบัติงานแทน *</label>
-                            <select id="workmate" class="form-control" require>
-                              <option value="0">เลือกผู้ปฏิบัติงานแทน</option>
-                              <?php if(isset($friend) and count($friend['data'])>0){ foreach($friend['data'] as $key=>$val){ if($val['personnel_id']!=$personnel['personnel_id']){?>
-                                <option value="<?php echo $val['personnel_id'];?>"><?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?></option>
-                                <?php }}} ?>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>หัวหน้าหน่วย</label>
-                            <select id="head_unit" class="form-control" require>
-                              <option value="0">เลือกหัวหน้าหน่วย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                            <input type="text" class="form-control" placeholder="ระบุชื่อตำแหน่ง"/>
-                          </div>
-                      </div>
-                      <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>หัวหน้างาน</label>
-                            <select id="head_dept" class="form-control" require>
-                              <option value="0">เลือกหัวหน้าหน่วย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                            <input type="text" class="form-control" placeholder="ระบุชื่อตำแหน่ง"/>
-                          </div>
-                      </div>
-                      <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>หัวหน้าฝ่าย</label>
-                            <select id="supervisor" class="form-control" require>
-                              <option value="0">เลือกหัวหน้าหน่วย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                            <input type="text" class="form-control" placeholder="ระบุชื่อตำแหน่ง"/>
-                          </div>
-                      </div>
-                      <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>รองคณบดี หรือหัวหน้าภาควิชา *</label>
-                            <select id="deputy_dean" class="form-control" require>
-                              <option value="0">เลือกหัวหน้าหน่วย</option>
-                              <?php if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?>
-                                </option>
-                              <?php }} ?>
-                            </select>
-                            <input type="text" class="form-control" placeholder="ระบุชื่อตำแหน่ง" require/>
-                          </div>
-                      </div> -->
-                    <?php } ?>
-
-                  </div>
-                </div>
-              </div> --> 
-              */?>
 
             </div>
             <div class="col-lg-4">
@@ -1027,6 +776,36 @@
       <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
+      <!-- Boss Modal-->
+      <a id="modal-boss" class="dropdown-item" href="#" data-toggle="modal" data-target="#_boss" style="display:none;"></a>
+      <div class="modal fade" id="_boss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">เลือกชื่อตำแหน่ง</h5>
+                  <button id="close_position" class="close" type="button" data-dismiss="modal" aria-label="Close" style="display:none;">
+                  <span aria-hidden="true">×</span>
+                  </button>
+              </div>
+
+              <div class="modal-body">
+                  <div class="form-group">
+                    <div id="boss_position_list">
+                    </div>
+                  </div>
+              </div>
+
+              <div class="modal-footer">
+                  <button id="ok_position" type_id="" class="btn btn-secondary" type="button">ตกลง</button>
+              </div>
+              </div>
+          </div>
+      </div>
+
+      <div id="preload" style="position: absolute;width: 100vw;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 99;top: 0;left: 0;display:none;">
+        <img src="<?php echo base_url(load_file('assets/img/loading.gif'));?>" style="position: fixed;left: 0;right: 0;margin: auto;top: 25%;">
+      </div>
+
     </div>
     <!-- End of Content Wrapper -->
 
@@ -1116,7 +895,7 @@
               $('.input_hide').attr('form','form_ordination');
               $('.date-cal span').hide();
               $('.date-cal button').show();
-              $('#workmate input').attr('disabled','disabled');
+              $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }else if(leave_type==9){
               $('.form.soldier').show();
@@ -1157,6 +936,10 @@
       });
 
       $('.form').submit(function(){
+
+        if(!check_spec()){
+            return false;
+        }
 
         var workmate = $('#workmate').val();
         var head_unit = $('#head_unit').val();
@@ -1215,7 +998,7 @@
 
         return true;
 
-      });
+      });      
 
       $('.temple_name').change(function(){
         if($('.temple_name_2').val()==''){
@@ -1327,6 +1110,8 @@
 
         $('.date-cal button').hide();
         var count_date = (days_between(date_end,date_start) - date_dis);
+
+
         $('.date-cal span').text(count_date+' วัน').show();
 
         $('.period_count').val(count_date);
@@ -1380,9 +1165,58 @@
 
       $('.date-cal button').hide();
       var count_date = days_between(date_end,date_start);
+
+
       $('.date-cal span').text(count_date+' วัน').show();
       $('.period_count').val(count_date);
       $('.period_count_all').val(count_date);
+    }
+
+    function check_spec(){
+      var type = $('#type_leave').val();
+
+      if(type!=''){
+        $('#preload').show();
+        type = type.split('-')[0];
+
+        var data = {
+            'APP-KEY':'<?php echo $api['APP-KEY'];?>',
+            ip:'<?php echo $api['ip'];?>',
+            leave_type:type,
+            emp_type:'<?php echo $emp_type;?>',
+            personnel:'<?php echo $personnel['personnel_id'];?>',
+            day:$('.period_count').val()
+        };
+
+        $.ajax({
+            type: "POST",
+            data:data,
+            url: "<?php echo base_url(url_index().'leave/api_v1/leave_spec_alert');?>",
+            dataType: "json",
+            success: function(data){
+                if(data.process){
+                    if(typeof data.msg !== "undefined" && data.msg!=null && data.msg!=''){
+                    $('#preload').hide();
+                    $('#_alert .modal-title').text('แจ้งรายละเอียด');
+                    $('#_alert .modal-body').text(data.msg);
+                    $('#modal-alert').click();
+                }
+                    $('.toBoss').val(data.to);
+                    return true;
+                }else{
+                    if(typeof data.msg !== "undefined" && data.msg!=null && data.msg!=''){
+                        $('#preload').hide();
+                        $('#_alert .modal-title').text('ผิดพลาด');
+                        $('#_alert .modal-body').text(data.msg);
+                        $('#modal-alert').click();
+                    }
+                    return false;
+                }
+            }
+        });
+        return false;
+      }
+      return false;
     }
 
     function days_between(date1, date2) {
@@ -1423,9 +1257,6 @@
       return count_dis;
     }
 
-
-
-
     $( function() {
 
       function split( val ) {
@@ -1455,8 +1286,6 @@
             data: data,
             success: function(data) {
 
-              console.log(data);
-
               let res = [];
 
               if(!data.status){
@@ -1483,8 +1312,30 @@
         },
         minLength: 2,
         select: function( event, ui ) {
+          var id = $(this).attr('auto_type');
+          var position = ui.item.boss;
+          if(position!=null){
+            var res = position.split(",");
+            if(res.length>0){
+              var html = '';
+              $('#boss_position_list').empty();
+              $.each(res,function(key,val){
+                console.log(key,val);
+                html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="'+(val.trim())+'" '+(key==0?'checked="checked"':'')+'> '+(val.trim())+'</label></div>';
+              });
+              html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="" '+(html==''?'checked="checked"':'')+'> เลือกกรอกตำแหน่งอื่นๆ</label></div>';
+              $('#boss_position_list').append(html);
+              $('#ok_position').attr('type_id',id);
+              $('#modal-boss').click();
+            }
+
+          }else{
+            $(this).next().next().focus();
+          }
+
           $(this).next().val(ui.item.id);
-          $(this).next().next().val(ui.item.boss);
+
+          //$(this).next().next().val();
         },
         change: function (event, ui) {
           if (ui.item === null) {
@@ -1498,10 +1349,17 @@
           $(this).data("uiAutocomplete").search($(this).val());
       })*/;
 
+      $('#ok_position').click(function(){
+        var type_id = $(this).attr('type_id');
+        $('#'+type_id+'_position').val($('#boss_position_list .position_bosss:checked').val()).focus();
+        $('#close_position').click();
+      });
 
     });
     
   </script>
+
+  <?php echo $this->load->view('inc/alert'); ?>
 
 </body>
 

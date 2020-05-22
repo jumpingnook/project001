@@ -196,7 +196,7 @@ class Api_v1 extends REST_Controller {
     function leave_spec_alert_post(){
         $post = $this->post();
 
-        $token = $this->check_token($post);
+        //$token = $this->check_token($post);
 
         if(isset($post['leave_type']) and isset($post['emp_type']) and isset($post['personnel']) and isset($post['day']) and intval($post['leave_type'])!=0 and intval($post['emp_type'])!=0 and intval($post['personnel'])!=0 and floatval($post['day'])!=0){
 
@@ -229,7 +229,7 @@ class Api_v1 extends REST_Controller {
                                 'status'    => true,
                                 'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากท่านยังมีอายุงานไม่ครบ '.$spec['day_permission_unlock'].' วัน กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                                 'process'   => false,
-                                'process_redirect' => '?status=permission_not_unlock'
+                                'process_redirect' => '?status=validate_msg'
                             ], REST_Controller::HTTP_OK); //200
                         }
 
@@ -242,7 +242,7 @@ class Api_v1 extends REST_Controller {
                                     'status'    => true,
                                     'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากท่านวันลาคงเหลือไม่เพียงพอ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                                     'process'   => false,
-                                    'process_redirect' => '?status=permission_not_unlock'
+                                    'process_redirect' => '?status=validate_msg'
                                 ], REST_Controller::HTTP_OK); //200 
                             }
                         }
@@ -283,7 +283,7 @@ class Api_v1 extends REST_Controller {
                                 'status'    => true,
                                 'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวมต่อปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                                 'process'   => false,
-                                'process_redirect' => '?status=over_spec'
+                                'process_redirect' => '?status=validate_msg'
                             ], REST_Controller::HTTP_OK); //200
                         }
                     }else{
@@ -307,7 +307,7 @@ class Api_v1 extends REST_Controller {
                                 'status'    => true,
                                 'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวม '.$spec['leave_fix_permission'].' วัน/ปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                                 'process'   => false,
-                                'process_redirect' => '?status=over_spec'
+                                'process_redirect' => '?status=validate_msg'
                             ], REST_Controller::HTTP_OK); //200
                         }
                     }
@@ -328,10 +328,7 @@ class Api_v1 extends REST_Controller {
                         }
                     }
 
-                    
                     $count_day += $day_form;
-
-                    
 
                     if(intval($post['emp_type'])!=8){
                         if($day_form<=$spec['leave_fix_permission'] and $count_day<=$spec['leave_fix_permission']){ //alert
@@ -345,7 +342,7 @@ class Api_v1 extends REST_Controller {
                                 'status'    => true,
                                 'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวม '.$spec['leave_fix_permission'].' วัน/ปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                                 'process'   => false,
-                                'process_redirect' => '?status=over_spec'
+                                'process_redirect' => '?status=validate_msg'
                             ], REST_Controller::HTTP_OK); //200
                         }
                     }
@@ -361,7 +358,7 @@ class Api_v1 extends REST_Controller {
                                 'status'    => true,
                                 'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                                 'process'   => false,
-                                'process_redirect' => '?status=over_spec'
+                                'process_redirect' => '?status=validate_msg'
                             ], REST_Controller::HTTP_OK); //200
                         }else{
                             $this->response([
@@ -380,7 +377,7 @@ class Api_v1 extends REST_Controller {
                             'status'    => true,
                             'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                             'process'   => false,
-                            'process_redirect' => '?status=over_spec'
+                            'process_redirect' => '?status=validate_msg'
                         ], REST_Controller::HTTP_OK); //200
                     }else{
                         $this->response([
@@ -392,6 +389,16 @@ class Api_v1 extends REST_Controller {
                 }
 
                 if(intval($post['leave_type'])==4){//คลอด
+
+                    if($day_form>$spec['leave_fix']){
+                        $this->response([
+                            'status'    => true,
+                            'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนจำกัดในการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+                            'process'   => false,
+                            'process_redirect' => '?status=validate_msg'
+                        ], REST_Controller::HTTP_OK); //200
+                    }
+
                     if(intval($post['emp_type'])==5 || intval($post['emp_type'])==6){
                         $this->response([
                             'status'    => true,
@@ -405,6 +412,8 @@ class Api_v1 extends REST_Controller {
                             'process'   => true
                         ], REST_Controller::HTTP_OK); //200
                     }
+
+
                 }
 
                 if($post['leave_type']==9){//ทหาร
@@ -421,7 +430,7 @@ class Api_v1 extends REST_Controller {
                     'status'    => true,
                     'msg'       => 'ประเภทพนักงานของท่าน สามารถใช้สิทธิลาประเภทนี้ได้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
                     'process'   => false,
-                    'process_redirect' => '?status=not_leave_permission'
+                    'process_redirect' => '?status=validate_msg'
                 ], REST_Controller::HTTP_OK); //200
             }
 
