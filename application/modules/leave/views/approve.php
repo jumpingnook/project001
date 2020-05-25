@@ -188,7 +188,7 @@
                         <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การพิจารณา<?php echo $title;?></div>
                       </div>
 
-                      <?php if($approve_status){ ?>
+                      <?php if(!$approve_status){ ?>
 
                       <div class="row mb-1">
                         <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
@@ -226,6 +226,10 @@
 
         </div>
         <!-- /.container-fluid -->
+
+        <div id="preload" style="position: absolute;width: 100vw;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 99;top: 0;left: 0;display:none;">
+        <img src="<?php echo base_url(load_file('assets/img/loading.gif'));?>" style="position: fixed;left: 0;right: 0;margin: auto;top: 25%;">
+        </div>
 
       </div>
       <!-- End of Main Content -->
@@ -320,6 +324,9 @@
         $('#form').submit(function(){
           var con = confirm('ท่านต้องบันทึกผลการพิจารณานี้ใช่หรือไม่');
           if(con){
+
+            $('#preload').show();
+            
             return true;
           }
           return false;

@@ -360,7 +360,7 @@
             $.ajax({
               type: "POST",
               data:{leave:'<?php echo intval($leave_id);?>'},
-              url: "<?php echo base_url(url_index().'leave/send_first_approve');?>",
+              url: "<?php echo base_url(url_index().'leave/send_approve');?>",
               dataType: "json",
               success: function(data){
                 if(data.status){

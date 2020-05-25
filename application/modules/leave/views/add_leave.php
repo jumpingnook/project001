@@ -937,8 +937,9 @@
 
       $('.form').submit(function(){
 
-        if(!check_spec()){
-            return false;
+        var con = confirm('กรุณาตรวจสอบความถูกต้องในการลาของท่านก่อนบันทึกข้อมูล ท่านต้องการลงข้อมูลการลานี้ใช่หรือไม่');
+        if(!con){
+          return false;
         }
 
         var workmate = $('#workmate').val();
@@ -953,7 +954,9 @@
 
         if((leave_type>=1 && leave_type<=4) || leave_type==7){
           if(workmate==0){
-            alert('กรุณาเลือกผู้ปฏิบัติงานแทนให้ถูกต้อง');
+            $('#_alert .modal-title').text('แจ้งรายละเอียด');
+            $('#_alert .modal-body').text('กรุณาเลือกผู้ปฏิบัติงานแทนให้ถูกต้อง');
+            $('#modal-alert').click();
             return false;
           }
         }
@@ -961,7 +964,9 @@
         <?php if(!(isset($personnel['smu_main_id']) and intval($personnel['smu_main_id'])!=0 and substr($personnel['smu_main_id'],0,1) == 2)){?>
 
           if(head_unit=='' || head_dept=='' || deputy_dean==''){
-            alert('กรุณาเลือกผู้บังคับบัญชาให้ถูกต้อง');
+            $('#_alert .modal-title').text('แจ้งรายละเอียด');
+            $('#_alert .modal-body').text('กรุณาเลือกผู้บังคับบัญชาให้ถูกต้อง');
+            $('#modal-alert').click();
             return false;
           }
 
@@ -971,24 +976,34 @@
           // }
 
           if(head_unit_position==''){
-            alert('กรุณากรอกชื่อตำแหน่งหัวหน้าหน่วย / หัวหน้าหอผู้ป่วย');
+            $('#_alert .modal-title').text('แจ้งรายละเอียด');
+            $('#_alert .modal-body').text('กรุณากรอกชื่อตำแหน่งหัวหน้าหน่วย / หัวหน้าหอผู้ป่วย');
+            $('#modal-alert').click();
             return false;
           }
           if(head_dept_position==''){
-            alert('กรุณากรอกชื่อตำแหน่งหัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน');
+            $('#_alert .modal-title').text('แจ้งรายละเอียด');
+            $('#_alert .modal-body').text('กรุณากรอกชื่อตำแหน่งหัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน');
+            $('#modal-alert').click();
             return false;
           }
           if(supervisor_position==''){
-            alert('กรุณากรอกชื่อตำแหน่งหัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ');
+            $('#_alert .modal-title').text('แจ้งรายละเอียด');
+            $('#_alert .modal-body').text('กรุณากรอกชื่อตำแหน่งหัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ');
+            $('#modal-alert').click();
             return false;
           }
 
         <?php } ?>
 
         if(deputy_dean_position==''){
-          alert('กรุณากรอกชื่อตำแหน่งคณบดี / รองคณบดี / หัวหน้าภาค');
+          $('#_alert .modal-title').text('แจ้งรายละเอียด');
+          $('#_alert .modal-body').text('กรุณากรอกชื่อตำแหน่งคณบดี / รองคณบดี / หัวหน้าภาค');
+          $('#modal-alert').click();
           return false;
         }
+
+        check_spec();
 
         // $('.workmate').val(workmate);
         // $('.head_unit').val(head_unit);
