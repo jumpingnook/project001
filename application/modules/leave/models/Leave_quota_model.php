@@ -46,13 +46,35 @@ class Leave_quota_model extends MY_Model {
 	}
 
 	function get_last_quote($set=[]){
-		if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
+		if(isset($set['personnel_id']) and !isset($set['leave_id']) and intval($set['personnel_id'])!=0){
 			$con = [];
 			$con['where'] = 'personnel_id = "'.intval($set['personnel_id']).'" and status = 0';
 			$con['limit'] = '0,1';
 			$con['order_by'] = 'quota_id DESC';
 			return $this->to_select($con);
 		}
+		if(isset($set['personnel_id']) and isset($set['leave_id']) and intval($set['personnel_id'])!=0 and intval($set['leave_id'])!=0){
+			$con = [];
+			$con['where'] = 'personnel_id = "'.intval($set['personnel_id']).'" and leave_id = "'.intval($set['leave_id']).'"';
+			$con['limit'] = '0,1';
+			$con['order_by'] = 'quota_id DESC';
+			return $this->to_select($con);
+		}
+	}
+
+	function cancel_quota($set=[]){
+		if(isset($set['personnel_id']) and isset($set['leave_id']) and intval($set['personnel_id'])!=0 and intval($set['leave_id'])!=0){
+
+			$con = [];
+			$con['data']['status'] = 1;
+			$con['data']['cancel_date'] = date('Y-m-d H:i:s');
+			$con['data']['cancel_personnel_id'] = intval($set['personnel_id']);
+			$con['where'] = 'leave_id = "'.intval($set['leave_id']).'"';
+			$this->to_update($con);
+
+			return true;
+		}
+		return false;
 	}
 
 }

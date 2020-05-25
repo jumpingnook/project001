@@ -149,14 +149,17 @@ class Leave_model extends MY_Model {
 	function last_leave($set=[]){
 		$res = [];
 
-		if(isset($set['leave_id']) and intval($set['leave_id'])>0){
+		if(isset($set['leave_id'])){
 
 			$sql = '';
 			if(isset($set['leave_type']) and intval($set['leave_type'])>=2 and intval($set['leave_type'])<=4 and $sql==''){
 				$sql = ' and (leave_type_id >=2 and leave_type_id <=4)';
 			}
-			if(isset($set['leave_type']) and intval($set['leave_type'])==1 or intval($set['leave_type'])==7 and $sql==''){
+			if(isset($set['leave_type']) and intval($set['leave_type'])==1 and $sql==''){
 				$sql = ' and (leave_type_id =1 or leave_type_id =7)';
+			}
+			if(isset($set['leave_type']) and intval($set['leave_type'])==7 and $sql==''){
+				$sql = ' and leave_type_id =7';
 			}
 			
 
@@ -164,14 +167,16 @@ class Leave_model extends MY_Model {
 			$con['where'] = 'leave_id <> "'.intval($set['leave_id']).'" and status = 2 '.$sql;
 			$res = $this->to_select($con);
 
+		}elseif(isset($set['last_leave_id'])){
+			$con = [];
+			$con['where'] = 'leave_id = "'.intval($set['last_leave_id']).'"';
+			$res = $this->to_select($con);
 		}
 
 		return $res;
 	}
 
 	function save_approve($set=[]){
-
-		
 
 		if(count($set)==4 and isset($set['personnel_id']) and isset($set['type']) and isset($set['leave_id'])and isset($set['approve']) and intval($set['personnel_id'])!=0 and intval($set['leave_id'])!=0 and intval($set['type'])!=0 and (intval($set['approve']) == 1 or intval($set['approve'])==2)){
 
