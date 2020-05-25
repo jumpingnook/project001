@@ -236,8 +236,19 @@
                             <td><?php echo date_th($val['period_start'],2).($val['period_end']!=''?' - '.date_th($val['period_end'],2):'');?></td>
                             <td><?php $sum_day+=$val['period_count']; echo $val['period_count'].($val['period_type']!='a'?$val['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)');?></td>
                             <td>
-                              <?php //check?>
-                              ดำเนินการ
+                              <?php 
+                                if($val['status']==0){
+                                  echo 'รอดำเนินการ';
+                                }elseif($val['status']==1){
+                                  echo 'กำลังพิจารณา';
+                                }elseif($val['status']==2){
+                                  echo 'อณุญาติ';
+                                }elseif($val['status']==3){
+                                  echo 'ไม่อณุญาติ';
+                                }elseif($val['status']==98){
+                                  echo 'ยกเลิก';
+                                }
+                              ?>
 
                             </td>
                             <td>
@@ -252,7 +263,7 @@
                         <tr>
                           <th colspan="2">รวมทั้งหมด <?php echo isset($leave_history)?number_format($leave_history['count']):0;?> รายการ</th>
                           <th colspan="3"></th>
-                          <th colspan="3">รวมทั้งหมด <?php echo number_format($sum_day,1,'.',',').' วัน';?></th>
+                          <th colspan="3"><?php //echo 'รวมทั้งหมด '.number_format($sum_day,1,'.',',').' วัน';?></th>
                         </tr>
                       </tfoot>
                     </table>

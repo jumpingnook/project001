@@ -180,7 +180,8 @@ class Leave extends Leave_Controller {
         }
 
         $last_leave = $this->Leave_model->last_leave(['leave_id'=>0,'leave_type'=>$api['leave_type']]);
-        $set['data']['last_leave_id'] = count($last_leave)==1?$last_leave[0]['leave_id']:0;
+        $last_leave = count($last_leave)>0?end($last_leave):0;
+        $set['data']['last_leave_id'] = isset($last_leave['leave_id'])==1?$last_leave['leave_id']:0;
 
         $result = $this->Leave_model->save_leave($set['data']);
         
@@ -524,7 +525,7 @@ class Leave extends Leave_Controller {
                     }
                 }
             }
-            
+
             $this->load->view('approve',$set);
 
         }else{
@@ -540,7 +541,7 @@ class Leave extends Leave_Controller {
             $this->load->model('leave/Leave_model');
             $result = $this->Leave_model->save_approve($post);
 
-            if(intval($post['approve']) == 1){// leave status 2
+            if(intval($post['type'])==5 and intval($post['approve']) == 1){// leave status 2
                 $test = $this->Leave_model->leave_status(['leave_id'=>intval($post['leave_id']),'type'=>2]);
             }elseif(intval($post['approve']) == 2){// leave status 3
                 $this->load->model('leave/Leave_quota_model');
