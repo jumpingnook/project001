@@ -72,9 +72,9 @@
 
       <span style="top: calc(100% - 76.6%);left: calc(100% - 80%);"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></span>
 
-      <span style="top: calc(100% - 74.6%);left: calc(100% - 72%);">99*</span>
-      <span style="top: 25.4%;left: 60%;">99*</span>
-      <span style="top: calc(100% - 74.6%);left: calc(100% - 23%);">99*</span>
+      <span style="top: calc(100% - 74.6%);left: calc(100% - 72%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
+      <span style="top: 25.4%;left: 60%;">10</span>
+      <span style="top: calc(100% - 74.6%);left: calc(100% - 23%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
 
       <span style="top: calc(100% - 72.3%);left: calc(100% - 70%);">
         <?php echo date_th($data['period_start'],2);?>
@@ -88,16 +88,20 @@
 
       <span class="overflow-text" style="top: calc(100% - 70.1%);left: calc(100% - 63%);width: 51%;height: 3%;"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
 
-      <span style="top: 41%;left: 15%;">*99</span>
-      <span style="top: 41%;left: 25%;">*99</span>
-      <span style="top: 41%;left: 35%;">*99</span>
+      <span style="top: 41%;left: 15%;"><?php echo isset($old_leave_count)?floatval($old_leave_count):0;?></span>
+      <span style="top: 41%;left: 25%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
+      <span style="top: 41%;left: 35%;"><?php echo isset($old_leave_count)?floatval($data['period_count'])+floatval($old_leave_count):floatval($data['period_count']);?></span>
 
-      <span style="top: 45%;left: 35%;">*99</span>
-      <span style="top: 46.8%;left: 35%;">*99</span>
-      <span style="top: 48.8%;left: 35%;">*99</span>
-      <span style="top: 50.4%;left: 35%;">*99</span>
-      <span style="top: 52.4%;left: 35%;">*99</span>
-      <span style="top: 54.4%;left: 35%;">*99</span>
+      <span style="top: 41%;left: 15%;"><?php echo isset($old_leave_count)?floatval($old_leave_count):0;?></span>
+      <span style="top: 41%;left: 25%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
+      <span style="top: 41%;left: 35%;"><?php echo isset($old_leave_count)?floatval($data['period_count'])+floatval($old_leave_count):floatval($data['period_count']);?></span>
+
+      <span style="top: 45%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
+      <span style="top: 46.8%;left: 35%;">10</span>
+      <span style="top: 48.8%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
+      <span style="top: 50.4%;left: 35%;"><?php echo isset($old_leave_count)?$old_leave_count:0;?></span>
+      <span style="top: 52.4%;left: 35%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
+      <span style="top: 54.4%;left: 35%;"><?php echo isset($data['period_count']) && isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']-floatval($data['period_count']):'0';?></span>
 
       <span style="top: 38%;left: 58%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
       <span style="top: 40.2%;left: 58%;">
@@ -230,28 +234,28 @@
 
       <span style="top: 29.8%;left: 77%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
 
-      <span style="top: 32.5%;left: 28%;">&#10003;</span>
-      <span style="top: 32.5%;left: 43.4%;">&#10003;</span>
-      <span style="top: 32.5%;left: 61.4%;">&#10003;</span>
+      <span style="top: 32.5%;left: 28%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==3?'&#10003':'';?></span>
+      <span style="top: 32.5%;left: 43.4%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==2?'&#10003':'';?></span>
+      <span style="top: 32.5%;left: 61.4%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==4?'&#10003':'';?></span>
 
-      <span style="top: 34.8%;left: 30%;">*99</span>
+      <span style="top: 34.8%;left: 30%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_start'],2):' - ';?></span>
 
-      <span style="top: 34.8%;left: 52%;">*99</span>
+      <span style="top: 34.8%;left: 52%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_end'],2):' - ';?></span>
 
-      <span style="top: 34.8%;left: 81%;">*99</span>
+      <span style="top: 34.8%;left: 81%;"><?php echo isset($last_leave) && count($last_leave)>0?$last_leave['period_count']:' - ';?></span>
 
       <span class="overflow-text" style="top: 37.4%;left: 38%;width:50%;height:3%;"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
 
-      <span style="top: 48%;left: 26%;">*99</span>
-      <span style="top: 48%;left: 35%;">*99</span>
-      <span style="top: 48%;left: 43%;">*99</span>
-      <span style="top: 50%;left: 26%;">*99</span>
-      <span style="top: 50%;left: 35%;">*99</span>
-      <span style="top: 50%;left: 43%;">*99</span>
-      <span style="top: 52.4%;left: 26%;">*99</span>
-      <span style="top: 52.4%;left: 35%;">*99</span>
-      <span style="top: 52.4%;left: 43%;">*99</span>
-      <span style="top: 54.8%;left: 43%;">*99</span>
+      <span style="top: 48%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[3]):0;?></span>
+      <span style="top: 48%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($data['period_count']):0;?></span>
+      <span style="top: 48%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($old_leave_type[3])+floatval($data['period_count']):0;?></span>
+      <span style="top: 50%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[2]):0;?></span>
+      <span style="top: 50%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($data['period_count']):floatval($old_leave_type[3]);?></span>
+      <span style="top: 50%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($old_leave_type[2])+floatval($data['period_count']):floatval($old_leave_type[2]);?></span>
+      <span style="top: 52.4%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[4]):0;?></span>
+      <span style="top: 52.4%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($data['period_count']):0;?></span>
+      <span style="top: 52.4%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($old_leave_type[4])+floatval($data['period_count']):0;?></span>
+      <span style="top: 54.8%;left: 43%;"><?php echo floatval($old_leave_type[2])+floatval($old_leave_type[3])+floatval($old_leave_type[4])+floatval($data['period_count']);?></span>
 
       <span style="top: 49.2%;left: 60%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
       <span style="top: 51.4%;left: 60%;">
@@ -372,9 +376,9 @@
 
       <span style="top: 21.4%;left: 25%;"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></span>
 
-      <span style="top: 24.5%;left: 19%;">&#10003;</span>
-      <span style="top: 24.5%;left: 28%;">&#10003;</span>
-      <span style="top: 24.5%;left: 43%;">&#10003;</span>
+      <span style="top: 24.5%;left: 19%;"></span>
+      <span style="top: 24.5%;left: 28%;"></span>
+      <span style="top: 24.5%;left: 43%;"><?php echo $data['leave_type_id']==4?'&#10003':'';?></span>
 
       <span class="overflow-text" style="top: 27%;left: 21%;width:66%;height:3%;"><?php echo isset($data['detail'])?htmlspecialchars_decode($data['detail']):'-';?></span>
 
@@ -384,28 +388,28 @@
 
       <span style="top: 29.8%;left: 77%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
 
-      <span style="top: 32.5%;left: 28%;">&#10003;</span>
-      <span style="top: 32.5%;left: 43.4%;">&#10003;</span>
-      <span style="top: 32.5%;left: 61.4%;">&#10003;</span>
+      <span style="top: 32.5%;left: 28%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==3?'&#10003':'';?></span>
+      <span style="top: 32.5%;left: 43.4%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==2?'&#10003':'';?></span>
+      <span style="top: 32.5%;left: 61.4%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==4?'&#10003':'';?></span>
 
-      <span style="top: 34.8%;left: 30%;">*99</span>
+      <span style="top: 34.8%;left: 30%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_start'],2):' - ';?></span>
 
-      <span style="top: 34.8%;left: 52%;">*99</span>
+      <span style="top: 34.8%;left: 52%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_end'],2):' - ';?></span>
 
-      <span style="top: 34.8%;left: 81%;">*99</span>
+      <span style="top: 34.8%;left: 81%;"><?php echo isset($last_leave) && count($last_leave)>0?$last_leave['period_count']:' - ';?></span>
 
       <span class="overflow-text" style="top: 37.4%;left: 38%;width:50%;height:3%;"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
 
-      <span style="top: 48%;left: 26%;">*99</span>
-      <span style="top: 48%;left: 35%;">*99</span>
-      <span style="top: 48%;left: 43%;">*99</span>
-      <span style="top: 50%;left: 26%;">*99</span>
-      <span style="top: 50%;left: 35%;">*99</span>
-      <span style="top: 50%;left: 43%;">*99</span>
-      <span style="top: 52.4%;left: 26%;">*99</span>
-      <span style="top: 52.4%;left: 35%;">*99</span>
-      <span style="top: 52.4%;left: 43%;">*99</span>
-      <span style="top: 54.8%;left: 43%;">*99</span>
+      <span style="top: 48%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[3]):0;?></span>
+      <span style="top: 48%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($data['period_count']):0;?></span>
+      <span style="top: 48%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($old_leave_type[3])+floatval($data['period_count']):0;?></span>
+      <span style="top: 50%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[2]):0;?></span>
+      <span style="top: 50%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($data['period_count']):floatval($old_leave_type[3]);?></span>
+      <span style="top: 50%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($old_leave_type[2])+floatval($data['period_count']):floatval($old_leave_type[2]);?></span>
+      <span style="top: 52.4%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[4]):0;?></span>
+      <span style="top: 52.4%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($data['period_count']):0;?></span>
+      <span style="top: 52.4%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($old_leave_type[4])+floatval($data['period_count']):0;?></span>
+      <span style="top: 54.8%;left: 43%;"><?php echo floatval($old_leave_type[2])+floatval($old_leave_type[3])+floatval($old_leave_type[4])+floatval($data['period_count']);?></span>
 
       <span style="top: 49.2%;left: 60%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
       <span style="top: 51.4%;left: 60%;">
@@ -705,7 +709,7 @@
             echo 'คณะบดีคณะแพทยศาสตร์';
           }elseif(isset($data['to']) && $data['to']==2){
             echo 'อธิกาารบดี';
-          }elseif(isset($data['to']) && $data['to']==2){
+          }elseif(isset($data['to']) && $data['to']==3){
             echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
           }
         ?>
@@ -721,9 +725,9 @@
 
       <span style="top: calc(100% - 76.6%);left: calc(100% - 80%);"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></span>
 
-      <span style="top: calc(100% - 74.6%);left: calc(100% - 72%);">99*</span>
-      <span style="top: 25.4%;left: 60%;">99*</span>
-      <span style="top: calc(100% - 74.6%);left: calc(100% - 23%);">99*</span>
+      <span style="top: calc(100% - 74.6%);left: calc(100% - 72%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
+      <span style="top: 25.4%;left: 60%;">10</span>
+      <span style="top: calc(100% - 74.6%);left: calc(100% - 23%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
 
       <span style="top: calc(100% - 72.3%);left: calc(100% - 70%);">
         <?php echo date_th($data['period_start'],2);?>
@@ -737,16 +741,16 @@
 
       <span class="overflow-text" style="top: calc(100% - 70.1%);left: calc(100% - 63%);width: 51%;height: 3%;"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
 
-      <span style="top: 41%;left: 15%;">*99</span>
-      <span style="top: 41%;left: 25%;">*99</span>
-      <span style="top: 41%;left: 35%;">*99</span>
+      <span style="top: 41%;left: 15%;"><?php echo isset($old_leave_count)?floatval($old_leave_count):0;?></span>
+      <span style="top: 41%;left: 25%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
+      <span style="top: 41%;left: 35%;"><?php echo isset($old_leave_count)?floatval($data['period_count'])+floatval($old_leave_count):floatval($data['period_count']);?></span>
 
-      <span style="top: 45%;left: 35%;">*99</span>
-      <span style="top: 46.8%;left: 35%;">*99</span>
-      <span style="top: 48.8%;left: 35%;">*99</span>
-      <span style="top: 50.4%;left: 35%;">*99</span>
-      <span style="top: 52.4%;left: 35%;">*99</span>
-      <span style="top: 54.4%;left: 35%;">*99</span>
+      <span style="top: 45%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
+      <span style="top: 46.8%;left: 35%;">10</span>
+      <span style="top: 48.8%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
+      <span style="top: 50.4%;left: 35%;"><?php echo isset($old_leave_count)?$old_leave_count:0;?></span>
+      <span style="top: 52.4%;left: 35%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
+      <span style="top: 54.4%;left: 35%;"><?php echo isset($data['period_count']) && isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']-floatval($data['period_count']):'0';?></span>
 
       <span style="top: 38%;left: 58%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
       <span style="top: 40.2%;left: 58%;">
@@ -1052,27 +1056,26 @@
             echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
           ?>
         </span>
-        <span style="top: 28.2%;left: 55%;"><?php echo date('d',strtotime($personnel['data']['brithdate']));?></span>
+        <span style="top: 28.2%;left: 55%;"><?php echo intval(date('d',strtotime($personnel['data']['brithdate'])));?></span>
         <span style="top: 28.2%;left: 65%;"><?php echo date_th($personnel['data']['brithdate'],9);?></span>
         <span style="top: 28.2%;left: 80%;"><?php echo date_th($personnel['data']['brithdate'],10);?></span>
-        <span style="top: 31.8%;left: 17%;">99*</span>
-        <span style="top: 31.8%;left: 42%;">99*</span>
-        <span style="top: 31.8%;left: 53%;">99*</span>
-        <span style="top: 31.8%;left: 70%;">99*</span>
+        <span style="top: 31.8%;left: 17%;"><?php echo date('Y')-date('Y',strtotime($personnel['data']['brithdate']));?></span>
+        <span style="top: 31.8%;left: 42%;"><?php echo intval(date('d',strtotime($personnel['data']['work_start_date'])));?></span>
+        <span style="top: 31.8%;left: 53%;"><?php echo date_th($personnel['data']['work_start_date'],9);?></span>
+        <span style="top: 31.8%;left: 70%;"><?php echo date_th($personnel['data']['work_start_date'],10);?></span>
         <span style="top: 35%;left: 37%;"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
         <span style="top: 35%;left: 71%;">99*</span>
         <span style="top: 38.5%;left: 19%;"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></span>
         <span style="top: 38.5%;left: 54%;">ตณะแพทยศาสตร์</span>
 
         <span style="top: 42%;left: 17%;">99*</span>
-        <span style="top: 42%;left: 58%;">99*</span>
+        <span style="top: 42%;left: 58%;"></span>
         <span class="overflow-text" style="top: 45.2%;left: 14%;width:28%;height:3%;"><?php echo isset($data['detail'])?$data['detail']:'-';?></span>
         <span style="top: 45.2%;left: 52%;"><?php echo isset($data['county_name'])?$data['county_name']:'-';?></span>
         <?php
           $d1 = new DateTime(date('Y-m-d',strtotime($data['period_start'])));
           $d2 = new DateTime(date('Y-m-d',strtotime($data['period_end'])));
           $diff=date_diff($d1,$d2);
-          
         ?>
         <span style="top: 45.2%;left: 79%;"><?php echo $diff->format('%y');?></span>
         <span style="top: 48.8%;left: 14%;"><?php echo $diff->format('%m');?></span>
@@ -1080,20 +1083,32 @@
         <span style="top: 48.8%;left: 48%;"><?php echo date('d',strtotime($data['period_start']));?></span>
         <span style="top: 48.8%;left: 59%;"><?php echo date_th($data['period_start'],9);?></span>
         <span style="top: 48.8%;left: 76%;"><?php echo date_th($data['period_start'],10);?></span>
-        <span style="top: 52%;left: 20%;"><?php echo date('d',strtotime($data['period_end']));?></span>
+        <span style="top: 52%;left: 20%;"><?php echo intval(date('d',strtotime($data['period_end'])));?></span>
         <span style="top: 52%;left: 30%;"><?php echo date_th($data['period_end'],9);?></span>
         <span style="top: 52%;left: 41%;"><?php echo date_th($data['period_end'],10);?></span>
-        <span style="top: 55.5%;left: 39%;">99*</span>
-        <span style="top: 59%;left: 23%;">99*</span>
-        <span style="top: 59%;left: 50%;">99*</span>
-        <span style="top: 59%;left: 62%;">99*</span>
-        <span style="top: 59%;left: 76%;">99*</span>
-        <span style="top: 62.2%;left: 29%;">99*</span>
-        <span style="top: 62.2%;left: 42%;">99*</span>
-        <span style="top: 62.2%;left: 58%;">99*</span>
-        <span style="top: 62.2%;left: 78%;">99*</span>
-        <span style="top: 65.6%;left: 18%;">99*</span>
-        <span style="top: 65.6%;left: 35%;">99*</span>
+        <span style="top: 55.5%;left: 39%;"><?php echo isset($last_leave) && count($last_leave)>0?'ลาพักผ่อนไปต่างประเทศ':'-';?></span>
+        <span style="top: 59%;left: 23%;"><?php echo isset($last_leave) && count($last_leave)>0?$last_leave['county_name']:'-';?></span>
+        <?php
+          $date_old = [];
+          if(isset($last_leave) && count($last_leave)>0){
+            $d1 = new DateTime(date('Y-m-d',strtotime($last_leave['period_start'])));
+            $d2 = new DateTime(date('Y-m-d',strtotime($last_leave['period_end'])));
+            $diff=date_diff($d1,$d2);
+            $date_old['d'] = $diff->format('%d')+1;
+            $date_old['m'] = $diff->format('%m');
+            $date_old['y'] = $diff->format('%y');
+          }
+          
+        ?>
+        <span style="top: 59%;left: 50%;"><?php echo count($date_old)>0?$date_old['y']:'-';?></span>
+        <span style="top: 59%;left: 62%;"><?php echo count($date_old)>0?$date_old['m']:'-';?></span>
+        <span style="top: 59%;left: 76%;"><?php echo count($date_old)>0?$date_old['d']:'-';?></span>
+        <span style="top: 62.2%;left: 29%;"><?php echo isset($last_leave) && count($last_leave)>0?date('d',strtotime($last_leave['period_start'])):'-';?></span>
+        <span style="top: 62.2%;left: 42%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_start'],9):'-';?></span>
+        <span style="top: 62.2%;left: 58%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_start'],10):'-';?></span>
+        <span style="top: 62.2%;left: 78%;"><?php echo isset($last_leave) && count($last_leave)>0?date('d',strtotime($last_leave['period_end'])):'-';?></span>
+        <span style="top: 65.6%;left: 18%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_end'],9):'-';?></span>
+        <span style="top: 65.6%;left: 35%;"><?php echo isset($last_leave) && count($last_leave)>0?date_th($last_leave['period_end'],10):'-';?></span>
 
         <span style="top: 82.4%;left: 61%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
         <span style="top: 85.8%;left: 56%;">

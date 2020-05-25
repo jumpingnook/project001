@@ -146,6 +146,29 @@ class Leave_model extends MY_Model {
 		return $res;
 	}
 
+	function last_leave($set=[]){
+		$res = [];
+
+		if(isset($set['leave_id']) and intval($set['leave_id'])>0){
+
+			$sql = '';
+			if(isset($set['leave_type']) and intval($set['leave_type'])>=2 and intval($set['leave_type'])<=4 and $sql==''){
+				$sql = ' and (leave_type_id >=2 and leave_type_id <=4)';
+			}
+			if(isset($set['leave_type']) and intval($set['leave_type'])==1 or intval($set['leave_type'])==7 and $sql==''){
+				$sql = ' and (leave_type_id =1 or leave_type_id =7)';
+			}
+			
+
+			$con = [];
+			$con['where'] = 'leave_id <> "'.intval($set['leave_id']).'" and status = 2 '.$sql;
+			$res = $this->to_select($con);
+
+		}
+
+		return $res;
+	}
+
 	function save_approve($set=[]){
 
 		
@@ -192,7 +215,7 @@ class Leave_model extends MY_Model {
 
 	}
 
-	function set_first_approve($leave=0){
+	function send_approve($leave=0){
 		$con = [];
 		$con['where'] = 'leave_id = "'.intval($leave).'"';
 		$result = $this->to_select($con);
@@ -215,6 +238,18 @@ class Leave_model extends MY_Model {
 			return ['status'=>true];
 		}else{
 			return ['status'=>false];
+		}
+	}
+
+	function leave_status($set=[]){
+		if(isset($set['leave_id']) and intval($set['leave_id'])!=0 and isset($set['type']) and intval($set['type'])!=0){
+
+			$con = [];
+			$con['data']['status'] = intval($set['type']);
+			$con['where'] = 'leave_id = "'.intval($set['leave_id']).'"';
+			$this->to_update($con);
+
+			return $con;
 		}
 	}
 

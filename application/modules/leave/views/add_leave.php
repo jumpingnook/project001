@@ -90,7 +90,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -144,7 +144,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -203,7 +203,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -262,7 +262,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -306,7 +306,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -380,7 +380,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -431,7 +431,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
@@ -483,7 +483,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label>เรียน</label>
-                        <select classname="to" class="toBoss form-control" required>
+                        <select name="to" class="toBoss form-control" required>
                           <option value="1">คณะบดีคณะแพทยศาสตร์</option>
                           <option value="2">อธิกาารบดี</option>
                           <option value="3">อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)</option>
