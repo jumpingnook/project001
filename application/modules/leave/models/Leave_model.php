@@ -113,6 +113,23 @@ class Leave_model extends MY_Model {
 			}
 		}
 
+		if(isset($set['hr']) and $set['hr']){
+			if($sql!=''){
+				$sql .= ' and (status > 1)';
+			}else{
+				$sql = '(status > 1)';
+			}
+
+			if(isset($set['leave_year_b']) and $set['leave_year_b'] and isset($set['leave_year']) and intval($set['leave_year'])!=0){
+				if($sql!=''){
+					$sql .= ' and (period_start LIKE "'.intval($set['leave_year']).'%" or period_start LIKE "'.(intval($set['leave_year'])-1).'%") ';
+				}else{
+					$sql = '(period_start LIKE "'.intval($set['leave_year']).'%" or period_start LIKE "'.(intval($set['leave_year'])-1).'%")';
+				}
+			}
+			
+		}
+
 		$con['where'] 		= $sql;
 		$con['order_by']	= 'leave_id DESC';
 		$con['array_key']	= true;

@@ -161,6 +161,15 @@ class Api_v1 extends REST_Controller {
                 'count' => $result['count']
             ], REST_Controller::HTTP_OK); //200
 
+        }elseif(isset($post['hr']) and $post['hr']){
+
+            $result = $this->Leave_model->leave_history($post);
+            $this->response([
+                'status' => true,
+                'data' => $result['data'],
+                'count' => $result['count']
+            ], REST_Controller::HTTP_OK); //200
+
         }else{
             $this->response([
                 'status' => true,

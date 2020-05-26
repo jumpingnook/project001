@@ -10,5 +10,5 @@
 <script src="<?php echo base_url(load_file('assets/js/sb-admin-2.min.js'));?>"></script>
 
 <!-- Page level plugins -->
-<script src="<?php echo base_url(load_file('assets/vendor/datatables/jquery.dataTables.min.js'));?>"></script>
-<script src="<?php echo base_url(load_file('assets/vendor/datatables/dataTables.bootstrap4.min.js'));?>"></script>
+<script src="<?php echo base_url(load_file('assets/vendor/datatables/datatables.min.js'));?>"></script>
+<script src="<?php //echo base_url(load_file('assets/vendor/datatables/dataTables.bootstrap4.min.js'));?>"></script>

@@ -52,7 +52,7 @@ class Leave extends Leave_Controller {
         $set['leave_history']['count_end'] = 0;
         if(count($set['leave_history']['data'])>0){
             foreach($set['leave_history']['data'] as $key=>$val){
-                if($val['status']<98){
+                if($val['status']<98 and $val['status']!=2 and $val['status']!=3){
                     $set['leave_history']['count_new']++;
                 }
                 if($val['signature_deputy_dean_date']!='' and $val['deputy_dean_approve']==1){
@@ -772,6 +772,73 @@ class Leave extends Leave_Controller {
         }else{
             redirect(base_url(url_index().'leave'));
         }
+    }
+
+    function list_hr(){
+        $set = [];
+
+        $set['personnel'] = $this->session_data['personnel'];
+        $this->load->model('sql_personnel/Sql_personnel_model');
+        $this->load->model('personnel/Personnel_model');
+        $this->load->model('leave/Leave_model');
+        $this->load->model('leave/Leave_type_model');
+        $this->load->model(['Leave_quota_model']);
+
+        $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+        $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+        $set['personnel']['position_name'] = $sql_personnel['data'][0]['positionname'];
+        $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
+        $set['personnel']['department_name'] = substr($sql_personnel['data'][0]['departname'],7);
+        $set['personnel']['img']           = $personnel['data'][0]['img'];
+        $set['personnel']['email']         = $personnel['data'][0]['email'];
+        $set['personnel']['signature']     = $personnel['data'][0]['signature'];
+        $set['personnel']['work_start_date']     = $personnel['data'][0]['work_start_date'];
+        $set['personnel']['work_end_date']     = $personnel['data'][0]['work_end_date'];
+
+        $set['personnel']['signature_url'] = trim($set['personnel']['signature'])==''?$this->Personnel_model->url_qr_personnel($set['personnel']['personnel_id']):'';
+
+        $api = [];
+        $api['APP-KEY']     = $this->api_key;
+        $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $api['ip']          = get_client_ip();
+        $api['hr']          = true;
+        $api['leave_year']  = date('Y');
+        $api['leave_year_b']  = true;
+        $result = $this->restclient->post(base_url(url_index().'leave/api_v1/leave_history'),$api);
+
+        $set['leave_history']['data'] = $result['data'];
+        $set['leave_history']['count'] = $result['count'];
+        $set['leave_history']['count_new'] = 0;
+        $set['leave_history']['count_complete'] = 0;
+        $set['leave_history']['count_unapprove'] = 0;
+        $set['leave_history']['count_cancel_b'] = 0;
+        $set['leave_history']['count_cancel_a'] = 0;
+        if(count($set['leave_history']['data'])>0){
+            foreach($set['leave_history']['data'] as $key=>$val){
+                if($val['status']<98 and $val['status']!=2 and $val['status']!=3){
+                    $set['leave_history']['count_new']++;
+                }
+                if($val['status']==2){
+                    $set['leave_history']['count_complete']++;
+                }
+                if($val['status']==3){
+                    $set['leave_history']['count_unapprove']++;
+                }
+                if($val['status']==99){
+                    $set['leave_history']['count_cancel_b']++;
+                }
+                if($val['status']==98){
+                    $set['leave_history']['count_cancel_a']++;
+                }
+            }
+        }
+
+        $set['leave_type'] = $this->Leave_type_model->get_type($api['personnel_id']);
+        $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$personnel['data'][0]['personnel_id']]);
+
+        //echo '<pre>';print_r($set);exit;
+
+        $this->load->view('list_hr',$set);
     }
     
 }

@@ -7,4 +7,5 @@
 
 
 <!-- Custom styles for this page -->
-<link href="<?php echo base_url(load_file('assets/vendor/datatables/dataTables.bootstrap4.min.css'));?>" rel="stylesheet">
+<link href="<?php //echo base_url(load_file('assets/vendor/datatables/dataTables.bootstrap4.min.css'));?>" rel="stylesheet">
+<link href="<?php echo base_url(load_file('assets/vendor/datatables/datatables.css'));?>" rel="stylesheet">
