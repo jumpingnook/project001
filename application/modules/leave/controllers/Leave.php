@@ -76,6 +76,7 @@ class Leave extends Leave_Controller {
             'Leave_model'
         ]);
         $this->load->model('personnel/Personnel_model');
+        $this->load->model('leave/Leave_quota_model');
 
         $api = [];
         $api['APP-KEY']     = $this->api_key;
@@ -119,6 +120,8 @@ class Leave extends Leave_Controller {
         $set['emp_type'] = $personnel['data'][0]['emp_type_id']; 
         $set['check_leave'] = check_leave_type($personnel['data'][0]['work_start_date']);
         $set['leave_type'] = $this->Leave_type_model->get_type(['check_leave'=>$set['check_leave']['status'],'emp_type'=>$set['emp_type']]);
+
+        $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$set['personnel']['personnel_id']]);
 
         //echo '<pre>';print_r($set);exit;
 

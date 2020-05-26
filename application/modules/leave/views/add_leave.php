@@ -650,21 +650,17 @@
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">คำนวณวันลา</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">คำนวณวันลา(เฉพาะการลาผักผ่อน)</h6>
                 </div>
                 <div class="card-body">
                   <table width="100%">
                     <tr>
-                      <td width="120px" height="35px">วันลาที่ใช้ไปแล้ว</td>
-                      <td>2.5 วัน</td>
-                    </tr>
-                    <tr>
                       <td height="35px">วันลาที่คงเหลือ</td>
-                      <td>17.5 วัน</td>
+                      <td><?php echo isset($leave_quota)?$leave_quota[0]['quota_total']:0;?> วัน</td>
                     </tr>
                     <tr>
                       <td height="35px">ใช้วันลาไป</td>
-                      <td class="date-cal">
+                      <td class="date-cal" total="<?php echo isset($leave_quota)?$leave_quota[0]['quota_total']:0;?>">
                         <span style="display:none;">-</span>
                         <button type="button" class=" btn btn-warning btn-circle btn-sm" title="กรุณากรอกเลือกวันลาในแบบฟอร์ม">
                           <i class="fas fa-exclamation-triangle"></i>
@@ -673,39 +669,7 @@
                     </tr>
                     <tr>
                       <td height="35px">คงเหลือวันลา</td>
-                      <td>17 วัน</td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Basic Card Example -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">คำนวณวันลา</h6>
-                </div>
-                <div class="card-body">
-                  <table width="100%">
-                    <tr>
-                      <td width="120px" height="35px">วันลาที่ใช้ไปแล้ว</td>
-                      <td>2.5 วัน</td>
-                    </tr>
-                    <tr>
-                      <td height="35px">วันลาที่คงเหลือ</td>
-                      <td>17.5 วัน</td>
-                    </tr>
-                    <tr>
-                      <td height="35px">ใช้วันลาไป</td>
-                      <td class="date-cal">
-                        <span style="display:none;">-</span>
-                        <button type="button" class=" btn btn-warning btn-circle btn-sm" title="กรุณากรอกเลือกวันลาในแบบฟอร์ม">
-                          <i class="fas fa-exclamation-triangle"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td height="35px">คงเหลือวันลา</td>
-                      <td>17 วัน</td>
+                      <td class="date-cal-total"><?php echo isset($leave_quota)?$leave_quota[0]['quota_total']:0;?> วัน</td>
                     </tr>
                   </table>
                 </div>
@@ -850,8 +814,6 @@
               $('.form.leave').show();
               $('#submit-form').attr('form','form_leave');
               $('.input_hide').attr('form','form_leave');
-              $('.date-cal button').hide();
-              $('.date-cal span').text('1 วัน').show();
               $('#workmate-box input').removeAttr('disabled');
               $('#workmate-box').show();
               $('.leave_title').val(type[1]);
@@ -859,8 +821,6 @@
               $('.form.brith').show();
               $('#submit-form').attr('form','form_brith');
               $('.input_hide').attr('form','form_brith');
-              $('.date-cal button').hide();
-              $('.date-cal span').text('1 วัน').show();
               $('#workmate-box input').removeAttr('disabled');
               $('#workmate-box').show();
               $('.leave_title').val(type[1]);
@@ -868,16 +828,12 @@
               $('.form.help_childcare').show();
               $('#submit-form').attr('form','form_help_childcare');
               $('.input_hide').attr('form','form_help_childcare');
-              $('.date-cal span').hide();
-              $('.date-cal button').show();
               $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }else if(leave_type==6){
               $('.form.leave_childcare').show();
               $('#submit-form').attr('form','form_leave_childcare');
               $('.input_hide').attr('form','form_leave_childcare');
-              $('.date-cal span').hide();
-              $('.date-cal button').show();
               $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
               $('.leave_title').val(type[1]);
@@ -893,16 +849,12 @@
               $('.form.ordination').show();
               $('#submit-form').attr('form','form_ordination');
               $('.input_hide').attr('form','form_ordination');
-              $('.date-cal span').hide();
-              $('.date-cal button').show();
               $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }else if(leave_type==9){
               $('.form.soldier').show();
               $('#submit-form').attr('form','form_soldier');
               $('.input_hide').attr('form','form_soldier');
-              $('.date-cal span').hide();
-              $('.date-cal button').show();
               $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }
@@ -928,7 +880,7 @@
           $('.leave_date_e').val('');
           $('.leave_date_e').attr('disabled','disabled');
           $('.date-cal button').hide();
-          $('.date-cal span').text('0.5 วัน'+(type_leave_date=='a'?'(เช้า)':'(บ่าย)')).show();
+          //$('.date-cal span').text('0.5 วัน'+(type_leave_date=='a'?'(เช้า)':'(บ่าย)')).show();
         }else{
           $('.leave_date_e').val(old_end_date);
           old_end_date = '';
@@ -1129,11 +1081,15 @@
 
         var date_dis = dis_date(date_end,date_start);
 
-        $('.date-cal button').hide();
+        
         var count_date = (days_between(date_end,date_start) - date_dis);
 
-
-        $('.date-cal span').text(count_date+' วัน').show();
+        if(form_no==1 || form_no==4){
+          $('.date-cal button').hide();
+          $('.date-cal span').text(count_date+' วัน').show();
+          var total = $('.date-cal').attr('total');
+          $('.date-cal-total').text((total-count_date)+' วัน');
+        }
 
         $('.period_count').val(count_date);
         $('.period_count_all').val(days_between(date_end,date_start));
