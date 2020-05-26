@@ -188,7 +188,7 @@
                         <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การพิจารณา<?php echo $title;?></div>
                       </div>
 
-                      <?php if(!$approve_status){ ?>
+                      <?php if(!$approve_status and trim($personnel_list['data'][$personnel_id]['signature'])!=''){ ?>
 
                       <div class="row mb-1">
                         <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
@@ -251,10 +251,9 @@
   <?php echo $this->load->view('inc/js'); ?>
 
   <!-- Logout Modal-->
-  <?php if(isset($personnel_list['data'][$personnel_id]['signature']) and trim($personnel_list['data'][$personnel_id]['signature'])==''){ ?>
-    <a href="#" id="add-sig" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#signature" style="display:none;"></a>
-  
-  
+
+  <?php if(trim($personnel_list['data'][$personnel_id]['signature'])==''){ ?>
+  <a href="#" id="add-sig" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#signature" style="display:none;"></a>
   <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -273,7 +272,7 @@
 
             <div class="row">
                <div class="col-lg-6 mb-4">
-                <div id="qrcode1"></div>
+                <div id="qrcode-sig"></div>
                </div>
                <div class="col-lg-6"><br/><br/>
                 <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
@@ -292,8 +291,8 @@
             <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
             <script>
 
-              var qrcode1 = new QRCode("qrcode1", {
-                text: "<?php echo $signature_url;?>",
+              var qrcode1 = new QRCode("qrcode-sig", {
+                text: "<?php echo $personnel_list['data'][$personnel_id]['url_signature'];?>",
                 width: 300,
                 height: 300,
                 colorDark : "#000000",

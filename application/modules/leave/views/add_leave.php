@@ -906,6 +906,7 @@
               $('#workmate-box input').attr('disabled','disabled');
               $('#workmate-box').hide();
             }
+            check_spec(false);
             $('.type').val(leave_type);
             $('#submit-form, .approve_list').show();
           }
@@ -936,6 +937,14 @@
       });
 
       $('.form').submit(function(){
+
+        var spec_status =$('#submit-form').attr('status_sub');
+        if(spec_status=='false'){
+            $('#_alert .modal-title').text('แจ้งรายละเอียด');
+            $('#_alert .modal-body').text('ข้อมูลการลาของท่านยังไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง');
+            $('#modal-alert').click();
+            return false;
+        }
 
         var con = confirm('กรุณาตรวจสอบความถูกต้องในการลาของท่านก่อนบันทึกข้อมูล ท่านต้องการลงข้อมูลการลานี้ใช่หรือไม่');
         if(!con){
@@ -1003,8 +1012,6 @@
           return false;
         }
 
-        check_spec();
-
         // $('.workmate').val(workmate);
         // $('.head_unit').val(head_unit);
         // $('.head_dept').val(head_dept);
@@ -1040,8 +1047,6 @@
     });
 
 
-
-    
     $(function(){
       $( ".date_n" ).datepicker({
         onSelect: function(){
@@ -1097,6 +1102,7 @@
           var form = $(this).attr('form_no');
           var type_leave_date = $('.type_leave_date[form_no='+form+']').val();
           leave_date(type_leave_date,form);
+          check_spec();
         }
       });
     });
@@ -1155,6 +1161,7 @@
           $(this).next().val(get_date);
           var form = $(this).attr('form_no');
           leave_date_n(form);
+          check_spec();
         }
       });
     });
@@ -1187,9 +1194,8 @@
       $('.period_count_all').val(count_date);
     }
 
-    function check_spec(){
+    function check_spec(alert=true){
       var type = $('#type_leave').val();
-
       if(type!=''){
         $('#preload').show();
         type = type.split('-')[0];
@@ -1210,22 +1216,26 @@
             dataType: "json",
             success: function(data){
                 if(data.process){
-                    if(typeof data.msg !== "undefined" && data.msg!=null && data.msg!=''){
-                    $('#preload').hide();
-                    $('#_alert .modal-title').text('แจ้งรายละเอียด');
-                    $('#_alert .modal-body').text(data.msg);
-                    $('#modal-alert').click();
-                }
+                    if(typeof data.msg !== "undefined" && data.msg!=null && data.msg!='' && alert){
+                        $('#preload').hide();
+                        $('#_alert .modal-title').text('แจ้งรายละเอียด');
+                        $('#_alert .modal-body').text(data.msg);
+                        $('#modal-alert').click();
+                    }else{
+                      $('#preload').hide();
+                    }
                     $('.toBoss').val(data.to);
-                    return true;
+                    $('#submit-form').attr('status_sub','true');
                 }else{
-                    if(typeof data.msg !== "undefined" && data.msg!=null && data.msg!=''){
+                    if(typeof data.msg !== "undefined" && data.msg!=null && data.msg!='' && alert){
                         $('#preload').hide();
                         $('#_alert .modal-title').text('ผิดพลาด');
                         $('#_alert .modal-body').text(data.msg);
                         $('#modal-alert').click();
+                    }else{
+                      $('#preload').hide();
                     }
-                    return false;
+                    $('#submit-form').attr('status_sub','false');
                 }
             }
         });

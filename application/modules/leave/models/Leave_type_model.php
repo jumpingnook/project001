@@ -13,7 +13,7 @@ class Leave_type_model extends MY_Model {
 
 		$con['where'] = '';
 		if(isset($set['check_leave']) and !$set['check_leave']){
-			$con['where'] = 'leave_type_id <> 1';
+			$con['where'] = 'leave_type_id <> 1 and leave_type_id <> 7';
 		}
 
 		if(isset($set['emp_type']) and (intval($set['emp_type'])== 5 or intval($set['emp_type'])== 6)){
