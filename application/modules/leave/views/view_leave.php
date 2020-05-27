@@ -367,9 +367,19 @@
                   });
 
                   var element = document.getElementById("qrcode2");
-
                   if(typeof(element) != 'undefined' && element != null){
                     var qrcode2 = new QRCode("qrcode2", {
+                      text: data.data.url,
+                      width: 300,
+                      height: 300,
+                      colorDark : "#000000",
+                      colorLight : "#ffffff",
+                      correctLevel : QRCode.CorrectLevel.H
+                    });
+                  }
+                  var element = document.getElementById("qrcode3");
+                  if(typeof(element) != 'undefined' && element != null){
+                    var qrcode3 = new QRCode("qrcode3", {
                       text: data.data.url,
                       width: 300,
                       height: 300,
