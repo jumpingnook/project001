@@ -9,7 +9,6 @@ class Api_v1 extends REST_Controller {
         $this->load->model(['leave/Calendar_model','auth/Token_model','leave/Leave_model','leave/Leave_spec_model']);
     }
 
-
     function add_date_post(){
         $post = $this->post();
 

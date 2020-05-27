@@ -172,7 +172,7 @@
                         if($signature_type>=2 and $signature_type!=5){
                           $btn[] = 'เห็นควรอนุญาติ';
                           $btn[] = 'เห็นควรไม่อนุญาติ';
-                          $title = 'การพิจารณาอนุมัติการลา';
+                          $title = isset($cancel_approve) && $cancel_approve?'ยกเลิกวันลา':'อนุมัติการลา';
                         }elseif($signature_type==1){
                           $btn[] = 'ยอมรับการปฏิบัติงานแทน';
                           $btn[] = 'ไม่ยอมรับการปฏิบัติงานแทน';
@@ -180,7 +180,7 @@
                         }elseif($signature_type==5){
                           $btn[] = 'อนุญาต';
                           $btn[] = 'ไม่อนุญาต';
-                          $title = 'การคำสั่งอนุมัติการลา';
+                          $title = isset($cancel_approve) && $cancel_approve?'คำสั่งอนุมัติยกเลิกวันลา':'คำสั่งอนุมัติการลา';
                         }
                       ?>
 
@@ -208,12 +208,33 @@
                         </button>
                       </div>
 
+                      <?php }elseif(isset($cancel_approve) and $cancel_approve and trim($personnel_list['data'][$personnel_id]['signature'])!=''){?>
+                        <div class="row mb-1">
+                          <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text"><?php echo $btn[0];?></span>
+                          </button>
+                        </div>
+
+                        <div class="row mb-1">
+                          <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-600">
+                              <i class="fas fa-times"></i>
+                            </span>
+                            <span class="text"><?php echo $btn[1];?></span>
+                          </button>
+                        </div>
                       <?php } ?>
 
                       <form id="form" action="<?php echo base_url(url_index().'leave/save_approve');?>" method="post">
                           <input type="hidden" name="personnel_id" value="<?php echo $personnel_id;?>">
                           <input type="hidden" name="type" value="<?php echo $signature_type;?>">
                           <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
+                          <?php if(isset($cancel_approve) and $cancel_approve){ ?>
+                            <input type="hidden" name="cancel" value="n29gknk626e3gh">
+                          <?php } ?>
                       </form>
 
                     </div>

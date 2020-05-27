@@ -37,16 +37,17 @@
   <div class="col-lg-12 document" >
 
 
-    <?php if(isset($data['leave_type_id']) && intval($data['leave_type_id'])!=6){ ?>
-      <span style="top: 4.2%;left: 13.6%;"><div id="qrcode1"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
-    <?php }else{ ?>
-      <span style="bottom: 20%;left: 80%;"><div id="qrcode1"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
-    <?php } ?>
+    
 
+    <?php $doc = []; if(!isset($cancel_approve) or (isset($cancel_approve) and !$cancel_approve)){ ?>
 
-
-
-    <?php $doc = []; if(isset($data['leave_type_id']) && intval($data['leave_type_id'])==1){$doc[0] = 'document/leave/1.jpg';?>
+      <?php if(isset($data['leave_type_id']) && intval($data['leave_type_id'])!=6){ ?>
+        <span style="top: 4.2%;left: 13.6%;"><div id="qrcode1"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+      <?php }else{ ?>
+        <span style="bottom: 20%;left: 80%;"><div id="qrcode1"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+      <?php } ?>
+      
+    <?php if(isset($data['leave_type_id']) && intval($data['leave_type_id'])==1){$doc[0] = 'document/leave/1.jpg';?>
       <span style="top: calc(100% - 87.4%);left: calc(100% - 42%);"><?php echo date('d',strtotime($data['create_date']));?></span>
       <span style="top: calc(100% - 87.4%);left: calc(100% - 32%);"><?php echo date_th($data['create_date'],9);?></span>
       <span style="top: calc(100% - 87.4%);left: calc(100% - 17%);"><?php echo date_th($data['create_date'],10);?></span>
@@ -945,11 +946,10 @@
       <span style="top: 48.6%;left: 56%;"><?php echo date('d/m/',strtotime($data['create_date'])).(date('Y',strtotime($data['create_date']))+543);?></span>
     <?php } ?>
     <img src="<?php echo base_url(load_file($doc[0]));?>" style="width:100%;">
+    <?php } ?>
   </div>
-  <?php if(isset($doc[1])){ ?>
+  <?php if(!isset($cancel_approve) or (isset($cancel_approve) and !$cancel_approve)){ if(isset($doc[1])){ ?>
     <div class="col-lg-12 document" >
-
-      
 
       <?php if(isset($data['leave_type_id']) && intval($data['leave_type_id'])!=7){ ?>
         <span style="bottom: 20%;left: 80%;"><div id="qrcode2"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
@@ -1124,5 +1124,65 @@
 
       <img src="<?php echo base_url(load_file($doc[1]));?>" style="width:100%;">
     </div>
+  <?php }} ?>
+  <?php if(isset($data['status']) && intval($data['status'])==98){ ?>
+    <div class="col-lg-12 document">
+
+      <?php /*if(isset($data['leave_type_id']) && intval($data['leave_type_id'])!=7){ ?>
+        <span style="bottom: 20%;left: 80%;"><div id="qrcode2"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+      <?php }else{ ?>
+        <span style="top: 4.2%;left: 13.6%;"><div id="qrcode2"></div><div class="leave_no"><?php echo $data['leave_no']; ?></div></span>
+      <?php }*/ ?>
+
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+      <span style="top: 13%;left: 16%;">99*</span>
+
+
+      <img src="<?php echo base_url(load_file('document/leave/0.jpg'));?>" style="width:100%;">
+    </div>
+
   <?php } ?>
 </div>

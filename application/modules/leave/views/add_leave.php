@@ -743,7 +743,7 @@
       <!-- Boss Modal-->
       <a id="modal-boss" class="dropdown-item" href="#" data-toggle="modal" data-target="#_boss" style="display:none;"></a>
       <div class="modal fade" id="_boss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">เลือกชื่อตำแหน่ง</h5>
@@ -1084,7 +1084,7 @@
         
         var count_date = (days_between(date_end,date_start) - date_dis);
 
-        if(form_no==1 || form_no==4){
+        if(form==1 || form==4){
           $('.date-cal button').hide();
           $('.date-cal span').text(count_date+' วัน').show();
           var total = $('.date-cal').attr('total');

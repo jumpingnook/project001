@@ -157,6 +157,8 @@
 
                   <hr/>
                   <?php $this->load->view('document'); ?>
+
+                  
                 <?php }elseif(isset($view_only) and !$view_only){ ?>
                   <div class="row">
                     <div class="col-lg-12">
@@ -183,7 +185,7 @@
                       <div class="row">
                         <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การจัดการ</div>
                       </div>
-                      <?php if(trim($data['send_mail_date'])=='' and trim($data['status'])<98){?>
+                      <?php if(intval($data['status'])==0){?>
                         <div class="row mb-1">
                           <button id="send_approve" class="btn btn-info btn-icon-split">
                             <span class="icon text-white-50">
@@ -201,9 +203,18 @@
                             <span class="text">ยกเลิกการลานี้</span>
                           </button>
                         </div>
+                      <?php }elseif(intval($data['status'])>0 and intval($data['status'])<98 and intval($data['status'])!=3){?>
+                        <div class="row mb-1">
+                          <button id="cancel_leave" cancel="after" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-trash"></i>
+                            </span>
+                            <span class="text">ยกเลิกการลานี้</span>
+                          </button>
+                        </div>
                       <?php } ?>
                       
-                      <?php if(trim($data['status'])<98){?>
+                      <?php if(intval($data['status'])<98){?>
                         <div class="row mb-1">
                           <a href="#" id="print" class="btn btn-light btn-icon-split">
                             <span class="icon text-gray-600">
@@ -254,6 +265,39 @@
       <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
+      <!-- Boss Modal-->
+      <a id="modal-cancel" class="dropdown-item" href="#" data-toggle="modal" data-target="#_cancel" style="display:none;"></a>
+      <div class="modal fade" id="_cancel" tabindex="-1" role="dialog" aria-labelledby="modal-cancel-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-cancel-label">ยกเลิกวันลา</h5>
+              <button id="close_position" class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <form id="cancel_form" action="<?php echo base_url(url_index().'leave/cancel_leave');?>" method="post">
+                <div class="form-group row">
+                  <div class="col-sm-12">
+                    <label>สาเหตุการยกเลิกวันลา</label>
+                    <input type="text" name="detail" class="leave_title form-control" placeholder="ระบุสาเหตุการยกเลิกวันลา" value="" required>
+                    <input type="hidden" name="leave" value="<?php echo $leave_id;?>"/>
+                    <input type="hidden" name="type" value="a"/>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button"  data-dismiss="modal">ยกเลิก</button>
+              <button class="btn btn-primary" type="submit" form="cancel_form">บันทึกการยกเลิกวันลา</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <!-- End of Content Wrapper -->
 
@@ -267,10 +311,14 @@
   <?php echo $this->load->view('inc/js'); ?>
 
   <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
+  
+
 
   <div id="preload" style="position: absolute;width: 100vw;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 99;top: 0;left: 0;display:none;">
     <img src="<?php echo base_url(load_file('assets/img/loading.gif'));?>" style="position: fixed;left: 0;right: 0;margin: auto;top: 25%;">
   </div>
+
+  
 
   <script>
       
@@ -364,8 +412,8 @@
               dataType: "json",
               success: function(data){
                 if(data.status){
-                  $('#preload').hide();
                   alert('ระบบได้ส่งอีเมลเพื่อพิจารณาการลาเรียบร้อยแล้ว ท่านสามารถติดตามการพิจารณาที่หน้ารายละเอียดการลา');
+                  $('#preload').hide();
                   location.reload();
                 }else{
                   alert('ระบบไม่สามารถส่งอีเมลได้ กรุณาลองใหม่อีกครั้ง');
@@ -376,41 +424,41 @@
           }
         });
 
-        <?php if(trim($data['send_mail_date'])==''){?>
-          $('#cancel_leave').click(function(){
-            var type = $(this).attr('cancel');
+        $('#cancel_leave').click(function(){
+          var type = $(this).attr('cancel');
 
-            if(type == 'before'){
-              var con = confirm('ท่านต้องการยกเลิกการลานี้ใช่หรือไม่ (กรณีก่อนส่งพิจารณา)');
+          if(type == 'before'){
+            var con = confirm('ท่านต้องการยกเลิกการลานี้ใช่หรือไม่ (กรณีก่อนส่งพิจารณา)');
 
-              if(con){
-                $('#preload').show();
-                $.ajax({
-                  type: "POST",
-                  data:{leave:'<?php echo intval($leave_id);?>'},
-                  url: "<?php echo base_url(url_index().'leave/cancel_leave/b');?>",
-                  dataType: "json",
-                  success: function(data){
-                    console.log(data);
-                    if(data.status){
-                      alert('ระบบได้ทำการยกเลิกการลาเรียบร้อยแล้ว');
-                    }else{
-                      alert('ระบบไม่สามารถยกเลิกการลานี้ได้กรุณาลองใหม่ภายหลัง');
-                    }
-                    $('#preload').hide();
+            if(con){
+              $('#preload').show();
+              $.ajax({
+                type: "POST",
+                data:{leave:'<?php echo intval($leave_id);?>',type:'b'},
+                url: "<?php echo base_url(url_index().'leave/cancel_leave');?>",
+                dataType: "json",
+                success: function(data){
+                  console.log(data);
+                  if(data.status){
+                    alert('ระบบได้ทำการยกเลิกการลาเรียบร้อยแล้ว');
+                  }else{
+                    alert('ระบบไม่สามารถยกเลิกการลานี้ได้กรุณาลองใหม่ภายหลัง');
                   }
-                });
+                  $('#preload').hide();
+                }
+              });
 
-              }else{
-                return false;
-              }
-
+            }else{
+              return false;
             }
 
-            return false;
+          }else if(type == 'after'){
+            $('#modal-cancel').click();
+          }
 
-          });
-        <?php } ?>
+          return false;
+
+        });
         
       });
 

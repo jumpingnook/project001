@@ -416,7 +416,7 @@ class Leave extends Leave_Controller {
         redirect(base_url(url_index().'leave'));
     }
 
-    function approve($signature=''){ //dest to this
+    function approve($signature='',$type=''){ //dest to this $type='n29gknk626e3gh';
 
         if(trim($signature)!=''){
             $this->load->model('sql_personnel/Sql_personnel_model');
@@ -455,14 +455,16 @@ class Leave extends Leave_Controller {
                 $set['approve_status'] = $result['data']['deputy_dean_approve']==0?false:true;
             }
 
+            
+
             $set['signature_url'] = $this->Personnel_model->url_qr_personnel($set['personnel_id']);
 
             $leave_id = $set['leave_id'] = $result['data']['leave_id'];
-
+            
             $personnel = $this->session_data['personnel'];
-            // if($personnel['personnel_id']!=$set['personnel_id']){
-            //     redirect(base_url(url_index().'leave'));
-            // }
+            if($personnel['personnel_id']!=$set['personnel_id']){
+                redirect(base_url(url_index().'leave'));
+            }
 
             $api = [];
             $api['APP-KEY']     = $this->api_key;
@@ -529,6 +531,8 @@ class Leave extends Leave_Controller {
                 }
             }
 
+            $set['cancel_approve'] = $type=='n29gknk626e3gh'?true:false;
+
             $this->load->view('approve',$set);
 
         }else{
@@ -540,22 +544,29 @@ class Leave extends Leave_Controller {
     function save_approve(){
         $post = $this->input->post();
 
-        if(count($post)==4 and isset($post['personnel_id']) and isset($post['type']) and isset($post['leave_id']) and isset($post['approve']) and intval($post['personnel_id'])!=0 and intval($post['leave_id'])!=0 and intval($post['type'])!=0 and (intval($post['approve']) == 1 or intval($post['approve'])==2)){
+        if(count($post)>=4 and isset($post['personnel_id']) and isset($post['type']) and isset($post['leave_id']) and isset($post['approve']) and intval($post['personnel_id'])!=0 and intval($post['leave_id'])!=0 and intval($post['type'])!=0 and (intval($post['approve']) == 1 or intval($post['approve'])==2)){
             $this->load->model('leave/Leave_model');
+            
             $result = $this->Leave_model->save_approve($post);
 
-            if(intval($post['type'])==5 and intval($post['approve']) == 1){// leave status 2
-                $test = $this->Leave_model->leave_status(['leave_id'=>intval($post['leave_id']),'type'=>2]);
-            }elseif(intval($post['approve']) == 2){// leave status 3
-                $this->load->model('leave/Leave_quota_model');
-                $test = $this->Leave_model->leave_status(['leave_id'=>intval($post['leave_id']),'type'=>3]);
-                $this->Leave_quota_model->cancel_quota(['leave_id'=>intval($post['leave_id']),'personnel_id'=>intval($post['personnel_id'])]);
+            if(isset($post['cancel']) and trim($post['cancel'])=='n29gknk626e3gh'){
+                if(intval($post['type'])==5 and intval($post['approve']) == 1){
+                    $this->load->model('leave/Leave_quota_model');
+                    $this->Leave_quota_model->cancel_quota(['leave_id'=>intval($post['leave_id']),'personnel_id'=>intval($post['personnel_id'])]);
+                }
+            }else{
+                if(intval($post['type'])==5 and intval($post['approve']) == 1){// leave status 2
+                    $test = $this->Leave_model->leave_status(['leave_id'=>intval($post['leave_id']),'type'=>2]);
+                }elseif(intval($post['approve']) == 2){// leave status 3
+                    $this->load->model('leave/Leave_quota_model');
+                    $test = $this->Leave_model->leave_status(['leave_id'=>intval($post['leave_id']),'type'=>3]);
+                    $this->Leave_quota_model->cancel_quota(['leave_id'=>intval($post['leave_id']),'personnel_id'=>intval($post['personnel_id'])]);
+                }
             }
-
         }
 
         if($result and intval($post['approve']) == 1 and intval($post['type'])!=5){
-            $this->send_approve(['leave'=>intval($post['leave_id'])]);
+            $this->send_approve(['leave'=>intval($post['leave_id']),'cancel'=>(isset($post['cancel']) and trim($post['cancel'])=='n29gknk626e3gh'?true:false)]);
         }
 
         redirect(base_url(url_index().'leave?approve=ds1df4d51s8af4dsa1'));
@@ -585,26 +596,47 @@ class Leave extends Leave_Controller {
 
             if(isset($result['data']) and count($result['data']>0)){
 
-                if(intval($result['data']['worker_personnel_id']) != 0 and intval($result['data']['workmate_approve']) == 0 and $ex_personnel_id == 0){
-                    $ex_personnel_id = intval($result['data']['worker_personnel_id']);
-                    $type = 'workmate';
+                if(isset($post['cancel']) and $post['cancel']){
+                    if(intval($result['data']['head_unit_personnel_id']) != 0 and intval($result['data']['head_unit_approve_cancel']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['head_unit_personnel_id']);
+                        $type = 'head_unit';
+                    }
+                    if(intval($result['data']['head_dept_personnel_id']) != 0 and intval($result['data']['head_dept_approve_cancel']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['head_dept_personnel_id']);
+                        $type = 'head_dept';
+                    }
+                    if(intval($result['data']['supervisor_personnel_id']) != 0 and intval($result['data']['supervisor_approve_cancel']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['supervisor_personnel_id']);
+                        $type = 'supervisor';
+                    }
+                    if(intval($result['data']['deputy_dean_personnel_id']) != 0 and intval($result['data']['deputy_dean_approve_cancel']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['deputy_dean_personnel_id']);
+                        $type = 'deputy_dean';
+                    }
+                }else{
+                    if(intval($result['data']['worker_personnel_id']) != 0 and intval($result['data']['workmate_approve']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['worker_personnel_id']);
+                        $type = 'workmate';
+                    }
+                    if(intval($result['data']['head_unit_personnel_id']) != 0 and intval($result['data']['head_unit_approve']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['head_unit_personnel_id']);
+                        $type = 'head_unit';
+                    }
+                    if(intval($result['data']['head_dept_personnel_id']) != 0 and intval($result['data']['head_dept_approve']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['head_dept_personnel_id']);
+                        $type = 'head_dept';
+                    }
+                    if(intval($result['data']['supervisor_personnel_id']) != 0 and intval($result['data']['supervisor_approve']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['supervisor_personnel_id']);
+                        $type = 'supervisor';
+                    }
+                    if(intval($result['data']['deputy_dean_personnel_id']) != 0 and intval($result['data']['deputy_dean_approve']) == 0 and $ex_personnel_id == 0){
+                        $ex_personnel_id = intval($result['data']['deputy_dean_personnel_id']);
+                        $type = 'deputy_dean';
+                    }
                 }
-                if(intval($result['data']['head_unit_personnel_id']) != 0 and intval($result['data']['head_unit_approve']) == 0 and $ex_personnel_id == 0){
-                    $ex_personnel_id = intval($result['data']['head_unit_personnel_id']);
-                    $type = 'head_unit';
-                }
-                if(intval($result['data']['head_dept_personnel_id']) != 0 and intval($result['data']['head_dept_approve']) == 0 and $ex_personnel_id == 0){
-                    $ex_personnel_id = intval($result['data']['head_dept_personnel_id']);
-                    $type = 'head_dept';
-                }
-                if(intval($result['data']['supervisor_personnel_id']) != 0 and intval($result['data']['supervisor_approve']) == 0 and $ex_personnel_id == 0){
-                    $ex_personnel_id = intval($result['data']['supervisor_personnel_id']);
-                    $type = 'supervisor';
-                }
-                if(intval($result['data']['deputy_dean_personnel_id']) != 0 and intval($result['data']['deputy_dean_approve']) == 0 and $ex_personnel_id == 0){
-                    $ex_personnel_id = intval($result['data']['deputy_dean_personnel_id']);
-                    $type = 'deputy_dean';
-                }
+
+
 
                 if($ex_personnel_id!=0){
                     $this->load->model('sql_personnel/Sql_personnel_model');
@@ -628,17 +660,23 @@ class Leave extends Leave_Controller {
 
                     $set['url_type'] = $type;
 
-                    $html = $this->load->view('email/approve',$set,true);
+                    if(isset($post['cancel']) and $post['cancel']){
+                        $html = $this->load->view('email/cancel',$set,true);
+                        $subject = '[ระบบลา] พิจารณายกเลิกวันลา เลขที่ '.$set['leave_data']['leave_no'];
+                    }else{
+                        $html = $this->load->view('email/approve',$set,true);
+                        $subject = '[ระบบลา] พิจารณาการลา เลขที่ '.$set['leave_data']['leave_no'];
+                    }
 
                     if(isset($set['personnel_receive']['data'][0]['email']) and trim($set['personnel_receive']['data'][0]['email'])!=''){
 
-                        $api['subject']     = '[ระบบลา] พิจารณาการลา เลขที่ '.$set['leave_data']['leave_no'];
+                        $api['subject']     = $subject;
                         $api['body']        = $html;
                         $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email'];
                         $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
 
                         if($send['status']){
-                            $this->Leave_model->send_approve(intval($post['leave']));
+                            $this->Leave_model->send_approve(intval($post['leave']),isset($post['cancel']) and $post['cancel']?true:false);
                         }
                     }
                     
@@ -695,22 +733,39 @@ class Leave extends Leave_Controller {
 
     function cancel_leave($type=''){
         $post = $this->input->post();
-        
-        $post['leave'] = 4;
-        $type = b;
 
-
-        if(trim($type)=='b' and isset($post['leave']) and intval($post['leave'])!=0){
+        if(isset($post['type']) and isset($post['leave']) and intval($post['leave'])!=0){
             $this->load->model([
                 'Leave_model',
                 'Leave_quota_model'
             ]);
-            $result = $this->Leave_model->cancel($post['leave'],99);
-            $this->Leave_quota_model->Leave_quota_model(['leave_id'=>intval($post['leave']),'personnel_id'=> -1]);
 
-            echo json_encode(['status'=>true]);exit;
+            $type = 0;
+            if($post['type']=='a'){
+                $type = 98;
+            }elseif($post['type']=='b'){
+                $type = 99;
+            }
 
-        }// type == a
+            $detail = isset($post['detail'])?$post['detail']:'';
+
+            $result = $this->Leave_model->cancel($post['leave'],$type,$detail);
+            if($post['type']=='b'){
+                $this->Leave_quota_model->cancel_quota(['leave_id'=>intval($post['leave']),'personnel_id'=> -1]);
+            }elseif($post['type']=='a'){
+                $this->send_approve(['leave'=>intval($post['leave']),'cancel'=>true]);
+            }
+
+            if($post['type']=='a'){
+                redirect(url_index().'leave/view/'.intval($post['leave']).'?status=cancel_complete');// to view
+            }elseif($post['type']=='b'){
+                echo json_encode(['status'=>true]);exit;
+            }
+
+
+
+            
+        }
     }
 
     function check_print($token=''){

@@ -195,32 +195,55 @@ class Leave_model extends MY_Model {
 
 	function save_approve($set=[]){
 
-		if(count($set)==4 and isset($set['personnel_id']) and isset($set['type']) and isset($set['leave_id'])and isset($set['approve']) and intval($set['personnel_id'])!=0 and intval($set['leave_id'])!=0 and intval($set['type'])!=0 and (intval($set['approve']) == 1 or intval($set['approve'])==2)){
+		if(count($set)>=4 and isset($set['personnel_id']) and isset($set['type']) and isset($set['leave_id'])and isset($set['approve']) and intval($set['personnel_id'])!=0 and intval($set['leave_id'])!=0 and intval($set['type'])!=0 and (intval($set['approve']) == 1 or intval($set['approve'])==2)){
 
 			$con = [];
 			$colum = '';
-			if(intval($set['type'])==1){
-				$con['data']['signature_workmate_date'] = date('Y-m-d H:i:s');
-				$con['data']['workmate_approve'] = intval($set['approve']);
-				$colum = 'worker_personnel_id  = ';
-			}elseif(intval($set['type'])==2){
-				$con['data']['signature_head_unit_date'] = date('Y-m-d H:i:s');
-				$con['data']['head_unit_approve'] = intval($set['approve']);
-				$colum = 'head_unit_personnel_id  = ';
-			}elseif(intval($set['type'])==3){
-				$con['data']['signature_head_dept_date'] = date('Y-m-d H:i:s');
-				$con['data']['head_dept_approve'] = intval($set['approve']);
-				$colum = 'head_dept_personnel_id  = ';
-			}elseif(intval($set['type'])==4){
-				$con['data']['signature_supervisor_date'] = date('Y-m-d H:i:s');
-				$con['data']['supervisor_approve'] = intval($set['approve']);
-				$colum = 'supervisor_personnel_id  = ';
-			}elseif(intval($set['type'])==5){
-				$con['data']['signature_deputy_dean_date'] = date('Y-m-d H:i:s');
-				$con['data']['deputy_dean_approve'] = intval($set['approve']);
-				$colum = 'deputy_dean_personnel_id  = ';
+
+			if(isset($set['cancel']) and trim($set['cancel'])=='n29gknk626e3gh'){
+				if(intval($set['type'])==2){
+					$con['data']['signature_head_unit_cancel_date'] = date('Y-m-d H:i:s');
+					$con['data']['head_unit_approve_cancel'] = intval($set['approve']);
+					$colum = 'head_unit_personnel_id  = ';
+				}elseif(intval($set['type'])==3){
+					$con['data']['signature_head_dept_cancel_date'] = date('Y-m-d H:i:s');
+					$con['data']['head_dept_approve_cancel'] = intval($set['approve']);
+					$colum = 'head_dept_personnel_id  = ';
+				}elseif(intval($set['type'])==4){
+					$con['data']['signature_supervisor_cancel_date'] = date('Y-m-d H:i:s');
+					$con['data']['supervisor_approve_cancel'] = intval($set['approve']);
+					$colum = 'supervisor_personnel_id  = ';
+				}elseif(intval($set['type'])==5){
+					$con['data']['signature_deputy_dean_cancel_date'] = date('Y-m-d H:i:s');
+					$con['data']['deputy_dean_approve_cancel'] = intval($set['approve']);
+					$colum = 'deputy_dean_personnel_id  = ';
+				}else{
+					return false;
+				}
 			}else{
-				return false;
+				if(intval($set['type'])==1){
+					$con['data']['signature_workmate_date'] = date('Y-m-d H:i:s');
+					$con['data']['workmate_approve'] = intval($set['approve']);
+					$colum = 'worker_personnel_id  = ';
+				}elseif(intval($set['type'])==2){
+					$con['data']['signature_head_unit_date'] = date('Y-m-d H:i:s');
+					$con['data']['head_unit_approve'] = intval($set['approve']);
+					$colum = 'head_unit_personnel_id  = ';
+				}elseif(intval($set['type'])==3){
+					$con['data']['signature_head_dept_date'] = date('Y-m-d H:i:s');
+					$con['data']['head_dept_approve'] = intval($set['approve']);
+					$colum = 'head_dept_personnel_id  = ';
+				}elseif(intval($set['type'])==4){
+					$con['data']['signature_supervisor_date'] = date('Y-m-d H:i:s');
+					$con['data']['supervisor_approve'] = intval($set['approve']);
+					$colum = 'supervisor_personnel_id  = ';
+				}elseif(intval($set['type'])==5){
+					$con['data']['signature_deputy_dean_date'] = date('Y-m-d H:i:s');
+					$con['data']['deputy_dean_approve'] = intval($set['approve']);
+					$colum = 'deputy_dean_personnel_id  = ';
+				}else{
+					return false;
+				}
 			}
 
 			$colum = $colum!=''?' and '.$colum.intval($set['personnel_id']):'';
@@ -237,7 +260,7 @@ class Leave_model extends MY_Model {
 
 	}
 
-	function send_approve($leave=0){
+	function send_approve($leave=0,$cancel=false){
 		$con = [];
 		$con['where'] = 'leave_id = "'.intval($leave).'"';
 		$result = $this->to_select($con);
@@ -246,13 +269,21 @@ class Leave_model extends MY_Model {
 			$con['data']['status'] = 1;
 			$con['data']['send_mail_date'] = date('Y-m-d H:i:s');
 			$this->to_update($con);
+		}elseif(count($result)>0 and $cancel){
+			$con['data']['send_mail_cancel_date'] = date('Y-m-d H:i:s');
+			$this->to_update($con);
 		}
 	}
 
-	function cancel($id=0,$type=0){
+	function cancel($id=0,$type=0,$detail=''){
 		if(intval($id)!=0 and intval($type)!=0){
 			$con = [];
 			$con['data']['status'] = intval($type)==98?98:99;
+
+			if(intval($type)==98){
+				$con['data']['cancel_detail'] = trim($detail);
+			}
+
 			$con['data']['cancel_date'] = date('Y-m-d H:i:s');
 			$con['where'] = 'leave_id = "'.intval($id).'"';
 			$this->to_update($con);
