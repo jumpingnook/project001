@@ -100,6 +100,8 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="row">
                 <!-- Pending Requests Card Example -->
                 <div class="col-lg-2 mb-4">
                   <div class="card border-left-primary shadow h-100 py-2">
@@ -126,6 +128,19 @@
                     </div>
                   </div>
                 </div>
+                <!-- Pending Requests Card Example -->
+                <div class="col-lg-2 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-md font-weight-bold text-info text-uppercase mb-1">ยกเลิกหลังพิจารณาเสร็จสิ้น</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $leave_history['count_cancel_a_c'];?> รายการ</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -145,7 +160,6 @@
                           <th>#</th>
                           <th>ข้อมูลการลา</th>
                           <th>ประเภทการลา</th>
-                          <th>วันที่เขียนใบลา</th>
                           <th>ช่วงวันที่ลา</th>
                           <th>จำนวนวัน</th>
                           <th>สถานะ</th>
@@ -158,18 +172,17 @@
                           <tr>
                             <td><?php echo $i;?></td>
                             <td>
-                              <?php 
+                              <?php
                                 echo 'เลขที่:'.$val['leave_no'].'<br/>';
-                                echo 'ชื่อ: สนาน <br/>';
-                                echo 'หน่วยงาน: งานพัฒนานวัตกรรม<br/>';
+                                echo 'ชื่อ:'.(isset($personnel_list[$val['personnel_id']])?$personnel_list[$val['personnel_id']]['title'].$personnel_list[$val['personnel_id']]['name_th'].' '.$personnel_list[$val['personnel_id']]['surname_th']:' - ').' <br/>';
+                                echo 'หน่วยงาน: '.(isset($personnel_list[$val['personnel_id']]) && isset($main_smu[$personnel_list[$val['personnel_id']]['smu_main_id']])?$main_smu[$personnel_list[$val['personnel_id']]['smu_main_id']]['smu_main_name']:'-').'<br/>';
                               ?>
                             </td>
                             <td><?php echo isset($leave_type[$val['leave_type_id']])?$leave_type[$val['leave_type_id']]['leave_name']:' - ';?></td>
-                            <td><?php echo date_th($val['create_date'],2);?></td>
-                            <td><?php echo date_th($val['period_start'],2).($val['period_end']!=''?' - '.date_th($val['period_end'],2):'');?></td>
+                            <td><?php echo date_th($val['period_start'],2).'(start)'.($val['period_end']!=''?'<br/>'.date_th($val['period_end'],2).'(end)':'-');?></td>
                             <td><?php $sum_day+=$val['period_count']; echo $val['period_count'].($val['period_type']!='a'?$val['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)');?></td>
                             <td>
-                              <?php 
+                              <?php
                                 if($val['status']==0){
                                   echo 'รอดำเนินการ';
                                 }elseif($val['status']==1){
@@ -178,14 +191,17 @@
                                   echo 'อณุญาติ';
                                 }elseif($val['status']==3){
                                   echo 'ไม่อณุญาติ';
+                                }elseif($val['status']==98 and $val['deputy_dean_approve_cancel']==1){
+                                  echo 'ยกเลิกหลังพิจารณาเสร็จสิ้น';
                                 }elseif($val['status']==98){
-                                  echo 'ยกเลิก';
+                                  echo 'ยกเลิกหลังพิจารณา';
+                                }elseif($val['status']==99){
+                                  echo 'ยกเลิกก่อนพิจารณา';
                                 }
                               ?>
-
                             </td>
                             <td>
-                              <a href="<?php echo base_url(url_index().'leave/view/'.$val['leave_id']);?>" class="btn btn-info btn-circle btn-sm">
+                              <a href="<?php echo base_url(url_index().'leave/view_hr/'.$val['leave_id']);?>" target="_blank" class="btn btn-info btn-circle btn-sm">
                                 <i class="far fa-eye"></i>
                               </a>
                             </td>
@@ -197,7 +213,6 @@
                           <th></th>
                           <th>ข้อมูลการลา</th>
                           <th>ประเภทการลา</th>
-                          <th>วันที่เขียนใบลา</th>
                           <th>ช่วงวันที่ลา</th>
                           <th></th>
                           <th>สถานะ</th>

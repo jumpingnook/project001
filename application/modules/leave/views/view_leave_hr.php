@@ -181,71 +181,25 @@
                     </div>
                     <div class="card-body">
 
-                      <?php if(!isset($view_only)){ ?>
-                      <div class="row">
-                        <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การจัดการ</div>
-                      </div>
-                      <?php if(intval($data['status'])==0){?>
+                      <?php if(intval($data['status'])>=98){ ?>
                         <div class="row mb-1">
-                          <button id="send_approve" class="btn btn-info btn-icon-split">
+                          <button class="btn btn-primary btn-icon-split">
                             <span class="icon text-white-50">
-                              <i class="fas fa-user-check"></i>
+                              <i class="fas fa-trash"></i>
                             </span>
-                            <span class="text">ส่งอีเมลเพื่อเริ่มพิจารณา</span>
+                            <span class="text">ยกเลิกการลาเมื่อวันที่<br/><?php echo date_th($data['cancel_date'],2);?></span>
                           </button>
                         </div>
+                      <?php } ?>
 
-                        <div class="row mb-1">
-                          <button id="cancel_leave" cancel="before" class="btn btn-primary btn-icon-split">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-trash"></i>
-                            </span>
-                            <span class="text">ยกเลิกการลานี้</span>
-                          </button>
-                        </div>
-                      <?php }elseif(intval($data['status'])>0 and intval($data['status'])<98 and intval($data['status'])!=3){?>
-                        <div class="row mb-1">
-                          <button id="cancel_leave" cancel="after" class="btn btn-primary btn-icon-split">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-trash"></i>
-                            </span>
-                            <span class="text">ยกเลิกการลานี้</span>
-                          </button>
-                        </div>
-                      <?php } ?>
-                      
-                      <?php if(intval($data['status'])<98){?>
-                        <div class="row mb-1">
-                          <a href="#" id="print" class="btn btn-light btn-icon-split">
-                            <span class="icon text-gray-600">
-                              <i class="fas fa-file-alt"></i>
-                            </span>
-                            <span class="text">ดูหรือพิมพ์ใบลา</span>
-                          </a>
-                        </div>
-                      <?php }else{ ?>
-                        <button class="btn btn-primary btn-icon-split">
-                          <span class="icon text-white-50">
-                            <i class="fas fa-trash"></i>
+                      <div class="row mb-1">
+                        <a href="#" id="print" class="btn btn-light btn-icon-split">
+                          <span class="icon text-gray-600">
+                            <i class="fas fa-file-alt"></i>
                           </span>
-                          <span class="text">ยกเลิกการลาเมื่อวันที่<br/><?php echo date_th($data['cancel_date'],2);?></span>
-                        </button>
-                      <?php } ?>
-                      <?php }elseif(isset($view_only) and $view_only){ ?>
-                        <button class="btn btn-warning btn-icon-split">
-                          <span class="icon text-white-50">
-                            <i class="fas fa-check"></i>
-                          </span>
-                          <span class="text">พบข้อมูล</span>
-                        </button>
-                      <?php }elseif(isset($view_only) and !$view_only){ ?>
-                        <button class="btn btn-primary btn-icon-split">
-                          <span class="icon text-white-50">
-                            <i class="fas fa-times"></i>
-                          </span>
-                          <span class="text">ไม่พบข้อมูล</span>
-                        </button> 
-                      <?php } ?>
+                          <span class="text">ดูหรือพิมพ์ใบลา</span>
+                        </a>
+                      </div>
 
                     </div>
                   </div>

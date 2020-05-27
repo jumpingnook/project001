@@ -22,7 +22,7 @@
     margin-left: -8%;
     margin-top: -11%;
   }
-  #qrcode1 img,#qrcode2 img{
+  #qrcode1 img,#qrcode2 img,#qrcode3 img{
     display:none;
     max-width: 5vw;
   }
