@@ -183,12 +183,16 @@
                             <td><?php $sum_day+=$val['period_count']; echo $val['period_count'].($val['period_type']!='a'?$val['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)');?></td>
                             <td>
                               <?php
-                                if($val['status']==0){
+                                if($val['hr_approve']==1){
+                                  echo 'ผ่านการตรวจสอบ';
+                                }elseif($val['hr_approve']==2){
+                                  echo 'ไม่ผ่านการตรวจสอบ';
+                                }elseif($val['status']==0){
                                   echo 'รอดำเนินการ';
                                 }elseif($val['status']==1){
                                   echo 'กำลังพิจารณา';
                                 }elseif($val['status']==2){
-                                  echo 'อณุญาติ';
+                                  echo 'อณุญาติเสร็จสิ้น';
                                 }elseif($val['status']==3){
                                   echo 'ไม่อณุญาติ';
                                 }elseif($val['status']==98 and $val['deputy_dean_approve_cancel']==1){

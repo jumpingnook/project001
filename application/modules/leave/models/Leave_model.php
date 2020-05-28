@@ -21,7 +21,7 @@ class Leave_model extends MY_Model {
 		return empty($used)?$token:$this->url_approve();
 	}
 
-	function save_leave($set=[]){
+	function save_leave($set=[],$update=0){
 		if(count($set)>0){
             foreach($set as $key=>$val){
                 if(trim($val)==''){
@@ -55,7 +55,14 @@ class Leave_model extends MY_Model {
 		$con['data']['create_date'] = date('Y-m-d H:i:s');
 		$con['data']['status'] 		= 0;
 		$con['data']['leave_no'] 	= $this->leave_no();
-		$result = $this->to_insert_last_id($con);
+
+		if(intval($update)!=0){
+			unset($con['data']['edit_leave_id']);
+			$con['where'] = 'leave_id = '.intval($update);
+			$result = $this->to_update($con);
+		}else{
+			$result = $this->to_insert_last_id($con);
+		}
 
 		return $result;
 	}
@@ -115,9 +122,9 @@ class Leave_model extends MY_Model {
 
 		if(isset($set['hr']) and $set['hr']){
 			if($sql!=''){
-				$sql .= ' and (status > 1)';
+				$sql .= ' and (status >= 1)';
 			}else{
-				$sql = '(status > 1)';
+				$sql = '(status >= 1)';
 			}
 
 			if(isset($set['leave_year_b']) and $set['leave_year_b'] and isset($set['leave_year']) and intval($set['leave_year'])!=0){
@@ -302,6 +309,19 @@ class Leave_model extends MY_Model {
 			$con['where'] = 'leave_id = "'.intval($set['leave_id']).'"';
 			$this->to_update($con);
 
+			return $con;
+		}
+	}
+
+	function approve_hr($set=[]){
+		if(isset($set['leave']) and intval($set['leave'])!=0 and isset($set['hr']) and intval($set['hr'])!=0 and isset($set['type']) and intval($set['type'])!=0){
+			$con = [];
+			$con['data']['hr_personnel_id'] = intval($set['hr']);
+			$con['data']['signature_hr_date'] = date('Y-m-d H:i:s');
+			$con['data']['hr_approve'] = intval($set['type']);
+			$con['where'] = 'leave_id = "'.intval($set['leave']).'"';
+			$this->to_update($con);
+			
 			return $con;
 		}
 	}

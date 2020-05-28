@@ -77,6 +77,7 @@ class Leave extends Leave_Controller {
         ]);
         $this->load->model('personnel/Personnel_model');
         $this->load->model('leave/Leave_quota_model');
+        $this->load->model('leave/Leave_model');
 
         $api = [];
         $api['APP-KEY']     = $this->api_key;
@@ -87,26 +88,6 @@ class Leave extends Leave_Controller {
         $set['personnel'] = $this->session_data['personnel'];
         $set['api'] = $api;
         $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
-        $set['smu_main_id'] = $personnel['data'][0]['smu_main_id'];
-        $result = $this->Personnel_model->get_boss(['smu_main_id'=>$set['smu_main_id']]);
-
-        // $set['boss'] = '';
-        // $boss_id = [];
-        // if($result['count']>0){
-        //     foreach($result['data'] as $key=>$val){
-        //         $boss_id[] = $val['personnel_id'];
-        //     }
-        //     $set['boss'] = $this->Personnel_model->get_personnel(['personnel_list'=>$boss_id]);
-        // }
-
-        // $set['friend'] = [];
-        // $result = $this->Personnel_model->get_personnel(['smu_main_id'=>$set['smu_main_id']]);
-        // if($result['count']>0){
-        //     $set['friend'] = $result;
-        //     foreach($set['friend']['data'] as $key=>$val){
-        //         $set['boss']['data'][] = $val;
-        //     }
-        // }
 
         $url_approve['workmate'] = $this->Leave_model->url_approve();
         $url_approve['head_unit'] = $this->Leave_model->url_approve();
@@ -116,9 +97,21 @@ class Leave extends Leave_Controller {
         $url_approve['hr'] = $this->Leave_model->url_approve();
         $set['url_approve'] = $url_approve;
 
-        
         $set['emp_type'] = $personnel['data'][0]['emp_type_id']; 
         $set['check_leave'] = check_leave_type($personnel['data'][0]['work_start_date']);
+        $set['check_leave']['status'] = true;
+        if($set['check_leave']['status']){
+            $this->load->model('leave/Leave_model');
+            $con = [];
+            $con['where'] = 'personnel_id = "'.$set['personnel']['personnel_id'].'" and (status = 0 or status = 1) and (leave_type_id=1 or leave_type_id=7)';
+            $count = $this->Leave_model->to_count($con);
+            if($count==0){
+                $set['check_leave']['status'] = true;
+            }else{
+                $set['check_leave']['status'] = false;
+            }
+        }
+
         $set['leave_type'] = $this->Leave_type_model->get_type(['check_leave'=>$set['check_leave']['status'],'emp_type'=>$set['emp_type']]);
 
         $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$set['personnel']['personnel_id']]);
@@ -126,6 +119,64 @@ class Leave extends Leave_Controller {
         //echo '<pre>';print_r($set);exit;
 
         $this->load->view('add_leave',$set);
+    }
+
+    function edit($leave_id = 0){
+
+        $this->load->model([
+            'Leave_type_model',
+            'Leave_model'
+        ]);
+        $this->load->model('personnel/Personnel_model');
+        $this->load->model('leave/Leave_quota_model');
+
+        $set = [];
+
+        $set['leave_data'] = $this->Leave_model->view_leave(['leave_id'=>intval($leave_id)]);
+        if(isset($set['leave_data']['data']) and count($set['leave_data']['data'])!=0){
+            $set['leave_data'] = $set['leave_data']['data'];
+        }else{
+            redirect(url_index().'leave');
+        }
+        
+        $api = [];
+        $api['APP-KEY']     = $this->api_key;
+        $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+        $api['ip']          = get_client_ip();
+        $set['api'] = $api;
+
+        $set['leave_id'] =intval($leave_id);
+        $set['personnel'] = $this->session_data['personnel'];
+        
+        $con = [];
+        $con[] = $set['leave_data']['personnel_id'];
+        $con[] = $set['leave_data']['worker_personnel_id'];
+        $con[] = $set['leave_data']['head_unit_personnel_id'];
+        $con[] = $set['leave_data']['head_dept_personnel_id'];
+        $con[] = $set['leave_data']['supervisor_personnel_id'];
+        $con[] = $set['leave_data']['deputy_dean_personnel_id'];
+        $set['personnel_list'] = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
+
+        $url_approve['workmate'] = $this->Leave_model->url_approve();
+        $url_approve['head_unit'] = $this->Leave_model->url_approve();
+        $url_approve['head_dept'] = $this->Leave_model->url_approve();
+        $url_approve['supervisor'] = $this->Leave_model->url_approve();
+        $url_approve['deputy_dean'] = $this->Leave_model->url_approve();
+        $url_approve['hr'] = $this->Leave_model->url_approve();
+        $set['url_approve'] = $url_approve;
+
+        $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
+        $set['emp_type'] = $personnel['data'][0]['emp_type_id']; 
+        $set['check_leave'] = check_leave_type($personnel['data'][0]['work_start_date']);
+        $set['leave_type'] = $this->Leave_type_model->get_type(['check_leave'=>$set['check_leave']['status'],'emp_type'=>$set['emp_type']]);
+
+        $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$set['personnel']['personnel_id']]);
+
+        $set['form_edit'] = true;
+
+        //echo '<pre>';print_r($set);exit;
+
+        $this->load->view('edit_leave',$set);
     }
 
     function save_leave(){
@@ -151,7 +202,6 @@ class Leave extends Leave_Controller {
         $set['data']['personnel_id']    = isset($this->session_data['personnel']['personnel_id'])?$this->session_data['personnel']['personnel_id']:'';
         $set['data']['smu_main_id']     = isset($this->session_data['personnel']['smu_main_id'])?$this->session_data['personnel']['smu_main_id']:'';
         
-
         $this->load->model(['Leave_model']);
         
         if((intval($post['leave_type_id'])==1 or intval($post['leave_type_id'])==7)){
@@ -186,12 +236,12 @@ class Leave extends Leave_Controller {
         $last_leave = count($last_leave)>0?end($last_leave):0;
         $set['data']['last_leave_id'] = isset($last_leave['leave_id'])==1?$last_leave['leave_id']:0;
 
-        $result = $this->Leave_model->save_leave($set['data']);
-        
+        $result = $this->Leave_model->save_leave($set['data'],(isset($post['edit_leave_id']) && intval($post['edit_leave_id'])!=0?intval($post['edit_leave_id']):0));
+
         if(intval($result)!=0){
 
-            if(intval($post['leave_type_id'])==1 or intval($post['leave_type_id'])==7){
-                $this->Leave_quota_model->save_quota(['personnel_id'=>$api['data']['personnel_id'],'leave_id'=>intval($result),'quota_use'=>floatval($post['period_count'])]);
+            if((intval($post['leave_type_id'])==1 or intval($post['leave_type_id'])==7) and !isset($post['edit_leave_id'])){
+                $this->Leave_quota_model->save_quota(['personnel_id'=>$api['personnel'],'leave_id'=>intval($result),'quota_use'=>floatval($post['period_count'])]);
             }
 
             redirect(url_index().'leave/view/'.(intval($result)).'?status=save_complete');// to view
@@ -977,6 +1027,32 @@ class Leave extends Leave_Controller {
         }else{
             redirect(url_index().'leave');
         }
+    }
+
+    function approve_hr(){
+        $post = $this->input->post();
+
+        $res = ['status'=>false];
+
+        if(isset($post['leave']) and intval($post['leave'])!=0 and isset($post['hr']) and intval($post['hr'])!=0){
+            $this->load->model([
+                'leave/Leave_model',
+                'leave/Leave_quota_model'
+            ]);
+            if(isset($post['type']) and intval($post['type'])==1){
+                $test = $this->Leave_model->approve_hr(['leave'=>intval($post['leave']),'type'=>1,'hr'=>intval($post['hr'])]);
+                $res['status'] = true;
+                echo json_encode($res);exit;
+            }elseif(isset($post['type']) and intval($post['type'])==2){
+                $this->Leave_model->approve_hr(['leave'=>intval($post['leave']),'type'=>2,'hr'=>intval($post['hr'])]);
+                $this->Leave_quota_model->cancel_quota(['leave_id'=>intval($post['leave']),'personnel_id'=> intval($post['hr'])]);
+                $res['status'] = true;
+                echo json_encode($res);exit;
+            }else{
+                echo json_encode($res);exit;
+            }
+        }
+        echo json_encode($res);exit;
     }
     
 }

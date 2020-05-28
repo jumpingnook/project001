@@ -190,8 +190,49 @@
                             <span class="text">ยกเลิกการลาเมื่อวันที่<br/><?php echo date_th($data['cancel_date'],2);?></span>
                           </button>
                         </div>
+                        <hr/>
                       <?php } ?>
 
+                      <?php if(intval($data['hr_approve'])==0){ ?>
+                        <div class="row mb-1">
+                          <a href="#" class="hr-approve btn btn-primary btn-icon-split" approve_type="1">
+                            <span class="icon text-600">
+                              <i class="far fa-check-circle"></i>
+                            </span>
+                            <span class="text">ผ่านการตรวจสอบ</span>
+                          </a>
+                        </div>
+                        <div class="row mb-1">
+                          <a href="#" class="hr-approve btn btn-info btn-icon-split" approve_type="2">
+                            <span class="icon text-600">
+                              <i class="far fa-times-circle"></i>
+                            </span>
+                            <span class="text">ไม่ผ่านการตรวจสอบ</span>
+                          </a>
+                        </div>
+                        <hr/>
+                      <?php }elseif(intval($data['hr_approve'])==1){ ?>
+                        <div class="row mb-1">
+                          <a href="#" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-600">
+                              <i class="far fa-check-circle"></i>
+                            </span>
+                            <span class="text">ผ่านการตรวจสอบ<br/>เมื่อ: <?php echo date_th($data['signature_hr_date'],2);?></span>
+                          </a>
+                        </div>
+                        <hr/>
+                      <?php }elseif(intval($data['hr_approve'])==2){ ?>
+                        <div class="row mb-1">
+                          <a href="#" class="btn btn-info btn-icon-split">
+                            <span class="icon text-600">
+                              <i class="far fa-times-circle"></i>
+                            </span>
+                            <span class="text">ไม่ผ่านการตรวจสอบ<br/>เมื่อ: <?php echo date_th($data['signature_hr_date'],2);?></span>
+                          </a>
+                        </div>
+                        <hr/>
+                      <?php } ?>
+                      
                       <div class="row mb-1">
                         <a href="#" id="print" class="btn btn-light btn-icon-split">
                           <span class="icon text-gray-600">
@@ -219,39 +260,6 @@
       <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
-      <!-- Boss Modal-->
-      <a id="modal-cancel" class="dropdown-item" href="#" data-toggle="modal" data-target="#_cancel" style="display:none;"></a>
-      <div class="modal fade" id="_cancel" tabindex="-1" role="dialog" aria-labelledby="modal-cancel-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modal-cancel-label">ยกเลิกวันลา</h5>
-              <button id="close_position" class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-              </button>
-            </div>
-
-            <div class="modal-body">
-              <form id="cancel_form" action="<?php echo base_url(url_index().'leave/cancel_leave');?>" method="post">
-                <div class="form-group row">
-                  <div class="col-sm-12">
-                    <label>สาเหตุการยกเลิกวันลา</label>
-                    <input type="text" name="detail" class="leave_title form-control" placeholder="ระบุสาเหตุการยกเลิกวันลา" value="" required>
-                    <input type="hidden" name="leave" value="<?php echo $leave_id;?>"/>
-                    <input type="hidden" name="type" value="a"/>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button"  data-dismiss="modal">ยกเลิก</button>
-              <button class="btn btn-primary" type="submit" form="cancel_form">บันทึกการยกเลิกวันลา</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
     <!-- End of Content Wrapper -->
 
@@ -266,38 +274,14 @@
 
   <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
   
-
-
   <div id="preload" style="position: absolute;width: 100vw;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 99;top: 0;left: 0;display:none;">
     <img src="<?php echo base_url(load_file('assets/img/loading.gif'));?>" style="position: fixed;left: 0;right: 0;margin: auto;top: 25%;">
   </div>
 
-  
-
   <script>
-      
-      function open_qr(data){
-        var image = new Image();
-        image.src = data;
-
-        var w = window.open(data);
-        w.document.write(image.outerHTML);
-      }
-
-      function copy_url(str=''){
-        const el = document.createElement('textarea');
-        el.value = str;
-        el.setAttribute('readonly', '');
-        el.style.position = 'absolute';
-        el.style.width = '0px';
-        el.style.height = '0px';
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        alert('คัดลอก URL แล้ว');
-      }
-
       $(document).ready(function(){
+        var alert_confirm = {type:'',data:{}};
+
         $('#print').click(function(){
 
             $.ajax({
@@ -366,69 +350,48 @@
             
         });
 
-        $('#send_approve').click(function(){
-          alert('กรุณาตรวจสอบรายละเอียดการลาให้ถูกต้องก่อนส่งอีเมลเพื่อพิจารณา');
-          var con = confirm('ท่านต้องการส่งอีเมลเพื่อพิจารณาใช่หรือไม่');
-          if(con){
-            $('#preload').show();
-            $.ajax({
-              type: "POST",
-              data:{leave:'<?php echo intval($leave_id);?>'},
-              url: "<?php echo base_url(url_index().'leave/send_approve');?>",
-              dataType: "json",
-              success: function(data){
-                if(data.status){
-                  alert('ระบบได้ส่งอีเมลเพื่อพิจารณาการลาเรียบร้อยแล้ว ท่านสามารถติดตามการพิจารณาที่หน้ารายละเอียดการลา');
-                  $('#preload').hide();
-                  location.reload();
-                }else{
-                  alert('ระบบไม่สามารถส่งอีเมลได้ กรุณาลองใหม่อีกครั้ง');
-                  $('#preload').hide();
-                }
-              }
-            });
-          }
+        $('.hr-approve').click(function(){
+          alert_confirm.type = 'hr-approve';
+          alert_confirm.data.type = $(this).attr('approve_type');
+          $('#_confirm .modal-title').text('แจ้งรายละเอียด');
+          $('#_confirm .modal-body').text('ต้องการบันทึกการตรวจสอบการลานี้ใช่หรือไม่');
+          $('#modal-confirm').click();
         });
 
-        $('#cancel_leave').click(function(){
-          var type = $(this).attr('cancel');
-
-          if(type == 'before'){
-            var con = confirm('ท่านต้องการยกเลิกการลานี้ใช่หรือไม่ (กรณีก่อนส่งพิจารณา)');
-
-            if(con){
-              $('#preload').show();
+        $('#_confirm .answer-btn').click(function(){
+          $('#_confirm .close').click();
+          var answer = $(this).attr('answer');
+          
+          if(alert_confirm.type == 'hr-approve'){
+            if(parseInt(answer)){
               $.ajax({
                 type: "POST",
-                data:{leave:'<?php echo intval($leave_id);?>',type:'b'},
-                url: "<?php echo base_url(url_index().'leave/cancel_leave');?>",
+                data:{leave:'<?php echo intval($leave_id);?>',type:alert_confirm.data.type,hr:<?php echo $personnel['personnel_id'];?>},
+                url: "<?php echo base_url(url_index().'leave/approve_hr');?>",
                 dataType: "json",
                 success: function(data){
-                  console.log(data);
                   if(data.status){
-                    alert('ระบบได้ทำการยกเลิกการลาเรียบร้อยแล้ว');
-                  }else{
-                    alert('ระบบไม่สามารถยกเลิกการลานี้ได้กรุณาลองใหม่ภายหลัง');
+                    $('#_alert .modal-title').text('แจ้งรายละเอียด');
+                    $('#_alert .modal-body').text('ระบบได้ทำการบันทึกผลการตรวจสอบเรียบร้อยแล้ว');
+                    $('#modal-alert').click();
+                    $('#_alert button').click(function(){
+                      location.reload();
+                    });
                   }
-                  $('#preload').hide();
                 }
               });
-
-            }else{
-              return false;
             }
-
-          }else if(type == 'after'){
-            $('#modal-cancel').click();
           }
 
+          alert_confirm.type = '';
+          alert_confirm.data = {};
           return false;
-
         });
-        
       });
 
   </script>
+
+  <?php echo $this->load->view('inc/alert'); ?>
 
 </body>
 
