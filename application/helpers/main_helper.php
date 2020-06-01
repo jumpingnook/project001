@@ -219,7 +219,7 @@
     }
 
     function load_file($filepath){
-        $filemtime = filemtime($filepath);
+        $filemtime = @filemtime($filepath);
         return $filepath.'?v='.$filemtime;
     }
 

@@ -99,7 +99,6 @@ class Leave extends Leave_Controller {
 
         $set['emp_type'] = $personnel['data'][0]['emp_type_id']; 
         $set['check_leave'] = check_leave_type($personnel['data'][0]['work_start_date']);
-        $set['check_leave']['status'] = true;
         if($set['check_leave']['status']){
             $this->load->model('leave/Leave_model');
             $con = [];
@@ -408,7 +407,12 @@ class Leave extends Leave_Controller {
         $con['where'] = 'status = 0';
         $con['array_key'] = true;
 
-        echo ($type=='js'?'var date_fix = ':'').json_encode($this->Calendar_model->to_select($con));
+        if($type=='php'){
+            return $this->Calendar_model->to_select($con);
+        }else{
+            echo ($type=='js'?'var date_fix = ':'').json_encode($this->Calendar_model->to_select($con));
+        }
+
     }
 
     function signature($signature=''){ //dest to this
@@ -936,7 +940,7 @@ class Leave extends Leave_Controller {
         $set['leave_type'] = $this->Leave_type_model->get_type($personnel['data'][0]['personnel_id']);
         $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$personnel['data'][0]['personnel_id']]);
 
-        //echo '<pre>';print_r($set);exit;
+        #echo '<pre>';print_r($set);exit;
 
         $this->load->view('list_hr',$set);
     }
@@ -1054,5 +1058,99 @@ class Leave extends Leave_Controller {
         }
         echo json_encode($res);exit;
     }
+
+    function report_smu_hr(){
+        $post = $this->input->post();
+
+        $res = [];
+        $res['personnel'] = $this->session_data['personnel'];
+        $this->load->model([
+            'sql_personnel/Sql_personnel_model',
+            'personnel/Personnel_model',
+            'personnel/Smu_model',
+            'leave/Leave_model'
+        ]);
+        $res['sql_personnel'] = $this->Sql_personnel_model->get_personnel(['all'=>true,'select'=>'empcode,positionname,departname']);
+        $res['personnel_all'] = $this->Personnel_model->get_personnel(['all'=>true]);
+        $res['main_smu'] = $this->Smu_model->get_main_smu();
+        unset($res['main_smu'][0]);
+        $weekend = $this->get_weekend('php');
+
+        $set=[];
+        $set['hr']          = true;
+        $set['status']      = 2;
+        $set['leave_year']  = isset($post['year'])?$post['year']:date('Y');
+
+        if(isset($post['month']) and intval($post['month'])!=0){
+            $set['start_date']  = date($set['leave_year'].'-'.$post['month'].'-01');
+            $set['end_date']    = date('Y-m-t',strtotime($set['start_date']));
+        }
+
+        $result = $this->Leave_model->leave_history($set);
+
+        $leave = [];
+        if($result['count']>0){
+            foreach($result['data'] as $key => $val){
+
+                if(isset($leave[$val['personnel_id']][$val['leave_type_id']])){
+
+                    $day_count = $val['period_count'];
+                    $leave[$val['personnel_id']][$val['leave_type_id']] += $day_count;
+
+                }else{
+
+                    $day_count = $val['period_count'];
+
+                    if(isset($set['start_date']) and isset($set['end_date']) and date('Y-m',strtotime($set['end_date'])) != date('Y-m',strtotime($val['period_end'])) and date('Y-m',strtotime($set['start_date'])) != date('Y-m',strtotime($val['period_start'])) and $val['period_end']!=''){
+                        $day_count = 0;
+                        for($i=0;$i<$val['period_count_all'];$i++){
+                            $day = date('Y-m-d',strtotime($val['period_start'].' +'.$i.' day'));
+                            if(date('Y-m',strtotime($day)) >= date('Y-m',strtotime($set['start_date'])) and date('Y-m',strtotime($day)) <= date('Y-m',strtotime($set['end_date']))){
+                                if(!isset($weekend[$day])){
+                                    $day_count++;
+                                }
+                            }
+                        }
+                    }elseif(isset($set['start_date']) and isset($set['end_date']) and date('Y-m',strtotime($set['end_date'])) != date('Y-m',strtotime($val['period_end'])) and $val['period_end']!=''){ //วันสิ้นสุดวันลาไม่ต้องกลับช่วงวันที่เลือก
+                        $day_count = 0;
+                        
+                        for($i=0;$i<$val['period_count_all'];$i++){
+                            $day = date('Y-m-d',strtotime($val['period_start'].' +'.$i.' day'));
+                            if(date('Y-m',strtotime($set['start_date'])) != date('Y-m',strtotime($day))){
+                                break;
+                            }elseif(!isset($weekend[$day])){
+                                $day_count++;
+                            }
+                        }
+                    }elseif(isset($set['start_date']) and isset($set['end_date']) and date('Y-m',strtotime($set['start_date'])) != date('Y-m',strtotime($val['period_start'])) and $val['period_end']!=''){ //วันเริ่มวันลาไม่ต้องกลับช่วงวันที่เลือก
+                        $day_count = 0;
+                        for($i=0;$i<$val['period_count_all'];$i++){
+                            $day = date('Y-m-d',strtotime($val['period_end'].' -'.$i.' day'));
+                            if(date('Y-m',strtotime($set['end_date'])) != date('Y-m',strtotime($day))){
+                                break;
+                            }elseif(!isset($weekend[$day])){
+                                $day_count++;
+                            }
+                        }
+                    }
+
+                    $leave[$val['personnel_id']][$val['leave_type_id']] = $day_count;
+
+                }
+            }
+        }
+
+        $res['leave'] = $leave;
+
+        $res['smu_personnel'] = [];
+        foreach($res['personnel_all']['data'] as $key=>$val){
+            $res['smu_personnel'][$val['smu_main_id']][$val['personnel_code']] = $val;
+        }
+        //echo '<pre>';print_r($res['main_smu']);exit;
+
+
+        $this->load->view('report_smu_hr',$res);
+    }
+
     
 }

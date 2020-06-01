@@ -22,6 +22,20 @@ class Sql_personnel_model extends SQL_Model {
 				$res['count'] = $count;
 			}
 		}
+		if(isset($set['all']) and $set['all']){
+			$con = [];
+			$count = $this->sqlsrv_count($con);
+			
+			if($count>0){
+
+				$con['select'] = isset($set['select'])?$set['select']:'';
+
+				$con['array_key'] = 'empcode';
+				$res['data'] = $this->sqlsrv_select($con);
+				$res['count'] = $count;
+			}
+		}
+		
 		
 		return $res;
 	}

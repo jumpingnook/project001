@@ -89,6 +89,10 @@
     <i class="fas fa-fw fa-tachometer-alt"></i>
     <span>จัดการปฏิทิน</span>
   </a>
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave/report_smu_hr');?>">
+    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <span>รายงานสรุปการลา</span>
+  </a>
 
   <?php /*
   <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">

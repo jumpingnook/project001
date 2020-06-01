@@ -46,7 +46,7 @@ class Personnel_model extends MY_Model {
 			$sql_code = '(name_th LIKE "'.trim($set['term']).'%") and email <> ""';
 			$con['limit'] = '0,10';
 		}elseif(isset($set['all']) and $set['all']){
-			$con['select'] = 'personnel_id,position_boss,title,name_th,surname_th,email,smu_main_id,smu_sub_id';
+			$con['select'] = 'personnel_id,position_boss,title,name_th,surname_th,email,smu_main_id,smu_sub_id,personnel_code';
 			$sql_code = "work_end_date is NULL";
 		}
 

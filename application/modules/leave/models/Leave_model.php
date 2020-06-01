@@ -121,10 +121,19 @@ class Leave_model extends MY_Model {
 		}
 
 		if(isset($set['hr']) and $set['hr']){
-			if($sql!=''){
-				$sql .= ' and (status >= 1)';
+
+			if(isset($set['status'])){
+				if($sql!=''){
+					$sql .= ' and (status = '.intval($set['status']).')';
+				}else{
+					$sql = '(status = '.intval($set['status']).')';
+				}
 			}else{
-				$sql = '(status >= 1)';
+				if($sql!=''){
+					$sql .= ' and (status >= 1)';
+				}else{
+					$sql = '(status >= 1)';
+				}
 			}
 
 			if(isset($set['leave_year_b']) and $set['leave_year_b'] and isset($set['leave_year']) and intval($set['leave_year'])!=0){
@@ -133,13 +142,32 @@ class Leave_model extends MY_Model {
 				}else{
 					$sql = '(period_start LIKE "'.intval($set['leave_year']).'%" or period_start LIKE "'.(intval($set['leave_year'])-1).'%")';
 				}
+			}elseif(isset($set['start_date']) and isset($set['end_date'])){
+				$start = $set['start_date'];
+				$end = $set['end_date'];
+				if($set['start_date'] > $set['end_date']){
+					$start = $set['end_date']; 
+					$end = $set['start_date'];
+				}
+
+				if($sql!=''){
+					$sql .= ' and ((period_start >= "'.$start.' 00:00:00" and period_start <= "'.$end.' 23:59:59") or (period_end >= "'.$start.' 00:00:00" and period_end <= "'.$end.' 23:59:59") or (period_start <= "'.$start.' 00:00:00" and period_end >= "'.$end.' 23:59:59") or (period_start <= "'.$start.' 00:00:00" and period_end >= "'.$end.' 23:59:59")) ';
+				}else{
+					$sql = '((period_start >= "'.$start.' 00:00:00" and period_start <= "'.$end.' 23:59:59") or (period_end >= "'.$start.' 00:00:00" and period_end <= "'.$end.' 23:59:59") or (period_start <= "'.$start.' 00:00:00" and period_end >= "'.$end.' 23:59:59"))';
+				}
+			}elseif(isset($set['leave_year']) and intval($set['leave_year'])!=0){
+				if($sql!=''){
+					$sql .= ' and (period_start LIKE "'.intval($set['leave_year']).'%") ';
+				}else{
+					$sql = '(period_start LIKE "'.intval($set['leave_year']).'%")';
+				}
 			}
-			
+
 		}
 
 		$con['where'] 		= $sql;
 		$con['order_by']	= 'leave_id DESC';
-		$con['array_key']	= true;
+		$con['array_key']	= isset($set['array_key'])?$set['array_key']:true;
 		$res['data'] = $this->to_select($con);
 		$res['count'] = count($res['data']);
 
