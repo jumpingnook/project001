@@ -88,7 +88,7 @@
                           <div class="col-lg-4 text-md font-weight-bold">อายุงาน</div>
                           <div class="col-lg-8">
                             <?php 
-                              if(!isset($personnel['work_end_date'])){
+                              if(isset($personnel['work_end_date']) and $personnel['work_end_date']=='0000-00-00' ){
 
                                 $datetime1 = date_create($personnel['work_start_date']); 
                                 $datetime2 = date_create(date('Y-m-d')); 

@@ -62,27 +62,23 @@ class Auth extends Auth_Controller {
         $set['username']    = trim($post['username']);
         $set['token']       = $token;
         $set['ip']          = $ip;
-        $result = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$set);
+        $personnel = $this->restclient->post(base_url(url_index().'personnel/api_v1/personnel'),$set);
+        $personnel_id = isset($personnel['data']) && count($personnel['data'])>0?$personnel['data'][0]['personnel_id']:0;
 
-        $personnel_id = isset($result['data']) && count($result['data'])>0?$result['data'][0]['personnel_id']:0;
-
-        if(count($re_login)==0 and ((isset($result['status']) and !$result['status']) or !isset($result['status']))){
+        if(count($f_data)==0 and !isset($personnel['sql_on'])){
             $post['skip'] = true;
             $this->session->set_flashdata('re_login', $post);
             redirect(url_index().'auth/login');//validate token_login
-        }
 
-        #check new tb personnel
-        if(isset($result['status']) and $result['status'] and intval($result['count'])==0){
+
+        }elseif(isset($personnel['status']) and $personnel['status'] and intval($personnel['count'])==0){ #check new tb personnel
 
             $this->load->model('sql_personnel/Sql_personnel_model');
-            $result = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['username'])]);
+            $personnel_sql = $this->Sql_personnel_model->get_personnel(['username'=>trim($set['username'])]);
 
-            #check old tb personnel
-            if(isset($result['status']) and $result['status'] and count($result['data'])==1){
+            if(isset($personnel_sql['data']) and count($personnel_sql['data'])==1){
                 #transfer new tb personnel
-
-                $set = $result['data'][0];
+                $set = $personnel_sql['data'][0];
                 $set['APP-KEY']     = $this->api_key;
                 $set['username']    = trim($post['username']);
                 $set['token']       = $token;
@@ -100,9 +96,12 @@ class Auth extends Auth_Controller {
                     $this->Token_model->delete_token(['token'=>$token]);
                     redirect(url_index().'auth/?status=db'); //login fail db
                 }
-
+            }else{
+                redirect(url_index().'auth/?status=fail1'); //login fail
             }
-        }elseif(intval($personnel_id) != 0 and isset($result['status']) and $result['status']){
+    
+
+        }elseif(intval($personnel_id) != 0 and isset($personnel_id['status']) and $personnel_id['status']){
             #update old tb personnel to new tb personnel
 
             $this->load->model('sql_personnel/Sql_personnel_model');
@@ -177,7 +176,7 @@ class Auth extends Auth_Controller {
 
             redirect(url_index().$dest);
         }else{
-            redirect(url_index().'auth/?status=fail'); //login fail
+            redirect(url_index().'auth/?status=fail2'); //login fail
         }
     }
 

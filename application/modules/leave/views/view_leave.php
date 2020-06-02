@@ -129,7 +129,7 @@
                         </div>
                         <div class="col-lg-9">
                           <?php 
-                            if(!isset($personnel['data']['work_end_date'])){
+                            if(isset($personnel['data']['work_end_date']) and $personnel['data']['work_end_date']=='0000-00-00'){
 
                               $datetime1 = date_create($personnel['data']['work_start_date']); 
                               $datetime2 = date_create(date('Y-m-d')); 

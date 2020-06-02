@@ -64,6 +64,7 @@ class Personnel_model extends MY_Model {
 				$res['data'] = $this->to_select($con);
 				$res['count'] = $count;
 				$res['process'] = true;
+				$res['sql_on'] = true;
 			}
 		}
 		
@@ -116,7 +117,16 @@ class Personnel_model extends MY_Model {
 		$con['data']['internal_tel'] 	= isset($set['internal_tel'])?trim($set['internal_tel']):'';
 		$con['data']['email'] 			= isset($set['email'])?trim($set['email']):'';
 		$con['data']['address'] 		= isset($set['address'])?trim($set['address']):'';
+
 		$con['data']['img'] 			= isset($set['img'])?trim($set['img']):'';
+		$con['data']['position_boss'] 	= isset($set['img'])?trim($set['position_boss']):'';
+		$con['data']['smu_main_id'] 	= isset($set['smu_main_id'])?trim($set['smu_main_id']):'';
+		$con['data']['smu_sub_id'] 		= isset($set['smu_sub_id'])?trim($set['smu_sub_id']):'';
+		$con['data']['work_start_date'] = isset($set['work_start_date'])?trim($set['work_start_date']):'';
+		$con['data']['work_end_date'] 	= isset($set['work_end_date'])?trim($set['work_end_date']):'';
+
+		$con['data']['emp_type_id']		= isset($set['emp_type_id'])?intval($set['emp_type_id']):0;
+
 		$res['personnel_id'] = $this->to_insert_last_id($con);
 
 		if(intval($res['personnel_id'])==0){
