@@ -192,9 +192,9 @@
                                 }elseif($val['status']==1){
                                   echo 'กำลังพิจารณา';
                                 }elseif($val['status']==2){
-                                  echo 'อณุญาติเสร็จสิ้น';
+                                  echo 'อนุญาติเสร็จสิ้น';
                                 }elseif($val['status']==3){
-                                  echo 'ไม่อณุญาติ';
+                                  echo 'ไม่อนุญาติ';
                                 }elseif($val['status']==98 and $val['deputy_dean_approve_cancel']==1){
                                   echo 'ยกเลิกหลังพิจารณาเสร็จสิ้น';
                                 }elseif($val['status']==98){
@@ -278,10 +278,10 @@
             </style>
 
             <div class="row">
-               <div class="col-lg-6 mb-4">
+               <div class="col-lg-5 mb-4">
                 <div id="qrcode1"></div>
                </div>
-               <div class="col-lg-6"><br/><br/>
+               <div class="col-lg-7"><br/><br/>
                 <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
                   <center>------ หรือ ------</center><br/><br/>
                   <center>

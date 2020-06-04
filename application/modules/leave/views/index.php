@@ -244,9 +244,9 @@
                                 }elseif($val['status']==1){
                                   echo 'กำลังพิจารณา';
                                 }elseif($val['status']==2){
-                                  echo 'อณุญาติเสร็จสิ้น';
+                                  echo 'อนุญาติเสร็จสิ้น';
                                 }elseif($val['status']==3){
-                                  echo 'ไม่อณุญาติ';
+                                  echo 'ไม่อนุญาติ';
                                 }elseif($val['status']==98 and $val['deputy_dean_approve_cancel']==1){
                                   echo 'ยกเลิกหลังพิจารณาเสร็จสิ้น';
                                 }elseif($val['status']>=98){
@@ -325,10 +325,10 @@
             </style>
 
             <div class="row">
-               <div class="col-lg-6 mb-4">
+               <div class="col-lg-5 mb-4">
                 <div id="qrcode1"></div>
                </div>
-               <div class="col-lg-6"><br/><br/>
+               <div class="col-lg-7"><br/><br/>
                 <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
                   <center>------ หรือ ------</center><br/><br/>
                   <center>
@@ -387,7 +387,6 @@
                   }
                   return "";
                 }
-
               });
 
             </script>
@@ -399,8 +398,6 @@
 
   <script>
     $(document).ready(function(){
-      // Call the dataTables jQuery plugin
-      $(document).ready(function() {
         $('#dataTable').DataTable({
           "language": {
             "lengthMenu": "แสดง _MENU_ รายการ/หน้า",
@@ -419,9 +416,29 @@
           
         });
 
-        
+        var approve = getUrlParam('approve','123');
+        if(approve=='ds1df4d51s8af4dsa1'){
+          alert('ระบบบันทึกผลการพิจารณาเรียบร้อยแล้ว');
+        }
+        var signature = getUrlParam('signature','123');
+        if(signature=='ds1df4d51s8af4dsa1'){
+          alert('ระบบบันทึกลายเซ็นของท่านเรียบร้อยแล้ว');
+        }
 
-      });
+        function getUrlParam(parameter, defaultvalue){
+          var urlparameter = defaultvalue;
+          if(window.location.href.indexOf(parameter) > -1){
+              urlparameter = getUrlVars()[parameter];
+              }
+          return urlparameter;
+        }
+        function getUrlVars() {
+          var vars = {};
+          var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+              vars[key] = value;
+          });
+          return vars;
+        }
 
     });
   </script>

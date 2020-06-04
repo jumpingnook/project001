@@ -47,7 +47,7 @@ class Personnel_model extends MY_Model {
 			$con['limit'] = '0,10';
 		}elseif(isset($set['all']) and $set['all']){
 			$con['select'] = 'personnel_id,position_boss,title,name_th,surname_th,email,smu_main_id,smu_sub_id,personnel_code';
-			$sql_code = "work_end_date is NULL";
+			$sql_code = 'work_end_date is NULL or work_end_date = "0000-00-00 00:00:00"';
 		}
 
 		if($sql_code!=''){
@@ -228,6 +228,14 @@ class Personnel_model extends MY_Model {
 		$con['data']['email'] 			= isset($set['email'])?trim($set['email']):'';
 		$con['data']['address'] 		= isset($set['address'])?trim($set['address']):'';
 		$con['data']['img'] 			= isset($set['img'])?trim($set['img']):'';
+		$con['data']['position_boss'] 	= isset($set['img'])?trim($set['position_boss']):'';
+		$con['data']['smu_main_id'] 	= isset($set['smu_main_id'])?trim($set['smu_main_id']):'';
+		$con['data']['smu_sub_id'] 		= isset($set['smu_sub_id'])?trim($set['smu_sub_id']):'';
+		$con['data']['work_start_date'] = isset($set['work_start_date'])?trim($set['work_start_date']):'';
+		$con['data']['work_end_date'] 	= isset($set['work_end_date'])?trim($set['work_end_date']):'';
+
+		$con['data']['emp_type_id']		= isset($set['emp_type_id'])?intval($set['emp_type_id']):0;
+
 		$con['where'] 					= 'personnel_id = '.intval($set['personnel_id']);
 		$result = $this->to_update($con);
 

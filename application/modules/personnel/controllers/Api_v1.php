@@ -150,13 +150,28 @@ class Api_v1 extends REST_Controller {
             $set['internel_tel'] 	= isset($post['self_tel_in'])?preg_replace('/[^0-9]/', '', trim($post['self_tel_in'])):'';
             $set['email'] 			= isset($post['email'])?trim($post['email']):'';
             $set['address'] 		= isset($post['address'])?trim($post['address']):'';
-            $set['smu_main_id'] 	= isset($post['departname'])?trim($post['departname']):'';
-		    $set['smu_sub_id'] 		= isset($post['subdepart'])?trim($post['subdepart']):'';
-            if(isset($post['picture']) and trim($post['picture'])!=''){
-                $set['img'] = $post['picture'];
-            }else{
-                $set['img'] = '';
+            
+            $set['img'] 	        = isset($post['picture'])?trim($post['picture']):'';
+            $set['position_boss'] 	= isset($post['positionmanagement'])?trim($post['positionmanagement']):'';
+            $set['smu_main_id'] 	= isset($post['departname'])?substr($post['departname'],0,6):'';
+            $set['smu_sub_id'] 		= isset($post['subdepart'])?substr($post['subdepart'],0,6):'';
+            $set['work_start_date'] = isset($post['empstart'])?trim($post['empstart']):'';
+            $set['work_end_date'] 	= isset($post['empend'])?trim($post['empend']):'';
+
+            $emp_type = 0;
+            if(isset($post['pgroupid']) and intval($post['pgroupid'])==1){$emp_type = 1;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==3){$emp_type = 2;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==4){$emp_type = 3;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==9){$emp_type = 4;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==8){$emp_type = 5;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==17){$emp_type = 6;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==5){$emp_type = 7;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==10){$emp_type = 8;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==18){$emp_type = 9;
+            }elseif(isset($post['pgroupid']) and intval($post['pgroupid'])==2){$emp_type = 10;
             }
+
+            $set['emp_type_id'] 	= $emp_type;
 
             #table personnel promote
             // $set['type']               = true;

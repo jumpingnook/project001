@@ -292,10 +292,10 @@
             </style>
 
             <div class="row">
-               <div class="col-lg-6 mb-4">
+               <div class="col-lg-5 mb-4">
                 <div id="qrcode-sig"></div>
                </div>
-               <div class="col-lg-6"><br/><br/>
+               <div class="col-lg-7"><br/><br/>
                 <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
                   <center>------ หรือ ------</center><br/><br/>
                   <center>

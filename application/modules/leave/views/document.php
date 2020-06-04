@@ -420,7 +420,7 @@
           echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
         ?>
       </span>
-      <span style="top: 60.4%;left: 60%;"><img src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
+      <span style="top: 60.4%;left: 60%;"><img src="<?php echo isset($data['worker_personnel_id']) && intval($data['worker_personnel_id'])!=0 && $data['signature_workmate_date']!='' && isset($personnel_list['data'][$data['worker_personnel_id']])?$personnel_list['data'][$data['worker_personnel_id']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 62.4%;left: 60%;">
         <?php 
           if(isset($data['worker_personnel_id']) && intval($data['worker_personnel_id'])!=0 && isset($personnel_list['data'][$data['worker_personnel_id']])){

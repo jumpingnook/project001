@@ -243,6 +243,18 @@
                         <input type="hidden" name="period_end" class="leave_date_e_value form-control" form_no="3" value="<?php echo date('Y-m-d');?>">
                       </div>
                     </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>คลอดบุตรตั้งแต่วันที่</label>
+                        <input type="text" class="date_n form-control" date_type="child_birthdate_s" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
+                        <input name="child_birthdate_start" type="hidden" class="child_birthdate_s_value form-control" value="<?php echo date('Y-m-d');?>" required>
+                      </div>
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label>ถึงวันที่</label>
+                        <input  type="text" class="date_n form-control" date_type="child_birthdate_e" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
+                        <input name="child_birthdate_end" type="hidden" class="child_birthdate_e_value form-control" value="<?php echo date('Y-m-d');?>">
+                      </div>
+                    </div>
 
                     <div class="form-group row">
                       <div class="col-sm-12">

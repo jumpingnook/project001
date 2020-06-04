@@ -288,6 +288,7 @@ class Leave extends Leave_Controller {
             $con[] = $set['data']['head_dept_personnel_id'];
             $con[] = $set['data']['supervisor_personnel_id'];
             $con[] = $set['data']['deputy_dean_personnel_id'];
+            $con[] = $set['data']['hr_personnel_id'];
             $set['personnel_list'] = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
 
             $set['leave_id'] =intval($leave_id);
@@ -435,9 +436,9 @@ class Leave extends Leave_Controller {
             $set['personnel_id'] = $result['data'][0]['personnel_id'];
 
             $personnel = $this->session_data['personnel'];
-            if($personnel['personnel_id']!=$set['personnel_id']){
-                redirect(base_url(url_index().'leave'));
-            }
+            // if($personnel['personnel_id']!=$set['personnel_id']){
+            //     redirect(base_url(url_index().'leave'));
+            // }
 
             $api = [];
             $api['APP-KEY']     = $this->api_key;
@@ -467,7 +468,7 @@ class Leave extends Leave_Controller {
             $this->Personnel_model->save_signature_personnel($post);
         }
 
-        redirect(base_url(url_index().'leave'));
+        redirect(base_url(url_index().'leave?signature=ds1df4d51s8af4dsa1'));
     }
 
     function approve($signature='',$type=''){ //dest to this $type='n29gknk626e3gh';
@@ -516,9 +517,9 @@ class Leave extends Leave_Controller {
             $leave_id = $set['leave_id'] = $result['data']['leave_id'];
             
             $personnel = $this->session_data['personnel'];
-            if($personnel['personnel_id']!=$set['personnel_id']){
-                redirect(base_url(url_index().'leave'));
-            }
+            // if($personnel['personnel_id']!=$set['personnel_id']){
+            //     redirect(base_url(url_index().'leave'));
+            // }
 
             $api = [];
             $api['APP-KEY']     = $this->api_key;
@@ -984,6 +985,7 @@ class Leave extends Leave_Controller {
             $con[] = $set['data']['head_dept_personnel_id'];
             $con[] = $set['data']['supervisor_personnel_id'];
             $con[] = $set['data']['deputy_dean_personnel_id'];
+            $con[] = $set['data']['hr_personnel_id'];
             $set['personnel_list'] = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
 
             $set['leave_id'] =intval($leave_id);
@@ -1146,7 +1148,7 @@ class Leave extends Leave_Controller {
         foreach($res['personnel_all']['data'] as $key=>$val){
             $res['smu_personnel'][$val['smu_main_id']][$val['personnel_code']] = $val;
         }
-        //echo '<pre>';print_r($res['main_smu']);exit;
+        //echo '<pre>';print_r($res['smu_personnel']);exit;
 
 
         $this->load->view('report_smu_hr',$res);
