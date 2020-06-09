@@ -54,11 +54,11 @@
       <span style="top: 18%;left: 18%;">
         <?php 
           if(isset($data['to']) && $data['to']==1){
-            echo 'คณะบดีคณะแพทยศาสตร์';
+            echo 'คณบดีคณะแพทยศาสตร์';
           }elseif(isset($data['to']) && $data['to']==2){
             echo 'อธิกาารบดี';
           }elseif(isset($data['to']) && $data['to']==2){
-            echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
           }
         ?>
       </span>
@@ -525,11 +525,11 @@
       <span style="top: calc(100% - 84.2%);left: calc(100% - 83%);">
         <?php 
           if(isset($data['to']) && $data['to']==1){
-            echo 'คณะบดีคณะแพทยศาสตร์';
+            echo 'คณบดีคณะแพทยศาสตร์';
           }elseif(isset($data['to']) && $data['to']==2){
             echo 'อธิกาารบดี';
           }elseif(isset($data['to']) && $data['to']==2){
-            echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
           }
         ?>
       </span>
@@ -707,11 +707,11 @@
       <span style="top: 18%;left: 18%;">
         <?php 
           if(isset($data['to']) && $data['to']==1){
-            echo 'คณะบดีคณะแพทยศาสตร์';
+            echo 'คณบดีคณะแพทยศาสตร์';
           }elseif(isset($data['to']) && $data['to']==2){
             echo 'อธิกาารบดี';
           }elseif(isset($data['to']) && $data['to']==3){
-            echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
           }
         ?>
       </span>
@@ -966,11 +966,11 @@
         <span style="top: 19.5%;left: 20%;">
           <?php 
             if(isset($data['to']) && $data['to']==1){
-              echo 'คณะบดีคณะแพทยศาสตร์';
+              echo 'คณบดีคณะแพทยศาสตร์';
             }elseif(isset($data['to']) && $data['to']==2){
               echo 'อธิกาารบดี';
             }elseif(isset($data['to']) && $data['to']==2){
-              echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+              echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
             }
           ?>
         </span>
@@ -1040,7 +1040,6 @@
         <?php if(isset($data['to']) && $data['to']==1){?>
           <span style="top: 71%;left: 13%; width: 22%; height: 7%; background-color: #ffffff;"></span>
         <?php } ?>
-
       
 
       <?php }else if(isset($data['leave_type_id']) && intval($data['leave_type_id'])==7){ ?>

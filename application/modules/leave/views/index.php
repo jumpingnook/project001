@@ -81,10 +81,6 @@
                           <div class="col-lg-8"><?php echo isset($personnel['emp_type_name'])?$personnel['emp_type_name']:'-';?></div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-4 text-md font-weight-bold">อีเมล</div>
-                          <div class="col-lg-8"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></div>
-                        </div>
-                        <div class="row">
                           <div class="col-lg-4 text-md font-weight-bold">อายุงาน</div>
                           <div class="col-lg-8">
                             <?php 
@@ -110,6 +106,17 @@
                               }
                             ?>
                           
+                          </div>
+                        </div>
+                        <div class="row mb-1">
+                          <div class="col-lg-4 text-md font-weight-bold">อีเมล</div>
+                          <div class="col-lg-8">
+                            <a href="#" id="update-email" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#update-email-form">
+                              <span class="icon text-white-50">
+                                <i class="far fa-edit"></i>
+                              </span>
+                              <span class="text"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></span>
+                            </a>
                           </div>
                         </div>
                         <div class="row">
@@ -202,7 +209,11 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-lg-12">
+                    <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
                       <a href="<?php echo base_url(url_index().'leave/add');?>" class="btn btn-info btn-icon-split">
+                    <?php }else{ ?>
+                      <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#signature">
+                    <?php } ?>
                         <span class="icon text-white-50">
                           <i class="fas fa-file-medical"></i>
                         </span>
@@ -299,6 +310,8 @@
 
   <?php echo $this->load->view('inc/js'); ?>
 
+  update-email
+
   <!-- Logout Modal-->
   <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -391,6 +404,64 @@
 
             </script>
           <?php } ?>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Update Email Modal-->
+  <div class="modal fade" id="update-email-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">อัพเดตอีเมลของท่าน</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <div class="col-12">
+              <label>กรอกอีเมลของท่านที่ใช้อยู่ปัจจุบัน</label>
+              <input type="text" class="form-control" id="email-personnel" placeholder="กรอกอีเมลของท่านที่ใช้อยู่ปัจจุบัน" value="<?php echo isset($personnel['email'])?$personnel['email']:'-';?>" required="">
+            </div>
+          </div>
+
+          <script>
+            $(document).ready(function(){
+
+              <?php if(isset($personnel['last_login']) and $personnel['last_login']){ ?>
+                $('#update-email').click();
+              <?php } ?>
+
+              $('#update-email .close').click(function(){
+                location.reload();
+              });
+
+              $('#update-email-personnel').click(function(){
+                var email = $('#email-personnel').val();
+                $.ajax({
+                  type: "POST",
+                  data: {email:email,personnel_id:<?php echo intval($personnel['personnel_id']);?>},
+                  url: "<?php echo base_url(url_index().'leave/update_email_personnel');?>",
+                  dataType: "json",
+                  success: function(data){
+                    if(data.status){
+                      alert('ระบบบันทึกการอัพเดตอีเมลของท่านเรียบร้อยแล้ว');
+                      location.reload();
+                    }else{
+                      alert('ระบบไม่สามารถผลการอัพเดตอีเมลของท่านได้');
+                    }
+                  }
+                });
+              });
+
+            });
+          </script>
+        </div>
+        <div class="modal-footer">
+          <button id="update-email-personnel" class="btn btn-primary" data-dismiss="modal" aria-label="Close" type="button">บันทึก</button>
         </div>
       </div>
     </div>

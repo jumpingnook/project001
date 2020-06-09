@@ -21,10 +21,13 @@
   <a class="nav-link" href="<?php echo base_url(url_index().'leave');?>">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>รายการข้อมูลการลา</span></a>
-  <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
+  <?php if(isset($personnel['signature']) and trim($personnel['signature'])==''){ ?>
+    <a href="#" class="nav-link" data-toggle="modal" data-target="#signature">
+  <?php }else{ ?>
+    <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
+  <?php } ?>
     <i class="fas fa-fw fa-tachometer-alt"></i>
     <span>แบบฟอร์มข้อมูลการลา</span></a>
-  
 </li>
 
 <?php /*

@@ -36,6 +36,14 @@ class Leave extends Leave_Controller {
         $set['personnel']['signature']     = $personnel['data'][0]['signature'];
         $set['personnel']['work_start_date']     = $personnel['data'][0]['work_start_date'];
         $set['personnel']['work_end_date']     = $personnel['data'][0]['work_end_date'];
+        $set['personnel']['personnel_id']     = $personnel['data'][0]['personnel_id'];
+
+        $set['personnel']['last_login'] = false;
+        if($personnel['data'][0]['last_login']=='0000-00-00 00:00:00' or is_null($personnel['data'][0]['last_login'])){
+            $set['personnel']['last_login'] = true;
+        }elseif(date('Y-m') != date('Y-m',strtotime($personnel['data'][0]['last_login']))){
+            $set['personnel']['last_login'] = true;
+        }
 
         $set['personnel']['signature_url'] = trim($set['personnel']['signature'])==''?$this->Personnel_model->url_qr_personnel($set['personnel']['personnel_id']):'';
 
@@ -115,7 +123,7 @@ class Leave extends Leave_Controller {
 
         $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$set['personnel']['personnel_id']]);
 
-        //echo '<pre>';print_r($set);exit;
+        //echo '<pre>';print_r($set['leave_type']);exit;
 
         $this->load->view('add_leave',$set);
     }
@@ -941,7 +949,7 @@ class Leave extends Leave_Controller {
         $set['leave_type'] = $this->Leave_type_model->get_type($personnel['data'][0]['personnel_id']);
         $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$personnel['data'][0]['personnel_id']]);
 
-        #echo '<pre>';print_r($set);exit;
+        //echo '<pre>';print_r($set['leave_history']);exit;
 
         $this->load->view('list_hr',$set);
     }
@@ -1152,6 +1160,20 @@ class Leave extends Leave_Controller {
 
 
         $this->load->view('report_smu_hr',$res);
+    }
+
+    function update_email_personnel(){
+        $post = $this->input->post();
+        if(isset($post['email']) and trim($post['email'])!=''){
+            $this->load->model('personnel/Personnel_model');
+
+            $this->Personnel_model->update_email(['email'=>trim($post['email']), 'personnel_id'=>intval($post['personnel_id'])]);
+
+            echo json_encode(['status'=>true]);
+        }else{
+            echo json_encode(['status'=>false]);
+        }
+        
     }
 
     

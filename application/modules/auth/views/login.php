@@ -73,7 +73,7 @@
   <script>
     $(document).ready(function(){
 
-      var dest = getUrlParam('dest','idp/my_course/');
+      var dest = getUrlParam('dest','leave');
 
       if(dest!=''){
         $('#dest').val(dest);

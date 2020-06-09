@@ -101,8 +101,10 @@ class Auth extends Auth_Controller {
             }
     
 
-        }elseif(intval($personnel_id) != 0 and isset($personnel_id['status']) and $personnel_id['status']){
+        }elseif(intval($personnel_id) != 0 and isset($personnel['status']) and $personnel['status']){
             #update old tb personnel to new tb personnel
+
+
 
             $this->load->model('sql_personnel/Sql_personnel_model');
             $result = $this->Sql_personnel_model->get_personnel(['username'=>trim($post['username'])]);

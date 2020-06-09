@@ -446,5 +446,16 @@ class Personnel_model extends MY_Model {
 		return false;
 
 	}
+
+	function update_email($set=[]){
+		if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
+			$con = [];
+			$con['data']['email'] = isset($set['email'])?$set['email']:'';
+			$con['where'] = 'personnel_id = '.intval($set['personnel_id']);
+			$this->to_update($con);
+			return true;
+		}
+		return false;
+	}
 	
 }

@@ -176,11 +176,11 @@
                     <td>ผู้บริหารระดับสูง</td>
                     <td><?php 
                         if(isset($data['to']) and $data['to']==1){
-                          echo 'คณะบดีคณะแพทยศาสตร์';
+                          echo 'คณบดีคณะแพทยศาสตร์';
                         }elseif(isset($data['to']) and $data['to']==2){
                           echo 'อธิกาารบดี';
                         }else{
-                          echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+                          echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
                         }
                       ?></td>
                 </tr>
@@ -197,11 +197,11 @@
                 <span style="top: 18%;left: 18%;">
                     <?php 
                     if(isset($data['to']) and $data['to']==1){
-                        echo 'คณะบดีคณะแพทยศาสตร์';
+                        echo 'คณบดีคณะแพทยศาสตร์';
                     }elseif(isset($data['to']) and $data['to']==2){
                         echo 'อธิกาารบดี';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+                        echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
                     }
                     ?>
                 </span>
@@ -667,11 +667,11 @@
                 <span style="top: calc(100% - 84.2%);left: calc(100% - 83%);">
                     <?php 
                     if(isset($data['to']) and $data['to']==1){
-                        echo 'คณะบดีคณะแพทยศาสตร์';
+                        echo 'คณบดีคณะแพทยศาสตร์';
                     }elseif(isset($data['to']) and $data['to']==2){
                         echo 'อธิกาารบดี';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+                        echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
                     }
                     ?>
                 </span>
@@ -849,11 +849,11 @@
                 <span style="top: 18%;left: 18%;">
                     <?php 
                     if(isset($data['to']) and $data['to']==1){
-                        echo 'คณะบดีคณะแพทยศาสตร์';
+                        echo 'คณบดีคณะแพทยศาสตร์';
                     }elseif(isset($data['to']) and $data['to']==2){
                         echo 'อธิกาารบดี';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+                        echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
                     }
                     ?>
                 </span>
@@ -1102,11 +1102,11 @@
                         <span style="top: 19.5%;left: 20%;">
                         <?php 
                             if(isset($data['to']) and $data['to']==1){
-                            echo 'คณะบดีคณะแพทยศาสตร์';
+                            echo 'คณบดีคณะแพทยศาสตร์';
                             }elseif(isset($data['to']) and $data['to']==2){
                             echo 'อธิกาารบดี';
                             }elseif(isset($data['to']) and $data['to']==2){
-                            echo 'อธิกาารบดี (คณะบดีคณะแพทยศาสตร์)';
+                            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
                             }
                         ?>
                         </span>
