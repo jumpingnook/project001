@@ -310,9 +310,11 @@
 
   <?php echo $this->load->view('inc/js'); ?>
 
-  update-email
+  <div id="preload" style="position: absolute;width: 100vw;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 1060;top: 0;left: 0;display:none;">
+    <img src="<?php echo base_url(load_file('assets/img/loading.gif'));?>" style="position: fixed;left: 0;right: 0;margin: auto;top: 25%;">
+  </div>
 
-  <!-- Logout Modal-->
+  <!-- Signature Modal-->
   <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -335,15 +337,18 @@
               #qrcode1 img{
                 margin: auto;
               }
+              #example-sig:hover img{
+                display:block !important;
+              }
             </style>
 
             <div class="row">
                <div class="col-lg-5 mb-4">
                 <div id="qrcode1"></div>
                </div>
-               <div class="col-lg-7"><br/><br/>
+               <div class="col-lg-7"><br/>
                 <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
-                  <center>------ หรือ ------</center><br/><br/>
+                  <center>------ หรือ ------</center><br/>
                   <center>
                     <a href="<?php echo $personnel['signature_url'];?>" target="_blank" class="btn btn-primary btn-icon-split">
                       <span class="icon text-white-50">
@@ -351,6 +356,24 @@
                       </span>
                       <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็น</span>
                     </a>
+                  </center><br/>
+                  <center>------ หรือ ------</center><br/>
+                  <center>
+                    <button type="button" class="btn btn-primary btn-icon-split">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-file-upload"></i>
+                      </span>
+                      <label for="file-sig" class="text" style="margin-bottom: 0;">เลือกไฟล์เพื่ออัพโหลดลายเซ็น</label>
+                    </button>
+                    <input id="file-sig" type="file" name="img" value="" style="display:none;" accept="image/*">
+                    <img id="img-sig" src="" style="display:none;">
+                    <canvas id="canvas" style="display:none;"></canvas>
+                  </center>
+                  <center style="color: #e74a3b;font-size: 12px;">* รองรับขนาด 500px*170px และลายเซ็นมีพื้นหลังสีขาว เท่านั้น
+                    <span id="example-sig" style="text-decoration: underline;display: block;position: relative;">
+                      คลิกที่นี่เพื่อดูตัวอย่างลายเซ็น
+                      <img src="<?php echo base_url(load_file('assets/img/ex-sig.jpg'));?>" style="display:none;position: absolute;bottom: 100%;border: 1px dotted #000000;left: 0;right: 0;margin: auto;width:400px;">
+                    </span>
                   </center>
                </div>
             </div>
@@ -400,6 +423,88 @@
                   }
                   return "";
                 }
+
+                $('#file-sig').change(function(){
+
+                  if(typeof $(this)[0].files[0] === "undefined"){
+                    return false;
+                  }
+
+                  $('#preload').show();
+
+                  Main();
+                  async function Main() {
+                    const file = document.querySelector('#file-sig').files[0];
+                    var data_url = await toBase64(file);
+                    var img = new Image(data_url);
+                    img.onload = function() {
+
+                      if(this.width!=500 && this.height!=170){
+                        alert('ระบบไม่สามรถบันทึกลายเซ็นของท่านได้ กรุณาเลือกขนาดไฟล์ให้ถูกต้อง');
+                        $('#preload').hide();
+                        return false;
+                      }
+
+                      $('#img-sig').attr('src',data_url);
+                      var canvas = document.getElementById("canvas"),
+                      ctx = canvas.getContext("2d"),
+                      image = document.getElementById("img-sig");
+
+                      canvas.height = 170;
+                      canvas.width = 500;
+                      ctx.drawImage(image,0,0);
+
+                      var imgd = ctx.getImageData(0, 0, 500, 170),
+                      pix = imgd.data,
+                      newColor = {r:0,g:0,b:0, a:0};
+
+                      for (var i = 0, n = pix.length; i <n; i += 4) {
+                        var r = pix[i],
+                        g = pix[i+1],
+                        b = pix[i+2];
+
+                        if(r == 255&& g == 255 && b == 255){ 
+                          // Change the white to the new color.
+                          pix[i] = newColor.r;
+                          pix[i+1] = newColor.g;
+                          pix[i+2] = newColor.b;
+                          pix[i+3] = newColor.a;
+                        }
+
+                      }
+                      ctx.putImageData(imgd, 0, 0);
+                      var signature = canvas.toDataURL();
+
+                      $.ajax({
+                        type: "POST",
+                        data: {signature:signature,personnel_id:<?php echo intval($personnel['personnel_id']);?>,res:1},
+                        url: "<?php echo base_url(url_index().'leave/save_signature_personnel');?>",
+                        dataType: "json",
+                        success: function(data){
+                          if(data.status){
+                            alert('ระบบบันทึกลายเซ็นของท่านเรียบร้อยแล้ว');
+                            location.reload();
+                          }else{
+                            $('#preload').hide();
+                          }
+                        }
+                      });
+
+
+
+                    }
+                    img.src = data_url;
+                  }
+
+                });
+              });
+
+
+              const toBase64 = file => new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.readAsDataURL(file);
+                  reader.onload = () => resolve(reader.result);
+                  reader.onerror = error => reject(error);
               });
 
             </script>
@@ -424,7 +529,7 @@
           <div class="form-group row">
             <div class="col-12">
               <label>กรอกอีเมลของท่านที่ใช้อยู่ปัจจุบัน</label>
-              <input type="text" class="form-control" id="email-personnel" placeholder="กรอกอีเมลของท่านที่ใช้อยู่ปัจจุบัน" value="<?php echo isset($personnel['email'])?$personnel['email']:'-';?>" required="">
+              <input type="text" class="form-control" id="email-personnel" placeholder="กรอกอีเมลของท่านที่ใช้อยู่ปัจจุบัน" value="<?php echo isset($personnel['email'])?$personnel['email']:'-';?>" required>
             </div>
           </div>
 

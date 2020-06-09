@@ -28,6 +28,10 @@
   <?php } ?>
     <i class="fas fa-fw fa-tachometer-alt"></i>
     <span>แบบฟอร์มข้อมูลการลา</span></a>
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_approve');?>">
+    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <span>รายการที่ต้องพิจารณา</span>
+  </a>
 </li>
 
 <?php /*

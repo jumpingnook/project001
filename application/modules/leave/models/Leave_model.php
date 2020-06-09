@@ -354,4 +354,18 @@ class Leave_model extends MY_Model {
 		}
 	}
 
+	function list_approve($set=[]){
+		$res = ['count'=>0,'data'=>[]];
+		if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
+			$con = [];
+			$con['where'] = '(worker_personnel_id = "'.intval($set['personnel_id']).'" or head_unit_personnel_id = "'.intval($set['personnel_id']).'" or head_dept_personnel_id = "'.intval($set['personnel_id']).'" or supervisor_personnel_id = "'.intval($set['personnel_id']).'" or deputy_dean_personnel_id = "'.intval($set['personnel_id']).'") and status = 1';
+			$res['data'] = $this->to_select($con);
+			$res['count'] = count($res['data']);
+
+			return $res;
+		}
+
+		return $res;
+	}
+
 }

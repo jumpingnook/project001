@@ -471,12 +471,17 @@ class Leave extends Leave_Controller {
     function save_signature_personnel(){
         $post = $this->input->post();
 
-        if(count($post)==2 and isset($post['personnel_id']) and isset($post['signature']) and intval($post['personnel_id'])!=0 ){
+        if(isset($post['personnel_id']) and isset($post['signature']) and intval($post['personnel_id'])!=0 ){
             $this->load->model('personnel/Personnel_model');
             $this->Personnel_model->save_signature_personnel($post);
         }
 
-        redirect(base_url(url_index().'leave?signature=ds1df4d51s8af4dsa1'));
+        if(isset($post['res']) and $post['res']){
+            echo json_encode(['status'=>true]);exit;
+        }else{
+            redirect(base_url(url_index().'leave?signature=ds1df4d51s8af4dsa1'));
+        }
+        
     }
 
     function approve($signature='',$type=''){ //dest to this $type='n29gknk626e3gh';
@@ -1174,6 +1179,48 @@ class Leave extends Leave_Controller {
             echo json_encode(['status'=>false]);
         }
         
+    }
+
+    function list_approve(){
+        $this->load->model('leave/Leave_model');
+        $this->load->model('personnel/Personnel_model');
+        $set['personnel'] = $this->session_data['personnel'];
+        $set['personnel']['personnel_id'] = 1173;
+        $set['leave_history'] = $this->Leave_model->list_approve(['personnel_id'=>$set['personnel']['personnel_id']]);
+        
+        if($set['leave_history']['count']>0){
+            $con = [];
+            foreach($set['leave_history']['data'] as $key=>$val){
+                $con[$val['personnel_id']] = $val['personnel_id'];
+
+                if($val['worker_personnel_id'] == $set['personnel']['personnel_id']){
+                    $set['leave_history']['data'][$key]['approve_data'] = $val['url_workmate'];
+                }elseif($val['head_unit_personnel_id'] == $set['personnel']['personnel_id']){
+                    $set['leave_history']['data'][$key]['approve_data'] = $val['url_head_unit'];
+                }elseif($val['head_dept_personnel_id'] == $set['personnel']['personnel_id']){
+                    $set['leave_history']['data'][$key]['approve_data'] = $val['url_head_dept'];
+                }elseif($val['supervisor_personnel_id'] == $set['personnel']['personnel_id']){
+                    $set['leave_history']['data'][$key]['approve_data'] = $val['url_supervisor'];
+                }elseif($val['deputy_dean_personnel_id'] == $set['personnel']['personnel_id']){
+                    $set['leave_history']['data'][$key]['approve_data'] = $val['url_deputy_dean'];
+                }
+
+            }
+
+            $personnel_list = $this->Personnel_model->get_personnel(['personnel_list'=>$con,'array_key'=>true]);
+            $set['personnel_list'] = $personnel_list['data'];
+        }
+
+        $this->load->model('leave/Leave_type_model');
+        $set['leave_type'] = $this->Leave_type_model->get_type();
+
+        $this->load->model('personnel/Smu_model');
+        $set['main_smu'] = $this->Smu_model->get_main_smu();
+
+        //echo '<pre>';print_r($set);exit;
+        
+        $this->load->view('list_approve',$set);
+
     }
 
     

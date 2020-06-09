@@ -432,7 +432,7 @@ class Personnel_model extends MY_Model {
 
 	function save_signature_personnel($set=[]){
 
-		if(count($set)==2 and isset($set['personnel_id']) and isset($set['signature']) and intval($set['personnel_id'])!=0 ){
+		if(isset($set['personnel_id']) and isset($set['signature']) and intval($set['personnel_id'])!=0 ){
 
 			$con = [];
 			$con['data']['signature'] = isset($set['signature'])?trim($set['signature']):'';
