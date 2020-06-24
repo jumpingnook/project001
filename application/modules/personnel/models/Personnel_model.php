@@ -127,6 +127,8 @@ class Personnel_model extends MY_Model {
 
 		$con['data']['emp_type_id']		= isset($set['emp_type_id'])?intval($set['emp_type_id']):0;
 
+		$con['data']['last_login']		= date('Y-m-d H:i:s');
+
 		$res['personnel_id'] = $this->to_insert_last_id($con);
 
 		if(intval($res['personnel_id'])==0){
@@ -235,6 +237,8 @@ class Personnel_model extends MY_Model {
 		$con['data']['work_end_date'] 	= isset($set['work_end_date'])?trim($set['work_end_date']):'';
 
 		$con['data']['emp_type_id']		= isset($set['emp_type_id'])?intval($set['emp_type_id']):0;
+
+		$con['data']['last_login']		= date('Y-m-d H:i:s');
 
 		$con['where'] 					= 'personnel_id = '.intval($set['personnel_id']);
 		$result = $this->to_update($con);

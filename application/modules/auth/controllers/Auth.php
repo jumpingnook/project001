@@ -182,8 +182,6 @@ class Auth extends Auth_Controller {
         }
     }
 
-    
-
     function logout(){
         $session = $this->session->userdata('authentication');
         if(isset($session['status']) and $session['status'] and isset($session['token'])){

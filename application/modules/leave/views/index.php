@@ -116,7 +116,8 @@
                                 <i class="far fa-edit"></i>
                               </span>
                               <span class="text"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></span>
-                            </a>
+                            </a><br/>
+                            <span style="font-size:12px;color:red;">**แนะนำให้ท่านอัพเดตเป็นอีเมลที่ใช้อยู่ ณ ปัจจุบันเพื่อลดข้อผิดพลาดในการพิจารณา</span>
                           </div>
                         </div>
                         <div class="row">

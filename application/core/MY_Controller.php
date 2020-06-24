@@ -92,4 +92,11 @@ class EMAIL_Controller extends MY_Controller{
     }
 }
 
+class Meeting_room_Controller extends MY_Controller{
+    function __construct(){
+        parent::__construct();
+        
+    }
+}
+
 ?>
