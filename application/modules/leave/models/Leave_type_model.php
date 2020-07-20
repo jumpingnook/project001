@@ -16,11 +16,19 @@ class Leave_type_model extends MY_Model {
 			$con['where'] = 'leave_type_id <> 1 and leave_type_id <> 7';
 		}
 
-		if(isset($set['emp_type']) and (intval($set['emp_type'])== 5 or intval($set['emp_type'])== 6)){
+		if(isset($set['emp_type'])){
 			if($con['where']!=''){
-				$con['where'] .= ' and leave_type_id <> 5 and leave_type_id <> 6';
+				$con['where'] .= ' and emp_type_permission like "%'.intval($set['emp_type']).'%"';
 			}else{
-				$con['where'] .= 'leave_type_id <> 5 and leave_type_id <> 6';
+				$con['where'] .= 'emp_type_permission = "%'.intval($set['emp_type']).'%"';
+			}
+		}
+
+		if(isset($set['gender'])){
+			if($con['where']!=''){
+				$con['where'] .= ' and (gender_permission = '.intval($set['gender']).' or gender_permission = 0)';
+			}else{
+				$con['where'] .= '(gender_permission = '.intval($set['gender']).' or gender_permission = 0)';
 			}
 		}
 

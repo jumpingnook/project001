@@ -289,16 +289,18 @@
     }
 
     function check_leave_type($date=''){
-
         if(trim($date)!=''){
-            $startTimeStamp = strtotime($date);
-            $endTimeStamp = strtotime(date('Y-m-d'));
+            $d1 = new DateTime(date('Y-m-d',strtotime($date)));
+            $d2 = new DateTime(date('Y-m-d'));
 
-            $timeDiff = abs($endTimeStamp - $startTimeStamp);
+            $month = $d1->diff($d2)->m; // month == 6
+            $day =$d1->diff($d2)->d; // day == 1
 
-            $numberDays = $timeDiff/86400;  // 86400 seconds in one day
-
-            return ['status'=>(intval($numberDays)>=180?true:false), 'count_date'=>intval($numberDays)];
+            if(intval($month)>6 or (intval($month)==6 and intval($day)>=1)){
+                return ['status'=>true, 'month'=>intval($month), 'day'=>intval($day)];
+            }else{
+                return ['status'=>false, 'month'=>intval($month), 'day'=>intval($day)];
+            }
         }
 
         return ['status'=>false];
