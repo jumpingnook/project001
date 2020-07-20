@@ -12,9 +12,12 @@ class Leave_type_model extends MY_Model {
 		$con = [];
 
 		$con['where'] = '';
-		if(isset($set['check_leave']) and !$set['check_leave']){
-			$con['where'] = 'leave_type_id <> 1 and leave_type_id <> 7';
-		}
+		//note
+		// if(isset($set['check_leave']) and !$set['check_leave']){
+		// 	$con['where'] = 'leave_type_id <> 1 and leave_type_id <> 7';
+		// }
+
+		$con['where'] = 'exp_permission <= '.intval($set['month']);
 
 		if(isset($set['emp_type'])){
 			if($con['where']!=''){
@@ -35,6 +38,4 @@ class Leave_type_model extends MY_Model {
 		$con['array_key'] = true;
 		return $this->to_select($con);
 	}
-
-	
 }

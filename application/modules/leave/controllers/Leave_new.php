@@ -106,27 +106,24 @@ class Leave_new extends Leave_Controller {
         // $set['url_approve'] = $url_approve;
 
         $set['emp_type'] = $personnel['data'][0]['emp_type_id']; 
-        $set['check_leave'] = check_leave_type($personnel['data'][0]['work_start_date']);
+        $set['count_job_exp'] = count_job_exp($personnel['data'][0]['work_start_date']);
 
-        if($set['check_leave']['status']){
-            $this->load->model('leave/Leave_new_model');
-            $con = [];
-            $con['where'] = 'personnel_id = "'.$set['personnel']['personnel_id'].'" and (status = 0 or status = 1) and (leave_type_id=1 or leave_type_id=7)';
-            $count = $this->Leave_new_model->to_count($con);
-            if($count==0){
-                $set['check_leave']['status'] = true;
-            }else{
-                $set['check_leave']['status'] = false;
-            }
-        }
-
-        $set['leave_type'] = $this->Leave_type_model->get_type(['check_leave'=>$set['check_leave']['status'],'emp_type'=>$set['emp_type'],'gender'=>$set['personnel']['gender']]);
+        $set['leave_type'] = $this->Leave_type_model->get_type(['month'=>$set['count_job_exp']['month'],'day'=>$set['count_job_exp']['day'],'emp_type'=>$set['emp_type'],'gender'=>$set['personnel']['gender']]);
         $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$set['personnel']['personnel_id']]);
 
-        
+        $this->load->model(['Leave_new_model']);
 
-        echo '<pre>';print_r($set);exit;
-
+        $con = [];
+        $con['where'] = 'personnel_id = "'.$set['personnel']['personnel_id'].'" and (status = 0 or status = 1) and (leave_type_id=7)';
+        $count = $this->Leave_new_model->to_count($con);
+        if($count!=0){
+            unset($set['leave_type'][7]);
+        }
+        $con['where'] = 'personnel_id = "'.$set['personnel']['personnel_id'].'" and (status = 0 or status = 1) and (leave_type_id=10)';
+        $count = $this->Leave_new_model->to_count($con);
+        if($count!=0){
+            unset($set['leave_type'][10]);
+        }
 
         $this->load->view('add_leave',$set);
     }

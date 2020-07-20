@@ -288,7 +288,7 @@
         return '';
     }
 
-    function check_leave_type($date=''){
+    function count_job_exp($date=''){ // Count Job Exp
         if(trim($date)!=''){
             $d1 = new DateTime(date('Y-m-d',strtotime($date)));
             $d2 = new DateTime(date('Y-m-d'));
@@ -296,14 +296,11 @@
             $month = $d1->diff($d2)->m; // month == 6
             $day =$d1->diff($d2)->d; // day == 1
 
-            if(intval($month)>6 or (intval($month)==6 and intval($day)>=1)){
-                return ['status'=>true, 'month'=>intval($month), 'day'=>intval($day)];
-            }else{
-                return ['status'=>false, 'month'=>intval($month), 'day'=>intval($day)];
-            }
+            return ['status'=>true, 'month'=>intval($month), 'day'=>intval($day)];
+
         }
 
-        return ['status'=>false];
+        return ['status'=>false, 'month'=>0, 'day'=>0];
     }
 
 

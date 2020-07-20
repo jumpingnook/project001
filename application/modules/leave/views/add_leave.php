@@ -80,7 +80,7 @@
                     <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
                   </div>
 
-                  <?php if(isset($check_leave) and $check_leave['status']){ ?>
+                  <?php if(isset($leave_type[1])){ ?>
                   <form id="form_sleep" class="form sleep" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
                     <div class="form-group row">
