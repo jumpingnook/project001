@@ -35,6 +35,9 @@ class Leave_type_model extends MY_Model {
 			}
 		}
 
+		$con['where'] = isset($set['all']) && $set['all']?'':$con['where'];
+
+		$con['order_by'] = 'sort ASC';
 		$con['array_key'] = true;
 		return $this->to_select($con);
 	}

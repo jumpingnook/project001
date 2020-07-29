@@ -17,28 +17,12 @@
 
   <style>
     .form{
-      /*display:none;*/
+      display:none;
     }
     .qrcode img{
       width: 150px;
       margin: auto;
       margin-top: 10px;
-    }
-    .input-group-addon{
-      color: #6e707e;
-      background-color: #d1d3e2;
-      background-clip: padding-box;
-      border: 1px solid #d1d3e2;
-      border-radius: .35rem;
-      border-right: none;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      line-height: 34px;
-      padding-left: 5px;
-      padding-right: 5px;
-    }
-    div.card-type{
-      display:none;
     }
   </style>
 
@@ -68,19 +52,23 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
 
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   
                   <div class="row">
-                    <div class="col-lg-3">
-                      <div>
+                    <div class="col-lg-4">
+                      <h6 class="m-0 font-weight-bold text-primary">แบบฟอร์ม</h6>
+                    </div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
                         <select id="type_leave" class="form-control">
                           <option value="" >เลือกประเภทการลา</option>
                           <?php if(isset($leave_type) and count($leave_type)>0){foreach($leave_type as $key=>$val){?>
-                            <option value="<?php echo $key;?>"><?php echo $val['leave_name'];?></option>
+                            <option value="<?php echo $key.'-'.$val['leave_name'];?>"><?php echo $val['leave_name'];?></option>
                           <?php }} ?>
                         </select>
                       </div>
@@ -88,207 +76,10 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <form id="form_leave" class="form_leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
-                    <div class="card mb-4 border-left-success">
-                      <div class="card-body">
-                        <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
-                        <div class="form-group row">
-                          <div class="col-sm-6 mb-3 mb-sm-0">
-                            <label>เขียนที่</label>
-                            <input type="text" name="write_at" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
-                          </div>
-                          <div class="col-sm-6">
-                            <label>เรียน</label>
-                            <select name="to" class="toBoss form-control" required>
-                              <option value="1">คณบดีคณะแพทยศาสตร์</option>
-                              <option value="2">อธิกาารบดี</option>
-                              <option value="3">อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>เรื่อง</label>
-                            <input type="text" name="title" class="leave_title form-control" id="exampleLastName" placeholder="ระบุประเภทการลา" value=""  required>
-                          </div>
-                          <div class="col-sm-6">
-                            <label>รายละเอียดการลา</label>
-                            <input type="text" name="detail" class="form-control leave-detail" id="exampleLastName" placeholder="รายละเอียดการลา" value="" required disabled>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class="col-3">
-                            <label>ตั้งแต่วันที่</label>
-                            <input type="text" class="leave_date_s form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
-                            <input type="hidden" name="period_start" class="leave_date_s_value form-control" value="<?php echo date('Y-m-d');?>">
-                          </div>
-                          <div class="col-3">
-                            <label>ในช่วง</label>
-                            <select id="type_leave" class="form-control daytime_s" name="period_start_half" required disabled>
-                              <option value="0">ตลอดวัน</option>
-                              <option value="1">ครึ่งวัน</option>
-                            </select>
-                          </div>
-                          <div class="col-3">
-                            <label>ถึงวันที่</label>
-                            <input type="text" class="leave_date_e form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
-                            <input type="hidden" name="period_end" class="leave_date_e_value form-control" value="<?php echo date('Y-m-d');?>">
-                          </div>
-                          <div class="col-3">
-                            <label>ในช่วง</label>
-                            <select id="type_leave" class="form-control daytime_e" name="period_end_half" required disabled>
-                              <option value="0">ตลอดวัน</option>
-                              <option value="1">ครึ่งวัน</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class="col-12">
-                            <div class="input-group">
-                              <span class="input-group-addon">จำนวนวันลาเฉพาะวันทำการ</span>
-                              <input type="text" name="period_count" class="date_dis form-control" value="1" style="max-width: 60px; min-width: 60px;border-top-right-radius: .35rem;border-bottom-right-radius: .35rem;">&nbsp;
-                              <span class="input-group-addon">จำนวนวันลารวมวันหยุด</span>
-                              <input type="text" name="period_count_all" class="date_all form-control" value="1" style="max-width: 60px; min-width: 60px;">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class="col-sm-12">
-                            <label>ช้อมูลติดต่อ</label>
-                            <textarea name="contact" id="" class="form-control" cols="30" rows="3" required></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
+                  </div>
 
-                    <div class="card mb-4 border-left-warning card-type card-type-7 card-type-10">
-                      <div class="card-body">
-                        <h1 class="h4 text-gray-900 mb-4">ข้อมูลไปต่างประเทศ</h1>
-                        <div class="form-group row">
-                          <div class="col-sm-12">
-                            <label>ณ ประเทศ</label>
-                            <input name="county_name" type="text" class="form-control" placeholder="ระบุชื่อประเทศ" value="" required disabled>
-                          </div>
-                        </div>
-                      </div> 
-                    </div>
-
-                    <div class="card mb-4 border-left-warning card-type card-type-5">
-                      <div class="card-body">
-                        <h1 class="h4 text-gray-900 mb-4">ข้อมูลลาไปช่วยภริยาที่คลอดบุตร</h1>
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>ชื่อภริยาโดยชอบด้วยกฏหมาย</label>
-                            <input name="wife_name" type="text" class="form-control" placeholder="ระบุชื่อภริยา" value="" required disabled>
-                          </div>
-                          <div class="col-sm-6">
-                            <label>คลอดบุตรเมื่อวันที่</label>
-                            <input type="text" class="date_n form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="child_birthdate" type="hidden" class="form-control" value="<?php echo date('Y-m-d');?>">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="card mb-4 border-left-warning card-type card-type-6">
-                      <div class="card-body">
-                        <h1 class="h4 text-gray-900 mb-4">ข้อมูลลากิจส่วนตัวเพื่อเลี้ยงดูบุตร</h1>
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>ได้คลอดบุตรตั้งแต่วันที่</label>
-                            <input type="text" class="date_n form-control" date_type="child_birthdate_s" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="child_birthdate_start" type="hidden" class="child_birthdate_s_value form-control" value="<?php echo date('Y-m-d');?>" disabled>
-                          </div>
-                          <div class="col-sm-6">
-                            <label>ถึงวันที่</label>
-                            <input  type="text" class="date_n form-control" date_type="child_birthdate_e" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="child_birthdate_end" type="hidden" class="child_birthdate_e_value form-control" value="<?php echo date('Y-m-d');?>" disabled>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="card mb-4 border-left-warning card-type card-type-8">
-                      <div class="card-body">
-                        <h1 class="h4 text-gray-900 mb-4">ข้อมูลลาอุปสมบทหรือลาไปประกอบบพิธีการฮัจย์</h1>
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>ท่านเคยอุปสมหรือไม่</label>
-                            <select name="ordination_status" class="form-control" required disabled>
-                              <option value="0">ยังไม่เคย</option>
-                              <option value="1">เคย</option>
-                            </select>
-                          </div>
-                          <div class="col-sm-6">
-                            <label>วันที่อุปสมบท</label>
-                            <input type="text" class="date_n form-control" date_type="ordination_date" required disabled>
-                            <input name="ordination_date" type="hidden" class="form-control" disabled>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>วัดที่อุปสมบท ณ วัด</label>
-                            <input name="temple_name" type="text" class="temple_name form-control" placeholder="ชื่อวัดที่อุปสมบท" value="" required disabled>
-                          </div>
-                          <div class="col-sm-6 mb-3 mb-sm-0">
-                            <label>ตั้งอยู่ ณ</label>
-                            <input name="temple_address" type="text" class="temple_address form-control" placeholder="ที่ตั้งวัดที่อุปสมบท" value="" required disabled>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>จำพรรษา ณ วัด</label>
-                            <input name="temple_name2" type="text" class="temple_name_2 form-control" placeholder="ชื่อวัดที่จำพรรษา" value="" required disabled>
-                          </div>
-                          <div class="col-sm-6 mb-3 mb-sm-0">
-                            <label>ตั้งอยู่ ณ</label>
-                            <input name="temple_address2" type="text" class="temple_address_2 form-control" placeholder="ที่ตั้งวัดที่จำพรรษา" value="" required disabled>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="card mb-4 border-left-warning card-type card-type-9">
-                      <div class="card-body">
-                        <h1 class="h4 text-gray-900 mb-4">ข้อมูลลาเข้ารับการตรวจเลือก หรือเข้ารับการเตรียมพล</h1>
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>ข้าพเจ้าได้รับหมายเรียกของ</label>
-                            <input name="call_soldier" type="text" class="form-control" placeholder="ระบุข้อมูลหมายเรียก" value="" required disabled>
-                          </div>
-                          <div class="col-sm-6">
-                            <label>ที่มา</label>
-                            <input name="call_soldier_form" type="text" class="form-control" placeholder="ระบุที่มาของหมายเรียก" value="" required disabled>
-                          </div>
-                        </div>
-
-                        <div class="form-group row">
-                          <div class="col-sm-12">
-                            <label>ให้เข้ารับการ</label>
-                            <input name="call_soldier_detail" type="text" class="form-control" placeholder="ระบุรายละเอียด" value="" required disabled>
-                          </div>
-                        </div>
-
-                        <div class="form-group row">
-                          <div class="col-sm-6">
-                            <label>หมายเรียกลงวันที่</label>
-                            <input type="text" class="date_n form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="call_date" type="hidden" class="form-control" value="<?php echo date('Y-m-d');?>" disabled>
-                          </div>
-                          <div class="col-sm-6">
-                            <label>ให้รับการฝึกที่</label>
-                            <input name="train_address" type="text" class="form-control" placeholder="ระบุชื่อสถานที่เข้ารับการฝึก" value="" required disabled>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <input id="leave_type_id" type="hidden" name="leave_type_id" value="0"/>
-                    <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
-
-                  </form>
-
-                  <!--
                   <?php if(isset($leave_type[1])){ ?>
                   <form id="form_sleep" class="form sleep" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
 
@@ -768,7 +559,7 @@
                   <input type="hidden" class="input_hide url_deputy_dean" name="url_deputy_dean" value="<?php echo isset($url_approve['deputy_dean'])?$url_approve['deputy_dean']:'';?>" form=""/>
                   <input type="hidden" class="input_hide url_deputy_dean" name="url_hr" value="<?php echo isset($url_approve['hr'])?$url_approve['hr']:'';?>" form=""/>
 
-                  <hr/>-->
+                  <hr/>
 
                   <div class="row approve_list" style="display:none;">
 
@@ -860,58 +651,91 @@
                     </div>
                   </div>
 
-                  <!-- Basic Card Example -->
-                  <div class="card shadow mb-4" style="display:none;">
-                    <div class="card-header py-3">
-                      <h6 class="m-0 font-weight-bold text-primary">ลงลายเซ็น</h6>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode1"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <hr/>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode2"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode3"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode4"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode5"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode6"></div>
-                          </div>
-                        </div>
+                  <button type="submit" id="submit-form" status_sub="false" form="" class="btn btn-primary btn-user btn-block" style="display:none;">บันทึก</button>
+
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-4">
+
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">คำนวณวันลา(เฉพาะการลาผักผ่อน)</h6>
+                </div>
+                <div class="card-body">
+                  <table width="100%">
+                    <tr>
+                      <td height="35px">วันลาที่คงเหลือ</td>
+                      <td><?php echo isset($leave_quota)?$leave_quota[0]['quota_total']:0;?> วัน</td>
+                    </tr>
+                    <tr>
+                      <td height="35px">ใช้วันลาไป</td>
+                      <td class="date-cal" total="<?php echo isset($leave_quota)?$leave_quota[0]['quota_total']:0;?>">
+                        <span style="display:none;">-</span>
+                        <button type="button" class=" btn btn-warning btn-circle btn-sm" title="กรุณากรอกเลือกวันลาในแบบฟอร์ม">
+                          <i class="fas fa-exclamation-triangle"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td height="35px">คงเหลือวันลา</td>
+                      <td class="date-cal-total"><?php echo isset($leave_quota)?$leave_quota[0]['quota_total']:0;?> วัน</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4" style="display:none;">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">ลงลายเซ็น</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <div class="qrcode" id="qrcode1"></div>
                       </div>
                     </div>
                   </div>
-
+                  <hr/>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <div class="qrcode" id="qrcode2"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <div class="qrcode" id="qrcode3"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <div class="qrcode" id="qrcode4"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <div class="qrcode" id="qrcode5"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <div class="qrcode" id="qrcode6"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -976,145 +800,8 @@
 
   <script src="<?php echo base_url(load_file('assets/vendor/jquery-ui/jquery-ui.min.js'));?>" ></script>
   
+
   <script>
-    $(document).ready(function(){
-      $('#type_leave').change(function(){
-        var type = $(this).val();
-        var type_name = $( "#type_leave option:selected" ).text();
-
-        $('#leave_type_id').val(type);
-
-        if(type!=0){
-          $('.leave-text').text(type_name);
-        }else{
-          $('.leave-text').text('');
-        }
-        
-        $('.card-type').hide();
-        $('.card-type input, .card-type select').attr('disabled','disabled');
-        $('.card-type-'+type).show();
-        $('.card-type-'+type+' input, .card-type-'+type+' select').removeAttr('disabled');
-
-        if(type>=1 && type<=4){
-          $('.daytime_s,.daytime_e').removeAttr('disabled');
-        }else{
-          $('.daytime_s,.daytime_e').attr('disabled','disabled');
-        }
-        if(type>=2 && type<=4){
-          $('.leave-detail').removeAttr('disabled');
-        }else{
-          $('.leave-detail').attr('disabled','disabled');
-        }
-
-      });
-
-      $( ".date_n" ).datepicker({
-        onSelect: function(){
-          var dateObject = $(this).datepicker('getDate');
-          var date = new Date(dateObject);
-          date.setDate(date.getDate() + 1);
-          var get_date = date.toISOString().substring(0, 10);
-          $(this).next().val(get_date);
-          count_date();
-        }
-      });
-      $( ".leave_date_s" ).datepicker({
-        onSelect: function(){
-          var dateObject = $(this).datepicker('getDate');
-          var date = new Date(dateObject);
-          date.setDate(date.getDate() + 1);
-          var get_date = date.toISOString().substring(0, 10);
-          $(this).next().val(get_date);
-          count_date();
-        }
-      });
-      $( ".leave_date_e" ).datepicker({
-        onSelect: function(){
-          var dateObject = $(this).datepicker('getDate');
-          var date = new Date(dateObject);
-          date.setDate(date.getDate() + 1);
-          var get_date = date.toISOString().substring(0, 10);
-          $(this).next().val(get_date);
-          count_date();
-        }
-      });
-
-      $('.daytime_s,.daytime_e').change(function(){
-        count_date();
-      });
-
-      function count_date(){
-        var date_start = $('.leave_date_s_value').val();
-        var date_end = $('.leave_date_e_value').val();
-        var daytime = 0;
-
-        if(date_start>date_end){
-          $('.leave_date_e_value').val(date_start);
-          var strMonthFull = ["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
-          var date_split = date_start.split('-');
-          $('.leave_date_e').val(date_split[2]+' '+strMonthFull[parseInt(date_split[1])]+' '+date_split[0]);
-
-          date_start = $('.leave_date_s_value').val();
-          date_end = $('.leave_date_e_value').val();
-        }
-
-        var date_dis = dis_date(date_end,date_start);
-        var date_count = days_between(date_end, date_start);
-
-        daytime += $('.daytime_s').val() == 1?0.5:0;
-        daytime += $('.daytime_e').val() == 1?0.5:0;
-
-        if(date_end == date_start && ($('.daytime_s').val() == 1 || $('.daytime_e').val() == 1)){
-          daytime = 0.5;
-        }
-
-        $('.date_all').val(date_count);
-        $('.date_dis').val(parseFloat(date_count)-parseFloat(date_dis)-parseFloat(daytime));
-
-      }
-
-      function days_between(date1, date2) {
-        date1 = new Date(date1);
-        date2 = new Date(date2);
-
-        if(date1>=date2){
-          // The number of milliseconds in one day
-          const ONE_DAY = 1000 * 60 * 60 * 24;
-
-          // Calculate the difference in milliseconds
-          const differenceMs = Math.abs(date1 - date2);
-
-          // Convert back to days and return
-          const res = Math.round(differenceMs / ONE_DAY)
-
-          return res+1;
-        }else{
-          return 0;
-        }
-      }
-
-      function dis_date(date1, date2){
-        var count_dis = 0;
-        const count = days_between(date1, date2);
-        
-        if(count>0){
-          for(var i = 0;i<count;i++){
-            var date = new Date(date2);
-            date.setDate(date.getDate() + i);
-            var get_date = date.toISOString().substring(0, 10);
-            if(typeof date_fix[get_date] !== 'undefined'){
-              count_dis++;
-            }
-          }
-        }
-
-        return count_dis;
-      }
-
-    });
-  </script>
-
-  <!--<script>
     $(document).ready(function(){
 
       var leave_type;
@@ -1396,8 +1083,7 @@
 
         if(date_start>date_end){
           $('.leave_date_e_value[form_no='+form+']').val(date_start);
-          var strMonthFull = ["","มกราคม","กุมภาพันธ์","มีนาคม",te_start);
-          var st"เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+          var strMonthFull = ["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
           var date_split = date_start.split('-');
           $('.leave_date_e[form_no='+form+']').val(date_split[2]+' '+strMonthFull[parseInt(date_split[1])]+' '+date_split[0]);
 
@@ -1407,7 +1093,6 @@
 
         var date_dis = dis_date(date_end,date_start);
 
-        
         var count_date = (days_between(date_end,date_start) - date_dis);
 
         if(form==1 || form==4){
@@ -1664,9 +1349,9 @@
 
     });
     
-  </script>-->
+  </script>
 
-  <?php //echo $this->load->view('inc/alert'); ?>
+  <?php echo $this->load->view('inc/alert'); ?>
 
 </body>
 

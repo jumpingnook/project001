@@ -16,7 +16,7 @@ class Leave_model extends MY_Model {
 		$token = random_string('alnum', $num);
 		$token = $this->url_approve.$token;
 		$con = array();
-		$con['where'] = 'url_workmate = "'.$token.'" or url_head_unit = "'.$token.'" or url_head_dept = "'.$token.'" or url_supervisor = "'.$token.'" or url_deputy_dean = "'.$token.'" or url_hr = "'.$token.'"';
+		$con['where'] = 'url_personnel_1 = "'.$token.'" or url_personnel_2 = "'.$token.'" or url_personnel_2 = "'.$token.'" or url_personnel_3 = "'.$token.'" or url_personnel_4 = "'.$token.'" or url_personnel_5 = "'.$token.'"';
 		$used = $this->to_select($con);
 		return empty($used)?$token:$this->url_approve();
 	}
@@ -35,20 +35,11 @@ class Leave_model extends MY_Model {
 		if(!isset($set['personnel_id']) || (isset($set['personnel_id']) and $set['personnel_id']==0)){
 			unset($set['url_personnel']);
 		}
-		if(!isset($set['worker_personnel_id']) || (isset($set['worker_personnel_id']) and $set['worker_personnel_id']==0)){
-			unset($set['url_workmate']);
-		}
-		if(!isset($set['head_unit_personnel_id']) || (isset($set['head_unit_personnel_id']) and $set['head_unit_personnel_id']==0)){
-			unset($set['url_head_unit']);
-		}
-		if(!isset($set['head_dept_personnel_id']) || (isset($set['head_dept_personnel_id']) and $set['head_dept_personnel_id']==0)){
-			unset($set['url_head_dept']);
-		}
-		if(!isset($set['supervisor_personnel_id']) || (isset($set['supervisor_personnel_id']) and $set['supervisor_personnel_id']==0)){
-			unset($set['url_supervisor']);
-		}
-		if(!isset($set['deputy_dean_personnel_id']) || (isset($set['deputy_dean_personnel_id']) and $set['deputy_dean_personnel_id']==0)){
-			unset($set['url_deputy_dean']);
+
+		for($i=1;$i<=5;$i++){
+			if(!isset($set['personnel_id_'.$i]) || (isset($set['personnel_id_'.$i]) and $set['personnel_id_'.$i]==0)){
+				unset($set['url_personnel_'.$i]);
+			}
 		}
 
 		$con['data'] = $set;
@@ -74,7 +65,7 @@ class Leave_model extends MY_Model {
 		$con['limit']		= '0,1';
 		$result = $this->to_select($con);
 
-		if($result[0]['leave_no']!==''){
+		if(isset($result[0]['leave_no']) and $result[0]['leave_no']!==''){
 
 			$leave_no 	= $result[0]['leave_no'];
 			$date_leave = substr($leave_no,0,6);
@@ -187,7 +178,7 @@ class Leave_model extends MY_Model {
 			}
 		}elseif(isset($set['signature']) and trim($set['signature'])!=''){
 			$con = [];
-			$con['where'] = 'url_workmate = "'.trim($set['signature']).'" or url_head_unit = "'.trim($set['signature']).'" or url_head_dept = "'.trim($set['signature']).'" or url_supervisor = "'.trim($set['signature']).'" or url_deputy_dean = "'.trim($set['signature']).'"';
+			$con['where'] = 'url_personnel_1 = "'.trim($set['signature']).'" or url_personnel_2 = "'.trim($set['signature']).'" or url_personnel_3 = "'.trim($set['signature']).'" or url_personnel_4 = "'.trim($set['signature']).'" or url_personnel_5 = "'.trim($set['signature']).'"';
 			$result = $this->to_select($con);
 
 			if(count($result)==1){
@@ -205,7 +196,7 @@ class Leave_model extends MY_Model {
 
 			$sql = '';
 			if(isset($set['leave_type']) and intval($set['leave_type'])>=2 and intval($set['leave_type'])<=4 and $sql==''){
-				$sql = ' and (leave_type_id >=2 and leave_type_id <=4)';
+				$sql = ' and ((leave_type_id >=2 and leave_type_id <=4) or leave_type_id =10)';
 			}
 			if(isset($set['leave_type']) and intval($set['leave_type'])==1 and $sql==''){
 				$sql = ' and (leave_type_id =1 or leave_type_id =7)';
@@ -213,8 +204,10 @@ class Leave_model extends MY_Model {
 			if(isset($set['leave_type']) and intval($set['leave_type'])==7 and $sql==''){
 				$sql = ' and leave_type_id =7';
 			}
+			if(isset($set['leave_type']) and intval($set['leave_type'])==10 and $sql==''){
+				$sql = ' and leave_type_id =10';
+			}
 			
-
 			$con = [];
 			$con['where'] = 'leave_id <> "'.intval($set['leave_id']).'" and status = 2 '.$sql;
 			$res = $this->to_select($con);
@@ -236,46 +229,18 @@ class Leave_model extends MY_Model {
 			$colum = '';
 
 			if(isset($set['cancel']) and trim($set['cancel'])=='n29gknk626e3gh'){
-				if(intval($set['type'])==2){
-					$con['data']['signature_head_unit_cancel_date'] = date('Y-m-d H:i:s');
-					$con['data']['head_unit_approve_cancel'] = intval($set['approve']);
-					$colum = 'head_unit_personnel_id  = ';
-				}elseif(intval($set['type'])==3){
-					$con['data']['signature_head_dept_cancel_date'] = date('Y-m-d H:i:s');
-					$con['data']['head_dept_approve_cancel'] = intval($set['approve']);
-					$colum = 'head_dept_personnel_id  = ';
-				}elseif(intval($set['type'])==4){
-					$con['data']['signature_supervisor_cancel_date'] = date('Y-m-d H:i:s');
-					$con['data']['supervisor_approve_cancel'] = intval($set['approve']);
-					$colum = 'supervisor_personnel_id  = ';
-				}elseif(intval($set['type'])==5){
-					$con['data']['signature_deputy_dean_cancel_date'] = date('Y-m-d H:i:s');
-					$con['data']['deputy_dean_approve_cancel'] = intval($set['approve']);
-					$colum = 'deputy_dean_personnel_id  = ';
+				if(intval($set['type'])>=2 and intval($set['type'])<=5){
+					$con['data']['signature_cancel_date_personnel_'.intval($set['type'])] = date('Y-m-d H:i:s');
+					$con['data']['approve_cancel_personnel_'.intval($set['type'])] = intval($set['approve']);
+					$colum = 'personnel_id_'.intval($set['type']).'  = ';
 				}else{
 					return false;
 				}
 			}else{
-				if(intval($set['type'])==1){
-					$con['data']['signature_workmate_date'] = date('Y-m-d H:i:s');
-					$con['data']['workmate_approve'] = intval($set['approve']);
-					$colum = 'worker_personnel_id  = ';
-				}elseif(intval($set['type'])==2){
-					$con['data']['signature_head_unit_date'] = date('Y-m-d H:i:s');
-					$con['data']['head_unit_approve'] = intval($set['approve']);
-					$colum = 'head_unit_personnel_id  = ';
-				}elseif(intval($set['type'])==3){
-					$con['data']['signature_head_dept_date'] = date('Y-m-d H:i:s');
-					$con['data']['head_dept_approve'] = intval($set['approve']);
-					$colum = 'head_dept_personnel_id  = ';
-				}elseif(intval($set['type'])==4){
-					$con['data']['signature_supervisor_date'] = date('Y-m-d H:i:s');
-					$con['data']['supervisor_approve'] = intval($set['approve']);
-					$colum = 'supervisor_personnel_id  = ';
-				}elseif(intval($set['type'])==5){
-					$con['data']['signature_deputy_dean_date'] = date('Y-m-d H:i:s');
-					$con['data']['deputy_dean_approve'] = intval($set['approve']);
-					$colum = 'deputy_dean_personnel_id  = ';
+				if(intval($set['type'])>=1 and intval($set['type'])<=5){
+					$con['data']['signature_date_personnel_'.intval($set['type'])] = date('Y-m-d H:i:s');
+					$con['data']['approve_personnel_'.intval($set['type'])] = intval($set['approve']);
+					$colum = 'personnel_id_'.intval($set['type']).'  = ';
 				}else{
 					return false;
 				}
@@ -358,7 +323,7 @@ class Leave_model extends MY_Model {
 		$res = ['count'=>0,'data'=>[]];
 		if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
 			$con = [];
-			$con['where'] = '(worker_personnel_id = "'.intval($set['personnel_id']).'" or head_unit_personnel_id = "'.intval($set['personnel_id']).'" or head_dept_personnel_id = "'.intval($set['personnel_id']).'" or supervisor_personnel_id = "'.intval($set['personnel_id']).'" or deputy_dean_personnel_id = "'.intval($set['personnel_id']).'") and status = 1';
+			$con['where'] = '(personnel_id_1 = "'.intval($set['personnel_id']).'" or personnel_id_2 = "'.intval($set['personnel_id']).'" or personnel_id_3 = "'.intval($set['personnel_id']).'" or personnel_id_4 = "'.intval($set['personnel_id']).'" or personnel_id_5 = "'.intval($set['personnel_id']).'") and status = 1';
 			$res['data'] = $this->to_select($con);
 			$res['count'] = count($res['data']);
 
