@@ -77,10 +77,10 @@
                   <div class="row">
                     <div class="col-lg-3">
                       <div>
-                        <select id="type_leave" class="form-control">
+                        <select id="type_leave" class="form-control" name="leave_type_id" form="form_leave">
                           <option value="" >เลือกประเภทการลา</option>
                           <?php if(isset($leave_type) and count($leave_type)>0){foreach($leave_type as $key=>$val){?>
-                            <option value="<?php echo $key;?>"><?php echo $val['leave_name'];?></option>
+                            <option value="<?php echo $key;?>" <?php echo isset($post_data['leave_type_id']) && $post_data['leave_type_id']==$key?'selected':'';?> ><?php echo $val['leave_name'];?></option>
                           <?php }} ?>
                         </select>
                       </div>
@@ -89,56 +89,57 @@
                 </div>
                 <div class="card-body">
                   <form id="form_leave" class="form_leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
+
                     <div class="card mb-4 border-left-success">
                       <div class="card-body">
                         <h1 class="h4 text-gray-900 mb-4">แบบฟอร์ม <span class="leave-text"></span></h1>
                         <div class="form-group row">
                           <div class="col-sm-6 mb-3 mb-sm-0">
                             <label>เขียนที่</label>
-                            <input type="text" name="write_at" class="form-control" id="exampleFirstName" placeholder="คณะแพทยศาสตร์" value="คณะแพทยศาสตร์" required>
+                            <input type="text" name="write_at" class="form-control" id="exampleFirstName" value="<?php echo isset($post_data['write_at'])?$post_data['write_at']:'คณะแพทยศาสตร์';?>" required>
                           </div>
                           <div class="col-sm-6">
                             <label>เรียน</label>
                             <select name="to" class="toBoss form-control" required>
                               <option value="1">คณบดีคณะแพทยศาสตร์</option>
-                              <option value="2">อธิกาารบดี</option>
-                              <option value="3">อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                              <option value="2" <?php echo isset($post_data['to']) && $post_data['to']==2?'selected':'';?>>อธิกาารบดี</option>
+                              <!-- <option value="3">อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option> -->
                             </select>
                           </div>
                         </div>
                         <div class="form-group row">
                           <div class="col-sm-6">
                             <label>เรื่อง</label>
-                            <input type="text" name="title" class="leave_title form-control" id="exampleLastName" placeholder="ระบุประเภทการลา" value=""  required>
+                            <input type="text" name="title" class="leave_title form-control" id="title" placeholder="ระบุประเภทการลา" value="<?php echo isset($post_data['title'])?$post_data['title']:'';?>"  required>
                           </div>
                           <div class="col-sm-6">
                             <label>รายละเอียดการลา</label>
-                            <input type="text" name="detail" class="form-control leave-detail" id="exampleLastName" placeholder="รายละเอียดการลา" value="" required disabled>
+                            <input type="text" name="detail" class="form-control leave-detail" id="detail" placeholder="รายละเอียดการลา" value="<?php echo isset($post_data['detail'])?$post_data['detail']:'';?>" required disabled>
                           </div>
                         </div>
                         <div class="form-group row">
                           <div class="col-3">
                             <label>ตั้งแต่วันที่</label>
-                            <input type="text" class="leave_date_s form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
-                            <input type="hidden" name="period_start" class="leave_date_s_value form-control" value="<?php echo date('Y-m-d');?>">
+                            <input type="text" class="leave_date_s form-control" value="<?php echo isset($post_data['period_start'])?date_th(date('Y-m-d',strtotime($post_data['period_start'])),12):date_th(date('Y-m-d'),12);?>" required>
+                            <input type="hidden" name="period_start" class="leave_date_s_value form-control" value="<?php echo isset($post_data['period_start'])?$post_data['period_start']:date('Y-m-d');?>">
                           </div>
                           <div class="col-3">
                             <label>ในช่วง</label>
                             <select id="type_leave" class="form-control daytime_s" name="period_start_half" required disabled>
                               <option value="0">ตลอดวัน</option>
-                              <option value="1">ครึ่งวัน</option>
+                              <option value="1" <?php echo isset($post_data['period_start_half']) && $post_data['period_start_half']==1?'selected':'';?>>ครึ่งวัน</option>
                             </select>
                           </div>
                           <div class="col-3">
                             <label>ถึงวันที่</label>
-                            <input type="text" class="leave_date_e form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required>
-                            <input type="hidden" name="period_end" class="leave_date_e_value form-control" value="<?php echo date('Y-m-d');?>">
+                            <input type="text" class="leave_date_e form-control" value="<?php echo isset($post_data['period_end'])?date_th(date('Y-m-d',strtotime($post_data['period_end'])),12):date_th(date('Y-m-d'),12);?>" required>
+                            <input type="hidden" name="period_end" class="leave_date_e_value form-control" value="<?php echo isset($post_data['period_end'])?$post_data['period_end']:date('Y-m-d');?>">
                           </div>
                           <div class="col-3">
                             <label>ในช่วง</label>
                             <select id="type_leave" class="form-control daytime_e" name="period_end_half" required disabled>
                               <option value="0">ตลอดวัน</option>
-                              <option value="1">ครึ่งวัน</option>
+                              <option value="1" <?php echo isset($post_data['period_end_half']) && $post_data['period_end_half']==1?'selected':'';?>>ครึ่งวัน</option>
                             </select>
                           </div>
                         </div>
@@ -146,16 +147,16 @@
                           <div class="col-12">
                             <div class="input-group">
                               <span class="input-group-addon">จำนวนวันลาเฉพาะวันทำการ</span>
-                              <input type="text" name="period_count" class="date_dis form-control" value="1" style="max-width: 60px; min-width: 60px;border-top-right-radius: .35rem;border-bottom-right-radius: .35rem;">&nbsp;
+                              <input type="text" name="period_count" class="date_dis form-control" value="<?php echo isset($post_data['period_count'])?$post_data['period_count']:'1';?>" style="max-width: 60px; min-width: 60px;border-top-right-radius: .35rem;border-bottom-right-radius: .35rem;">&nbsp;
                               <span class="input-group-addon">จำนวนวันลารวมวันหยุด</span>
-                              <input type="text" name="period_count_all" class="date_all form-control" value="1" style="max-width: 60px; min-width: 60px;">
+                              <input type="text" name="period_count_all" class="date_all form-control" value="<?php echo isset($post_data['period_count_all'])?$post_data['period_count_all']:'1';?>" style="max-width: 60px; min-width: 60px;">
                             </div>
                           </div>
                         </div>
                         <div class="form-group row">
                           <div class="col-sm-12">
                             <label>ช้อมูลติดต่อ</label>
-                            <textarea name="contact" id="" class="form-control" cols="30" rows="3" required></textarea>
+                            <textarea name="contact" id="" class="form-control" cols="30" rows="3" required><?php if(isset($post_data['contact'])){ echo $post_data['contact']; }elseif(isset($personnel['phone']) && trim($personnel['phone'])!=''){ echo 'โทร.'.$personnel['phone']; } ?></textarea>
                           </div>
                         </div>
                       </div>
@@ -167,7 +168,7 @@
                         <div class="form-group row">
                           <div class="col-sm-12">
                             <label>ณ ประเทศ</label>
-                            <input name="county_name" type="text" class="form-control" placeholder="ระบุชื่อประเทศ" value="" required disabled>
+                            <input name="county_name" type="text" class="form-control" placeholder="ระบุชื่อประเทศ" value="<?php echo isset($post_data['county_name'])?$post_data['county_name']:'';?>" required disabled>
                           </div>
                         </div>
                       </div> 
@@ -179,12 +180,12 @@
                         <div class="form-group row">
                           <div class="col-sm-6">
                             <label>ชื่อภริยาโดยชอบด้วยกฏหมาย</label>
-                            <input name="wife_name" type="text" class="form-control" placeholder="ระบุชื่อภริยา" value="" required disabled>
+                            <input name="wife_name" type="text" class="form-control" placeholder="ระบุชื่อภริยา" value="<?php echo isset($post_data['wife_name'])?$post_data['wife_name']:'';?>" required disabled>
                           </div>
                           <div class="col-sm-6">
                             <label>คลอดบุตรเมื่อวันที่</label>
-                            <input type="text" class="date_n form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="child_birthdate" type="hidden" class="form-control" value="<?php echo date('Y-m-d');?>">
+                            <input type="text" class="date_n form-control" value="<?php echo isset($post_data['child_birthdate'])?date_th(date('Y-m-d',strtotime($post_data['child_birthdate'])),12):date_th(date('Y-m-d'),12);?>" required disabled>
+                            <input name="child_birthdate" type="hidden" class="form-control" value="<?php echo isset($post_data['child_birthdate'])?$post_data['child_birthdate']:date('Y-m-d');?>">
                           </div>
                         </div>
                       </div>
@@ -196,13 +197,13 @@
                         <div class="form-group row">
                           <div class="col-sm-6">
                             <label>ได้คลอดบุตรตั้งแต่วันที่</label>
-                            <input type="text" class="date_n form-control" date_type="child_birthdate_s" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="child_birthdate_start" type="hidden" class="child_birthdate_s_value form-control" value="<?php echo date('Y-m-d');?>" disabled>
+                            <input type="text" class="date_n form-control" date_type="child_birthdate_s" value="<?php echo isset($post_data['child_birthdate_start'])?date_th(date('Y-m-d',strtotime($post_data['child_birthdate_start'])),12):date_th(date('Y-m-d'),12);?>" required disabled>
+                            <input name="child_birthdate_start" type="hidden" class="child_birthdate_s_value form-control" value="<?php echo isset($post_data['child_birthdate_start'])?$post_data['child_birthdate_start']:date('Y-m-d');?>" disabled>
                           </div>
                           <div class="col-sm-6">
                             <label>ถึงวันที่</label>
-                            <input  type="text" class="date_n form-control" date_type="child_birthdate_e" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="child_birthdate_end" type="hidden" class="child_birthdate_e_value form-control" value="<?php echo date('Y-m-d');?>" disabled>
+                            <input  type="text" class="date_n form-control" date_type="child_birthdate_e" value="<?php echo isset($post_data['child_birthdate_end'])?date_th(date('Y-m-d',strtotime($post_data['child_birthdate_end'])),12):date_th(date('Y-m-d'),12);?>" required disabled>
+                            <input name="child_birthdate_end" type="hidden" class="child_birthdate_e_value form-control" value="<?php echo isset($post_data['child_birthdate_end'])?$post_data['child_birthdate_end']:date('Y-m-d');?>" disabled>
                           </div>
                         </div>
                       </div>
@@ -221,28 +222,28 @@
                           </div>
                           <div class="col-sm-6">
                             <label>วันที่อุปสมบท</label>
-                            <input type="text" class="date_n form-control" date_type="ordination_date" required disabled>
-                            <input name="ordination_date" type="hidden" class="form-control" disabled>
+                            <input type="text" class="date_n form-control" date_type="ordination_date" value="<?php echo isset($post_data['ordination_date'])?date_th(date('Y-m-d',strtotime($post_data['ordination_date'])),12):'';?>" required disabled>
+                            <input name="ordination_date" type="hidden" class="form-control" value="<?php echo isset($post_data['ordination_date'])?$post_data['ordination_date']:'';?>" disabled>
                           </div>
                         </div>
                         <div class="form-group row">
                           <div class="col-sm-6">
                             <label>วัดที่อุปสมบท ณ วัด</label>
-                            <input name="temple_name" type="text" class="temple_name form-control" placeholder="ชื่อวัดที่อุปสมบท" value="" required disabled>
+                            <input name="temple_name" type="text" class="temple_name form-control" placeholder="ชื่อวัดที่อุปสมบท" value="<?php echo isset($post_data['temple_name'])?$post_data['temple_name']:'';?>" required disabled>
                           </div>
                           <div class="col-sm-6 mb-3 mb-sm-0">
                             <label>ตั้งอยู่ ณ</label>
-                            <input name="temple_address" type="text" class="temple_address form-control" placeholder="ที่ตั้งวัดที่อุปสมบท" value="" required disabled>
+                            <input name="temple_address" type="text" class="temple_address form-control" placeholder="ที่ตั้งวัดที่อุปสมบท" value="<?php echo isset($post_data['temple_address'])?$post_data['temple_address']:'';?>" required disabled>
                           </div>
                         </div>
                         <div class="form-group row">
                           <div class="col-sm-6">
                             <label>จำพรรษา ณ วัด</label>
-                            <input name="temple_name2" type="text" class="temple_name_2 form-control" placeholder="ชื่อวัดที่จำพรรษา" value="" required disabled>
+                            <input name="temple_name2" type="text" class="temple_name_2 form-control" placeholder="ชื่อวัดที่จำพรรษา" value="<?php echo isset($post_data['temple_name2'])?$post_data['temple_name2']:'';?>" required disabled>
                           </div>
                           <div class="col-sm-6 mb-3 mb-sm-0">
                             <label>ตั้งอยู่ ณ</label>
-                            <input name="temple_address2" type="text" class="temple_address_2 form-control" placeholder="ที่ตั้งวัดที่จำพรรษา" value="" required disabled>
+                            <input name="temple_address2" type="text" class="temple_address_2 form-control" placeholder="ที่ตั้งวัดที่จำพรรษา" value="<?php echo isset($post_data['temple_address2'])?$post_data['temple_address2']:'';?>" required disabled>
                           </div>
                         </div>
                       </div>
@@ -254,36 +255,35 @@
                         <div class="form-group row">
                           <div class="col-sm-6">
                             <label>ข้าพเจ้าได้รับหมายเรียกของ</label>
-                            <input name="call_soldier" type="text" class="form-control" placeholder="ระบุข้อมูลหมายเรียก" value="" required disabled>
+                            <input name="call_soldier" type="text" class="form-control" placeholder="ระบุข้อมูลหมายเรียก" value="<?php echo isset($post_data['call_soldier'])?$post_data['call_soldier']:'';?>" required disabled>
                           </div>
                           <div class="col-sm-6">
                             <label>ที่มา</label>
-                            <input name="call_soldier_form" type="text" class="form-control" placeholder="ระบุที่มาของหมายเรียก" value="" required disabled>
+                            <input name="call_soldier_form" type="text" class="form-control" placeholder="ระบุที่มาของหมายเรียก" value="<?php echo isset($post_data['call_soldier_form'])?$post_data['call_soldier_form']:'';?>" required disabled>
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <div class="col-sm-12">
                             <label>ให้เข้ารับการ</label>
-                            <input name="call_soldier_detail" type="text" class="form-control" placeholder="ระบุรายละเอียด" value="" required disabled>
+                            <input name="call_soldier_detail" type="text" class="form-control" placeholder="ระบุรายละเอียด" value="<?php echo isset($post_data['call_soldier_detail'])?$post_data['call_soldier_detail']:'';?>" required disabled>
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <div class="col-sm-6">
                             <label>หมายเรียกลงวันที่</label>
-                            <input type="text" class="date_n form-control" value="<?php echo date_th(date('Y-m-d'),12);?>" required disabled>
-                            <input name="call_date" type="hidden" class="form-control" value="<?php echo date('Y-m-d');?>" disabled>
+                            <input type="text" class="date_n form-control" value="<?php echo isset($post_data['call_date'])?date_th(date('Y-m-d',strtotime($post_data['call_date'])),12):date_th(date('Y-m-d'),12);?>" required disabled>
+                            <input name="call_date" type="hidden" class="form-control" value="<?php echo isset($post_data['call_date'])?$post_data['call_date']:date('Y-m-d');?>" disabled>
                           </div>
                           <div class="col-sm-6">
                             <label>ให้รับการฝึกที่</label>
-                            <input name="train_address" type="text" class="form-control" placeholder="ระบุชื่อสถานที่เข้ารับการฝึก" value="" required disabled>
+                            <input name="train_address" type="text" class="form-control" placeholder="ระบุชื่อสถานที่เข้ารับการฝึก" value="<?php echo isset($post_data['train_address'])?$post_data['train_address']:'';?>" required disabled>
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <input id="leave_type_id" type="hidden" name="leave_type_id" value="0"/>
+                    
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
 
                   </form>
@@ -978,16 +978,22 @@
   
   <script>
     $(document).ready(function(){
-      $('#type_leave').change(function(){
-        var type = $(this).val();
-        var type_name = $( "#type_leave option:selected" ).text();
+      leave_type_form();
 
-        $('#leave_type_id').val(type);
+      $('#type_leave').change(function(){
+        leave_type_form();
+      });
+
+      function leave_type_form(){
+        var type = $('#type_leave').val();
+        var type_name = $( "#type_leave option:selected" ).text();
 
         if(type!=0){
           $('.leave-text').text(type_name);
+          $('#title').val(type_name);
         }else{
           $('.leave-text').text('');
+          $('#title').val('');
         }
         
         $('.card-type').hide();
@@ -1005,8 +1011,7 @@
         }else{
           $('.leave-detail').attr('disabled','disabled');
         }
-
-      });
+      }
 
       $( ".date_n" ).datepicker({
         onSelect: function(){
@@ -1110,6 +1115,25 @@
 
         return count_dis;
       }
+
+      $('.temple_name').change(function(){
+        if($('.temple_name_2').val()==''){
+          $('.temple_name_2').val($('.temple_name').val());
+        }
+      });
+      $('.temple_address').change(function(){
+        if($('.temple_address_2').val()==''){
+          $('.temple_address_2').val($('.temple_address').val());
+        }
+      });
+
+      $('#form_leave').submit(function(){
+        var type = $('#type_leave').val();
+        if(type==0){
+          alert('กรุณาเลือกประเภทการลาก่อนการบันทึกข้อมูลการลา');
+          return false;
+        }
+      });
 
     });
   </script>
