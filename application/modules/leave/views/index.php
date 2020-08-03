@@ -246,7 +246,7 @@
                             <td><?php echo isset($leave_type[$val['leave_type_id']])?$leave_type[$val['leave_type_id']]['leave_name']:' - ';?></td>
                             <td><?php echo date_th($val['create_date'],2);?></td>
                             <td><?php echo date_th($val['period_start'],2).($val['period_end']!=''?' - '.date_th($val['period_end'],2):'');?></td>
-                            <td><?php $sum_day+=$val['period_count']; echo $val['period_count'].($val['period_type']!='a'?$val['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)');?></td>
+                            <td><?php $sum_day+=$val['period_count']; echo $val['period_count'];?></td>
                             <td>
                               <?php
                                 if($val['hr_approve']==2){

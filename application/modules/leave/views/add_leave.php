@@ -155,8 +155,16 @@
                         </div>
                         <div class="form-group row">
                           <div class="col-sm-12">
-                            <label>ช้อมูลติดต่อ</label>
-                            <textarea name="contact" id="" class="form-control" cols="30" rows="3" required><?php if(isset($post_data['contact'])){ echo $post_data['contact']; }elseif(isset($personnel['phone']) && trim($personnel['phone'])!=''){ echo 'โทร.'.$personnel['phone']; } ?></textarea>
+                            <label>ข้อมูลติดต่อ</label>
+                            <?php 
+                              $contact = '';
+                              if(isset($post_data['contact'])){ 
+                                $contact = $post_data['contact']; 
+                              }elseif(isset($personnel['phone']) && trim($personnel['phone'])!=''){ 
+                                $contact = 'โทร.'.$personnel['phone']; 
+                              }
+                            ?>
+                            <input type="text" name="contact" class="date_dis form-control" value="<?php echo $contact;?>">
                           </div>
                         </div>
                       </div>
@@ -283,6 +291,58 @@
                         </div>
                       </div>
                     </div>
+
+                    <div class="card mb-4 border-left-warning">
+                      <div class="card-body">
+                        <div class="row approve_list">
+                          <div class="a1 col-lg-6" id="workmate-box">
+                            <div class="form-group">
+                                <label>ผู้ปกิบัติงานแทน</label>
+                                <input type="text" class="input_hide form-control auto-workmate" auto_type="workmate" placeholder="เลือกผู้ปฏิบัติงานแทน">
+                                <input id="workmate" type="hidden" name="personnel_id_1" class="input_hide" form="">
+                              </div>
+                          </div>
+                          <div class="a2 col-lg-6" >
+                            <div class="form-group">
+                                <label>หัวหน้าหน่วย/ หัวหน้าหอผู้ป่วย</label>
+                                <input type="text" class="input_hide form-control auto-head_unit" auto_type="head_unit" placeholder="เลือกหัวหน้าหน่วย">
+                                <input id="head_unit" type="hidden" name="personnel_id_2" class="input_hide" form="">
+                                <input id="head_unit_position" type="text" class="input_hide form-control" name="position_personnel_2" form="" placeholder="ระบุชื่อตำแหน่ง"/>
+                              </div>
+                          </div>
+                          <div class="a3 col-lg-6" >
+                            <div class="form-group">
+                                <label>หัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน</label>
+                                <input type="text" class="input_hide form-control auto-head_dept" auto_type="head_dept" placeholder="เลือกหัวหน้างาน">
+                                <input id="head_dept" type="hidden" name="personnel_id_3" class="input_hide" form="">
+                                <input id="head_dept_position" type="text" class="input_hide form-control" name="position_personnel_2" form="" placeholder="ระบุชื่อตำแหน่ง"/>
+                              </div>
+                          </div>
+                          <div class="a4 col-lg-6" >
+                            <div class="form-group">
+                                <label>หัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ</label>
+                                <input type="text" class="input_hide form-control auto-supervisor" auto_type="supervisor" placeholder="เลือกหัวหน้าฝ่าย">
+                                <input id="supervisor" type="hidden" name="personnel_id_4" class="input_hide" form="">
+                                <input id="supervisor_position" type="text" class="input_hide form-control" name="position_personnel_3" form="" placeholder="ระบุชื่อตำแหน่ง"/>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-group">
+                              <label>คณบดี / รองคณบดี / หัวหน้าภาค</label>
+                              <input type="text" class="input_hide form-control auto-deputy_dean" auto_type="deputy_dean" placeholder="รองคณบดี หรือหัวหน้าภาควิชา">
+                              <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide" form="">
+                              <input id="deputy_dean_position" type="text" class="input_hide form-control" name="position_personnel_5" form="" placeholder="ระบุชื่อตำแหน่ง"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <input type="hidden" class="input_hide" name="url_personnel_1" value="<?php echo isset($url_approve['url_personnel_1'])?$url_approve['url_personnel_1']:'';?>" form=""/>
+                    <input type="hidden" class="input_hide" name="url_personnel_2" value="<?php echo isset($url_approve['url_personnel_1'])?$url_approve['url_personnel_1']:'';?>" form=""/>
+                    <input type="hidden" class="input_hide" name="url_personnel_3" value="<?php echo isset($url_approve['url_personnel_1'])?$url_approve['url_personnel_1']:'';?>" form=""/>
+                    <input type="hidden" class="input_hide" name="url_personnel_4" value="<?php echo isset($url_approve['url_personnel_1'])?$url_approve['url_personnel_1']:'';?>" form=""/>
+                    <input type="hidden" class="input_hide" name="url_personnel_5" value="<?php echo isset($url_approve['url_personnel_1'])?$url_approve['url_personnel_1']:'';?>" form=""/>
                     
                     <button type="submit" class="btn btn-primary btn-user btn-block">บันทึก</button>
 
@@ -770,148 +830,6 @@
 
                   <hr/>-->
 
-                  <div class="row approve_list" style="display:none;">
-
-                    <div class="a1 col-lg-6" id="workmate-box" style="display:none;">
-                      <div class="form-group">
-                          <label>ผู้ปกิบัติงานแทน *</label>
-                          <!-- <select id="workmate" class="input_hide form-control" name="worker_personnel_id" form="" require disabled>
-                            <option value="0">เลือกผู้ปฏิบัติงานแทน</option>
-                            <?php //if(isset($friend) and count($friend['data'])>0){ foreach($friend['data'] as $key=>$val){ if($val['personnel_id']!=$personnel['personnel_id']){?>
-                              <option value="<?php /*echo $val['personnel_id'];?>"><?php echo $val['title'].$val['name_th'].' '.$val['surname_th'];?></option>
-                              <?php }}}*/ ?>
-                          </select> -->
-
-                          <input type="text" class="input_hide form-control auto-workmate" auto_type="workmate" placeholder="เลือกผู้ปฏิบัติงานแทน" require>
-                          <input id="workmate" type="hidden" name="worker_personnel_id" class="input_hide" form="">
-                        </div>
-                    </div>
-
-                    <?php if(!(isset($personnel['smu_main_id']) and intval($personnel['smu_main_id'])!=0 and substr($personnel['smu_main_id'],0,1) == 2)){?>
-                      <div class="a2 col-lg-6" >
-                        <div class="form-group">
-                            <label>หัวหน้าหน่วย/ หัวหน้าหอผู้ป่วย *</label>
-                            <!-- <select id="head_unit" class="select_app input_hide form-control" name="head_unit_personnel_id" form="" require>
-                              <option value="">เลือกหัวหน้าหน่วย</option>
-                              <option value="0">ไม่มีหัวหน้าหน่วย</option>
-                              <?php /*if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }}*/ ?>
-                            </select> -->
-
-                            <input type="text" class="input_hide form-control auto-head_unit" auto_type="head_unit" placeholder="เลือกหัวหน้าหน่วย" require>
-                            <input id="head_unit" type="hidden" name="head_unit_personnel_id" class="input_hide" form="">
-                            <input id="head_unit_position" type="text" class="input_hide form-control" name="head_unit_position" form="" placeholder="ระบุชื่อตำแหน่ง" require/>
-                          </div>
-                      </div>
-                      <div class="a3 col-lg-6" >
-                        <div class="form-group">
-                            <label>หัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน *</label>
-                            <!-- <select id="head_dept" class="select_app input_hide form-control" name="head_dept_personnel_id" form="" require>
-                              <option value="">เลือกหัวหน้างาน</option>
-                              <?php /*if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }}*/ ?>
-                            </select> -->
-
-                            <input type="text" class="input_hide form-control auto-head_dept" auto_type="head_dept" placeholder="เลือกหัวหน้างาน" require>
-                            <input id="head_dept" type="hidden" name="head_dept_personnel_id" class="input_hide" form="">
-                            <input id="head_dept_position" type="text" class="input_hide form-control" name="head_dept_position" form="" placeholder="ระบุชื่อตำแหน่ง" require/>
-                          </div>
-                      </div>
-                      <div class="a4 col-lg-6" >
-                        <div class="form-group">
-                            <label>หัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ *</label>
-                            <!-- <select id="supervisor" class="select_app input_hide form-control" name="supervisor_personnel_id" form="" require>
-                              <option value="">เลือกหัวหน้าฝ่าย</option>
-                              <option value="0">ไม่มีหัวหน้าฝ่าย</option>
-                              <?php /*if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                                <option value="<?php echo $val['personnel_id'];?>">
-                                  <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                                </option>
-                              <?php }}*/ ?>
-                            </select> -->
-                            <input type="text" class="input_hide form-control auto-supervisor" auto_type="supervisor" placeholder="เลือกหัวหน้าฝ่าย" require>
-                            <input id="supervisor" type="hidden" name="supervisor_personnel_id" class="input_hide" form="">
-                            <input id="supervisor_position" type="text" class="input_hide form-control" name="supervisor_position" form="" placeholder="ระบุชื่อตำแหน่ง" require/>
-                          </div>
-                      </div>
-                    <?php } ?>
-                    
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>คณบดี / รองคณบดี / หัวหน้าภาค *</label>
-                        <!-- <select id="deputy_dean" class="input_hide form-control" name="deputy_dean_personnel_id" form="" require>
-                          <option value="0">เลือกรองคณบดี หรือหัวหน้าภาควิชา</option>
-                          <?php /*if(isset($boss) and count($boss['data'])>0){ foreach($boss['data'] as $key=>$val){ ?>
-                            <option value="<?php echo $val['personnel_id'];?>">
-                              <?php echo $val['title'].$val['name_th'].' '.$val['surname_th'].(trim($val['position_boss'])!=''?' ('.$val['position_boss'].')':'');?>
-                            </option>
-                          <?php }}*/ ?>
-                        </select> -->
-                        <input type="text" class="input_hide form-control auto-deputy_dean" auto_type="deputy_dean" placeholder="รองคณบดี หรือหัวหน้าภาควิชา" require>
-                        <input id="deputy_dean" type="hidden" name="deputy_dean_personnel_id" class="input_hide" form="">
-                        <input id="deputy_dean_position" type="text" class="input_hide form-control" name="deputy_dean_position" form="" placeholder="ระบุชื่อตำแหน่ง" require/>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Basic Card Example -->
-                  <div class="card shadow mb-4" style="display:none;">
-                    <div class="card-header py-3">
-                      <h6 class="m-0 font-weight-bold text-primary">ลงลายเซ็น</h6>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode1"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <hr/>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode2"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode3"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode4"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode5"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <div class="qrcode" id="qrcode6"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
 
@@ -1128,11 +1046,196 @@
       });
 
       $('#form_leave').submit(function(){
+
+        return true;
+
         var type = $('#type_leave').val();
         if(type==0){
           alert('กรุณาเลือกประเภทการลาก่อนการบันทึกข้อมูลการลา');
           return false;
         }
+
+        var data = {
+          'APP-KEY':'<?php echo $api['APP-KEY'];?>',
+          ip:'<?php echo $api['ip'];?>',
+          leave_type:$('#type_leave').val(),
+          emp_type:'<?php echo $emp_type;?>',
+          personnel:'<?php echo $personnel['personnel_id'];?>',
+          period_count:$('.date_dis').val(),
+          period_count_all:$('.date_all').val(),
+          period_start:$('.leave_date_s_value').val()
+        };
+
+        $.ajax({
+          type: "POST",
+          data:data,
+          url: "<?php echo base_url(url_index().'leave/api_v2/leave_spec_alert');?>",
+          dataType: "json",
+          success: function(data){
+
+            if(data.status){
+              data = data.data;
+
+              if(data.approve==1 || data.approve==2){
+                $(".toBoss option[value=1]").attr("selected","selected");
+              }else if(data.approve==3){
+                $(".toBoss option[value=2]").attr("selected","selected");
+              }
+
+              if(data.before[0]!=0){
+                alert_noti(1,data.before[0]);
+              }else if(data.before[1]!=0){
+                alert_noti(2,data.before[1]);
+              }
+
+              if(data.limit!=0){
+                alert_noti(3,data.limit);
+              }
+
+              if(data.rest_limit!=0){
+                alert_noti(4,data.rest_limit);
+              }
+
+              if(data.alert[0]!=0){
+                let con = confrim('ท่านจะไม่ได้รับเงินเดือนเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[0]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
+                if(!con){
+                  return false;
+                }
+              }else if(data.alert[1]!=0){
+                let con = confrim('ท่านจะไม่ได้รับพิจาราณาเลื่อนขั้นเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[0]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
+                if(!con){
+                  return false;
+                }
+              }
+            }else{
+              return false;
+            }
+          }
+        });
+      });
+
+      function alert_noti(type=0,data=0){
+        if(type==1){
+          alert('ไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (ไม่รวมวันหยุดราชการ)');
+          return false;
+        }else if(type==2){
+          alert('ไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (รวมวันหยุดราชการ)');
+          return false;
+        }else if(type==3){
+          alert('ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาต่อปีงบที่จำกัดไว้ '+data+' วัน');
+          return false;
+        }else if(type==4){
+          alert('ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาสะสมของท่านที่คงเหลือไว้ '+data+' วัน');
+          return false;
+        }
+      }
+
+      var dest = getUrlParam('validate','');
+
+      if(dest!=''){
+        dest = dest.split("-");
+        alert_noti(dest[0],dest[1]);
+      }
+
+      function getUrlParam(parameter, defaultvalue){
+        var urlparameter = defaultvalue;
+        if(window.location.href.indexOf(parameter) > -1){
+            urlparameter = getUrlVars()[parameter];
+            }
+        return urlparameter;
+      }
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+      }
+
+
+      var data = {
+          'APP-KEY':'<?php echo $api['APP-KEY'];?>',
+          token:'<?php echo $api['token'];?>',
+          ip:'<?php echo $api['ip'];?>',
+          term:''
+      };
+
+      $(".auto-deputy_dean,.auto-workmate,.auto-supervisor,.auto-head_dept,.auto-head_unit").autocomplete({
+        source: function(request,response) {
+
+          data.term = request.term;
+          $.ajax( {
+            type: "POST",
+            url: "<?php echo base_url(url_index().'personnel/api_v1/personnel'); ?>",
+            dataType: "jsonp",
+            data: data,
+            success: function(data) {
+
+              let res = [];
+
+              if(!data.status){
+                location.reload();
+                return false;
+              }
+
+              if(data.count>0){
+
+                $.each( data.data, function( key, value ) {
+                  res[key] = {'value':'','label':'','id':''};
+                  res[key].value = value.title+value.name_th+' '+value.surname_th+', '+value.email;
+                  res[key].label = value.title+value.name_th+' '+value.surname_th+', '+value.email;
+                  res[key].boss  = value.position_boss;
+                  res[key].id    = value.personnel_id;
+                });
+                response(res);
+              }else{
+                return false;
+              }
+              
+            }
+          } );
+        },
+        minLength: 2,
+        select: function( event, ui ) {
+          var id = $(this).attr('auto_type');
+          var position = ui.item.boss;
+          if(position!=null && position!==''){
+            var res = position.split(",");
+            if(res.length>0){
+              var html = '';
+              $('#boss_position_list').empty();
+              $.each(res,function(key,val){
+                console.log(key,val);
+                html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="'+(val.trim())+'" '+(key==0?'checked="checked"':'')+'> '+(val.trim())+'</label></div>';
+              });
+              html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="" '+(html==''?'checked="checked"':'')+'> เลือกกรอกตำแหน่งอื่นๆ</label></div>';
+              $('#boss_position_list').append(html);
+              $('#ok_position').attr('type_id',id);
+              $('#modal-boss').click();
+            }
+
+          }else{
+            $(this).next().next().focus();
+          }
+
+          $(this).next().val(ui.item.id);
+        },
+        change: function (event, ui) {
+          if (ui.item === null) {
+            $(this).val('');
+            $(this).next().val('');
+            $(this).next().next().val('');
+          }
+       }
+
+      })/*.focus(function(){
+          $(this).data("uiAutocomplete").search($(this).val());
+      })*/;
+
+      $('#ok_position').click(function(){
+        var type_id = $(this).attr('type_id');
+        $('#'+type_id+'_position').val($('#boss_position_list .position_bosss:checked').val()).focus();
+        $('#close_position').click();
       });
 
     });

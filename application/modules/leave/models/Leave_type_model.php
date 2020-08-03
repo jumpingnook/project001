@@ -17,8 +17,10 @@ class Leave_type_model extends MY_Model {
 		// 	$con['where'] = 'leave_type_id <> 1 and leave_type_id <> 7';
 		// }
 
-		$con['where'] = 'exp_permission <= '.intval($set['month']);
-
+		if(isset($set['month'])){
+			$con['where'] .= 'exp_permission <= '.intval($set['month']);
+		}
+		
 		if(isset($set['emp_type'])){
 			if($con['where']!=''){
 				$con['where'] .= ' and emp_type_permission like "%'.intval($set['emp_type']).'%"';
