@@ -329,7 +329,7 @@
           <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
             <div class="row">
                <div class="col-lg-12 mb-4">
-               <center><img src="<?php echo $personnel['signature'];?>" alt="" style="max-width:340px;"></center><br/><center><span class="text-lg ">*หากท่านต้องการแก้ไขลายเซ็น กรุณาติดต่อ</span></center>
+               <center><img src="<?php echo $personnel['signature'];?>" alt="" style="max-width:340px;"></center><br/><center><span class="text-lg ">*หากท่านต้องการแก้ไขลายเซ็น กรุณาติดต่อ 7936</span></center>
               </div>
             </div>
           <?php }else{ ?>

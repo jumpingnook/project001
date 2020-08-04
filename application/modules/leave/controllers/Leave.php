@@ -63,7 +63,7 @@ class Leave extends Leave_Controller {
                 if($val['status']<98 and $val['status']!=2 and $val['status']!=3){
                     $set['leave_history']['count_new']++;
                 }
-                if($val['signature_deputy_dean_date']!='' and $val['deputy_dean_approve']==1){
+                if($val['signature_cancel_date_5']!='' and $val['approve_personnel_5']==1){
                     $set['leave_history']['count_end']++;
                 }
             }
@@ -186,22 +186,34 @@ class Leave extends Leave_Controller {
     function save_leave(){
         $post = $this->input->post();
 
-        //echo '<pre>';print_r($post);exit;
-
         if(!isset($post['leave_type_id']) or !isset($post['write_at']) or !isset($post['to']) or !isset($post['title']) or !isset($post['period_start']) or !isset($post['period_end']) or !isset($post['period_count']) or !isset($post['period_count_all'])){
             redirect(url_index().'leave/add/?status=validate');
         }
-        if(isset($post['leave_type_id']) and intval($post['leave_type_id'])==0){
+        if(isset($post['leave_type_id']) && intval($post['leave_type_id'])==0){
             redirect(url_index().'leave/add/?status=validate');
         }
         if(count($post)>0){
-            foreach($post as $key=>$val){
-                if(trim($val)==''){
-                    redirect(url_index().'leave/add/?status=validate');
+
+            for($i=2;$i<=4;$i++){
+                if(isset($post['personnel_id_'.$i]) and intval($post['personnel_id_'.$i])==0){
+                    unset($post['personnel_id_'.$i]);
+                    unset($post['position_personnel_'.$i]);
+                    unset($post['url_personnel_'.$i]);
+                    unset($post['name_personnel_'.$i]);
                 }
             }
+            if(!isset($post['personnel_id_'.$i]) || !isset($post['position_personnel_'.$i]) || !isset($post['name_personnel_'.$i]) || trim($post['position_personnel_'.$i])=='' || trim($post['name_personnel_'.$i])==''){
+                redirect(url_index().'leave/add/?status=6-0');
+            }
+
+            foreach($post as $key=>$val){
+                if(trim($val)==''){
+                    redirect(url_index().'leave/add/?status=5-0');
+                }
+            }
+
         }else{
-            redirect(url_index().'leave/add/?status=validate');
+            redirect(url_index().'leave/add/?status=5-0');
         }
 
         $set = [];
@@ -222,8 +234,6 @@ class Leave extends Leave_Controller {
         $api['period_start']    = $post['period_start'];
         $leave_spec = $this->restclient->post(base_url(url_index().'leave/api_v2/leave_spec_alert'),$api);
 
-        
-
         $this->session->set_flashdata('post', $post);
 
         if(isset($leave_spec['status']) and $leave_spec['status']){
@@ -231,16 +241,16 @@ class Leave extends Leave_Controller {
             $leave_spec = $leave_spec['data'];
 
             if(isset($leave_spec['before'][0]) and intval($leave_spec['before'][0])!=0){
-                redirect(url_index().'leave/add/?validate=1-'.$leave_spec['before'][0]);
+                redirect(url_index().'leave/add/?status=1-'.$leave_spec['before'][0]);
             }
             if(isset($leave_spec['before'][1]) and intval($leave_spec['before'][1])!=0){
-                redirect(url_index().'leave/add/?validate=2-'.$leave_spec['before'][1]);
+                redirect(url_index().'leave/add/?status=2-'.$leave_spec['before'][1]);
             }
             if(isset($leave_spec['limit']) and intval($leave_spec['limit'])!=0){
-                redirect(url_index().'leave/add/?validate=3-'.$leave_spec['limit']);
+                redirect(url_index().'leave/add/?status=3-'.$leave_spec['limit']);
             }
             if(isset($leave_spec['limit_rest']) and intval($leave_spec['limit_rest'])!=0){
-                redirect(url_index().'leave/add/?validate=4-'.$leave_spec['limit_rest']);
+                redirect(url_index().'leave/add/?status=4-'.$leave_spec['limit_rest']);
             }
 
             if(isset($leave_spec['approve']) and (intval($leave_spec['approve'])==1 or intval($leave_spec['approve'])==2)){
@@ -251,9 +261,12 @@ class Leave extends Leave_Controller {
 
         }
 
-        echo '<pre>';print_r($leave_spec);exit;
-
-        
+        for($i=1;$i<=5;$i++){
+            if(isset($post['name_personnel_'.$i])){
+                unset($post['name_personnel_'.$i]);
+            }
+        }
+        redirect(url_index().'leave/add/?status=1-5');
 
         #last Leave
         $this->load->model(['Leave_model']);
@@ -263,6 +276,10 @@ class Leave extends Leave_Controller {
 
         #insert
         $result = $this->Leave_model->save_leave($set['data'],(isset($post['edit_leave_id']) && intval($post['edit_leave_id'])!=0?intval($post['edit_leave_id']):0));
+
+        if(intval($result)!=0){
+            
+        }
 
     }
 

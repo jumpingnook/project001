@@ -201,258 +201,258 @@ class Api_v1 extends REST_Controller {
 
     }
 
-    function leave_spec_alert_post(){
-        $post = $this->post();
+    // function leave_spec_alert_post(){
+    //     $post = $this->post();
 
-        //$token = $this->check_token($post);
+    //     //$token = $this->check_token($post);
 
-        if(isset($post['leave_type']) and isset($post['emp_type']) and isset($post['personnel']) and isset($post['day']) and intval($post['leave_type'])!=0 and intval($post['emp_type'])!=0 and intval($post['personnel'])!=0 and floatval($post['day'])!=0){
+    //     if(isset($post['leave_type']) and isset($post['emp_type']) and isset($post['personnel']) and isset($post['day']) and intval($post['leave_type'])!=0 and intval($post['emp_type'])!=0 and intval($post['personnel'])!=0 and floatval($post['day'])!=0){
 
-            $set = [];
-            $set['leave_type_id']   = intval($post['leave_type']);
-            $set['emp_type_id']     = intval($post['emp_type']);
-            $spec = $this->Leave_spec_model->spec($set);
+    //         $set = [];
+    //         $set['leave_type_id']   = intval($post['leave_type']);
+    //         $set['emp_type_id']     = intval($post['emp_type']);
+    //         $spec = $this->Leave_spec_model->spec($set);
 
-            $res = [];
-            if(count($spec)!=0){
-                $spec = $spec[0];
-                $day_form = floatval($post['day']);
+    //         $res = [];
+    //         if(count($spec)!=0){
+    //             $spec = $spec[0];
+    //             $day_form = floatval($post['day']);
 
-                if(intval($post['leave_type'])==1 or intval($post['leave_type'])==7){ //พักผ่อน && ตปท.
-                    $this->load->model([
-                        'personnel/Personnel_model',
-                        'leave/Leave_quota_model'
-                    ]);
+    //             if(intval($post['leave_type'])==1 or intval($post['leave_type'])==7){ //พักผ่อน && ตปท.
+    //                 $this->load->model([
+    //                     'personnel/Personnel_model',
+    //                     'leave/Leave_quota_model'
+    //                 ]);
 
-                    $personnel = $this->Personnel_model->get_personnel(['personnel_id'=>intval($post['personnel'])]);
+    //                 $personnel = $this->Personnel_model->get_personnel(['personnel_id'=>intval($post['personnel'])]);
                     
-                    if(isset($personnel['data']) and count($personnel['data'])==1){
-                        $personnel = $personnel['data'][0];
+    //                 if(isset($personnel['data']) and count($personnel['data'])==1){
+    //                     $personnel = $personnel['data'][0];
 
-                        $timeDiff = abs(strtotime($personnel['work_start_date']) - strtotime(date('Y-m-d')));
-                        $numberDays = intval($timeDiff/86400)+1;
+    //                     $timeDiff = abs(strtotime($personnel['work_start_date']) - strtotime(date('Y-m-d')));
+    //                     $numberDays = intval($timeDiff/86400)+1;
 
-                        if($numberDays<=$spec['day_permission_unlock']){ //check day_permission_unlock
-                            $this->response([
-                                'status'    => true,
-                                'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากท่านยังมีอายุงานไม่ครบ '.$spec['day_permission_unlock'].' วัน กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                                'process'   => false,
-                                'process_redirect' => '?status=validate_msg'
-                            ], REST_Controller::HTTP_OK); //200
-                        }
+    //                     if($numberDays<=$spec['day_permission_unlock']){ //check day_permission_unlock
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากท่านยังมีอายุงานไม่ครบ '.$spec['day_permission_unlock'].' วัน กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                             'process'   => false,
+    //                             'process_redirect' => '?status=validate_msg'
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }
 
-                        if((intval($post['emp_type'])>=1 and intval($post['emp_type'])<=6)){
-                            $quota_total = $this->Leave_quota_model->get_last_quote(['personnel_id'=>intval($post['personnel'])]);
-                            $quota_total = $quota_total[0]['quota_total'];
+    //                     if((intval($post['emp_type'])>=1 and intval($post['emp_type'])<=6)){
+    //                         $quota_total = $this->Leave_quota_model->get_last_quote(['personnel_id'=>intval($post['personnel'])]);
+    //                         $quota_total = $quota_total[0]['quota_total'];
 
-                            if($quota_total<$day_form){
-                                $this->response([
-                                    'status'    => true,
-                                    'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากท่านวันลาคงเหลือไม่เพียงพอ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                                    'process'   => false,
-                                    'process_redirect' => '?status=validate_msg'
-                                ], REST_Controller::HTTP_OK); //200 
-                            }
-                        }
-                        $this->response([
-                            'status'    => true,
-                            'to'        => 2,
-                            'process'   => true
-                        ], REST_Controller::HTTP_OK); //200
-                    }
-                }
+    //                         if($quota_total<$day_form){
+    //                             $this->response([
+    //                                 'status'    => true,
+    //                                 'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากท่านวันลาคงเหลือไม่เพียงพอ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                                 'process'   => false,
+    //                                 'process_redirect' => '?status=validate_msg'
+    //                             ], REST_Controller::HTTP_OK); //200 
+    //                         }
+    //                     }
+    //                     $this->response([
+    //                         'status'    => true,
+    //                         'to'        => 2,
+    //                         'process'   => true
+    //                     ], REST_Controller::HTTP_OK); //200
+    //                 }
+    //             }
 
-                if(intval($post['leave_type'])==2 or intval($post['leave_type'])==3){ //ป่าว+กิจ
-                    $set = [];
-                    $set['personnel_id']    = intval($post['personnel']);
-                    $set['leave_year']      = date('Y');
-                    $history = $this->Leave_model->leave_history($set);
+    //             if(intval($post['leave_type'])==2 or intval($post['leave_type'])==3){ //ป่าว+กิจ
+    //                 $set = [];
+    //                 $set['personnel_id']    = intval($post['personnel']);
+    //                 $set['leave_year']      = date('Y');
+    //                 $history = $this->Leave_model->leave_history($set);
 
-                    $count_day = 0.0;
-                    if(count($history['data'])>0){
-                        foreach($history['data'] as $key=>$val){
-                            if(($val['leave_type_id']==3 or $val['leave_type_id']==4) and $val['status']<98){
-                                $count_day += $val['period_count'];
-                            }
-                        }
-                    }
+    //                 $count_day = 0.0;
+    //                 if(count($history['data'])>0){
+    //                     foreach($history['data'] as $key=>$val){
+    //                         if(($val['leave_type_id']==3 or $val['leave_type_id']==4) and $val['status']<98){
+    //                             $count_day += $val['period_count'];
+    //                         }
+    //                     }
+    //                 }
 
-                    $count_day += $day_form;
+    //                 $count_day += $day_form;
 
-                    if(intval($post['emp_type'])==5 || intval($post['emp_type'])==6 || intval($post['emp_type'])==8){
-                        if($day_form<=$spec['leave_fix_permission'] and $count_day<=$spec['leave_fix_permission']){ //alert
-                            $this->response([
-                                'status'    => true,
-                                'to'        => 1,
-                                'process'   => true
-                            ], REST_Controller::HTTP_OK); //200
-                        }elseif($count_day>$spec['leave_fix_permission']){ //alert+fix
-                            $this->response([
-                                'status'    => true,
-                                'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวมต่อปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                                'process'   => false,
-                                'process_redirect' => '?status=validate_msg'
-                            ], REST_Controller::HTTP_OK); //200
-                        }
-                    }else{
-                        if($day_form<$spec['leave_alert'] or $day_form==$spec['leave_alert']){ //alert
-                            $this->response([
-                                'status'    => true,
-                                'msg'       => 'วันลาของท่านยังอยู่ในช่วง '.$spec['leave_alert'].' วัน การพิจารณาสูงสุดถึง "คณบดี"',
-                                'to'        => 1,
-                                'process'   => true
-                            ], REST_Controller::HTTP_OK); //200
-                        }elseif($day_form<=$spec['leave_fix_permission'] and $count_day<=$spec['leave_fix_permission']){ //alert
-                            $this->response([
-                                'status'    => true,
-                                'alert'     => true,
-                                'msg'       => 'วันลาของท่านยังอยู่ในช่วง '.$spec['leave_fix_permission'].' วัน การพิจารณาสูงสุดถึง "อธิการบดี"',
-                                'to'        => 2,
-                                'process'   => true
-                            ], REST_Controller::HTTP_OK); //200
-                        }elseif($count_day>$spec['leave_fix_permission']){ //alert+fix
-                            $this->response([
-                                'status'    => true,
-                                'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวม '.$spec['leave_fix_permission'].' วัน/ปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                                'process'   => false,
-                                'process_redirect' => '?status=validate_msg'
-                            ], REST_Controller::HTTP_OK); //200
-                        }
-                    }
-                }
+    //                 if(intval($post['emp_type'])==5 || intval($post['emp_type'])==6 || intval($post['emp_type'])==8){
+    //                     if($day_form<=$spec['leave_fix_permission'] and $count_day<=$spec['leave_fix_permission']){ //alert
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'to'        => 1,
+    //                             'process'   => true
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }elseif($count_day>$spec['leave_fix_permission']){ //alert+fix
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวมต่อปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                             'process'   => false,
+    //                             'process_redirect' => '?status=validate_msg'
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }
+    //                 }else{
+    //                     if($day_form<$spec['leave_alert'] or $day_form==$spec['leave_alert']){ //alert
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'msg'       => 'วันลาของท่านยังอยู่ในช่วง '.$spec['leave_alert'].' วัน การพิจารณาสูงสุดถึง "คณบดี"',
+    //                             'to'        => 1,
+    //                             'process'   => true
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }elseif($day_form<=$spec['leave_fix_permission'] and $count_day<=$spec['leave_fix_permission']){ //alert
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'alert'     => true,
+    //                             'msg'       => 'วันลาของท่านยังอยู่ในช่วง '.$spec['leave_fix_permission'].' วัน การพิจารณาสูงสุดถึง "อธิการบดี"',
+    //                             'to'        => 2,
+    //                             'process'   => true
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }elseif($count_day>$spec['leave_fix_permission']){ //alert+fix
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวม '.$spec['leave_fix_permission'].' วัน/ปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                             'process'   => false,
+    //                             'process_redirect' => '?status=validate_msg'
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }
+    //                 }
+    //             }
 
-                if(intval($post['leave_type'])==6){ //เลี้ยงบุตร
-                    $set = [];
-                    $set['personnel_id']    = intval($post['personnel']);
-                    $set['leave_year']      = date('Y');
-                    $history = $this->Leave_model->leave_history($set);
+    //             if(intval($post['leave_type'])==6){ //เลี้ยงบุตร
+    //                 $set = [];
+    //                 $set['personnel_id']    = intval($post['personnel']);
+    //                 $set['leave_year']      = date('Y');
+    //                 $history = $this->Leave_model->leave_history($set);
 
-                    $count_day = 0.0;
-                    if(count($history['data'])>0){
-                        foreach($history['data'] as $key=>$val){
-                            if($val['leave_type_id']==6 and $val['status']<98){
-                                $count_day += $val['period_count'];
-                            }
-                        }
-                    }
+    //                 $count_day = 0.0;
+    //                 if(count($history['data'])>0){
+    //                     foreach($history['data'] as $key=>$val){
+    //                         if($val['leave_type_id']==6 and $val['status']<98){
+    //                             $count_day += $val['period_count'];
+    //                         }
+    //                     }
+    //                 }
 
-                    $count_day += $day_form;
+    //                 $count_day += $day_form;
 
-                    if(intval($post['emp_type'])!=8){
-                        if($day_form<=$spec['leave_fix_permission'] and $count_day<=$spec['leave_fix_permission']){ //alert
-                            $this->response([
-                                'status'    => true,
-                                'to'        => 2,
-                                'process'   => true
-                            ], REST_Controller::HTTP_OK); //200
-                        }elseif($count_day>$spec['leave_fix_permission']){ //alert+fix
-                            $this->response([
-                                'status'    => true,
-                                'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวม '.$spec['leave_fix_permission'].' วัน/ปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                                'process'   => false,
-                                'process_redirect' => '?status=validate_msg'
-                            ], REST_Controller::HTTP_OK); //200
-                        }
-                    }
+    //                 if(intval($post['emp_type'])!=8){
+    //                     if($day_form<=$spec['leave_fix_permission'] and $count_day<=$spec['leave_fix_permission']){ //alert
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'to'        => 2,
+    //                             'process'   => true
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }elseif($count_day>$spec['leave_fix_permission']){ //alert+fix
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลารวม '.$spec['leave_fix_permission'].' วัน/ปี ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                             'process'   => false,
+    //                             'process_redirect' => '?status=validate_msg'
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }
+    //                 }
 
                     
-                }
+    //             }
 
-                if(intval($post['leave_type'])==5){ //ไปช่วยเมีที่คลอด
+    //             if(intval($post['leave_type'])==5){ //ไปช่วยเมีที่คลอด
 
-                    if(intval($post['emp_type'])!=5 and intval($post['emp_type'])!=6 and intval($post['emp_type'])!=8){
-                        if($day_form>$spec['leave_fix']){ //alert
-                            $this->response([
-                                'status'    => true,
-                                'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                                'process'   => false,
-                                'process_redirect' => '?status=validate_msg'
-                            ], REST_Controller::HTTP_OK); //200
-                        }else{
-                            $this->response([
-                                'status'    => true,
-                                'to'        => 1,
-                                'process'   => true
-                            ], REST_Controller::HTTP_OK); //200
-                        }
-                    }
+    //                 if(intval($post['emp_type'])!=5 and intval($post['emp_type'])!=6 and intval($post['emp_type'])!=8){
+    //                     if($day_form>$spec['leave_fix']){ //alert
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                             'process'   => false,
+    //                             'process_redirect' => '?status=validate_msg'
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }else{
+    //                         $this->response([
+    //                             'status'    => true,
+    //                             'to'        => 1,
+    //                             'process'   => true
+    //                         ], REST_Controller::HTTP_OK); //200
+    //                     }
+    //                 }
                     
-                }
+    //             }
 
-                if(intval($post['leave_type'])==8){ //ไปบวช
-                    if($day_form>$spec['leave_fix']){ //alert
-                        $this->response([
-                            'status'    => true,
-                            'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                            'process'   => false,
-                            'process_redirect' => '?status=validate_msg'
-                        ], REST_Controller::HTTP_OK); //200
-                    }else{
-                        $this->response([
-                            'status'    => true,
-                            'to'        => 2,
-                            'process'   => true
-                        ], REST_Controller::HTTP_OK); //200
-                    }
-                }
+    //             if(intval($post['leave_type'])==8){ //ไปบวช
+    //                 if($day_form>$spec['leave_fix']){ //alert
+    //                     $this->response([
+    //                         'status'    => true,
+    //                         'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                         'process'   => false,
+    //                         'process_redirect' => '?status=validate_msg'
+    //                     ], REST_Controller::HTTP_OK); //200
+    //                 }else{
+    //                     $this->response([
+    //                         'status'    => true,
+    //                         'to'        => 2,
+    //                         'process'   => true
+    //                     ], REST_Controller::HTTP_OK); //200
+    //                 }
+    //             }
 
-                if(intval($post['leave_type'])==4){//คลอด
+    //             if(intval($post['leave_type'])==4){//คลอด
 
-                    if($day_form>$spec['leave_fix']){
-                        $this->response([
-                            'status'    => true,
-                            'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนจำกัดในการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                            'process'   => false,
-                            'process_redirect' => '?status=validate_msg'
-                        ], REST_Controller::HTTP_OK); //200
-                    }
+    //                 if($day_form>$spec['leave_fix']){
+    //                     $this->response([
+    //                         'status'    => true,
+    //                         'msg'       => 'ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนจำกัดในการลา '.$spec['leave_fix'].' วัน/ครั้ง ของประเภทลานี้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                         'process'   => false,
+    //                         'process_redirect' => '?status=validate_msg'
+    //                     ], REST_Controller::HTTP_OK); //200
+    //                 }
 
-                    if(intval($post['emp_type'])==5 || intval($post['emp_type'])==6){
-                        $this->response([
-                            'status'    => true,
-                            'to'        => 2,
-                            'process'   => true
-                        ], REST_Controller::HTTP_OK); //200
-                    }else{
-                        $this->response([
-                            'status'    => true,
-                            'to'        => 1,
-                            'process'   => true
-                        ], REST_Controller::HTTP_OK); //200
-                    }
+    //                 if(intval($post['emp_type'])==5 || intval($post['emp_type'])==6){
+    //                     $this->response([
+    //                         'status'    => true,
+    //                         'to'        => 2,
+    //                         'process'   => true
+    //                     ], REST_Controller::HTTP_OK); //200
+    //                 }else{
+    //                     $this->response([
+    //                         'status'    => true,
+    //                         'to'        => 1,
+    //                         'process'   => true
+    //                     ], REST_Controller::HTTP_OK); //200
+    //                 }
 
 
-                }
+    //             }
 
-                if($post['leave_type']==9){//ทหาร
-                    $this->response([
-                        'status'    => true,
-                        'to'        => 2,
-                        'process'   => true
-                    ], REST_Controller::HTTP_OK); //200
-                }
+    //             if($post['leave_type']==9){//ทหาร
+    //                 $this->response([
+    //                     'status'    => true,
+    //                     'to'        => 2,
+    //                     'process'   => true
+    //                 ], REST_Controller::HTTP_OK); //200
+    //             }
 
             
-            }else{ //not match leav_spec (leave_id & emp_type_id 5,6)
-                $this->response([
-                    'status'    => true,
-                    'msg'       => 'ประเภทพนักงานของท่าน สามารถใช้สิทธิลาประเภทนี้ได้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
-                    'process'   => false,
-                    'process_redirect' => '?status=validate_msg'
-                ], REST_Controller::HTTP_OK); //200
-            }
+    //         }else{ //not match leav_spec (leave_id & emp_type_id 5,6)
+    //             $this->response([
+    //                 'status'    => true,
+    //                 'msg'       => 'ประเภทพนักงานของท่าน สามารถใช้สิทธิลาประเภทนี้ได้ กรุณาติดต่องานบริหารทรัพยากรบุคคล โทร. 7936',
+    //                 'process'   => false,
+    //                 'process_redirect' => '?status=validate_msg'
+    //             ], REST_Controller::HTTP_OK); //200
+    //         }
 
-        }else{
-            $this->response([
-                'status' => false,
-                'msg' => 'Invalid Data'
-            ], REST_Controller::HTTP_OK); //200 
-        }
+    //     }else{
+    //         $this->response([
+    //             'status' => false,
+    //             'msg' => 'Invalid Data'
+    //         ], REST_Controller::HTTP_OK); //200 
+    //     }
 
 
 
         
-    }
+    // }
 
 
 
