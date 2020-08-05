@@ -175,7 +175,7 @@
                                 $contact = 'โทร.'.$personnel['phone']; 
                               }
                             ?>
-                            <input type="text" name="contact" class="date_dis form-control" value="<?php echo $contact;?>">
+                            <input type="text" name="contact" class="form-control" value="<?php echo $contact;?>">
                           </div>
                         </div>
                       </div>
@@ -341,9 +341,9 @@
                           <div class="col-lg-6">
                             <div class="form-group">
                               <label>คณบดี / รองคณบดี / หัวหน้าภาค</label>
-                              <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_5" value="<?php echo isset($post_data['name_personnel_5'])?$post_data['name_personnel_5']:'';?>">
-                              <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="<?php echo isset($post_data['personnel_id_5'])?$post_data['personnel_id_5']:'';?>">
-                              <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_5'])?$post_data['position_personnel_5']:'';?>"/>
+                              <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_5" value="<?php echo isset($post_data['name_personnel_5'])?$post_data['name_personnel_5']:'';?>" required>
+                              <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="<?php echo isset($post_data['personnel_id_5'])?$post_data['personnel_id_5']:'';?>" required />
+                              <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_5'])?$post_data['position_personnel_5']:'';?>" required />
                             </div>
                           </div>
                         </div>
@@ -636,16 +636,17 @@
               }
 
               if(data.alert[0]!=0){
-                let con = confrim('ท่านจะไม่ได้รับเงินเดือนเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[0]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
+                let con = confirm('ท่านจะไม่ได้รับเงินเดือนเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[0]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
                 if(!con){
                   return false;
                 }
               }else if(data.alert[1]!=0){
-                let con = confrim('ท่านจะไม่ได้รับพิจาราณาเลื่อนขั้นเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[0]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
+                let con = confirm('ท่านจะไม่ได้รับพิจาราณาเลื่อนขั้นเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[1]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
                 if(!con){
                   return false;
                 }
               }
+
             }else{
               return false;
             }

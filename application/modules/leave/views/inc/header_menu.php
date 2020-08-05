@@ -19,17 +19,17 @@
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
   <a class="nav-link" href="<?php echo base_url(url_index().'leave');?>">
-      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <i class="far fa-fw fa-file-alt"></i>
       <span>รายการข้อมูลการลา</span></a>
   <?php if(isset($personnel['signature']) and trim($personnel['signature'])==''){ ?>
     <a href="#" class="nav-link" data-toggle="modal" data-target="#signature">
   <?php }else{ ?>
     <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
   <?php } ?>
-    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <i class="far fa-fw fa-copy"></i>
     <span>แบบฟอร์มข้อมูลการลา</span></a>
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_approve');?>">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <i class="far fa-fw fa-address-book"></i>
     <span>รายการที่ต้องพิจารณา</span>
   </a>
 </li>
@@ -89,15 +89,15 @@
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_hr');?>">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <i class="far fa-fw fa-list-alt"></i>
     <span>รายการข้อมูลการลา</span>
   </a>
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/calendar');?>">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <i class="far fa-fw fa-calendar-alt"></i>
     <span>จัดการปฏิทิน</span>
   </a>
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/report_smu_hr');?>">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <i class="fas fa-fw fa-chart-bar"></i>
     <span>รายงานสรุปการลา</span>
   </a>
 

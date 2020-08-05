@@ -30,12 +30,14 @@ class Api_v2 extends REST_Controller {
 
             $res['approve'] = 0;
             if(isset($spec['approve_type']) and intval($spec['approve_type'])==0){
-                if(isset($spec['approve_1']) and intval($spec['approve_1'])!=0 and floatval($post['period_count'])>intval($spec['approve_1'])){
-                    $res['approve'] = 1;
-                }elseif(isset($spec['approve_2']) and intval($spec['approve_2'])!=0 and floatval($post['period_count'])>intval($spec['approve_2'])){
-                    $res['approve'] = 2;
-                }elseif(isset($spec['approve_3']) and intval($spec['approve_3'])!=0 and floatval($post['period_count'])>intval($spec['approve_3'])){
+                /*if(isset($spec['approve_3']) and intval($spec['approve_3'])!=0 and floatval($post['period_count'])>intval($spec['approve_3'])){
                     $res['approve'] = 3;
+                }else*/if(isset($spec['approve_2']) and intval($spec['approve_2'])!=0 and floatval($post['period_count'])>intval($spec['approve_2'])){
+                    $res['approve'] = 3;
+                }elseif(isset($spec['approve_1']) and intval($spec['approve_1'])!=0 and floatval($post['period_count'])>intval($spec['approve_1'])){
+                    $res['approve'] = 2;
+                }else{
+                    $res['approve'] = 1;
                 }
             }elseif(isset($spec['approve_type']) and intval($spec['approve_type'])==1){
                 $res['approve'] = 3;
@@ -144,18 +146,34 @@ class Api_v2 extends REST_Controller {
             $count_year['alert'][0] = $count_year['alert'][1] = 0;
             $count_year['rest_limit'][0] = $count_year['rest_limit'][1] = 0;
 
-            if(intval($post['leave_type'])==2 || intval($post['leave_type'])==10){
+            if(intval($post['leave_type'])==2 || intval($post['leave_type'])==3 || intval($post['leave_type'])==4 || intval($post['leave_type'])==5 || intval($post['leave_type'])==6 || intval($post['leave_type'])==8 || intval($post['leave_type'])==10){
                 if(isset($leave[2])){
                     $count_year['limit'] += $leave[2];
-                    $count_year['alert'][0] += $leave[2];
+                }elseif(isset($leave[3])){
+                    $count_year['limit'] += $leave[3];
+                }elseif(isset($leave[4])){
+                    $count_year['limit'] += $leave[4];
+                }elseif(isset($leave[5])){
+                    $count_year['limit'] += $leave[5];
+                }elseif(isset($leave[6])){
+                    $count_year['limit'] += $leave[6];
+                }elseif(isset($leave[8])){
+                    $count_year['limit'] += $leave[8];
                 }elseif(isset($leave[10])){
                     $count_year['limit'] += $leave[10];
+                }
+                $count_year['limit'] += floatval($post['period_count']);
+            }
+
+            if(intval($post['leave_type'])==2 || intval($post['leave_type'])==10){
+                if(isset($leave[2])){
+                    $count_year['alert'][0] += $leave[2];
+                }elseif(isset($leave[10])){
                     $count_year['alert'][0] += $leave[10];
                 }
-
-                $count_year['limit'] += floatval($post['period_count']);
                 $count_year['alert'][0] += floatval($post['period_count']);
             }
+
             if(intval($post['leave_type'])==2 || intval($post['leave_type'])==3 || intval($post['leave_type'])==6 || intval($post['leave_type'])==10){
                 if(isset($leave[2])){
                     $count_year['alert'][1] += $leave[2];
