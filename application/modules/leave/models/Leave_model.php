@@ -44,11 +44,14 @@ class Leave_model extends MY_Model {
 
 		$con['data'] = $set;
 		$con['data']['create_date'] = date('Y-m-d H:i:s');
-		$con['data']['status'] 		= 0;
 		$con['data']['leave_no'] 	= $this->leave_no();
+		$con['data']['status'] 		= 0;
 
 		if(intval($update)!=0){
 			unset($con['data']['edit_leave_id']);
+			unset($con['data']['create_date']);
+			unset($con['data']['leave_no']);
+			unset($con['data']['status']);
 			$con['where'] = 'leave_id = '.intval($update);
 			$result = $this->to_update($con);
 		}else{

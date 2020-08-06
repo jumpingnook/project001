@@ -1232,7 +1232,7 @@
         <span style="top: 52%;left: 20%;"><?php echo intval(date('d',strtotime($data['period_end'])));?></span>
         <span style="top: 52%;left: 30%;"><?php echo date_th($data['period_end'],9);?></span>
         <span style="top: 52%;left: 41%;"><?php echo date_th($data['period_end'],10);?></span>
-        <span style="top: 55.5%;left: 39%;"><?php echo isset($last_leave) && count($last_leave)>0?'ลาพักผ่อนไปต่างประเทศ':'-';?></span>
+        <span style="top: 55.5%;left: 39%;"><?php echo isset($last_leave) && count($last_leave)>0?$last_leave['leave_type_name']:'-';?></span>
         <span style="top: 59%;left: 23%;"><?php echo isset($last_leave) && count($last_leave)>0?$last_leave['county_name']:'-';?></span>
         <?php
           $date_old = [];
