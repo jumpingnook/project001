@@ -227,8 +227,17 @@
 
 
                         <?php if(intval($data['status'])==0 and $approve_leave_type==1){?>
+
                           <div class="row mb-1">
-                            <a href="#" id="print" class="btn btn-light btn-icon-split">
+                            <a href="<?php echo base_url(url_index().'leave/edit/'.intval($data['leave_id']));?>" class="btn btn-warning btn-icon-split">
+                              <span class="icon text-white-50">
+                                <i class="far fa-edit"></i>
+                              </span>
+                              <span class="text">แก้ไขรายละเอียด</span>
+                            </a>
+                          </div>
+                          <div class="row mb-1">
+                            <a href="#" id="print_u" class="btn btn-light btn-icon-split">
                               <span class="icon text-gray-600">
                                 <i class="fas fa-file-alt"></i>
                               </span>
@@ -245,7 +254,7 @@
                               <span class="text">ดูหรือพิมพ์ใบลา</span>
                             </a>
                           </div>
-                        <?php }else{ ?>
+                        <?php }elseif(intval($data['status'])>=98){ ?>
                           <button class="btn btn-primary btn-icon-split">
                             <span class="icon text-white-50">
                               <i class="fas fa-trash"></i>
@@ -368,19 +377,39 @@
 
       $(document).ready(function(){
         $('#print').click(function(){
+          ajax_print();
+        });
 
-            $.ajax({
-              type: "POST",
-              data:{leave:'<?php echo intval($leave_id);?>'},
-              url: "<?php echo base_url(url_index().'leave/print');?>",
-              dataType: "json",
-              success: function(data){
-                if(data.status){
-                  $('#preload').show();
+        $('#print_u').click(function(){
+          if(confirm('ท่านต้องการพิมพ์ใบลานี้ใช่หรือไม่? หากต้องการดำเนินการต่อจะไม่สามารถแก้ไขรายการลานี้ได้')){
+            ajax_print();
+          }
+        });
 
-                  $('#qrcode1 img,#qrcode2 img').attr('src','');
+        function ajax_print(){
+          $.ajax({
+            type: "POST",
+            data:{leave:'<?php echo intval($leave_id);?>'},
+            url: "<?php echo base_url(url_index().'leave/print');?>",
+            dataType: "json",
+            success: function(data){
+              if(data.status){
+                $('#preload').show();
 
-                  var qrcode1 = new QRCode("qrcode1", {
+                $('#qrcode1 img,#qrcode2 img').attr('src','');
+
+                var qrcode1 = new QRCode("qrcode1", {
+                  text: data.data.url,
+                  width: 300,
+                  height: 300,
+                  colorDark : "#000000",
+                  colorLight : "#ffffff",
+                  correctLevel : QRCode.CorrectLevel.H
+                });
+
+                var element = document.getElementById("qrcode2");
+                if(typeof(element) != 'undefined' && element != null){
+                  var qrcode2 = new QRCode("qrcode2", {
                     text: data.data.url,
                     width: 300,
                     height: 300,
@@ -388,52 +417,39 @@
                     colorLight : "#ffffff",
                     correctLevel : QRCode.CorrectLevel.H
                   });
-
-                  var element = document.getElementById("qrcode2");
-                  if(typeof(element) != 'undefined' && element != null){
-                    var qrcode2 = new QRCode("qrcode2", {
-                      text: data.data.url,
-                      width: 300,
-                      height: 300,
-                      colorDark : "#000000",
-                      colorLight : "#ffffff",
-                      correctLevel : QRCode.CorrectLevel.H
-                    });
-                  }
-                  var element = document.getElementById("qrcode3");
-                  if(typeof(element) != 'undefined' && element != null){
-                    var qrcode3 = new QRCode("qrcode3", {
-                      text: data.data.url,
-                      width: 300,
-                      height: 300,
-                      colorDark : "#000000",
-                      colorLight : "#ffffff",
-                      correctLevel : QRCode.CorrectLevel.H
-                    });
-                  }
-
-                  setTimeout(function(){
-                    $('#qrcode1 img, #qrcode2 img').show();
-                    var divContents = document.getElementById("document").innerHTML; 
-                    var a = window.open(); 
-                    a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#000000;}.document span{position:absolute;font-size:2vw;line-height: 4vw;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -11%;}#qrcode1 img,#qrcode2 img,#qrcode3 img{max-width: 7vw;}.leave_no{margin-top: -20px;} @media print{.document span{position:absolute;font-size:16px;line-height: 30px;}.document:nth-child(2) span{margin-left:10px;position:absolute;font-size:16px;line-height: 35px;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -6%;}#qrcode1 img,#qrcode2 img,#qrcode3 img{max-width: 8vw;}.leave_no{margin-top: 0px;}}</style>");
-                    a.document.write(divContents);
-                    a.print(); 
-                    //a.close();
-                    $('#preload').hide();
-                  }, 2000);
-
-
-                }else{
-                  alert('ระบบไม่สามารถพิมพ์ใบลาได้ กรุณาลองให้ภายหลัง');
                 }
-              },error:function(e){
-                console.log(e);
-              }
-            });
+                var element = document.getElementById("qrcode3");
+                if(typeof(element) != 'undefined' && element != null){
+                  var qrcode3 = new QRCode("qrcode3", {
+                    text: data.data.url,
+                    width: 300,
+                    height: 300,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                  });
+                }
 
-            
-        });
+                setTimeout(function(){
+                  $('#qrcode1 img, #qrcode2 img').show();
+                  var divContents = document.getElementById("document").innerHTML; 
+                  var a = window.open(); 
+                  a.document.write("<style>@font-face {font-family: 'th-sarabun';src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>');src: url('<?php echo base_url(load_file('assets/font/THSarabun.ttf'));?>')  format('truetype'), /* Safari, Android, iOS */}.document{position:relative;font-family:'th-sarabun';color:#000000;}.document span{position:absolute;font-size:2vw;line-height: 4vw;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -11%;}#qrcode1 img,#qrcode2 img,#qrcode3 img{max-width: 7vw;}.leave_no{margin-top: -20px;} @media print{.document span{position:absolute;font-size:16px;line-height: 30px;}.document:nth-child(2) span{margin-left:10px;position:absolute;font-size:16px;line-height: 35px;}.overflow-text{display: block;overflow: hidden;}.img-sig{max-width: 16vw;margin-left: -8%;margin-top: -6%;}#qrcode1 img,#qrcode2 img,#qrcode3 img{max-width: 8vw;}.leave_no{margin-top: 0px;}}</style>");
+                  a.document.write(divContents);
+                  a.print(); 
+                  //a.close();
+                  $('#preload').hide();
+                }, 2000);
+
+
+              }else{
+                alert('ระบบไม่สามารถพิมพ์ใบลาได้ กรุณาลองให้ภายหลัง');
+              }
+            },error:function(e){
+              console.log(e);
+            }
+          });
+        }
 
         $('#send_approve').click(function(){
           alert('กรุณาตรวจสอบรายละเอียดการลาให้ถูกต้องก่อนส่งอีเมลเพื่อพิจารณา');

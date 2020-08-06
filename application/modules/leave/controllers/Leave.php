@@ -237,7 +237,6 @@ class Leave extends Leave_Controller {
             redirect(url_index().'leave/add/?status=validate');
         }
 
-        
         if(count($post)>0){
 
             for($i=1;$i<=4;$i++){
@@ -285,8 +284,6 @@ class Leave extends Leave_Controller {
         $api['period_count_all']    = $post['period_count_all'];
         $api['period_start']    = $post['period_start'];
         $leave_spec = $this->restclient->post(base_url(url_index().'leave/api_v2/leave_spec_alert'),$api);
-
-        
         
         if(isset($leave_spec['status']) and $leave_spec['status']){
 
@@ -427,8 +424,6 @@ class Leave extends Leave_Controller {
             }elseif($set['approve_leave_type'] == 0 && $set['data']['to']==2){
                 $set['approve_leave_type'] = 1;
             }
-
-            //echo '<pre>';print_r($set);exit;
 
             $this->load->view('view_leave',$set);
             
@@ -878,6 +873,14 @@ class Leave extends Leave_Controller {
             $this->load->model(['Leave_print_model','Leave_model']);
             $personnel = $this->session_data['personnel'];
             $leave = $this->Leave_model->view_leave(['leave_id'=>intval($post['leave'])]);
+
+            if($leave['data']['to'] == 2){
+                $con = [];
+                $con['data']['status'] = 1;
+                $con['data']['send_mail_date'] = date('Y-m-d H:i:s');
+                $con['where'] = 'leave_id = '.intval($post['leave']);
+                $this->Leave_model->to_update($con);
+            }
 
             $result = $this->Leave_print_model->gen_token(['leave_id'=>intval($post['leave']),'personnel'=>$personnel,'leave'=>$leave]);
 
