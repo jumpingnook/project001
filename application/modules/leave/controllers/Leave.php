@@ -72,8 +72,6 @@ class Leave extends Leave_Controller {
         $set['leave_type'] = $this->Leave_type_model->get_type($api['personnel_id']);
         $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$personnel['data'][0]['personnel_id']]);
 
-        //echo '<pre>';print_r($set['leave_history']);exit;
-
         $this->load->view('index',$set);
     }
 
@@ -96,6 +94,13 @@ class Leave extends Leave_Controller {
         $personnel = $this->Personnel_model->get_personnel(['username'=>trim($set['personnel']['username'])]);
         $set['personnel']['gender'] = intval($personnel['data'][0]['gender']);
         $set['personnel']['phone'] = $personnel['data'][0]['phone'];
+
+        if(count($personnel['data'])<=0){
+            redirect(url_index().'leave/');
+        }
+        if(trim($personnel['data'][0]['signature']) == ''){
+            redirect(url_index().'leave/');
+        }
 
         $url_approve['url_personnel_1'] = $this->Leave_model->url_approve();
         $url_approve['url_personnel_2'] = $this->Leave_model->url_approve();
@@ -357,6 +362,7 @@ class Leave extends Leave_Controller {
             $set['personnel']['emp_type_name'] = $sql_personnel['data'][0]['pgroupname'];
             $set['personnel']['img']           = $personnel['data'][0]['img'];
             $set['personnel']['data']          = $personnel['data'][0];
+            $set['personnel']['signature']     = $personnel['data'][0]['signature'];
 
             $set['leave_type'] = $this->Leave_type_model->get_type();
 
@@ -1279,8 +1285,11 @@ class Leave extends Leave_Controller {
         $this->load->model('leave/Leave_model');
         $this->load->model('personnel/Personnel_model');
         $set['personnel'] = $this->session_data['personnel'];
-        $set['personnel']['personnel_id'] = 1173;
         $set['leave_history'] = $this->Leave_model->list_approve(['personnel_id'=>$set['personnel']['personnel_id']]);
+
+        $personnel = $this->Personnel_model->get_personnel(['personnel_id'=>$set['personnel']['personnel_id']]);
+        $set['personnel']['signature']     = $personnel['data'][0]['signature'];
+        $set['personnel']['signature_url'] = trim($set['personnel']['signature'])==''?$this->Personnel_model->url_qr_personnel($set['personnel']['personnel_id']):'';
         
         if($set['leave_history']['count']>0){
             $con = [];

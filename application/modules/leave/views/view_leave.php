@@ -213,6 +213,16 @@
                           <hr/>
 
                         <?php }elseif(intval($data['status'])>0 and intval($data['status'])<98 and intval($data['status'])!=3){?>
+                          <?php if(isset($approve_leave_type) and $approve_leave_type==1){ ?>
+                            <div class="row mb-1">
+                              <a href="#" id="print" class="btn btn-light btn-icon-split">
+                                <span class="icon text-gray-600">
+                                  <i class="fas fa-file-alt"></i>
+                                </span>
+                                <span class="text">ดูหรือพิมพ์ใบลา</span>
+                              </a>
+                            </div>
+                          <?php } ?>
                           <div class="row mb-1">
                             <button id="cancel_leave" cancel="after" class="btn btn-primary btn-icon-split">
                               <span class="icon text-white-50">

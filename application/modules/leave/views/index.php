@@ -348,23 +348,26 @@
                 <div id="qrcode1"></div>
                </div>
                <div class="col-lg-7"><br/>
-                <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
-                  <center>------ หรือ ------</center><br/>
+                <center><span class="font-weight-bold" style="color: red;">
+                **เนื่องจากท่านยังไม่ไมีลายเซ็นอิเล็กทรอนิกส์ในระบบลานี้<br/>
+                กรุณาบันทึกลายเซ็นอิเล็กทรอนิกส์ของท่านเพื่อใช้งานระบบ
+                </span></center><br/>
+                  <center><-- ใช้โทรศัพท์ของท่านสแกน QR Code เพื่อบันทึกลายเซ็น หรือ</center><br/>
                   <center>
                     <a href="<?php echo $personnel['signature_url'];?>" target="_blank" class="btn btn-primary btn-icon-split">
                       <span class="icon text-white-50">
                         <i class="fas fa-link"></i>
                       </span>
-                      <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็น</span>
+                      <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็นผ่านหน้าเว็บไซต์</span>
                     </a>
                   </center><br/>
-                  <center>------ หรือ ------</center><br/>
+                  <center>หรือ<center><br/>
                   <center>
                     <button type="button" class="btn btn-primary btn-icon-split">
                       <span class="icon text-white-50">
                         <i class="fas fa-file-upload"></i>
                       </span>
-                      <label for="file-sig" class="text" style="margin-bottom: 0;">เลือกไฟล์เพื่ออัพโหลดลายเซ็น</label>
+                      <label for="file-sig" class="text" style="margin-bottom: 0;">คลิกที่เลือกไฟล์เพื่ออัพโหลดลายเซ็น</label>
                     </button>
                     <input id="file-sig" type="file" name="img" value="" style="display:none;" accept="image/*">
                     <img id="img-sig" src="" style="display:none;">

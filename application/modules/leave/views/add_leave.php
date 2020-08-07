@@ -40,7 +40,7 @@
     div.card-type{
       display:none;
     }
-    .card-default{
+    .card-default,.friend_approve{
       display:none;
     }
   </style>
@@ -307,11 +307,11 @@
                       <div class="card-body">
                         <h1 class="h4 text-gray-900 mb-4">ลำดับผู้พิจารณา</h1>
                         <div class="row approve_list">
-                          <div class="a1 col-lg-6" id="workmate-box">
+                          <div class="a1 col-lg-6 friend_approve" id="workmate-box">
                             <div class="form-group">
                                 <label>ผู้ปกิบัติงานแทน</label>
-                                <input type="text" class="input_hide form-control name_personnel name_personnel_1" auto_type="workmate" placeholder="ระบุชื่อผู้ปฏิบัติงานแทน" name="name_personnel_1" value="<?php echo isset($post_data['name_personnel_1'])?$post_data['name_personnel_1']:'';?>">
-                                <input id="workmate" type="hidden" name="personnel_id_1" class="input_hide personnel_id_1" value="<?php echo isset($post_data['personnel_id_1'])?$post_data['personnel_id_1']:'';?>">
+                                <input type="text" class="input_hide form-control name_personnel name_personnel_1" auto_type="workmate" placeholder="ระบุชื่อผู้ปฏิบัติงานแทน" name="name_personnel_1" value="<?php echo isset($post_data['name_personnel_1'])?$post_data['name_personnel_1']:'';?>" disabled>
+                                <input id="workmate" type="hidden" name="personnel_id_1" class="input_hide personnel_id_1" value="<?php echo isset($post_data['personnel_id_1'])?$post_data['personnel_id_1']:'';?>" disabled>
                               </div>
                           </div>
                           <div class="a2 col-lg-6" >
@@ -430,6 +430,7 @@
 
       $('#type_leave').change(function(){
         leave_type_form();
+        leave_spec_alert();
       });
 
       function leave_type_form(){
@@ -594,6 +595,11 @@
           }
         }
 
+        leave_spec_alert();
+
+      });
+
+      function leave_spec_alert(){
         var data = {
           'APP-KEY':'<?php echo $api['APP-KEY'];?>',
           ip:'<?php echo $api['ip'];?>',
@@ -611,6 +617,8 @@
           url: "<?php echo base_url(url_index().'leave/api_v2/leave_spec_alert');?>",
           dataType: "json",
           success: function(data){
+
+            
 
             if(data.status){
               data = data.data;
@@ -646,13 +654,21 @@
                   return false;
                 }
               }
+              
+              if(data.friend_approve==1){
+                $('.friend_approve').show();
+                $('.friend_approve').find('input').removeAttr('disabled');
+              }else{
+                $('.friend_approve').hide();
+                $('.friend_approve').find('input').attr('disabled','disabled');
+              }
 
             }else{
               return false;
             }
           }
         });
-      });
+      }
 
       function alert_noti(type=0,data=0){
         if(type==1){

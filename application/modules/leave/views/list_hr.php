@@ -282,16 +282,19 @@
                 <div id="qrcode1"></div>
                </div>
                <div class="col-lg-7"><br/><br/>
-                <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
-                  <center>------ หรือ ------</center><br/><br/>
-                  <center>
-                    <a href="<?php echo $personnel['signature_url'];?>" target="_blank" class="btn btn-primary btn-icon-split">
-                      <span class="icon text-white-50">
-                        <i class="fas fa-link"></i>
-                      </span>
-                      <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็น</span>
-                    </a>
-                  </center>
+                <center><span class="font-weight-bold" style="color: red;">
+                **เนื่องจากท่านยังไม่ไมีลายเซ็นอิเล็กทรอนิกส์ในระบบลานี้<br/>
+                กรุณาบันทึกลายเซ็นอิเล็กทรอนิกส์ของท่านเพื่อใช้งานระบบ
+                </span></center><br/>
+                <center><-- ใช้โทรศัพท์ของท่านสแกน QR Code เพื่อบันทึกลายเซ็น หรือ</center><br/>
+                <center>
+                  <a href="<?php echo $personnel['signature_url'];?>" target="_blank" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-link"></i>
+                    </span>
+                    <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็นผ่านหน้าเว็บไซต์</span>
+                  </a>
+                </center>
                </div>
             </div>
 
@@ -309,37 +312,11 @@
 
               $(document).ready(function(){
 
-                if(getCookie('modal_sig')==''){
-                  setCookie('modal_sig', true, 20);
-                  $('#add-sig').click();
-                }
+                $('#add-sig').click();
 
-                $('#signature .close').click(function(){
-                  location.reload();
-                });
-
-                function setCookie(cname, cvalue, min) {
-                  var d = new Date();
-                  d.setTime(d.getTime() + (min*60*1000));
-                  var expires = "expires="+ d.toUTCString();
-                  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-                }
-
-                function getCookie(cname) {
-                  var name = cname + "=";
-                  var decodedCookie = decodeURIComponent(document.cookie);
-                  var ca = decodedCookie.split(';');
-                  for(var i = 0; i <ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                      c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                      return c.substring(name.length, c.length);
-                    }
-                  }
-                  return "";
-                }
+                // $('#signature .close').click(function(){
+                //   location.reload();
+                // });
 
               });
 

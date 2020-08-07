@@ -66,7 +66,7 @@
       <span style="top: calc(100% - 76.6%);left: calc(100% - 80%);"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></span>
 
       <span style="top: calc(100% - 74.6%);left: calc(100% - 72%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
-      <span style="top: 25.4%;left: 60%;">10</span>
+      <span style="top: 25.4%;left: 60%;"><?php echo isset($leave_quota) && count($leave_quota)>0?10:0;?></span>
       <span style="top: calc(100% - 74.6%);left: calc(100% - 23%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
 
       <span style="top: calc(100% - 72.3%);left: calc(100% - 70%);">
@@ -90,11 +90,11 @@
       <span style="top: 41%;left: 35%;"><?php echo isset($old_leave_count)?floatval($data['period_count'])+floatval($old_leave_count):floatval($data['period_count']);?></span>
 
       <span style="top: 45%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
-      <span style="top: 46.8%;left: 35%;">10</span>
+      <span style="top: 46.8%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?10:0;?></span>
       <span style="top: 48.8%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
       <span style="top: 50.4%;left: 35%;"><?php echo isset($old_leave_count)?$old_leave_count:0;?></span>
       <span style="top: 52.4%;left: 35%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
-      <span style="top: 54.4%;left: 35%;"><?php echo isset($data['period_count']) && isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']-floatval($data['period_count']):'0';?></span>
+      <span style="top: 54.4%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']-floatval($data['period_count']):'0';?></span>
 
       <span style="top: 38%;left: 58%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
       <span style="top: 40.2%;left: 58%;">
@@ -719,7 +719,7 @@
       <span style="top: calc(100% - 76.6%);left: calc(100% - 80%);"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></span>
 
       <span style="top: calc(100% - 74.6%);left: calc(100% - 72%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
-      <span style="top: 25.4%;left: 60%;">10</span>
+      <span style="top: 25.4%;left: 60%;"><?php echo isset($leave_quota) && count($leave_quota)>0?10:0;?></span>
       <span style="top: calc(100% - 74.6%);left: calc(100% - 23%);"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
 
       <span style="top: calc(100% - 72.3%);left: calc(100% - 70%);">
@@ -739,7 +739,7 @@
       <span style="top: 41%;left: 35%;"><?php echo isset($old_leave_count)?floatval($data['period_count'])+floatval($old_leave_count):floatval($data['period_count']);?></span>
 
       <span style="top: 45%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
-      <span style="top: 46.8%;left: 35%;">10</span>
+      <span style="top: 46.8%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?10:0;?></span>
       <span style="top: 48.8%;left: 35%;"><?php echo isset($leave_quota) && count($leave_quota)>0?$leave_quota[0]['quota_total']:0;?></span>
       <span style="top: 50.4%;left: 35%;"><?php echo isset($old_leave_count)?$old_leave_count:0;?></span>
       <span style="top: 52.4%;left: 35%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>

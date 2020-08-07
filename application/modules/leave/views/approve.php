@@ -295,18 +295,25 @@
                <div class="col-lg-5 mb-4">
                 <div id="qrcode-sig"></div>
                </div>
+
                <div class="col-lg-7"><br/><br/>
-                <center><span class="text-lg font-weight-bold">สแกนด้วยโทรศัพท์ของท่านเพื่อเพิ่มลายเซ็น</span></center><br/><br/>
-                  <center>------ หรือ ------</center><br/><br/>
-                  <center>
-                    <a href="<?php echo $signature_url;?>" target="_blank" class="btn btn-primary btn-icon-split">
-                      <span class="icon text-white-50">
-                        <i class="fas fa-link"></i>
-                      </span>
-                      <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็น</span>
-                    </a>
-                  </center>
+
+                <center><span class="font-weight-bold" style="color: red;">
+                **เนื่องจากท่านยังไม่ไมีลายเซ็นอิเล็กทรอนิกส์ในระบบลานี้<br/>
+                กรุณาบันทึกลายเซ็นอิเล็กทรอนิกส์ของท่านเพื่อใช้งานระบบ
+                </span></center><br/>
+                <center><-- ใช้โทรศัพท์ของท่านสแกน QR Code เพื่อบันทึกลายเซ็น หรือ</center><br/>
+                <center>
+                  <a href="<?php echo $signature_url;?>" target="_blank" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-link"></i>
+                    </span>
+                    <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็นผ่านหน้าเว็บไซต์</span>
+                  </a>
+                </center>
+
                </div>
+
             </div>
 
             <script src="<?php echo base_url(load_file('assets/js/qrcodejs/qrcode.min.js'));?>"></script>
@@ -324,9 +331,9 @@
               $(document).ready(function(){
                 $('#add-sig').click();
 
-                $('#signature .close').click(function(){
-                  location.reload();
-                });
+                // $('#signature .close').click(function(){
+                //   location.reload();
+                // });
 
               });
 

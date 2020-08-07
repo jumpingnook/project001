@@ -246,6 +246,8 @@ class Api_v2 extends REST_Controller {
                 $res['before'][1] = intval($spec['before_day_all']);
             }
 
+            $res['friend_approve'] = $spec['friend_approve'];
+
             $this->response([
                 'status'    => true,
                 'data'      => $res

@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url(url_index().'leave');?>">
   <div class="sidebar-brand-icon rotate-n-15">
     <i class="fas fa-calendar-day"></i>
   </div>
@@ -21,7 +21,7 @@
   <a class="nav-link" href="<?php echo base_url(url_index().'leave');?>">
       <i class="far fa-fw fa-file-alt"></i>
       <span>รายการข้อมูลการลา</span></a>
-  <?php if(isset($personnel['signature']) and trim($personnel['signature'])==''){ ?>
+  <?php if(!isset($personnel['signature']) || trim($personnel['signature'])==''){ ?>
     <a href="#" class="nav-link" data-toggle="modal" data-target="#signature">
   <?php }else{ ?>
     <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
