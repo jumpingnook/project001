@@ -60,6 +60,7 @@ class Leave_quota_model extends MY_Model {
 			$con['order_by'] = 'quota_id DESC';
 			return $this->to_select($con);
 		}
+		
 	}
 
 	function cancel_quota($set=[]){

@@ -22,6 +22,7 @@ class Leave_model extends MY_Model {
 	}
 
 	function save_leave($set=[],$update=0){
+
 		if(count($set)>0){
             foreach($set as $key=>$val){
                 if(trim($val)==''){
@@ -46,8 +47,16 @@ class Leave_model extends MY_Model {
 		$con['data']['create_date'] = date('Y-m-d H:i:s');
 		$con['data']['leave_no'] 	= $this->leave_no();
 		$con['data']['status'] 		= 0;
+		
 
 		if(intval($update)!=0){
+
+			$con2 = [];
+			$con2['where'] = 'leave_id = '.intval($update);
+			$old = $this->to_select($con2);
+			
+			$con['data']['assign_history_personnel_5'] = isset($old[0]['assign_history_personnel_5']) && trim($old[0]['assign_history_personnel_5'])!=''?$old[0]['assign_history_personnel_5'].$set['personnel_id_5'].',':$set['personnel_id_5'].',';
+
 			unset($con['data']['edit_leave_id']);
 			unset($con['data']['create_date']);
 			unset($con['data']['leave_no']);
@@ -55,6 +64,7 @@ class Leave_model extends MY_Model {
 			$con['where'] = 'leave_id = '.intval($update);
 			$result = $this->to_update($con);
 		}else{
+			$con['data']['assign_history_personnel_5'] = $set['personnel_id_5'].',';
 			$result = $this->to_insert_last_id($con);
 		}
 
@@ -243,6 +253,7 @@ class Leave_model extends MY_Model {
 				if(intval($set['type'])>=1 and intval($set['type'])<=5){
 					$con['data']['signature_date_personnel_'.intval($set['type'])] = date('Y-m-d H:i:s');
 					$con['data']['approve_personnel_'.intval($set['type'])] = intval($set['approve']);
+					$con['data']['note_personnel_5'] = isset($set['note_personnel_5'])?$set['note_personnel_5']:'';
 					$colum = 'personnel_id_'.intval($set['type']).'  = ';
 				}else{
 					return false;
@@ -330,7 +341,7 @@ class Leave_model extends MY_Model {
 			$res['data'] = $this->to_select($con);
 			$res['count'] = count($res['data']);
 
-			return $res;
+			return $this->to_select($con);
 		}
 
 		return $res;

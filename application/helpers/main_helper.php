@@ -296,6 +296,11 @@
             $month = $d1->diff($d2)->m; // month == 6
             $day =$d1->diff($d2)->d; // day == 1
 
+            if($d1->diff($d2)->y>1){
+                $month = 7;
+                $day = 10;
+            }
+
             return ['status'=>true, 'month'=>intval($month), 'day'=>intval($day)];
 
         }

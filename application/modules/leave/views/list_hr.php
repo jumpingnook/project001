@@ -179,8 +179,33 @@
                               ?>
                             </td>
                             <td><?php echo isset($leave_type[$val['leave_type_id']])?$leave_type[$val['leave_type_id']]['leave_name']:' - ';?></td>
-                            <td><?php echo date_th($val['period_start'],2).'(start)'.($val['period_end']!=''?'<br/>'.date_th($val['period_end'],2).'(end)':'-');?></td>
-                            <td><?php $sum_day+=$val['period_count']; echo $val['period_count'].($val['period_type']!='a'?$val['period_type']=='p'?' (บ่าย)':' (วัน)':' (เช้า)');?></td>
+                            <td>
+                              <?php 
+                                echo date_th($val['period_start'],2);
+                                if($val['period_start_half']==1){
+                                  echo '(เช้า)';
+                                }elseif($val['period_start_half']==2){
+                                  echo '(บ่าย)';
+                                }
+                                echo date_th($val['period_end'],2);
+                                if($val['period_end_half']==1){
+                                  echo '(เช้า)';
+                                }elseif($val['period_end_half']==2){
+                                  echo '(บ่าย)';
+                                }
+                              ?>
+                            </td>
+                            <td>
+                            <?php
+                              if(isset($leave_spec[$val['leave_type_id']][$personnel['emp_type_id']]) and intval($leave_spec[$val['leave_type_id']][$personnel['emp_type_id']]['type_count'])){
+                                $sum_day+=$val['period_count']; echo $val['period_count'].' (วัน)';
+                              }else{
+                                $sum_day+=$val['period_count_all']; echo $val['period_count_all'].' (วัน)';
+                              }
+                            ?>
+                            
+                            
+                            </td>
                             <td>
                               <?php
                                 if($val['hr_approve']==1){

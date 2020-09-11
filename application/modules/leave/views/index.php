@@ -210,11 +210,12 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-lg-12">
-                    <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
+                    <?php /*if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
                       <a href="<?php echo base_url(url_index().'leave/add');?>" class="btn btn-info btn-icon-split">
                     <?php }else{ ?>
                       <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#signature">
-                    <?php } ?>
+                    <?php }*/ ?>
+                      <a href="<?php echo base_url(url_index().'leave/add');?>" class="btn btn-info btn-icon-split">
                         <span class="icon text-white-50">
                           <i class="fas fa-file-medical"></i>
                         </span>
@@ -245,8 +246,30 @@
                             <td><?php echo $val['leave_no'];?></td>
                             <td><?php echo isset($leave_type[$val['leave_type_id']])?$leave_type[$val['leave_type_id']]['leave_name']:' - ';?></td>
                             <td><?php echo date_th($val['create_date'],2);?></td>
-                            <td><?php echo date_th($val['period_start'],2).($val['period_end']!=''?' - '.date_th($val['period_end'],2):'');?></td>
-                            <td><?php $sum_day+=$val['period_count']; echo $val['period_count'];?></td>
+                            <td>
+                              <?php 
+                                echo date_th($val['period_start'],2);
+                                if($val['period_start_half']==1){
+                                  echo '(เช้า)';
+                                }elseif($val['period_start_half']==2){
+                                  echo '(บ่าย)';
+                                }
+                                echo '<br/>'.date_th($val['period_end'],2);
+                                if($val['period_end_half']==1){
+                                  echo '(เช้า)';
+                                }elseif($val['period_end_half']==2){
+                                  echo '(บ่าย)';
+                                }
+                              ?>
+                            </td>
+                            <td><?php 
+                              if(isset($leave_spec[$val['leave_type_id']][$personnel['emp_type_id']]) and intval($leave_spec[$val['leave_type_id']][$personnel['emp_type_id']]['type_count'])){
+                                $sum_day+=$val['period_count']; echo $val['period_count'].' (วัน)';
+                              }else{
+                                $sum_day+=$val['period_count_all']; echo $val['period_count_all'].' (วัน)';
+                              }
+                            
+                            ?></td>
                             <td>
                               <?php
                                 if($val['hr_approve']==2){
@@ -603,6 +626,10 @@
         var signature = getUrlParam('signature','123');
         if(signature=='ds1df4d51s8af4dsa1'){
           alert('ระบบบันทึกลายเซ็นของท่านเรียบร้อยแล้ว');
+        }
+        var approve = getUrlParam('approve','123');
+        if(approve=='assign_complete'){
+          alert('ระบบบันทึกผู้พิจารณารักษาการแทนเรียบร้อยแล้ว');
         }
 
         function getUrlParam(parameter, defaultvalue){

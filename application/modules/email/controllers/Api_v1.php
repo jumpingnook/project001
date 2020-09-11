@@ -22,7 +22,7 @@ class Api_v1 extends REST_Controller {
             $con['body']        = trim($post['body']);//'ทดสอบ';
             $con['from_name']   = isset($post['from_name'])?$post['from_name']:'MyMed - med.nu.ac.th';
             $con['to']          = $post['to'];
-            $con['bcc']         = isset($post['bcc'])?$post['bcc']:'sananr@nu.ac.th';
+            $con['bcc']         = isset($post['bcc'])?$post['bcc']:'sananr@nu.ac.th'; //sanan
             $con['reply']       = isset($post['reply'])?$post['reply']:'no-reply@nu.ac.th';
 
             $this->email->from('sananr@nu.ac.th',$con['from_name']);

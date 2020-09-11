@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>แบบฟอร์มข้อมูลการลา - LeaveSystem - med.nu.ac.th</title>
+  <title>กรอกรใบลา - LeaveSystem - med.nu.ac.th</title>
 
   <?php echo $this->load->view('inc/css'); ?>
 
@@ -43,6 +43,15 @@
     .card-default,.friend_approve{
       display:none;
     }
+    .date_dis,.date_all{
+      background-color: #ffffff !important;
+    }
+    [class*=period_count]{
+      display:none;
+    }
+    .not_daytime[disabled*=disabled]{
+      background-color: #cccccc;
+    }
   </style>
 
 </head>
@@ -67,7 +76,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">แบบฟอร์มข้อมูลการลา</h1>
+            <h1 class="h3 mb-0 text-gray-800">กรอกใบลา</h1>
           </div>
 
           <div class="row">
@@ -114,7 +123,6 @@
                             <select name="to" class="toBoss form-control" required>
                               <option value="1">คณบดีคณะแพทยศาสตร์</option>
                               <option value="2" <?php echo isset($post_data['to']) && $post_data['to']==2?'selected':'';?>>อธิกาารบดี</option>
-                              <!-- <option value="3">อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option> -->
                             </select>
                           </div>
                         </div>
@@ -124,8 +132,8 @@
                             <input type="text" name="title" class="leave_title form-control" id="title" placeholder="ระบุประเภทการลา" value="<?php echo isset($post_data['title'])?$post_data['title']:'';?>"  required>
                           </div>
                           <div class="col-sm-6">
-                            <label>รายละเอียดการลา</label>
-                            <input type="text" name="detail" class="form-control leave-detail" id="detail" placeholder="รายละเอียดการลา" value="<?php echo isset($post_data['detail'])?$post_data['detail']:'';?>" required disabled>
+                            <label>เนื่องจาก</label>
+                            <input type="text" name="detail" class="form-control leave-detail" id="detail" placeholder="เนื่องจาก" value="<?php echo isset($post_data['detail'])?$post_data['detail']:'';?>" required disabled>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -136,9 +144,10 @@
                           </div>
                           <div class="col-3">
                             <label>ในช่วง</label>
-                            <select id="type_leave" class="form-control daytime_s" name="period_start_half" required disabled>
+                            <select class="form-control daytime_s" name="period_start_half" required disabled>
                               <option value="0">ตลอดวัน</option>
-                              <option value="1" <?php echo isset($post_data['period_start_half']) && $post_data['period_start_half']==1?'selected':'';?>>ครึ่งวัน</option>
+                              <option class="not_daytime" value="1" <?php echo isset($post_data['period_start_half']) && $post_data['period_start_half']==1?'selected':'';?>>ครึ่งวันเช้า</option>
+                              <option value="2" <?php echo isset($post_data['period_start_half']) && $post_data['period_start_half']==2?'selected':'';?>>ครึ่งวันบ่าย</option>
                             </select>
                           </div>
                           <div class="col-3">
@@ -148,19 +157,22 @@
                           </div>
                           <div class="col-3">
                             <label>ในช่วง</label>
-                            <select id="type_leave" class="form-control daytime_e" name="period_end_half" required disabled>
+                            <select class="form-control daytime_e" name="period_end_half" required disabled>
                               <option value="0">ตลอดวัน</option>
-                              <option value="1" <?php echo isset($post_data['period_end_half']) && $post_data['period_end_half']==1?'selected':'';?>>ครึ่งวัน</option>
+                              <option value="1" <?php echo isset($post_data['period_end_half']) && $post_data['period_end_half']==1?'selected':'';?>>ครึ่งวันเช้า</option>
+                              <option class="not_daytime" value="2" <?php echo isset($post_data['period_end_half']) && $post_data['period_end_half']==2?'selected':'';?>>ครึ่งวันบ่าย</option>
                             </select>
                           </div>
                         </div>
                         <div class="form-group row">
                           <div class="col-12">
                             <div class="input-group">
-                              <span class="input-group-addon">จำนวนวันลาเฉพาะวันทำการ</span>
-                              <input type="text" name="period_count" class="date_dis form-control" value="<?php echo isset($post_data['period_count'])?$post_data['period_count']:'1';?>" style="max-width: 60px; min-width: 60px;border-top-right-radius: .35rem;border-bottom-right-radius: .35rem;">&nbsp;
-                              <span class="input-group-addon">จำนวนวันลารวมวันหยุด</span>
-                              <input type="text" name="period_count_all" class="date_all form-control" value="<?php echo isset($post_data['period_count_all'])?$post_data['period_count_all']:'1';?>" style="max-width: 60px; min-width: 60px;">
+                              <span class="input-group-addon period_count">จำนวนวันลาเฉพาะวันทำการ</span>
+                              <input type="text" name="period_count" class="period_count date_dis form-control" value="<?php echo isset($post_data['period_count'])?$post_data['period_count']:'1';?>" style="max-width: 60px; min-width: 60px;border-top-right-radius: .35rem;border-bottom-right-radius: .35rem;" readonly>&nbsp;
+                              <span class="input-group-addon period_count_all">จำนวนวันลารวมวันหยุด</span>
+                              <input type="text" name="period_count_all" class="period_count_all date_all form-control" value="<?php echo isset($post_data['period_count_all'])?$post_data['period_count_all']:'1';?>" style="max-width: 60px; min-width: 60px;" readonly>
+
+                              <span id="noti_text" style="color: #E91E63;line-height: 38px;font-size: 14px;display:none;">&nbsp;***ท่านสามารถแก้ไขจำนวนวันลานี้ได้หรือติดต่อสอบถามงานบริหารทรัพยากรบุคคล โทร. 7936</span>
                             </div>
                           </div>
                         </div>
@@ -307,40 +319,40 @@
                       <div class="card-body">
                         <h1 class="h4 text-gray-900 mb-4">ลำดับผู้พิจารณา</h1>
                         <div class="row approve_list">
-                          <div class="a1 col-lg-6 friend_approve" id="workmate-box">
+                          <div class="a1 col-lg-6 friend_approve sort_approve">
                             <div class="form-group">
-                                <label>ผู้ปกิบัติงานแทน</label>
+                                <label><span class="no_sort">1.</span><span class="title_sort" >ผู้ปกิบัติงานแทน</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_1" auto_type="workmate" placeholder="ระบุชื่อผู้ปฏิบัติงานแทน" name="name_personnel_1" value="<?php echo isset($post_data['name_personnel_1'])?$post_data['name_personnel_1']:'';?>" disabled>
                                 <input id="workmate" type="hidden" name="personnel_id_1" class="input_hide personnel_id_1" value="<?php echo isset($post_data['personnel_id_1'])?$post_data['personnel_id_1']:'';?>" disabled>
                               </div>
                           </div>
-                          <div class="a2 col-lg-6" >
+                          <div class="a2 col-lg-6 sort_approve" >
                             <div class="form-group">
-                                <label>หัวหน้าหน่วย/ หัวหน้าหอผู้ป่วย</label>
+                                <label><span class="no_sort">2.</span><span class="title_sort">หัวหน้าหน่วย/ หัวหน้าหอผู้ป่วย</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_2" auto_type="head_unit" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_2" value="<?php echo isset($post_data['name_personnel_2'])?$post_data['name_personnel_2']:'';?>">
                                 <input id="head_unit" type="hidden" name="personnel_id_2" class="input_hide personnel_id_2" value="<?php echo isset($post_data['personnel_id_2'])?$post_data['personnel_id_2']:'';?>">
                                 <input id="head_unit_position" type="text" class="input_hide form-control position_personnel_2" name="position_personnel_2"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_2'])?$post_data['position_personnel_2']:'';?>"/>
                               </div>
                           </div>
-                          <div class="a3 col-lg-6" >
+                          <div class="a3 col-lg-6 sort_approve" >
                             <div class="form-group">
-                                <label>หัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน</label>
+                                <label><span class="no_sort">3.</span><span class="title_sort">หัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_3" auto_type="head_dept" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_3" value="<?php echo isset($post_data['name_personnel_3'])?$post_data['name_personnel_3']:'';?>">
                                 <input id="head_dept" type="hidden" name="personnel_id_3" class="input_hide personnel_id_3" value="<?php echo isset($post_data['personnel_id_3'])?$post_data['personnel_id_3']:'';?>">
                                 <input id="head_dept_position" type="text" class="input_hide form-control position_personnel_3" name="position_personnel_3"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_3'])?$post_data['position_personnel_3']:'';?>"/>
                               </div>
                           </div>
-                          <div class="a4 col-lg-6" >
+                          <div class="a4 col-lg-6 sort_approve" >
                             <div class="form-group">
-                                <label>หัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ</label>
+                                <label><span class="no_sort">4.</span><span class="title_sort">หัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_4" auto_type="supervisor" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_4" value="<?php echo isset($post_data['name_personnel_4'])?$post_data['name_personnel_4']:'';?>">
                                 <input id="supervisor" type="hidden" name="personnel_id_4" class="input_hide personnel_id_4" value="<?php echo isset($post_data['personnel_id_4'])?$post_data['personnel_id_4']:'';?>">
                                 <input id="supervisor_position" type="text" class="input_hide form-control position_personnel_4" name="position_personnel_4"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_4'])?$post_data['position_personnel_4']:'';?>"/>
                               </div>
                           </div>
-                          <div class="col-lg-6">
+                          <div class="col-lg-6 sort_approve">
                             <div class="form-group">
-                              <label>คณบดี / รองคณบดี / หัวหน้าภาค</label>
+                              <label><span class="no_sort">5.</span><span class="title_sort">คณบดี / รองคณบดี / หัวหน้าภาค</span></label>
                               <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_5" value="<?php echo isset($post_data['name_personnel_5'])?$post_data['name_personnel_5']:'';?>" required>
                               <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="<?php echo isset($post_data['personnel_id_5'])?$post_data['personnel_id_5']:'';?>" required />
                               <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_5'])?$post_data['position_personnel_5']:'';?>" required />
@@ -356,7 +368,7 @@
                     <input type="hidden" class="input_hide" name="url_personnel_4" value="<?php echo isset($url_approve['url_personnel_4'])?$url_approve['url_personnel_4']:'';?>" />
                     <input type="hidden" class="input_hide" name="url_personnel_5" value="<?php echo isset($url_approve['url_personnel_5'])?$url_approve['url_personnel_5']:'';?>" />
                     
-                    <button type="submit" class="btn btn-primary btn-user btn-block card-default">บันทึก</button>
+                    <button type="submit" class="btn btn-primary btn-user btn-block card-default submit" s="0">บันทึก</button>
 
                   </form>
 
@@ -430,7 +442,9 @@
 
       $('#type_leave').change(function(){
         leave_type_form();
-        leave_spec_alert();
+
+        var s_status = $('.submit').attr('s');
+        leave_spec_alert(s_status);
       });
 
       function leave_type_form(){
@@ -440,7 +454,7 @@
         if(type!=0){
           $('.leave-text').text(type_name);
           $('#title').val(type_name);
-          $('.card-default').show();
+          //$('.card-default').show();
           $('.card-note').hide();
         }else{
           $('.leave-text').text('');
@@ -459,6 +473,7 @@
         }else{
           $('.daytime_s,.daytime_e').attr('disabled','disabled');
         }
+        count_date();
         if(type>=2 && type<=4){
           $('.leave-detail').removeAttr('disabled');
         }else{
@@ -484,6 +499,17 @@
           var get_date = date.toISOString().substring(0, 10);
           $(this).next().val(get_date);
           count_date();
+          not_daytime();
+          var date_start = $('.leave_date_s_value').val();
+          var date_end = $('.leave_date_e_value').val();
+          var type = $('#type_leave').val();
+          if((type>=1 && type<=4) && date_end == date_start){
+            $('.daytime_e').attr('disabled','disabled');
+          }else if(type>=1 && type<=4){
+            $('.daytime_e').removeAttr('disabled');
+          }
+          leave_spec_alert();
+
         }
       });
       $( ".leave_date_e" ).datepicker({
@@ -494,6 +520,17 @@
           var get_date = date.toISOString().substring(0, 10);
           $(this).next().val(get_date);
           count_date();
+          not_daytime();
+          var date_start = $('.leave_date_s_value').val();
+          var date_end = $('.leave_date_e_value').val();
+          var type = $('#type_leave').val();
+          if((type>=1 && type<=4) && date_end == date_start){
+            $('.daytime_e').attr('disabled','disabled');
+          }else if(type>=1 && type<=4){
+            $('.daytime_e').removeAttr('disabled');
+          }
+          leave_spec_alert();
+
         }
       });
       $('.daytime_s,.daytime_e').change(function(){
@@ -518,11 +555,15 @@
         var date_dis = dis_date(date_end,date_start);
         var date_count = days_between(date_end, date_start);
 
-        daytime += $('.daytime_s').val() == 1?0.5:0;
+        daytime += $('.daytime_s').val() == 1 || $('.daytime_s').val() == 2?0.5:0;
         daytime += $('.daytime_e').val() == 1?0.5:0;
 
-        if(date_end == date_start && ($('.daytime_s').val() == 1 || $('.daytime_e').val() == 1)){
+        
+        if(date_end == date_start && ($('.daytime_s').val() == 1 || $('.daytime_s').val() == 2)){
           daytime = 0.5;
+        }
+        if(date_end == date_start){
+          $('.daytime_e').attr('disabled','disabled');
         }
 
         $('.date_all').val(date_count);
@@ -597,9 +638,20 @@
 
         leave_spec_alert();
 
+        var s_status = $('.submit').attr('s');
+        if(s_status==0){
+          return false;
+        }
+
       });
 
-      function leave_spec_alert(){
+      function leave_spec_alert(alert=1){
+
+        var type_leave = $('#type_leave').val();
+        if(type_leave!=''){
+          $('#preload').show();
+        }
+        
         var data = {
           'APP-KEY':'<?php echo $api['APP-KEY'];?>',
           ip:'<?php echo $api['ip'];?>',
@@ -608,17 +660,17 @@
           personnel:'<?php echo $personnel['personnel_id'];?>',
           period_count:$('.date_dis').val(),
           period_count_all:$('.date_all').val(),
-          period_start:$('.leave_date_s_value').val()
+          period_start:$('.leave_date_s_value').val(),
+          period_end:$('.leave_date_e_value').val()
         };
 
+        var result = true;
         $.ajax({
           type: "POST",
           data:data,
           url: "<?php echo base_url(url_index().'leave/api_v2/leave_spec_alert');?>",
           dataType: "json",
           success: function(data){
-
-            
 
             if(data.status){
               data = data.data;
@@ -629,65 +681,141 @@
                 $(".toBoss option[value=2]").attr("selected","selected");
               }
 
-              if(data.before[0]!=0){
-                alert_noti(1,data.before[0]);
-              }else if(data.before[1]!=0){
-                alert_noti(2,data.before[1]);
+              $('.period_count, .period_count_all').hide();
+              if(data.type_count == 1){
+                $('.period_count').show();
+              }else if(data.type_count == 0){
+                $('.period_count_all').show();
               }
 
-              if(data.limit!=0){
-                alert_noti(3,data.limit);
+              var status = true;
+
+              if(data.before[0]!=0 && status){
+                if(alert){
+                  alert_noti(1,data.before[0]);
+                }
+                status = false;
+              }else if(data.before[1]!=0 && status){
+                if(alert){
+                  alert_noti(2,data.before[1]);
+                }
+                status = false;
               }
 
-              if(data.rest_limit!=0){
-                alert_noti(4,data.rest_limit);
+              if(data.limit!=0 && status){
+                if(alert){
+                  alert_noti(3,data.limit);
+                }
+                status = false;
               }
 
-              if(data.alert[0]!=0){
+              if(data.rest_limit!=0 && status){
+                if(alert){
+                  alert_noti(4,data.rest_limit);
+                }
+                status = false;
+              }
+
+              if(data.duplicate_leave && status){
+                if(alert){
+                  alert_noti(7);
+                }
+                status = false;
+              }
+
+              if(data.alert[0]!=0 && status){
                 let con = confirm('ท่านจะไม่ได้รับเงินเดือนเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[0]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
                 if(!con){
-                  return false;
+                  status = false;
                 }
-              }else if(data.alert[1]!=0){
+              }else if(data.alert[1]!=0 && status){
                 let con = confirm('ท่านจะไม่ได้รับพิจาราณาเลื่อนขั้นเนื่องวันลาต่อปีงบประมาณของท่านเกิน '+data.alert[1]+' วัน ท่านต้องการบันทึกข้อมูลลานี้หรือไม่');
                 if(!con){
-                  return false;
+                  status = false;
                 }
               }
               
+
+              if(status){
+                $('.submit').attr('s','1');
+              }else{
+                $('.submit').attr('s','0');
+              }
+
+              $('.approve_list .sort_approve').hide();
+              if(data.special_fn[1]['status']){
+                var result = data.special_fn[1]['data'].split(",");
+
+                $.each(result,function(key,val){
+                  
+                  if(val!=''){
+                    $('.approve_list .sort_approve').eq(parseInt(val)).show();
+                  }
+                });
+
+                sort_approve();
+              }else{
+                $('.approve_list .sort_approve').show();
+              }
+              if(data.special_fn[2]['status']){
+                $('.period_count,period_count_all').removeAttr('readonly');
+                $('#noti_text').show();
+              }else{
+                $('.period_count,period_count_all').attr('readonly','true');
+                $('#noti_text').hide();
+              }
+              if(data.special_fn[3]['status']){
+
+                var result = data.special_fn[3]['data'].split(",");
+
+                $.each(result,function(key,val){
+                  if(val!=''){
+                    $('.approve_list .sort_approve').eq(parseInt(key)+1).find('.title_sort').text(val);
+                  }
+                });
+              }
+
               if(data.friend_approve==1){
                 $('.friend_approve').show();
                 $('.friend_approve').find('input').removeAttr('disabled');
+                sort_approve();
               }else{
                 $('.friend_approve').hide();
                 $('.friend_approve').find('input').attr('disabled','disabled');
+                sort_approve();
               }
 
+              $('.card-default').show();
             }else{
+              $('.submit').attr('s','0');
               return false;
             }
+            $('#preload').hide();
           }
         });
       }
 
       function alert_noti(type=0,data=0){
         if(type==1){
-          alert('ไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (ไม่รวมวันหยุดราชการ)');
+          alert('ท่านไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (ไม่รวมวันหยุดราชการ)');
           return false;
         }else if(type==2){
-          alert('ไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (รวมวันหยุดราชการ)');
+          alert('ท่านไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (รวมวันหยุดราชการ)');
           return false;
         }else if(type==3){
-          alert('ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาต่อปีงบที่จำกัดไว้ '+data+' วัน');
+          alert('ท่านไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาต่อปีงบที่จำกัดไว้ '+data+' วัน');
           return false;
         }else if(type==4){
-          alert('ไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาสะสมของท่านที่คงเหลือไว้ '+data+' วัน');
+          alert('ท่านไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาสะสมของท่านที่คงเหลือไว้ '+data+' วัน');
           return false;
         }else if(type==5){
-          alert('ไม่สามารถบันทึกได้ กรุณาตรวจสอบและกรอกข้อมูลให้ครบถ้วน');
+          alert('ท่านไม่สามารถบันทึกได้ กรุณาตรวจสอบและกรอกข้อมูลให้ครบถ้วน');
           return false;
         }else if(type==6){
-          alert('ไม่สามารถบันทึกได้ กรุณาระบุผู้พิจารณา "คณบดี / รองคณบดี / หัวหน้าภาค"');
+          alert('ท่านไม่สามารถบันทึกได้ กรุณาระบุผู้พิจารณา "คณบดี / รองคณบดี / หัวหน้าภาค"');
+          return false;
+        }else if(type==7){
+          alert('ท่านไม่สามารถบันทึกได้เนื่องจากวันลาซ้ำกับการลาอื่นๆของท่านในระบบ');
           return false;
         }
       }
@@ -797,6 +925,32 @@
 
       let url = new URL(window.location.href);
       window.history.pushState("object or string", "Title", url.pathname);
+
+      not_daytime();
+      function not_daytime(){
+        var start = $('.leave_date_s_value').val();
+        var end = $('.leave_date_e_value').val();
+
+        if(start!=end){
+          $('.not_daytime').attr('disabled','disabled');
+        }else{
+          $('.not_daytime').removeAttr('disabled');
+        }
+        
+      }
+
+      function sort_approve(){
+        var approve =  $('.approve_list').find('.sort_approve');
+        
+        var i=1;
+        approve.each(function(key,val){
+          if($(this).is(":visible")){
+            $(this).find('.no_sort').text(i+'. ');
+            i++;
+          }
+        });
+      
+      }
 
     });
   </script>

@@ -21,17 +21,19 @@
   <a class="nav-link" href="<?php echo base_url(url_index().'leave');?>">
       <i class="far fa-fw fa-file-alt"></i>
       <span>รายการข้อมูลการลา</span></a>
-  <?php if(!isset($personnel['signature']) || trim($personnel['signature'])==''){ ?>
+  <?php /*if(!isset($personnel['signature']) || trim($personnel['signature'])==''){ ?>
     <a href="#" class="nav-link" data-toggle="modal" data-target="#signature">
   <?php }else{ ?>
     <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
-  <?php } ?>
-    <i class="far fa-fw fa-copy"></i>
-    <span>แบบฟอร์มข้อมูลการลา</span></a>
-  <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_approve');?>">
-    <i class="far fa-fw fa-address-book"></i>
-    <span>รายการที่ต้องพิจารณา</span>
-  </a>
+  <?php }*/ ?>
+    <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
+      <i class="far fa-fw fa-copy"></i>
+      <span>กรอกใบลา</span>
+    </a>
+    <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_approve');?>">
+      <i class="far fa-fw fa-address-book"></i>
+      <span>ใบลาที่เสนอเข้ามา</span>
+    </a>
 </li>
 
 <?php /*
@@ -78,6 +80,7 @@
 </li>
 */?>
 
+
 <!-- Divider -->
 <hr class="sidebar-divider">
 
@@ -94,7 +97,11 @@
   </a>
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/calendar');?>">
     <i class="far fa-fw fa-calendar-alt"></i>
-    <span>จัดการปฏิทิน</span>
+    <span>การจัดการปฏิทิน</span>
+  </a>
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave/special_fn');?>">
+    <i class="fas fa-fw fa-cogs"></i>
+    <span>การตั้งค่าผู้ใช้เฉพาะ</span>
   </a>
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/report_smu_hr');?>">
     <i class="fas fa-fw fa-chart-bar"></i>

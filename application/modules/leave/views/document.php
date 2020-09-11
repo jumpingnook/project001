@@ -48,9 +48,7 @@
           if(isset($data['to']) && $data['to']==1){
             echo 'คณบดีคณะแพทยศาสตร์';
           }elseif(isset($data['to']) && $data['to']==2){
-            echo 'อธิกาารบดี';
-          }elseif(isset($data['to']) && $data['to']==2){
-            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+            echo 'อธิการบดี มหาวิทยาลัยนเรศวร';
           }
         ?>
       </span>
@@ -109,7 +107,7 @@
         <?php 
           if(isset($data['personnel_id_1']) && intval($data['personnel_id_1'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['personnel_id_1']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_1']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_1']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_1']]['surname_th'];
           }
         ?>
@@ -119,7 +117,7 @@
         <?php 
           if(isset($data['hr_personnel_id']) && intval($data['hr_personnel_id'])!=0 && isset($personnel_list['data'][$data['hr_personnel_id']])){
             echo $personnel_list['data'][$data['hr_personnel_id']]['title']; 
-            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th']; 
+            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['hr_personnel_id']]['surname_th'];
           }
         ?>
@@ -133,7 +131,7 @@
         <?php 
           if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
             echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_2']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
           }
         ?>
@@ -152,7 +150,7 @@
         <?php 
           if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_3']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
           }
         ?>
@@ -173,7 +171,7 @@
         <?php 
           if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_4']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
           }
         ?>
@@ -189,7 +187,7 @@
         <?php 
           if(isset($data['personnel_id_5']) && intval($data['personnel_id_5'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
             echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_5']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
           }
         ?>
@@ -243,7 +241,7 @@
       <span style="top: 48%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($data['period_count']):0;?></span>
       <span style="top: 48%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($old_leave_type[3])+floatval($data['period_count']):0;?></span>
       <span style="top: 50%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[2]):0;?></span>
-      <span style="top: 50%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($data['period_count']):floatval($old_leave_type[3]);?></span>
+      <span style="top: 50%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($data['period_count']):floatval($old_leave_type[2]);?></span>
       <span style="top: 50%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($old_leave_type[2])+floatval($data['period_count']):floatval($old_leave_type[2]);?></span>
       <span style="top: 52.4%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[4]):0;?></span>
       <span style="top: 52.4%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($data['period_count']):0;?></span>
@@ -263,7 +261,7 @@
         <?php 
           if(isset($data['personnel_id_1']) && intval($data['personnel_id_1'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['personnel_id_1']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_1']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_1']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_1']]['surname_th'];
           }
         ?>
@@ -273,7 +271,7 @@
         <?php 
           if(isset($data['hr_personnel_id']) && intval($data['hr_personnel_id'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['hr_personnel_id']]['title']; 
-            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th']; 
+            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['hr_personnel_id']]['surname_th'];
           }
         ?>
@@ -281,14 +279,14 @@
       <span style="top: 62.8%;left: 18%;"><?php echo isset($data['signature_hr_date']) && trim($data['signature_hr_date'])!=''?date('d/m/',strtotime($data['signature_hr_date'])).(date("Y",strtotime($data['signature_hr_date']))+543):''; ?></span>
 
 
-      <span style="top: 68%;left: 15%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==1?'&#10003;':''; ?></span>
+      <span style="top: 68.4%;left: 15%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==1?'&#10003;':''; ?></span>
       <span style="top: 68%;left: 32%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==2?'&#10003;':''; ?></span>
       <span style="top: 70.8%;left: 21%;"><img src="<?php echo isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && $data['signature_date_personnel_2']!='' && isset($personnel_list['data'][$data['personnel_id_2']])?$personnel_list['data'][$data['personnel_id_2']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 72.8%;left: 21%;">
         <?php 
           if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
             echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_2']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
           }
         ?>
@@ -304,7 +302,7 @@
         <?php 
           if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_3']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
           }
         ?>
@@ -313,14 +311,14 @@
       <span style="top: 77%;left: 60%;"><?php echo isset($data['signature_date_personnel_3']) && trim($data['signature_date_personnel_3'])!=''?date('d/m/',strtotime($data['signature_date_personnel_3'])).(date("Y",strtotime($data['signature_date_personnel_3']))+543):''; ?></span>
 
 
-      <span style="top: 83%;left: 32%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==1?'&#10003;':''; ?></span>
-      <span style="top: 83%;left: 15%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==2?'&#10003;':''; ?></span>
+      <span style="top: 83%;left: 15%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==1?'&#10003;':''; ?></span>
+      <span style="top: 83%;left: 32%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==2?'&#10003;':''; ?></span>
       <span style="top: 86.4%;left: 21%;"><img src="<?php echo isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && $data['signature_date_personnel_4']!='' && isset($personnel_list['data'][$data['personnel_id_4']])?$personnel_list['data'][$data['personnel_id_4']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 88.8%;left: 21%;">
         <?php 
           if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_4']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
           }
         ?>
@@ -337,7 +335,7 @@
         <?php
           if(isset($data['personnel_id_5']) && intval($data['personnel_id_5'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
             echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_5']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
           }
         ?>
@@ -358,6 +356,7 @@
       <span style="top: 10.6%;left: 68%;"><?php echo date_th($data['create_date'],9);?></span>
       <span style="top: 10.6%;left: 83%;"><?php echo date_th($data['create_date'],10);?></span>
       <span style="top: 13%;left: 22%;"><?php echo isset($data['leave_type_id']) && isset($leave_type[$data['leave_type_id']])?$leave_type[$data['leave_type_id']]['leave_name']:' - ';?></span>
+      <span style="top: 16.3%;left: 22%;"><?php echo  isset($data['to']) && intval($data['to'])==2?'อธิการบดี มหาวิทยาลัยนเรศวร':'คณบดีคณะแพทยศาสตร์';?></span>
       <span style="top: 18.8%;left: 28%;">
         <?php 
           echo isset($personnel['title'])?$personnel['title']:'-'; 
@@ -379,7 +378,7 @@
 
       <span style="top: 29.8%;left: 48%;"><?php echo date_th($data['period_end'],2);?></span>
 
-      <span style="top: 29.8%;left: 77%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
+      <span style="top: 29.8%;left: 77%;"><?php echo isset($data['period_count_all'])?floatval($data['period_count_all']):'0';?></span>
 
       <span style="top: 32.5%;left: 28%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==3?'&#10003':'';?></span>
       <span style="top: 32.5%;left: 43.4%;"><?php echo isset($last_leave) && $last_leave['leave_type_id']==2?'&#10003':'';?></span>
@@ -394,15 +393,15 @@
       <span class="overflow-text" style="top: 37.4%;left: 38%;width:50%;height:3%;"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
 
       <span style="top: 48%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[3]):0;?></span>
-      <span style="top: 48%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($data['period_count']):0;?></span>
-      <span style="top: 48%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($old_leave_type[3])+floatval($data['period_count']):0;?></span>
+      <span style="top: 48%;left: 35%;"><?php echo '0';?></span>
+      <span style="top: 48%;left: 43%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[3]):0;?></span>
       <span style="top: 50%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[2]):0;?></span>
-      <span style="top: 50%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($data['period_count']):floatval($old_leave_type[3]);?></span>
-      <span style="top: 50%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==2?floatval($old_leave_type[2])+floatval($data['period_count']):floatval($old_leave_type[2]);?></span>
+      <span style="top: 50%;left: 35%;"><?php echo '0';?></span>
+      <span style="top: 50%;left: 43%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[2]):0;?></span>
       <span style="top: 52.4%;left: 26%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[4]):0;?></span>
-      <span style="top: 52.4%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($data['period_count']):0;?></span>
-      <span style="top: 52.4%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($old_leave_type[4])+floatval($data['period_count']):0;?></span>
-      <span style="top: 54.8%;left: 43%;"><?php echo floatval($old_leave_type[2])+floatval($old_leave_type[3])+floatval($old_leave_type[4])+floatval($data['period_count']);?></span>
+      <span style="top: 52.4%;left: 35%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($data['period_count_all']):0;?></span>
+      <span style="top: 52.4%;left: 43%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==4?floatval($old_leave_type[4])+floatval($data['period_count_all']):0;?></span>
+      <span style="top: 54.8%;left: 43%;"><?php echo floatval($old_leave_type[2])+floatval($old_leave_type[3])+floatval($old_leave_type[4])+floatval($data['period_count_all']);?></span>
 
       <span style="top: 49.2%;left: 60%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
       <span style="top: 51.4%;left: 60%;">
@@ -417,7 +416,7 @@
         <?php 
           if(isset($data['personnel_id_1']) && intval($data['personnel_id_1'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['personnel_id_1']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_1']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_1']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_1']]['surname_th'];
           }
         ?>
@@ -427,7 +426,7 @@
         <?php 
           if(isset($data['hr_personnel_id']) && intval($data['hr_personnel_id'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['hr_personnel_id']]['title']; 
-            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th']; 
+            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['hr_personnel_id']]['surname_th'];
           }
         ?>
@@ -435,14 +434,14 @@
       <span style="top: 62.8%;left: 18%;"><?php echo isset($data['signature_hr_date']) && trim($data['signature_hr_date'])!=''?date('d/m/',strtotime($data['signature_hr_date'])).(date("Y",strtotime($data['signature_hr_date']))+543):''; ?></span>
 
 
-      <span style="top: 68%;left: 15%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==1?'&#10003;':''; ?></span>
+      <span style="top: 68.4%;left: 15%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==1?'&#10003;':''; ?></span>
       <span style="top: 68%;left: 32%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==2?'&#10003;':''; ?></span>
       <span style="top: 70.8%;left: 21%;"><img src="<?php echo isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && $data['signature_date_personnel_2']!='' && isset($personnel_list['data'][$data['personnel_id_2']])?$personnel_list['data'][$data['personnel_id_2']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 72.8%;left: 21%;">
         <?php 
           if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
             echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_2']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
           }
         ?>
@@ -458,7 +457,7 @@
         <?php 
           if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_3']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
           }
         ?>
@@ -474,7 +473,7 @@
         <?php 
           if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_4']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
           }
         ?>
@@ -491,7 +490,7 @@
         <?php 
           if(isset($data['personnel_id_5']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
             echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_5']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
           }
         ?>
@@ -519,9 +518,7 @@
           if(isset($data['to']) && $data['to']==1){
             echo 'คณบดีคณะแพทยศาสตร์';
           }elseif(isset($data['to']) && $data['to']==2){
-            echo 'อธิกาารบดี';
-          }elseif(isset($data['to']) && $data['to']==2){
-            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+            echo 'อธิการบดี มหาวิทยาลัยนเรศวร';
           }
         ?>
       </span>
@@ -574,7 +571,7 @@
         <?php 
           if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
             echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_2']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
           }
         ?>
@@ -591,7 +588,7 @@
         <?php 
           if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_3']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
           }
         ?>
@@ -608,7 +605,7 @@
         <?php 
           if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_4']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
           }
         ?>
@@ -626,7 +623,7 @@
         <?php 
           if(isset($data['personnel_id_5']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
             echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_5']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
           }
         ?>
@@ -649,12 +646,15 @@
         ?>
       </span>
 
-      <span style="top: 25%;left: 14.5%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='ข้าราชการ'?'&#10003;':''; ?></span>
-      <span style="top: 25%;left: 39.6%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานมหาวิทยาลัย (เงินรายได้)'?'&#10003;':''; ?></span>
-      <span style="top: 25%;left: 61.8%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานราชการ (เงินแผ่นดิน)'?'&#10003;':''; ?></span>
-      <span style="top: 27.2%;left: 14.5%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานราชการ (เงินแผ่นดิน)'?'&#10003;':''; ?></span>
-      <span style="top: 27.2%;left: 38.6%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานราชการ (เงินรายได้)'?'&#10003;':''; ?></span>
-      <span style="top: 27.2%;left: 61.8%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='ลูกจ้างประจำ'?'&#10003;':''; ?></span>
+      <span style="top: 25%;left: 14.5%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==1?'&#10003;':''; ?></span>
+      <span style="top: 25%;left: 39.8%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==4?'&#10003;':''; ?></span>
+      <span style="top: 25%;left: 63.8%;"><?php echo isset($personnel['data']['emp_type_id']) && ($personnel['data']['emp_type_id']==2 || $personnel['data']['emp_type_id']==3)?'&#10003;':''; ?></span>
+      <span style="top: 27.2%;left: 14.5%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==5?'&#10003;':''; ?></span>
+      <span style="top: 27.2%;left: 39.8%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==6?'&#10003;':''; ?></span>
+      <span style="top: 27.2%;left: 63.8%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==7?'&#10003;':''; ?></span>
+
+
+
       
       <span style="top: 22.6%;left: 70%;"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
       <span style="top: 31.2%;left: 31%;"><?php echo date('d',strtotime($data['child_birthdate_start']));?></span>
@@ -701,9 +701,7 @@
           if(isset($data['to']) && $data['to']==1){
             echo 'คณบดีคณะแพทยศาสตร์';
           }elseif(isset($data['to']) && $data['to']==2){
-            echo 'อธิกาารบดี';
-          }elseif(isset($data['to']) && $data['to']==3){
-            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+            echo 'อธิการบดี มหาวิทยาลัยนเรศวร';
           }
         ?>
       </span>
@@ -758,7 +756,7 @@
         <?php 
           if(isset($data['personnel_id_1']) && intval($data['personnel_id_1'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['personnel_id_1']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_1']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_1']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_1']]['surname_th'];
           }
         ?>
@@ -768,7 +766,7 @@
         <?php 
           if(isset($data['hr_personnel_id']) && intval($data['hr_personnel_id'])!=0 && isset($personnel_list['data'][$data['hr_personnel_id']])){
             echo $personnel_list['data'][$data['hr_personnel_id']]['title']; 
-            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th']; 
+            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['hr_personnel_id']]['surname_th'];
           }
         ?>
@@ -782,7 +780,7 @@
         <?php 
           if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
             echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_2']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
           }
         ?>
@@ -801,7 +799,7 @@
         <?php 
           if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_3']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
           }
         ?>
@@ -822,7 +820,7 @@
         <?php 
           if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_4']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
           }
         ?>
@@ -841,7 +839,7 @@
         <?php 
           if(isset($data['personnel_id_5']) && intval($data['personnel_id_5'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
             echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_5']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
           }
         ?>
@@ -955,8 +953,8 @@
 
       <span style="top: 21.4%;left: 25%;"><?php echo isset($personnel['department_name'])?$personnel['department_name']:'-';?></span>
 
-      <span style="top: 24.5%;left: 19%;"><?php echo $data['leave_type_id']==3?'&#10003':'';?></span>
-      <span style="top: 24.5%;left: 28%;"><?php echo $data['leave_type_id']==2?'&#10003':'';?></span>
+      <span style="top: 24.5%;left: 19%;"></span>
+      <span style="top: 24.5%;left: 28%;">&#10003</span>
       <span style="top: 24.5%;left: 43%;"></span>
 
       <span class="overflow-text" style="top: 27%;left: 21%;width:66%;height:3%;"><?php echo isset($data['detail'])?htmlspecialchars_decode($data['detail']):'-';?></span>
@@ -1003,7 +1001,7 @@
         <?php 
           if(isset($data['personnel_id_1']) && intval($data['personnel_id_1'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['personnel_id_1']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_1']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_1']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_1']]['surname_th'];
           }
         ?>
@@ -1013,7 +1011,7 @@
         <?php 
           if(isset($data['hr_personnel_id']) && intval($data['hr_personnel_id'])!=0 && isset($personnel_list['data'][$data['personnel_id_1']])){
             echo $personnel_list['data'][$data['hr_personnel_id']]['title']; 
-            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th']; 
+            echo $personnel_list['data'][$data['hr_personnel_id']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['hr_personnel_id']]['surname_th'];
           }
         ?>
@@ -1021,14 +1019,14 @@
       <span style="top: 62.8%;left: 18%;"><?php echo isset($data['signature_hr_date']) && trim($data['signature_hr_date'])!=''?date('d/m/',strtotime($data['signature_hr_date'])).(date("Y",strtotime($data['signature_hr_date']))+543):''; ?></span>
 
 
-      <span style="top: 68%;left: 15%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==1?'&#10003;':''; ?></span>
+      <span style="top: 68.4%;left: 15%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==1?'&#10003;':''; ?></span>
       <span style="top: 68%;left: 32%;"><?php echo isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==2?'&#10003;':''; ?></span>
       <span style="top: 70.8%;left: 21%;"><img src="<?php echo isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && $data['signature_date_personnel_2']!='' && isset($personnel_list['data'][$data['personnel_id_2']])?$personnel_list['data'][$data['personnel_id_2']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 72.8%;left: 21%;">
         <?php 
           if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
             echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_2']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
           }
         ?>
@@ -1044,7 +1042,7 @@
         <?php 
           if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_3']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
           }
         ?>
@@ -1053,14 +1051,14 @@
       <span style="top: 77%;left: 60%;"><?php echo isset($data['signature_date_personnel_3']) && trim($data['signature_date_personnel_3'])!=''?date('d/m/',strtotime($data['signature_date_personnel_3'])).(date("Y",strtotime($data['signature_date_personnel_3']))+543):''; ?></span>
 
 
-      <span style="top: 83%;left: 32%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==1?'&#10003;':''; ?></span>
-      <span style="top: 83%;left: 15%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==2?'&#10003;':''; ?></span>
+      <span style="top: 83%;left: 32%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==2?'&#10003;':''; ?></span>
+      <span style="top: 83%;left: 15%;"><?php echo isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==1?'&#10003;':''; ?></span>
       <span style="top: 86.4%;left: 21%;"><img src="<?php echo isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && $data['signature_date_personnel_4']!='' && isset($personnel_list['data'][$data['personnel_id_4']])?$personnel_list['data'][$data['personnel_id_4']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
       <span style="top: 88.8%;left: 21%;">
         <?php 
           if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
             echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_4']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
           }
         ?>
@@ -1077,7 +1075,7 @@
         <?php
           if(isset($data['personnel_id_5']) && intval($data['personnel_id_5'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
             echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['name_th']; 
+            echo $personnel_list['data'][$data['personnel_id_5']]['name_th'].'&nbsp;'; 
             echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
           }
         ?>
@@ -1115,9 +1113,7 @@
             if(isset($data['to']) && $data['to']==1){
               echo 'คณบดีคณะแพทยศาสตร์';
             }elseif(isset($data['to']) && $data['to']==2){
-              echo 'อธิกาารบดี';
-            }elseif(isset($data['to']) && $data['to']==2){
-              echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+              echo 'อธิการบดี มหาวิทยาลัยนเรศวร';
             }
           ?>
         </span>
@@ -1130,30 +1126,36 @@
           ?>
         </span>
 
-        <span style="top: 25%;left: 14.5%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='ข้าราชการ'?'&#10003;':''; ?></span>
-        <span style="top: 25%;left: 38.6%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานมหาวิทยาลัย (เงินรายได้)'?'&#10003;':''; ?></span>
-        <span style="top: 25%;left: 61.8%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานราชการ (เงินแผ่นดิน)'?'&#10003;':''; ?></span>
-        <span style="top: 27.2%;left: 14.5%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานราชการ (เงินแผ่นดิน)'?'&#10003;':''; ?></span>
-        <span style="top: 27.2%;left: 38.6%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='พนักงานราชการ (เงินรายได้)'?'&#10003;':''; ?></span>
-        <span style="top: 27.2%;left: 61.8%;"><?php echo isset($personnel['emp_type_name']) && $personnel['emp_type_name']=='ลูกจ้างประจำ'?'&#10003;':''; ?></span>
+        <?php //echo '<pre>';print_r($personnel['data']['emp_type_id']);exit; ?>
+
+        <span style="top: 25%;left: 14.5%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==1?'&#10003;':''; ?></span>
+        <span style="top: 25%;left: 38.6%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==4?'&#10003;':''; ?></span>
+        <span style="top: 25%;left: 61.8%;"><?php echo isset($personnel['data']['emp_type_id']) && ($personnel['data']['emp_type_id']==2 || $personnel['data']['emp_type_id']==3)?'&#10003;':''; ?></span>
+        <span style="top: 27.2%;left: 14.5%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==5?'&#10003;':''; ?></span>
+        <span style="top: 27.2%;left: 38.6%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==6?'&#10003;':''; ?></span>
+        <span style="top: 27.2%;left: 61.8%;"><?php echo isset($personnel['data']['emp_type_id']) && $personnel['data']['emp_type_id']==7?'&#10003;':''; ?></span>
         
         <span style="top: 22.6%;left: 70%;"><?php echo isset($personnel['position_name'])?$personnel['position_name']:'-';?></span>
-        <span style="top: 31.2%;left: 31%;"><?php echo date('d',strtotime($data['child_birthdate_start']));?></span>
-        <span style="top: 31.2%;left: 40%;"><?php echo date_th($data['child_birthdate_start'],9);?></span>
-        <span style="top: 31.2%;left: 52%;"><?php echo date_th($data['child_birthdate_start'],10);?></span>
-        <span style="top: 31.2%;left: 67%;"><?php echo date('d',strtotime($data['child_birthdate_end']));?></span>
-        <span style="top: 31.2%;left: 76%;"><?php echo date_th($data['child_birthdate_end'],9);?></span>
-        <span style="top: 33.4%;left: 18%;"><?php echo date_th($data['child_birthdate_end'],10);?></span>
+        <span style="top: 31.2%;left: 31%;"><?php echo date('d',strtotime($data['period_start']));?></span>
+        <span style="top: 31.2%;left: 40%;"><?php echo date_th($data['period_start'],9);?></span>
+        <span style="top: 31.2%;left: 52%;"><?php echo date_th($data['period_start'],10);?></span>
+        <span style="top: 31.2%;left: 67%;"><?php echo date('d',strtotime($data['period_end']));?></span>
+        <span style="top: 31.2%;left: 76%;"><?php echo date_th($data['period_end'],9);?></span>
+        <span style="top: 33.4%;left: 18%;"><?php echo date_th($data['period_end'],10);?></span>
         <span style="top: 33.4%;left: 39%;">
           <?php
-            $d1 = new DateTime(date('Y-m-d',strtotime($data['child_birthdate_start'])));
-            $d2 = new DateTime(date('Y-m-d',strtotime($data['child_birthdate_end'])));
-            $diff=date_diff($d1,$d2);
-            echo $diff->format('%m');
+            // $d1 = new DateTime(date('Y-m-d',strtotime($data['period_start'])));
+            // $d2 = new DateTime(date('Y-m-d',strtotime($data['period_end'])));
+            // $diff=date_diff($d1,$d2);
+            // echo $diff->format('%m');
+            echo '-';
           ?>
         </span>
         <span style="top: 33.4%;left: 46%;">
-          <?php echo $diff->format('%d')+1; ?>
+          <?php 
+            //echo $diff->format('%d')+1;
+            echo floatval($data['period_count_all']);
+          ?>
         </span>
         <span style="top: 37%;left: 55%;"><?php echo date('d',strtotime($data['period_start']));?></span>
         <span style="top: 37%;left: 63%;"><?php echo date_th($data['period_start'],9);?></span>
@@ -1163,14 +1165,18 @@
         <span style="top: 39%;left: 42%;"><?php echo date_th($data['period_end'],10);?></span>
         <span style="top: 39%;left: 63%;">
           <?php
-            $d1 = new DateTime(date('Y-m-d',strtotime($data['period_start'])));
-            $d2 = new DateTime(date('Y-m-d',strtotime($data['period_end'])));
-            $diff=date_diff($d1,$d2);
-            echo $diff->format('%m');
+            // $d1 = new DateTime(date('Y-m-d',strtotime($data['period_start'])));
+            // $d2 = new DateTime(date('Y-m-d',strtotime($data['period_end'])));
+            // $diff=date_diff($d1,$d2);
+            // echo $diff->format('%m');
+            echo '-';
           ?>
         </span>
         <span style="top: 39%;left: 71%;">
-          <?php echo $diff->format('%d')+1; ?>
+          <?php
+            //echo $diff->format('%d')+1;
+            echo floatval($data['period_count_all']);
+          ?>
         </span>
 
         <span style="top: 49%;left: 50%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
@@ -1189,7 +1195,7 @@
         <?php } ?>
       
 
-      <?php }else if(isset($data['leave_type_id']) && (intval($data['leave_type_id'])!=7 || intval($data['leave_type_id'])!=10)){ ?>
+      <?php }elseif(isset($data['leave_type_id']) && (intval($data['leave_type_id'])!=7 || intval($data['leave_type_id'])!=10)){ ?>
         <span style="top: 11.5%;left: 67%;"><?php echo isset($data['write_at'])?$data['write_at']:'-';?></span>
         <span style="top: 15%;left: 58%;"><?php echo date('d',strtotime($data['create_date']));?></span>
         <span style="top: 15%;left: 65%;"><?php echo date_th($data['create_date'],9);?></span>
@@ -1301,7 +1307,7 @@
       <span style="top: 34.8%;left: 23%;"><?php echo date_th($data['period_start'],2);?></span>
       <span style="top: 34.8%;left: 61%;"><?php echo date_th($data['period_end'],2);?></span>
       
-      <span style="top: 46.2%;left: 55%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
+      <span style="top: 46.2%;left: 58%;"><img class="img-sig" src="<?php echo isset($personnel['data']['signature']) && trim($personnel['data']['signature'])!=''?$personnel['data']['signature']:base_url(load_file('assets/img/emp.png'));?>"/></span>
       <span style="top: 49%;left: 64%;">
         <?php 
           echo isset($personnel['title'])?$personnel['title']:'-'; 
@@ -1310,65 +1316,73 @@
         ?>
       </span>
 
-      <span style="top: 57.5%;left: 15%;"><?php echo isset($data['approve_cancel_personnel_2']) && intval($data['approve_cancel_personnel_2'])==1?'&#10003;':''; ?></span>
-      <span style="top: 57.5%;left: 32%;"><?php echo isset($data['approve_cancel_personnel_2']) && intval($data['approve_cancel_personnel_2'])==2?'&#10003;':''; ?></span>
-      <span style="top: 61%;left: 15.5%;"><img src="<?php echo isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && $data['signature_cancel_date_2']!='' && isset($personnel_list['data'][$data['personnel_id_2']])?$personnel_list['data'][$data['personnel_id_2']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
-      <span style="top: 63.5%;left: 22.5%;">
-        <?php 
-          if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
-            echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['name_th']; 
-            echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
-          }
-        ?>
-      </span>
-      <span style="top: 66.2%;left: 22.5%;"><?php echo isset($data['position_personnel_2']) && trim($data['position_personnel_2'])!=''?$data['position_personnel_2']:''; ?></span>
-      <span style="top: 68.5%;left: 23.5%;"><?php echo isset($data['signature_cancel_date_2']) && trim($data['signature_cancel_date_2'])!=''?date('d/m/',strtotime($data['signature_cancel_date_2'])).(date("Y",strtotime($data['signature_cancel_date_2']))+543):''; ?></span>
+      <?php if(isset($data['approve_personnel_2']) && intval($data['approve_personnel_2'])==1){?>
+        <span style="top: 57.5%;left: 15%;"><?php echo isset($data['approve_cancel_personnel_2']) && intval($data['approve_cancel_personnel_2'])==1?'&#10003;':''; ?></span>
+        <span style="top: 57.5%;left: 32%;"><?php echo isset($data['approve_cancel_personnel_2']) && intval($data['approve_cancel_personnel_2'])==2?'&#10003;':''; ?></span>
+        <span style="top: 61%;left: 15.5%;"><img src="<?php echo isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && $data['signature_cancel_date_2']!='' && isset($personnel_list['data'][$data['personnel_id_2']])?$personnel_list['data'][$data['personnel_id_2']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
+        <span style="top: 63.5%;left: 22.5%;">
+          <?php 
+            if(isset($data['personnel_id_2']) && intval($data['personnel_id_2'])!=0 && isset($personnel_list['data'][$data['personnel_id_2']])){
+              echo $personnel_list['data'][$data['personnel_id_2']]['title']; 
+              echo $personnel_list['data'][$data['personnel_id_2']]['name_th'].'&nbsp;'; 
+              echo $personnel_list['data'][$data['personnel_id_2']]['surname_th'];
+            }
+          ?>
+        </span>
+        <span style="top: 66.2%;left: 22.5%;"><?php echo isset($data['position_personnel_2']) && trim($data['position_personnel_2'])!=''?$data['position_personnel_2']:''; ?></span>
+        <span style="top: 68.5%;left: 23.5%;"><?php echo isset($data['signature_cancel_date_2']) && trim($data['signature_cancel_date_2'])!=''?date('d/m/',strtotime($data['signature_cancel_date_2'])).(date("Y",strtotime($data['signature_cancel_date_2']))+543):''; ?></span>
+      <?php } ?>
 
-      <span style="top: 57.5%;left: 55%;"><?php echo isset($data['approve_cancel_personnel_3']) && intval($data['approve_cancel_personnel_3'])==1?'&#10003;':''; ?></span>
-      <span style="top: 57.5%;left: 72%;"><?php echo isset($data['approve_cancel_personnel_3']) && intval($data['approve_cancel_personnel_3'])==2?'&#10003;':''; ?></span>
-      <span style="top: 60.8%;left: 55%;"><img src="<?php echo isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && $data['signature_cancel_date_3']!='' && isset($personnel_list['data'][$data['personnel_id_3']])?$personnel_list['data'][$data['personnel_id_3']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
-      <span style="top: 63.5%;left: 63%;">
-        <?php 
-          if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
-            echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['name_th']; 
-            echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
-          }
-        ?>
-      </span>
-      <span style="top: 66%;left: 63%;"><?php echo isset($data['position_personnel_3']) && trim($data['position_personnel_3'])!=''?$data['position_personnel_3']:''; ?></span>
-      <span style="top: 68.5%;left: 63%;"><?php echo isset($data['signature_cancel_date_3']) && trim($data['signature_cancel_date_3'])!=''?date('d/m/',strtotime($data['signature_cancel_date_3'])).(date("Y",strtotime($data['signature_cancel_date_3']))+543):''; ?></span>
+      <?php if(isset($data['approve_personnel_3']) && intval($data['approve_personnel_3'])==1){?>
+        <span style="top: 57.5%;left: 55%;"><?php echo isset($data['approve_cancel_personnel_3']) && intval($data['approve_cancel_personnel_3'])==1?'&#10003;':''; ?></span>
+        <span style="top: 57.5%;left: 72%;"><?php echo isset($data['approve_cancel_personnel_3']) && intval($data['approve_cancel_personnel_3'])==2?'&#10003;':''; ?></span>
+        <span style="top: 60.8%;left: 55%;"><img src="<?php echo isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && $data['signature_cancel_date_3']!='' && isset($personnel_list['data'][$data['personnel_id_3']])?$personnel_list['data'][$data['personnel_id_3']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
+        <span style="top: 63.5%;left: 63%;">
+          <?php 
+            if(isset($data['personnel_id_3']) && intval($data['personnel_id_3'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
+              echo $personnel_list['data'][$data['personnel_id_3']]['title']; 
+              echo $personnel_list['data'][$data['personnel_id_3']]['name_th'].'&nbsp;'; 
+              echo $personnel_list['data'][$data['personnel_id_3']]['surname_th'];
+            }
+          ?>
+        </span>
+        <span style="top: 66%;left: 63%;"><?php echo isset($data['position_personnel_3']) && trim($data['position_personnel_3'])!=''?$data['position_personnel_3']:''; ?></span>
+        <span style="top: 68.5%;left: 63%;"><?php echo isset($data['signature_cancel_date_3']) && trim($data['signature_cancel_date_3'])!=''?date('d/m/',strtotime($data['signature_cancel_date_3'])).(date("Y",strtotime($data['signature_cancel_date_3']))+543):''; ?></span>
+      <?php } ?>
 
-      <span style="top: 75.2%;left: 15%;"><?php echo isset($data['approve_cancel_personnel_4']) && intval($data['approve_cancel_personnel_4'])==1?'&#10003;':''; ?></span>
-      <span style="top: 75.2%;left: 32%;"><?php echo isset($data['approve_cancel_personnel_4']) && intval($data['approve_cancel_personnel_4'])==2?'&#10003;':''; ?></span>
-      <span style="top: 79.5%;left: 15.5%;"><img src="<?php echo isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && $data['signature_cancel_date_4']!='' && isset($personnel_list['data'][$data['personnel_id_4']])?$personnel_list['data'][$data['personnel_id_4']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
-      <span style="top: 82%;left: 22.5%;">
-        <?php 
-          if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
-            echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['name_th']; 
-            echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
-          }
-        ?>
-      </span>
-      <span style="top: 84.5%;left: 22.5%;"><?php echo isset($data['position_personnel_4']) && trim($data['position_personnel_4'])!=''?$data['position_personnel_4']:''; ?></span>
-      <span style="top: 87.2%;left: 23.5%;"><?php echo isset($data['signature_cancel_date_4']) && trim($data['signature_cancel_date_4'])!=''?date('d/m/',strtotime($data['signature_cancel_date_4'])).(date("Y",strtotime($data['signature_cancel_date_4']))+543):''; ?></span>
+      <?php if(isset($data['approve_personnel_4']) && intval($data['approve_personnel_4'])==1){?>
+        <span style="top: 75.2%;left: 15%;"><?php echo isset($data['approve_cancel_personnel_4']) && intval($data['approve_cancel_personnel_4'])==1?'&#10003;':''; ?></span>
+        <span style="top: 75.2%;left: 32%;"><?php echo isset($data['approve_cancel_personnel_4']) && intval($data['approve_cancel_personnel_4'])==2?'&#10003;':''; ?></span>
+        <span style="top: 79.5%;left: 15.5%;"><img src="<?php echo isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && $data['signature_cancel_date_4']!='' && isset($personnel_list['data'][$data['personnel_id_4']])?$personnel_list['data'][$data['personnel_id_4']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
+        <span style="top: 82%;left: 22.5%;">
+          <?php 
+            if(isset($data['personnel_id_4']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_3']])){
+              echo $personnel_list['data'][$data['personnel_id_4']]['title']; 
+              echo $personnel_list['data'][$data['personnel_id_4']]['name_th'].'&nbsp;'; 
+              echo $personnel_list['data'][$data['personnel_id_4']]['surname_th'];
+            }
+          ?>
+        </span>
+        <span style="top: 84.5%;left: 22.5%;"><?php echo isset($data['position_personnel_4']) && trim($data['position_personnel_4'])!=''?$data['position_personnel_4']:''; ?></span>
+        <span style="top: 87.2%;left: 23.5%;"><?php echo isset($data['signature_cancel_date_4']) && trim($data['signature_cancel_date_4'])!=''?date('d/m/',strtotime($data['signature_cancel_date_4'])).(date("Y",strtotime($data['signature_cancel_date_4']))+543):''; ?></span>
+      <?php } ?>
 
-      <span style="top: 75.2%;left: 55.5%;"><?php echo isset($data['approve_cancel_personnel_5']) && intval($data['approve_cancel_personnel_5'])==1?'&#10003;':''; ?></span>
-      <span style="top: 75.2%;left: 66%;"><?php echo isset($data['approve_cancel_personnel_5']) && intval($data['approve_cancel_personnel_5'])==2?'&#10003;':''; ?></span>
-      <span style="top: 79.5%;left: 55%;"><img src="<?php echo isset($data['personnel_id_5']) && intval($data['personnel_id_5'])!=0 && $data['signature_cancel_date_5']!='' && isset($personnel_list['data'][$data['personnel_id_5']])?$personnel_list['data'][$data['personnel_id_5']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
-      <span style="top: 82%;left: 63%;">
-        <?php 
-          if(isset($data['personnel_id_5']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
-            echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['name_th']; 
-            echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
-          }
-        ?>
-      </span>
-      <span style="top: 84.5%;left: 63%;"><?php echo isset($data['position_personnel_5']) && trim($data['position_personnel_5'])!=''?$data['position_personnel_5']:''; ?></span>
-      <span style="top: 87.2%;left: 64%;"><?php echo isset($data['signature_cancel_date_5']) && trim($data['signature_cancel_date_5'])!=''?date('d/m/',strtotime($data['signature_cancel_date_5'])).(date("Y",strtotime($data['signature_cancel_date_5']))+543):''; ?></span>
+      <?php if(isset($data['approve_personnel_5']) && intval($data['approve_personnel_5'])==1){?>
+        <span style="top: 75.2%;left: 55.5%;"><?php echo isset($data['approve_cancel_personnel_5']) && intval($data['approve_cancel_personnel_5'])==1?'&#10003;':''; ?></span>
+        <span style="top: 75.2%;left: 66%;"><?php echo isset($data['approve_cancel_personnel_5']) && intval($data['approve_cancel_personnel_5'])==2?'&#10003;':''; ?></span>
+        <span style="top: 79.5%;left: 55%;"><img src="<?php echo isset($data['personnel_id_5']) && intval($data['personnel_id_5'])!=0 && $data['signature_cancel_date_5']!='' && isset($personnel_list['data'][$data['personnel_id_5']])?$personnel_list['data'][$data['personnel_id_5']]['signature']:base_url(load_file('assets/img/emp.png'));?>" class="img-sig"/></span>
+        <span style="top: 82%;left: 63%;">
+          <?php 
+            if(isset($data['personnel_id_5']) && intval($data['personnel_id_4'])!=0 && isset($personnel_list['data'][$data['personnel_id_5']])){
+              echo $personnel_list['data'][$data['personnel_id_5']]['title']; 
+              echo $personnel_list['data'][$data['personnel_id_5']]['name_th'].'&nbsp;'; 
+              echo $personnel_list['data'][$data['personnel_id_5']]['surname_th'];
+            }
+          ?>
+        </span>
+        <span style="top: 84.5%;left: 63%;"><?php echo isset($data['position_personnel_5']) && trim($data['position_personnel_5'])!=''?$data['position_personnel_5']:''; ?></span>
+        <span style="top: 87.2%;left: 64%;"><?php echo isset($data['signature_cancel_date_5']) && trim($data['signature_cancel_date_5'])!=''?date('d/m/',strtotime($data['signature_cancel_date_5'])).(date("Y",strtotime($data['signature_cancel_date_5']))+543):''; ?></span>
+      <?php } ?>
 
 
       <img src="<?php echo base_url(load_file('document/leave/0.jpg'));?>" style="width:100%;">

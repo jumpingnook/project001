@@ -137,7 +137,7 @@
         </div>
 
         <div id="detail">
-            <!-- <table>
+            <?php /* ?><!-- <table>
                 <tr>
                     <td colspan="2" style="background-color: #fff;font-weight: bold;padding: 5px;">รายละเอียดข้อมูลการลา</td>
                 </tr>
@@ -243,7 +243,7 @@
                       ?></td>
                 </tr>
 
-            </table> -->
+            </table> --><?php */ ?>
         </div>
         
         

@@ -57,6 +57,7 @@ class Auth extends Auth_Controller {
         $ip = get_client_ip();
         $token = $this->Token_model->create_token(['internet_account'=>trim($post['username']),'ip'=>$ip]);
 
+        //$post['username'] = 'wararats';
         $set = [];
         $set['APP-KEY']     = $this->api_key;
         $set['username']    = trim($post['username']);

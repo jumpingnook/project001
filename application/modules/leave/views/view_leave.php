@@ -500,6 +500,7 @@
                 dataType: "json",
                 success: function(data){
                   console.log(data);
+
                   if(data.status){
                     alert('ระบบได้ทำการยกเลิกการลาเรียบร้อยแล้ว');
                   }else{

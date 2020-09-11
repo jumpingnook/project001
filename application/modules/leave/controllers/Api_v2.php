@@ -18,6 +18,12 @@ class Api_v2 extends REST_Controller {
             $set['leave_type_id']   = intval($post['leave_type']);
             $set['emp_type_id']     = intval($post['emp_type']);
             $spec = $this->Leave_spec_model->spec($set);
+
+            $count_type = floatval($post['period_count_all']);
+            if(isset($spec['type_count']) && intval($spec['type_count'])){
+                $count_type = floatval($post['period_count']);
+            }
+            $post['period_count'] = $count_type;
             
             if(count($spec)<=0){ // not leave permission
                 $this->response([
@@ -30,9 +36,7 @@ class Api_v2 extends REST_Controller {
 
             $res['approve'] = 0;
             if(isset($spec['approve_type']) and intval($spec['approve_type'])==0){
-                /*if(isset($spec['approve_3']) and intval($spec['approve_3'])!=0 and floatval($post['period_count'])>intval($spec['approve_3'])){
-                    $res['approve'] = 3;
-                }else*/if(isset($spec['approve_2']) and intval($spec['approve_2'])!=0 and floatval($post['period_count'])>intval($spec['approve_2'])){
+                if(isset($spec['approve_2']) and intval($spec['approve_2'])!=0 and floatval($post['period_count'])>intval($spec['approve_2'])){
                     $res['approve'] = 3;
                 }elseif(isset($spec['approve_1']) and intval($spec['approve_1'])!=0 and floatval($post['period_count'])>intval($spec['approve_1'])){
                     $res['approve'] = 2;
@@ -59,8 +63,8 @@ class Api_v2 extends REST_Controller {
             }
 
             $set=[];
-            $set['where']   = '((period_start > "'.$year_budget[0].'" and period_start <= "'.$year_budget[1].'") or (period_end >= "'.$year_budget[0].'" and period_end < "'.$year_budget[1].'")) and (status >= 0 and  status <= 2) and personnel_id = "'.intval($post['personnel']).'"';
-            $result         = $this->Leave_model->to_select($set);
+            $set['where']   = '((period_start > "'.$year_budget[0].'" and period_start <= "'.$year_budget[1].'") or (period_end >= "'.$year_budget[0].'" and period_end < "'.$year_budget[1].'")) and (status >= 0 and  status <= 2) and personnel_id = "'.intval($post['personnel']).'"'.(isset($post['unselect']) && intval($post['unselect'])!=0?' and leave_id <> '.intval($post['unselect']):'');
+            $result = $result_leave_data = $this->Leave_model->to_select($set);
             $weekend        = $this->get_weekend('php');
 
             $set = [];
@@ -130,10 +134,10 @@ class Api_v2 extends REST_Controller {
 
                     
                     if($day_count>=1){
-                        if($val['period_start_half']==1){
+                        if($val['period_start_half']==1 || $val['period_start_half']==2){
                             $day_count-=0.5;
                         }
-                        if($val['period_end_half']==1){
+                        if($val['period_end_half']==1 || $val['period_end_half']==2){
                             $day_count-=0.5;
                         }
                     }
@@ -146,13 +150,13 @@ class Api_v2 extends REST_Controller {
             $count_year['alert'][0] = $count_year['alert'][1] = 0;
             $count_year['rest_limit'][0] = $count_year['rest_limit'][1] = 0;
 
-            if(intval($post['leave_type'])==2 || intval($post['leave_type'])==3 || intval($post['leave_type'])==4 || intval($post['leave_type'])==5 || intval($post['leave_type'])==6 || intval($post['leave_type'])==8 || intval($post['leave_type'])==10){
+            if(intval($post['leave_type'])==2 || intval($post['leave_type'])==3 || intval($post['leave_type'])==5 || intval($post['leave_type'])==6 || intval($post['leave_type'])==8 || intval($post['leave_type'])==10){
                 if(isset($leave[2])){
                     $count_year['limit'] += $leave[2];
                 }elseif(isset($leave[3])){
                     $count_year['limit'] += $leave[3];
-                }elseif(isset($leave[4])){
-                    $count_year['limit'] += $leave[4];
+                // }elseif(isset($leave[4])){
+                //     $count_year['limit'] += $leave[4];
                 }elseif(isset($leave[5])){
                     $count_year['limit'] += $leave[5];
                 }elseif(isset($leave[6])){
@@ -161,6 +165,11 @@ class Api_v2 extends REST_Controller {
                     $count_year['limit'] += $leave[8];
                 }elseif(isset($leave[10])){
                     $count_year['limit'] += $leave[10];
+                }
+                $count_year['limit'] += floatval($post['period_count']);
+            }elseif(intval($post['leave_type'])==4){
+                if(isset($leave[4])){
+                    $count_year['limit'] += $leave[4];
                 }
                 $count_year['limit'] += floatval($post['period_count']);
             }
@@ -189,9 +198,8 @@ class Api_v2 extends REST_Controller {
             if(intval($post['leave_type'])==1 || intval($post['leave_type'])==7){
                 $this->load->model(['Leave_quota_model']);
                 $set=[];
-                $set['personnel_id']   = intval($post['personnel']);
+                $set['personnel_id']    = intval($post['personnel']);
                 $result = $this->Leave_quota_model->get_last_quote($set);
-                
 
                 if(isset($result) && count($result)==1){
                     $count = isset($leave[1])?$leave[1]:0;
@@ -199,13 +207,13 @@ class Api_v2 extends REST_Controller {
                     $count_year['rest_limit'][0] = $count+floatval($post['period_count']);
                     $count_year['rest_limit'][1] = $result[0]['quota_total'];
                 }else{
-                   $this->response([
+                    $this->response([
                         'status' => false,
                         'msg' => 'Not have Quote'
                     ], REST_Controller::HTTP_OK); //200 
                 }
 
-            }
+            } 
             
             $res['limit'] = 0;
             if(isset($spec['limit_year']) and intval($spec['limit_year'])>0 and floatval($count_year['limit'])>intval($spec['limit_year'])){
@@ -214,7 +222,7 @@ class Api_v2 extends REST_Controller {
 
             $res['rest_limit'] = 0;
             if($count_year['rest_limit'][0]>$count_year['rest_limit'][1]){
-                $res['rest_limit'] = $count_year['rest_limit'][1];
+                $res['rest_limit'] = $count_year['rest_limit'][0];
             }
 
             $res['alert'][0] = 0;
@@ -240,13 +248,92 @@ class Api_v2 extends REST_Controller {
                 }
             }
 
-            if(isset($spec['before_day']) and intval($spec['before_day'])!=0 and $day_before>intval($spec['before_day'])){
+            if(isset($spec['before_day']) and intval($spec['before_day'])!=0 and $day_before<intval($spec['before_day'])){
                 $res['before'][0] = intval($spec['before_day']);
-            }elseif(isset($spec['before_day_all']) and intval($spec['before_day_all'])!=0 and $numberDays>intval($spec['before_day_all'])){
+            }elseif(isset($spec['before_day_all']) and intval($spec['before_day_all'])!=0 and $numberDays<intval($spec['before_day_all'])){
                 $res['before'][1] = intval($spec['before_day_all']);
             }
 
             $res['friend_approve'] = $spec['friend_approve'];
+
+            $res['type_count'] = $spec_detail[intval($post['leave_type'])][intval($post['emp_type'])]['type_count'];
+
+            $res['duplicate_leave'] = false;
+            if(count($result_leave_data)>0){
+                foreach($result_leave_data as $key=>$val){
+                    if(strtotime($post['period_start'])>=strtotime($val['period_start']) && strtotime($post['period_start'])<=strtotime($val['period_end'])){
+                        $res['duplicate_leave'] = true;
+                        break;
+                    }elseif(isset($post['period_end']) && trim($post['period_end'])!='' && strtotime($post['period_end'])>=strtotime($val['period_start']) && strtotime($post['period_end'])<=strtotime($val['period_end'])){
+                        $res['duplicate_leave'] = true;
+                        break;
+                    }
+                }
+            }
+
+            $this->load->model(['personnel/Personnel_model']);
+            $this->load->model(['sql_personnel/Sql_personnel_model']);
+            $this->load->model(['leave/Special_fn_model']);
+            $personnel = $this->Personnel_model->get_personnel(['personnel_id'=>intval($post['personnel'])]);
+            $sql_personnel = $this->Sql_personnel_model->get_personnel(['username'=>trim($personnel['data'][0]['internet_account'])]);
+
+            $r_personnel['personnel_id']     = intval($post['personnel']);
+            $r_personnel['smu_main_id']      = intval($personnel['data'][0]['smu_main_id']);
+            $r_personnel['position_old_id']  = intval($sql_personnel['data'][0]['positionid']);
+
+            $result = $this->Special_fn_model->get_type();
+            
+
+            #special_function
+            $sp_type = [];
+            foreach($result as $key=>$val){
+                $sp_type[$val['special_type']]['status'] = false;
+                $sp_type[$val['special_type']]['data'] = '';
+
+                if($val['special_type'] == 1){ //function List_approve
+
+                    $con = [];
+                    $con['where'] = 'personnel_id = "'.$r_personnel['personnel_id'].'" and status = 1';
+                    $result_sp = $this->Special_fn_model->to_select($con);
+
+                    if(isset($result_sp[0]['approve_list']) and $result_sp[0]['approve_list']!=''){
+                        $sp_type[$val['special_type']]['status'] = true;
+                        $sp_type[$val['special_type']]['data'] = $result_sp[0]['approve_list'];
+                    }else{
+                        $con = [];
+                        $con['where'] = 'smu_main_id = "'.$r_personnel['smu_main_id'].'" and status = 1';
+                        $result_sp = $this->Special_fn_model->to_select($con);
+                        
+                        if(isset($result_sp[0]['approve_list']) and $result_sp[0]['approve_list']!=''){
+                            $sp_type[$val['special_type']]['status'] = true;
+                            $sp_type[$val['special_type']]['data'] = $result_sp[0]['approve_list'];
+                        }
+                    }
+
+                }elseif($val['special_type'] == 2){ //function custom_date + nurse
+                    $con = [];
+                    $con['where'] = 'position_old_id = "'.$r_personnel['position_old_id'].'" and status = 1';
+                    $result_sp = $this->Special_fn_model->to_select($con);
+                    
+                    if(count($result_sp)>0){
+                        $sp_type[$val['special_type']]['status'] = true;
+                    }
+
+
+                }elseif($val['special_type'] == 3){ //function title_approve_all
+
+                    $con = [];
+                    $con['where'] = 'personnel_id = "'.$r_personnel['personnel_id'].'" and status = 1';
+                    $result_sp = $this->Special_fn_model->to_select($con);
+
+                    if(isset($result_sp[0]['title_sp']) and $result_sp[0]['title_sp']!=''){
+                        $sp_type[$val['special_type']]['status'] = true;
+                        $sp_type[$val['special_type']]['data'] = $result_sp[0]['title_sp'];
+                    }
+
+                }
+            }
+            $res['special_fn'] =  $sp_type;
 
             $this->response([
                 'status'    => true,

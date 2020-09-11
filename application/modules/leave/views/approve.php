@@ -13,6 +13,8 @@
 
   <?php echo $this->load->view('inc/css'); ?>
 
+  <link rel="stylesheet" href="<?php echo base_url(load_file('assets/vendor/jquery-ui/jquery-ui.css'));?>">
+
 </head>
 
 <body id="page-top">
@@ -36,7 +38,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center mb-4">
-            <h1 class="h3 mb-0 text-gray-800">พิจารณาข้อมูลเลขที่ <?php echo isset($data['leave_no'])?$data['leave_no']:'0';?></h1>
+            <h1 class="h3 mb-0 text-gray-800">การพิจารณาข้อมูลเลขที่ <?php echo isset($data['leave_no'])?$data['leave_no']:'0';?></h1>
           </div>
 
           <div class="row">
@@ -191,27 +193,54 @@
                       <?php if(!$approve_status and trim($personnel_list['data'][$personnel_id]['signature'])!=''){ ?>
 
                       <div class="row mb-1">
-                        <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
-                          <span class="icon text-white-50">
+                        <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split" style="width: 100%;">
+                          <span class="icon text-white-600">
                             <i class="fas fa-check"></i>
                           </span>
-                          <span class="text"><?php echo $btn[0];?></span>
+                          <span class="text" style="width: 100%;"><?php echo $btn[0];?></span>
                         </button>
                       </div>
 
+                      
                       <div class="row mb-1">
-                        <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split">
-                          <span class="icon text-white-600">
+                        <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split" style="width: 100%;">
+                          <span class="icon text-white-600" style="width:43px;">
                             <i class="fas fa-times"></i>
                           </span>
-                          <span class="text"><?php echo $btn[1];?></span>
+                          <span class="text" style="width: 100%;"><?php echo $btn[1];?></span>
                         </button>
                       </div>
+                      <?php if($signature_type==5){?>
+                          <div class="form-group row mb-1 ">
+                            <textarea form="form" class="form-control" name="note_personnel_5" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นกรณีไม่อนุญาติ"></textarea>
+                          </div>
+                      <?php } ?>
+
+                      <hr>
+
+                      <form id="assign_form" action="<?php echo base_url(url_index().'leave/assign_approve');?>" method="post">
+                        <div class="row mb-1">
+                          <div class="text-s font-weight-bold text-danger text-uppercase mb-1">หมอบหมายรักษาการแทน</div>
+                          <div class="form-group" style="width: 100%;">
+                            <label>คณบดี / รองคณบดี / หัวหน้าภาค</label>
+                            <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณารักษาการแทน" autocomplete="off" required>
+                            <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="" autocomplete="off" required/>
+                            <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุตำแหน่งผู้พิจารณา" value="" required/>
+                          </div>
+                          <button type="submit" class="btn btn-warning btn-icon-split" style="width: 100%;">
+                            <span class="icon text-white-600" style="width:43px;">
+                              <i class="fas fa-times"></i>
+                            </span>
+                            <span class="text" style="width: 100%;">บันทึกผู้พิจารณารักษาการแทน</span>
+                          </button>
+                        </div>
+                        <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
+                      </form>
 
                       <?php }elseif(isset($cancel_approve) and $cancel_approve and trim($personnel_list['data'][$personnel_id]['signature'])!=''){?>
                         <div class="row mb-1">
                           <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
-                            <span class="icon text-white-50">
+                            <span class="icon text-white-600">
                               <i class="fas fa-check"></i>
                             </span>
                             <span class="text"><?php echo $btn[0];?></span>
@@ -259,6 +288,36 @@
       <?php echo $this->load->view('inc/footer'); ?>
       <!-- End of Footer -->
 
+      <!-- Boss Modal-->
+      <a id="modal-boss" class="dropdown-item" href="#" data-toggle="modal" data-target="#_boss" style="display:none;"></a>
+      <div class="modal fade" id="_boss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">เลือกชื่อตำแหน่ง</h5>
+                  <button id="close_position" class="close" type="button" data-dismiss="modal" aria-label="Close" style="display:none;">
+                  <span aria-hidden="true">×</span>
+                  </button>
+              </div>
+
+              <div class="modal-body">
+                  <div class="form-group">
+                    <div id="boss_position_list">
+                    </div>
+                  </div>
+              </div>
+
+              <div class="modal-footer">
+                  <button id="ok_position" type_id="" class="btn btn-secondary" type="button">ตกลง</button>
+              </div>
+              </div>
+          </div>
+      </div>
+
+      <div id="preload" style="position: absolute;width: 100vw;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 99;top: 0;left: 0;display:none;">
+        <img src="<?php echo base_url(load_file('assets/img/loading.gif'));?>" style="position: fixed;left: 0;right: 0;margin: auto;top: 25%;">
+      </div>
+
     </div>
     <!-- End of Content Wrapper -->
 
@@ -270,6 +329,8 @@
   <?php echo $this->load->view('inc/logout'); ?>
   
   <?php echo $this->load->view('inc/js'); ?>
+
+  <script src="<?php echo base_url(load_file('assets/vendor/jquery-ui/jquery-ui.min.js'));?>" ></script>
 
   <!-- Logout Modal-->
 
@@ -305,7 +366,7 @@
                 <center><-- ใช้โทรศัพท์ของท่านสแกน QR Code เพื่อบันทึกลายเซ็น หรือ</center><br/>
                 <center>
                   <a href="<?php echo $signature_url;?>" target="_blank" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
+                    <span class="icon text-white-600">
                       <i class="fas fa-link"></i>
                     </span>
                     <span class="text">คลิกที่นี่เพื่อเพิ่มลายเซ็นผ่านหน้าเว็บไซต์</span>
@@ -346,7 +407,6 @@
   <?php } ?>
 
   <script>
-
       $(document).ready(function(){
         $('#form').submit(function(){
           var con = confirm('ท่านต้องบันทึกผลการพิจารณานี้ใช่หรือไม่');
@@ -358,7 +418,104 @@
           }
           return false;
         });
-        
+
+        var data = {
+          'APP-KEY':'<?php echo $api['APP-KEY'];?>',
+          token:'<?php echo $api['token'];?>',
+          ip:'<?php echo $api['ip'];?>',
+          term:''
+        };
+
+        $(".name_personnel").autocomplete({
+          source: function(request,response) {
+
+            data.term = request.term;
+            $.ajax( {
+              type: "POST",
+              url: "<?php echo base_url(url_index().'personnel/api_v1/personnel'); ?>",
+              dataType: "jsonp",
+              data: data,
+              success: function(data) {
+
+                let res = [];
+
+                if(!data.status){
+                  location.reload();
+                  return false;
+                }
+
+                if(data.count>0){
+
+                  $.each( data.data, function( key, value ) {
+                    res[key] = {'value':'','label':'','id':''};
+                    res[key].value = value.title+value.name_th+' '+value.surname_th+', '+value.email;
+                    res[key].label = value.title+value.name_th+' '+value.surname_th+', '+value.email;
+                    res[key].boss  = value.position_boss;
+                    res[key].id    = value.personnel_id;
+                  });
+                  response(res);
+                }else{
+                  return false;
+                }
+                
+              }
+            } );
+          },
+          minLength: 2,
+          select: function( event, ui ) {
+            var id = $(this).attr('auto_type');
+            var position = ui.item.boss;
+            if(position!=null && position!==''){
+              var res = position.split(",");
+              if(res.length>0){
+                var html = '';
+                $('#boss_position_list').empty();
+                $.each(res,function(key,val){
+                  console.log(key,val);
+                  html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="'+(val.trim())+'" '+(key==0?'checked="checked"':'')+'> '+(val.trim())+'</label></div>';
+                });
+                html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="" '+(html==''?'checked="checked"':'')+'> เลือกกรอกตำแหน่งอื่นๆ</label></div>';
+                $('#boss_position_list').append(html);
+                $('#ok_position').attr('type_id',id);
+                $('#modal-boss').click();
+              }
+
+            }else{
+              $(this).next().next().focus();
+            }
+
+            $(this).next().val(ui.item.id);
+          },
+          change: function (event, ui) {
+            if (ui.item === null) {
+              $(this).val('');
+              $(this).next().val('');
+              $(this).next().next().val('');
+            }
+        }
+
+        });
+
+        $('#ok_position').click(function(){
+          var type_id = $(this).attr('type_id');
+          $('#'+type_id+'_position').val($('#boss_position_list .position_bosss:checked').val()).focus();
+          $('#close_position').click();
+        });
+
+        $('#assign_form').submit(function(){
+          $('#preload').show();
+          var id = $('#deputy_dean').val();
+          var position = $('#deputy_dean_position').val();
+
+          if(id=='' || position==''){
+            alert('กรุณาระบุผู้พิจารณารักษาการแทนให้ครบถ้วน');
+            $('#preload').hide();
+            return false;
+          }
+
+          return true;
+        });
+
       });
 
   </script>
