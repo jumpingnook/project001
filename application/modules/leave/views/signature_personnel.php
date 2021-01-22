@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>เพิ่มลายเซ็น - med.nu.ac.th</title>
     
 
@@ -105,10 +105,22 @@
         table tr td:first-child{
             background-color: #ccc;
         }
+        /* @media screen and (orientation:portrait) {
+            html {
+                transform: rotate(-270deg);
+                transform-origin: top right;
+                width: 100vh;
+                height: 100vw;
+                overflow-x: hidden;
+                position: absolute;
+                top: 100%;
+                right: 0;
+            }
+        } */
 
     </style>
 </head>
-<body>
+<body style="position:relative;">
 
     <div class="signature">
         
@@ -132,7 +144,7 @@
             <button type="button" id="save-png" style="background-color: #FF9800;color: #222222;">บันทึกลายเซ็น</button>&nbsp;&nbsp;
 
             <?php /*if($signature_type==3){?>
-                <button type="button" id="cancel" style="background-color: #e02525;color: #ffffff;">ไม่อนุญาติให้ลา</button>
+                <button type="button" id="cancel" style="background-color: #e02525;color: #ffffff;">ไม่อนุญาตให้ลา</button>
             <?php }*/ ?>
         </div>
 
@@ -236,9 +248,9 @@
                         if(isset($data['to']) and $data['to']==1){
                           echo 'คณบดีคณะแพทยศาสตร์';
                         }elseif(isset($data['to']) and $data['to']==2){
-                          echo 'อธิกาารบดี';
+                          echo 'อธิการบดี';
                         }else{
-                          echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+                          echo 'อธิการบดี (คณบดีคณะแพทยศาสตร์)';
                         }
                       ?></td>
                 </tr>
@@ -254,12 +266,20 @@
         <input type="hidden" id="signature_gen" name="signature" value="">
     </form>
 
+    <div id="OR" style="display:none;position:fixed;width:568px;height:1000px;background-color: rgba(0, 0, 0, 0.9);;top: 0;z-index: 99;">
+        <img src="<?php echo base_url(load_file('assets/img/or.png'));?>" alt="" style="width: 125px;filter: invert(1);position: absolute;left: 0;right: 0;margin: auto;top: 60px;">
+        <div style="text-align: center;position: absolute;left: 0;right: 0;top: 200px;bottom: 0;margin: auto;font-size: 1.5em;color: #fff;width: 568px;">กรุณาปรับอุปกรณ์ของท่านให้อยู่ในแนวนอน</div>
+    </div>
+
     <script src="<?php echo base_url(load_file('assets/vendor/jquery/jquery.min.js'));?>"></script>
     <script src="<?php echo base_url(load_file('assets/js/helper-js.js'));?>"></script>
     <script src="<?php echo base_url(load_file('assets/js/signature_pad/signature_pad.min.js'));?>"></script>
     <script>
         $(document).ready(function(){
             var canvas = document.getElementById('signature-pad');
+            var signaturePad = new SignaturePad(canvas);
+            signaturePad.penColor = "rgb(66, 133, 244)";
+
             function resizeCanvas() {
                 var ratio =  Math.max(window.devicePixelRatio || 1, 1);
                 canvas.width = canvas.offsetWidth * ratio;
@@ -270,7 +290,7 @@
             window.onresize = resizeCanvas;
             resizeCanvas();
 
-            var signaturePad = new SignaturePad(canvas);
+            
             document.getElementById('clear').addEventListener('click', function () {
                 signaturePad.clear();
             });
@@ -294,6 +314,26 @@
                     $('#form').submit();
                 }
             });
+
+
+            if (window.matchMedia("(orientation: portrait)").matches) {
+                //alert("กรุณาปรับอุปกรณ์ของท่านให้อยู่ในแนวนอน");
+                $('#OR').show();
+            }
+
+            window.addEventListener("orientationchange", function() {                   
+                if (window.matchMedia("(orientation: portrait)").matches) {
+                    $('#OR').hide();
+                }
+                if (window.matchMedia("(orientation: landscape)").matches) {
+                    $('#OR').show();
+                }
+            }, false);
+
+
+
+            
+            
         });
     </script>
 </body>

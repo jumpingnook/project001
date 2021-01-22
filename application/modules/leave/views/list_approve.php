@@ -84,6 +84,7 @@
                                 }elseif($val['period_start_half']==2){
                                   echo '(บ่าย)';
                                 }
+                                echo ' - ';
                                 echo date_th($val['period_end'],2);
                                 if($val['period_end_half']==1){
                                   echo '(เช้า)';

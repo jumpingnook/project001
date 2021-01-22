@@ -55,7 +55,12 @@ class Leave_model extends MY_Model {
 			$con2['where'] = 'leave_id = '.intval($update);
 			$old = $this->to_select($con2);
 			
-			$con['data']['assign_history_personnel_5'] = isset($old[0]['assign_history_personnel_5']) && trim($old[0]['assign_history_personnel_5'])!=''?$old[0]['assign_history_personnel_5'].$set['personnel_id_5'].',':$set['personnel_id_5'].',';
+			
+			if($con['data']['leave_type_id'] == 4 || $con['data']['leave_type_id'] == 5){
+				$con['data']['assign_history_personnel_6'] = isset($old[0]['assign_history_personnel_6']) && trim($old[0]['assign_history_personnel_6'])!=''?$old[0]['assign_history_personnel_6'].$set['personnel_id_6'].',':$set['personnel_id_6'].',';
+			}else{
+				$con['data']['assign_history_personnel_5'] = isset($old[0]['assign_history_personnel_5']) && trim($old[0]['assign_history_personnel_5'])!=''?$old[0]['assign_history_personnel_5'].$set['personnel_id_5'].',':$set['personnel_id_5'].',';
+			}
 
 			unset($con['data']['edit_leave_id']);
 			unset($con['data']['create_date']);
@@ -64,7 +69,13 @@ class Leave_model extends MY_Model {
 			$con['where'] = 'leave_id = '.intval($update);
 			$result = $this->to_update($con);
 		}else{
-			$con['data']['assign_history_personnel_5'] = $set['personnel_id_5'].',';
+			
+			if($con['data']['leave_type_id'] == 4 || $con['data']['leave_type_id'] == 5){
+				$con['data']['assign_history_personnel_6'] = $set['personnel_id_6'].',';
+			}else{
+				$con['data']['assign_history_personnel_5'] = $set['personnel_id_5'].',';
+			}
+
 			$result = $this->to_insert_last_id($con);
 		}
 
@@ -126,25 +137,14 @@ class Leave_model extends MY_Model {
 
 		if(isset($set['hr']) and $set['hr']){
 
-			if(isset($set['status'])){
-				if($sql!=''){
-					$sql .= ' and (status = '.intval($set['status']).')';
-				}else{
-					$sql = '(status = '.intval($set['status']).')';
-				}
-			}else{
-				if($sql!=''){
-					$sql .= ' and (status >= 1)';
-				}else{
-					$sql = '(status >= 1)';
-				}
-			}
+			
 
 			if(isset($set['leave_year_b']) and $set['leave_year_b'] and isset($set['leave_year']) and intval($set['leave_year'])!=0){
+				$sql = '';
 				if($sql!=''){
-					$sql .= ' and (period_start LIKE "'.intval($set['leave_year']).'%" or period_start LIKE "'.(intval($set['leave_year'])-1).'%") ';
+					$sql .= ' and (period_start LIKE "'.intval($set['leave_year']).'%" or period_start LIKE "'.(intval($set['leave_year'])-1).'%" or period_start LIKE "'.(intval($set['leave_year'])+1).'%")';
 				}else{
-					$sql = '(period_start LIKE "'.intval($set['leave_year']).'%" or period_start LIKE "'.(intval($set['leave_year'])-1).'%")';
+					$sql = '(period_start LIKE "'.intval($set['leave_year']).'%" or period_start LIKE "'.(intval($set['leave_year'])-1).'%" or period_start LIKE "'.(intval($set['leave_year'])+1).'%")';
 				}
 			}elseif(isset($set['start_date']) and isset($set['end_date'])){
 				$start = $set['start_date'];
@@ -167,6 +167,20 @@ class Leave_model extends MY_Model {
 				}
 			}
 
+			if(isset($set['status'])){
+				if($sql!=''){
+					$sql .= ' and (status = '.intval($set['status']).')';
+				}else{
+					$sql = '(status = '.intval($set['status']).')';
+				}
+			}else{
+				if($sql!=''){
+					$sql .= ' and (status >= 1)';
+				}else{
+					$sql = '(status >= 1)';
+				}
+			}
+
 		}
 
 		$con['where'] 		= $sql;
@@ -174,7 +188,6 @@ class Leave_model extends MY_Model {
 		$con['array_key']	= isset($set['array_key'])?$set['array_key']:true;
 		$res['data'] = $this->to_select($con);
 		$res['count'] = count($res['data']);
-
 		return $res;
 	}
 
@@ -191,7 +204,7 @@ class Leave_model extends MY_Model {
 			}
 		}elseif(isset($set['signature']) and trim($set['signature'])!=''){
 			$con = [];
-			$con['where'] = 'url_personnel_1 = "'.trim($set['signature']).'" or url_personnel_2 = "'.trim($set['signature']).'" or url_personnel_3 = "'.trim($set['signature']).'" or url_personnel_4 = "'.trim($set['signature']).'" or url_personnel_5 = "'.trim($set['signature']).'"';
+			$con['where'] = 'url_personnel_1 = "'.trim($set['signature']).'" or url_personnel_2 = "'.trim($set['signature']).'" or url_personnel_3 = "'.trim($set['signature']).'" or url_personnel_4 = "'.trim($set['signature']).'" or url_personnel_5 = "'.trim($set['signature']).'" or url_personnel_6 = "'.trim($set['signature']).'"';
 			$result = $this->to_select($con);
 
 			if(count($result)==1){
@@ -242,7 +255,7 @@ class Leave_model extends MY_Model {
 			$colum = '';
 
 			if(isset($set['cancel']) and trim($set['cancel'])=='n29gknk626e3gh'){
-				if(intval($set['type'])>=2 and intval($set['type'])<=5){
+				if(intval($set['type'])>=2 and intval($set['type'])<=6){
 					$con['data']['signature_cancel_date_personnel_'.intval($set['type'])] = date('Y-m-d H:i:s');
 					$con['data']['approve_cancel_personnel_'.intval($set['type'])] = intval($set['approve']);
 					$colum = 'personnel_id_'.intval($set['type']).'  = ';
@@ -250,7 +263,7 @@ class Leave_model extends MY_Model {
 					return false;
 				}
 			}else{
-				if(intval($set['type'])>=1 and intval($set['type'])<=5){
+				if(intval($set['type'])>=1 and intval($set['type'])<=6){
 					$con['data']['signature_date_personnel_'.intval($set['type'])] = date('Y-m-d H:i:s');
 					$con['data']['approve_personnel_'.intval($set['type'])] = intval($set['approve']);
 					$con['data']['note_personnel_5'] = isset($set['note_personnel_5'])?$set['note_personnel_5']:'';
@@ -265,6 +278,9 @@ class Leave_model extends MY_Model {
 			$con['where'] = 'leave_id = "'.intval($set['leave_id']).'"'.$colum;
 
 			$this->to_update($con);
+
+			
+
 			
 			return true;
 
@@ -323,7 +339,9 @@ class Leave_model extends MY_Model {
 	function approve_hr($set=[]){
 		if(isset($set['leave']) and intval($set['leave'])!=0 and isset($set['hr']) and intval($set['hr'])!=0 and isset($set['type']) and intval($set['type'])!=0){
 			$con = [];
-			$con['data']['hr_personnel_id'] = intval($set['hr']);
+			//sanan
+			//$con['data']['hr_personnel_id'] = intval($set['hr']);
+			$con['data']['hr_personnel_id'] = 1692;
 			$con['data']['signature_hr_date'] = date('Y-m-d H:i:s');
 			$con['data']['hr_approve'] = intval($set['type']);
 			$con['where'] = 'leave_id = "'.intval($set['leave']).'"';

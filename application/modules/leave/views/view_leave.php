@@ -247,11 +247,19 @@
                             </a>
                           </div>
                           <div class="row mb-1">
+                            <button id="cancel_leave" cancel="after" class="btn btn-primary btn-icon-split">
+                              <span class="icon text-white-50">
+                                <i class="fas fa-trash"></i>
+                              </span>
+                              <span class="text">ยกเลิกการลานี้</span>
+                            </button>
+                          </div>
+                          <div class="row mb-1">
                             <a href="#" id="print_u" class="btn btn-light btn-icon-split">
                               <span class="icon text-gray-600">
                                 <i class="fas fa-file-alt"></i>
                               </span>
-                              <span class="text">ดูหรือพิมพ์ใบลาเพื่อส่งพิจารณา</span>
+                              <span class="text">พิมพ์ใบลาเพื่อส่งพิจารณา</span>
                             </a>
                           </div>
 
@@ -408,37 +416,37 @@
 
                 $('#qrcode1 img,#qrcode2 img').attr('src','');
 
-                var qrcode1 = new QRCode("qrcode1", {
-                  text: data.data.url,
-                  width: 300,
-                  height: 300,
-                  colorDark : "#000000",
-                  colorLight : "#ffffff",
-                  correctLevel : QRCode.CorrectLevel.H
-                });
+                // var qrcode1 = new QRCode("qrcode1", {
+                //   text: data.data.url,
+                //   width: 300,
+                //   height: 300,
+                //   colorDark : "#000000",
+                //   colorLight : "#ffffff",
+                //   correctLevel : QRCode.CorrectLevel.H
+                // });
 
-                var element = document.getElementById("qrcode2");
-                if(typeof(element) != 'undefined' && element != null){
-                  var qrcode2 = new QRCode("qrcode2", {
-                    text: data.data.url,
-                    width: 300,
-                    height: 300,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H
-                  });
-                }
-                var element = document.getElementById("qrcode3");
-                if(typeof(element) != 'undefined' && element != null){
-                  var qrcode3 = new QRCode("qrcode3", {
-                    text: data.data.url,
-                    width: 300,
-                    height: 300,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H
-                  });
-                }
+                // var element = document.getElementById("qrcode2");
+                // if(typeof(element) != 'undefined' && element != null){
+                //   var qrcode2 = new QRCode("qrcode2", {
+                //     text: data.data.url,
+                //     width: 300,
+                //     height: 300,
+                //     colorDark : "#000000",
+                //     colorLight : "#ffffff",
+                //     correctLevel : QRCode.CorrectLevel.H
+                //   });
+                // }
+                // var element = document.getElementById("qrcode3");
+                // if(typeof(element) != 'undefined' && element != null){
+                //   var qrcode3 = new QRCode("qrcode3", {
+                //     text: data.data.url,
+                //     width: 300,
+                //     height: 300,
+                //     colorDark : "#000000",
+                //     colorLight : "#ffffff",
+                //     correctLevel : QRCode.CorrectLevel.H
+                //   });
+                // }
 
                 setTimeout(function(){
                   $('#qrcode1 img, #qrcode2 img').show();

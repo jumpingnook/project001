@@ -187,7 +187,7 @@
                                 }elseif($val['period_start_half']==2){
                                   echo '(บ่าย)';
                                 }
-                                echo date_th($val['period_end'],2);
+                                echo ' - '.date_th($val['period_end'],2);
                                 if($val['period_end_half']==1){
                                   echo '(เช้า)';
                                 }elseif($val['period_end_half']==2){
@@ -208,24 +208,25 @@
                             </td>
                             <td>
                               <?php
-                                if($val['hr_approve']==1){
-                                  echo 'ผ่านการตรวจสอบ';
-                                }elseif($val['hr_approve']==2){
-                                  echo 'ไม่ผ่านการตรวจสอบ';
-                                }elseif($val['status']==0){
+                                
+                                if($val['status']==0){
                                   echo 'รอดำเนินการ';
                                 }elseif($val['status']==1){
                                   echo 'กำลังพิจารณา';
                                 }elseif($val['status']==2){
-                                  echo 'อนุญาติเสร็จสิ้น';
+                                  echo 'อนุญาตเสร็จสิ้น';
                                 }elseif($val['status']==3){
-                                  echo 'ไม่อนุญาติ';
+                                  echo 'ไม่อนุญาต';
                                 }elseif($val['status']==98 and $val['deputy_dean_approve_cancel']==1){
                                   echo 'ยกเลิกหลังพิจารณาเสร็จสิ้น';
                                 }elseif($val['status']==98){
                                   echo 'ยกเลิกหลังพิจารณา';
                                 }elseif($val['status']==99){
                                   echo 'ยกเลิกก่อนพิจารณา';
+                                }elseif($val['hr_approve']==1){
+                                  echo 'ผ่านการตรวจสอบ';
+                                }elseif($val['hr_approve']==2){
+                                  echo 'ไม่ผ่านการตรวจสอบ';
                                 }
                               ?>
                             </td>

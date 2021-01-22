@@ -169,103 +169,116 @@
                       <h6 class="m-0 font-weight-bold text-primary">การจัดการ</h6>
                     </div>
                     <div class="card-body">
+                      <?php if($data['status']==1){ ?>
+                        <?php 
+                          if($signature_type>=2 and $signature_type!=5){
+                            $btn[] = 'เห็นควรอนุญาต';
+                            $btn[] = 'เห็นควรไม่อนุญาต';
+                            $title = isset($cancel_approve) && $cancel_approve?'ยกเลิกวันลา':'อนุมัติการลา';
+                          }elseif($signature_type==1){
+                            $btn[] = 'ยอมรับการปฏิบัติงานแทน';
+                            $btn[] = 'ไม่ยอมรับการปฏิบัติงานแทน';
+                            $title = 'ผู้ปฏิบัติงานแทน';
+                          }elseif($signature_type==5  && intval($data['personnel_id_6'])==0){
+                            $btn[] = 'อนุญาต';
+                            $btn[] = 'ไม่อนุญาต';
+                            $title = isset($cancel_approve) && $cancel_approve?'ยกเลิกวันลา':'อนุมัติการลา';
+                          }elseif($signature_type==5  && intval($data['personnel_id_6'])!=0){
+                            $btn[] = 'เห็นควรอนุญาต';
+                            $btn[] = 'เห็นควรไม่อนุญาต';
+                            $title = isset($cancel_approve) && $cancel_approve?'คำสั่งอนุมัติยกเลิกวันลา':'คำสั่งอนุมัติการลา';
+                          }
+                        ?>
 
-                      <?php 
-                        if($signature_type>=2 and $signature_type!=5){
-                          $btn[] = 'เห็นควรอนุญาติ';
-                          $btn[] = 'เห็นควรไม่อนุญาติ';
-                          $title = isset($cancel_approve) && $cancel_approve?'ยกเลิกวันลา':'อนุมัติการลา';
-                        }elseif($signature_type==1){
-                          $btn[] = 'ยอมรับการปฏิบัติงานแทน';
-                          $btn[] = 'ไม่ยอมรับการปฏิบัติงานแทน';
-                          $title = 'ผู้ปฏิบัติงานแทน';
-                        }elseif($signature_type==5){
-                          $btn[] = 'อนุญาต';
-                          $btn[] = 'ไม่อนุญาต';
-                          $title = isset($cancel_approve) && $cancel_approve?'คำสั่งอนุมัติยกเลิกวันลา':'คำสั่งอนุมัติการลา';
-                        }
-                      ?>
-
-                      <div class="row">
-                        <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การพิจารณา<?php echo $title;?></div>
-                      </div>
-
-                      <?php if(!$approve_status and trim($personnel_list['data'][$personnel_id]['signature'])!=''){ ?>
-
-                      <div class="row mb-1">
-                        <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split" style="width: 100%;">
-                          <span class="icon text-white-600">
-                            <i class="fas fa-check"></i>
-                          </span>
-                          <span class="text" style="width: 100%;"><?php echo $btn[0];?></span>
-                        </button>
-                      </div>
-
-                      
-                      <div class="row mb-1">
-                        <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split" style="width: 100%;">
-                          <span class="icon text-white-600" style="width:43px;">
-                            <i class="fas fa-times"></i>
-                          </span>
-                          <span class="text" style="width: 100%;"><?php echo $btn[1];?></span>
-                        </button>
-                      </div>
-                      <?php if($signature_type==5){?>
-                          <div class="form-group row mb-1 ">
-                            <textarea form="form" class="form-control" name="note_personnel_5" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นกรณีไม่อนุญาติ"></textarea>
-                          </div>
-                      <?php } ?>
-
-                      <hr>
-
-                      <form id="assign_form" action="<?php echo base_url(url_index().'leave/assign_approve');?>" method="post">
-                        <div class="row mb-1">
-                          <div class="text-s font-weight-bold text-danger text-uppercase mb-1">หมอบหมายรักษาการแทน</div>
-                          <div class="form-group" style="width: 100%;">
-                            <label>คณบดี / รองคณบดี / หัวหน้าภาค</label>
-                            <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณารักษาการแทน" autocomplete="off" required>
-                            <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="" autocomplete="off" required/>
-                            <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุตำแหน่งผู้พิจารณา" value="" required/>
-                          </div>
-                          <button type="submit" class="btn btn-warning btn-icon-split" style="width: 100%;">
-                            <span class="icon text-white-600" style="width:43px;">
-                              <i class="fas fa-times"></i>
-                            </span>
-                            <span class="text" style="width: 100%;">บันทึกผู้พิจารณารักษาการแทน</span>
-                          </button>
+                        <div class="row">
+                          <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การพิจารณา<?php echo $title;?></div>
                         </div>
-                        <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
-                      </form>
 
-                      <?php }elseif(isset($cancel_approve) and $cancel_approve and trim($personnel_list['data'][$personnel_id]['signature'])!=''){?>
+                        <?php if(!$approve_status and trim($personnel_list['data'][$personnel_id]['signature'])!=''){ ?>
+
                         <div class="row mb-1">
-                          <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
+                          <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split" style="width: 100%;">
                             <span class="icon text-white-600">
                               <i class="fas fa-check"></i>
                             </span>
-                            <span class="text"><?php echo $btn[0];?></span>
+                            <span class="text" style="width: 100%;"><?php echo $btn[0];?></span>
                           </button>
                         </div>
 
+                        
                         <div class="row mb-1">
-                          <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split">
-                            <span class="icon text-white-600">
+                          <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split" style="width: 100%;">
+                            <span class="icon text-white-600" style="width:43px;">
                               <i class="fas fa-times"></i>
                             </span>
-                            <span class="text"><?php echo $btn[1];?></span>
+                            <span class="text" style="width: 100%;"><?php echo $btn[1];?></span>
                           </button>
                         </div>
-                      <?php } ?>
+                          <?php if(($signature_type==5 && intval($data['personnel_id_6'])==0) || ($signature_type==6 && intval($data['personnel_id_6'])!=0)){?>
+                            <div class="form-group row mb-1 ">
+                              <textarea form="form" class="form-control" name="note_personnel_5" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นกรณีไม่อนุญาต"></textarea>
+                            </div>
+                          
+                            <hr>
 
-                      <form id="form" action="<?php echo base_url(url_index().'leave/save_approve');?>" method="post">
-                          <input type="hidden" name="personnel_id" value="<?php echo $personnel_id;?>">
-                          <input type="hidden" name="type" value="<?php echo $signature_type;?>">
-                          <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
-                          <?php if(isset($cancel_approve) and $cancel_approve){ ?>
-                            <input type="hidden" name="cancel" value="n29gknk626e3gh">
+                            <form id="assign_form" action="<?php echo base_url(url_index().'leave/assign_approve');?>" method="post">
+                              <div class="row mb-1">
+                                <div class="text-s font-weight-bold text-danger text-uppercase mb-1">หมอบหมายรักษาการแทน</div>
+                                <div class="form-group" style="width: 100%;">
+                                  <label>คณบดี / รองคณบดี / หัวหน้าภาค</label>
+                                  <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณารักษาการแทน" autocomplete="off" required>
+                                  <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="" autocomplete="off" required/>
+                                  <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุตำแหน่งผู้พิจารณา" value="" required/>
+                                </div>
+                                <button type="submit" class="btn btn-warning btn-icon-split" style="width: 100%;">
+                                  <span class="icon text-white-600" style="width:43px;">
+                                    <i class="fas fa-times"></i>
+                                  </span>
+                                  <span class="text" style="width: 100%;">บันทึกผู้พิจารณารักษาการแทน</span>
+                                </button>
+                              </div>
+                              <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
+                            </form>
                           <?php } ?>
-                      </form>
+                        <?php }elseif(isset($cancel_approve) and $cancel_approve and trim($personnel_list['data'][$personnel_id]['signature'])!=''){?>
+                          <div class="row mb-1">
+                            <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
+                              <span class="icon text-white-600">
+                                <i class="fas fa-check"></i>
+                              </span>
+                              <span class="text"><?php echo $btn[0];?></span>
+                            </button>
+                          </div>
 
+                          <div class="row mb-1">
+                            <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split">
+                              <span class="icon text-white-600">
+                                <i class="fas fa-times"></i>
+                              </span>
+                              <span class="text"><?php echo $btn[1];?></span>
+                            </button>
+                          </div>
+                        <?php } ?>
+
+                        <form id="form" action="<?php echo base_url(url_index().'leave/save_approve');?>" method="post">
+                            <input type="hidden" name="personnel_id" value="<?php echo $personnel_id;?>">
+                            <input type="hidden" name="type" value="<?php echo $signature_type;?>">
+                            <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
+                            <?php if(isset($cancel_approve) and $cancel_approve){ ?>
+                              <input type="hidden" name="cancel" value="n29gknk626e3gh">
+                            <?php } ?>
+                            <?php if($signature_type==5 && intval($data['personnel_id_6'])!=0){ ?>
+                              <input type="hidden" name="next_approve" value="true">
+                            <?php } ?>
+                        </form>
+                      <?php }elseif($data['status']>2){ ?>
+                        <button class="btn btn-primary btn-icon-split">
+                          <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                          </span>
+                          <span class="text">บุคคลากรยกเลิกการลาเมื่อวันที่<br/><?php echo date_th($data['cancel_date'],2);?></span>
+                        </button>
+                      <?php } ?>
                     </div>
                   </div>
                 </div>
@@ -516,6 +529,9 @@
           return true;
         });
 
+        <?php if($data['status']==98 || $data['status']==99){ ?>
+          alert('บุคคลากรยกเลิกการลาเมื่อวันที่ <?php echo date_th($data['cancel_date'],2);?>');
+        <?php } ?>
       });
 
   </script>

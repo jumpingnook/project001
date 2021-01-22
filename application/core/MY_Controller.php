@@ -71,7 +71,6 @@ class Leave_Controller extends MY_Controller{
             $this->load->model('leave/Leave_quota_model');
             $this->Leave_quota_model->check_seed(['personnel_id'=>$personnel['personnel_id']]);
         }
-
     }
 }
 

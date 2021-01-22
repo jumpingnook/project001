@@ -254,6 +254,7 @@
                                 }elseif($val['period_start_half']==2){
                                   echo '(บ่าย)';
                                 }
+                                echo ' - ';
                                 echo '<br/>'.date_th($val['period_end'],2);
                                 if($val['period_end_half']==1){
                                   echo '(เช้า)';
@@ -279,9 +280,9 @@
                                 }elseif($val['status']==1){
                                   echo 'กำลังพิจารณา';
                                 }elseif($val['status']==2){
-                                  echo 'อนุญาติเสร็จสิ้น';
+                                  echo 'อนุญาตเสร็จสิ้น';
                                 }elseif($val['status']==3){
-                                  echo 'ไม่อนุญาติ';
+                                  echo 'ไม่อนุญาต';
                                 }elseif($val['status']==98 and $val['deputy_dean_approve_cancel']==1){
                                   echo 'ยกเลิกหลังพิจารณาเสร็จสิ้น';
                                 }elseif($val['status']>=98){
@@ -490,7 +491,8 @@
                         g = pix[i+1],
                         b = pix[i+2];
 
-                        if(r == 255&& g == 255 && b == 255){ 
+                        //if(r == 255&& g == 255 && b == 255){ 
+                        if(r >= 160&& g >= 160 && b >= 160){ 
                           // Change the white to the new color.
                           pix[i] = newColor.r;
                           pix[i+1] = newColor.g;
@@ -516,8 +518,6 @@
                           }
                         }
                       });
-
-
 
                     }
                     img.src = data_url;

@@ -86,8 +86,8 @@ class Api_v1 extends REST_Controller {
             $set['position_boss'] 	= isset($post['positionmanagement'])?trim($post['positionmanagement']):'';
             $set['smu_main_id'] 	= isset($post['departname'])?substr($post['departname'],0,6):'';
             $set['smu_sub_id'] 		= isset($post['subdepart'])?substr($post['subdepart'],0,6):'';
-            $set['work_start_date'] = isset($post['empstart'])?trim($post['empstart']):'';
-            $set['work_end_date'] 	= isset($post['empend'])?trim($post['empend']):'';
+            $set['work_start_date'] = isset($post['workstart'])?trim($post['workstart']):'';
+            $set['work_end_date'] 	= isset($post['workend'])?trim($post['workend']):'';
 
             $emp_type = 0;
             if(isset($post['pgroupid']) and intval($post['pgroupid'])==1){$emp_type = 1;
@@ -155,8 +155,8 @@ class Api_v1 extends REST_Controller {
             $set['position_boss'] 	= isset($post['positionmanagement'])?trim($post['positionmanagement']):'';
             $set['smu_main_id'] 	= isset($post['departname'])?substr($post['departname'],0,6):'';
             $set['smu_sub_id'] 		= isset($post['subdepart'])?substr($post['subdepart'],0,6):'';
-            $set['work_start_date'] = isset($post['empstart'])?trim($post['empstart']):'';
-            $set['work_end_date'] 	= isset($post['empend'])?trim($post['empend']):'';
+            $set['work_start_date'] = isset($post['workstart'])?trim($post['workstart']):'';
+            $set['work_end_date'] 	= isset($post['workend'])?trim($post['workend']):'';
 
             $emp_type = 0;
             if(isset($post['pgroupid']) and intval($post['pgroupid'])==1){$emp_type = 1;

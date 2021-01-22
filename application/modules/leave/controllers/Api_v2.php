@@ -20,7 +20,7 @@ class Api_v2 extends REST_Controller {
             $spec = $this->Leave_spec_model->spec($set);
 
             $count_type = floatval($post['period_count_all']);
-            if(isset($spec['type_count']) && intval($spec['type_count'])){
+            if(isset($spec[0]['type_count']) && intval($spec[0]['type_count'])){ 
                 $count_type = floatval($post['period_count']);
             }
             $post['period_count'] = $count_type;
@@ -183,6 +183,8 @@ class Api_v2 extends REST_Controller {
                 $count_year['alert'][0] += floatval($post['period_count']);
             }
 
+            
+
             if(intval($post['leave_type'])==2 || intval($post['leave_type'])==3 || intval($post['leave_type'])==6 || intval($post['leave_type'])==10){
                 if(isset($leave[2])){
                     $count_year['alert'][1] += $leave[2];
@@ -193,6 +195,12 @@ class Api_v2 extends REST_Controller {
                 }elseif(isset($leave[10])){
                     $count_year['alert'][1] += $leave[10];
                 }
+
+                // $this->response([
+                //     'data' => [floatval($post['period_count']),$count_year['alert'][1]]
+                // ], REST_Controller::HTTP_OK); //200
+
+
                 $count_year['alert'][1] +=floatval($post['period_count']);
             }
             if(intval($post['leave_type'])==1 || intval($post['leave_type'])==7){
@@ -214,15 +222,17 @@ class Api_v2 extends REST_Controller {
                 }
 
             } 
-            
+
             $res['limit'] = 0;
             if(isset($spec['limit_year']) and intval($spec['limit_year'])>0 and floatval($count_year['limit'])>intval($spec['limit_year'])){
                 $res['limit'] = intval($spec['limit_year']);
             }
 
             $res['rest_limit'] = 0;
-            if($count_year['rest_limit'][0]>$count_year['rest_limit'][1]){
-                $res['rest_limit'] = $count_year['rest_limit'][0];
+            if($count_year['rest_limit'][0]>$count_year['rest_limit'][1] && $count_year['rest_limit'][1]!=0){
+                $res['rest_limit'] = $count_year['rest_limit'][1];
+            }elseif($count_year['rest_limit'][1]==0){
+                $res['rest_limit'] = -1;
             }
 
             $res['alert'][0] = 0;
@@ -233,6 +243,8 @@ class Api_v2 extends REST_Controller {
             if(isset($spec['promotion_alert']) and intval($spec['promotion_alert'])!=0 and floatval($count_year['alert'][1])>intval($spec['promotion_alert'])){
                 $res['alert'][1] = intval($spec['promotion_alert']);
             }
+
+            
 
             $res['before'][0] = $res['before'][1] = 0;
             $startTimeStamp = strtotime(date("Y-m-d"));
@@ -283,7 +295,6 @@ class Api_v2 extends REST_Controller {
 
             $result = $this->Special_fn_model->get_type();
             
-
             #special_function
             $sp_type = [];
             foreach($result as $key=>$val){
@@ -335,9 +346,12 @@ class Api_v2 extends REST_Controller {
             }
             $res['special_fn'] =  $sp_type;
 
+            $result = $this->get_list_approve(['personnel'=>$post['personnel']]);
+
             $this->response([
-                'status'    => true,
-                'data'      => $res
+                'status'            => true,
+                'data'              => $res,
+                'list_approve'      => $result
             ], REST_Controller::HTTP_OK); //200
 
         }else{
@@ -364,5 +378,30 @@ class Api_v2 extends REST_Controller {
             echo ($type=='js'?'var date_fix = ':'').json_encode($this->Calendar_model->to_select($con));
         }
 
+    }
+
+    private function get_list_approve($set = []){
+        $this->load->model(['leave/Leave_approve_model']);
+        $result = $this->Leave_approve_model->get_list_approve($set);
+
+        $res = [];
+        if(count($result)>0){
+
+            $this->load->model(['personnel/Personnel_model']);
+            $this->load->model(['sql_personnel/Sql_personnel_model']);
+
+            for($i=2;$i<=6;$i++){
+                $res['personnel_'.$i]['id']         = $result[0]['personnel_id_'.$i];
+                $res['personnel_'.$i]['position']   = $result[0]['position_personnel_'.$i];
+                if(intval($result[0]['personnel_id_'.$i])!=0){
+                    $personnel = $this->Personnel_model->get_personnel(['personnel_id'=>intval($result[0]['personnel_id_'.$i])]);
+                    if($personnel['count']==1){
+                        $res['personnel_'.$i]['name'] = $personnel['data'][0]['title'].$personnel['data'][0]['name_th'].' '.$personnel['data'][0]['surname_th'];
+                    }
+                }
+            }
+        }
+
+        return $res;
     }
 }

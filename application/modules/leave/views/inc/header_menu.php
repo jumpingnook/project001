@@ -21,12 +21,11 @@
   <a class="nav-link" href="<?php echo base_url(url_index().'leave');?>">
       <i class="far fa-fw fa-file-alt"></i>
       <span>รายการข้อมูลการลา</span></a>
-  <?php /*if(!isset($personnel['signature']) || trim($personnel['signature'])==''){ ?>
+  <?php if(!isset($personnel['signature']) || trim($personnel['signature'])==''){ ?>
     <a href="#" class="nav-link" data-toggle="modal" data-target="#signature">
   <?php }else{ ?>
     <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
-  <?php }*/ ?>
-    <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
+  <?php }?>
       <i class="far fa-fw fa-copy"></i>
       <span>กรอกใบลา</span>
     </a>
@@ -84,11 +83,11 @@
 <!-- Divider -->
 <hr class="sidebar-divider">
 
+<?php if($this->session->personnel['personnel_id'] == 1692){//sanan ?>
 <!-- Heading -->
 <div class="sidebar-heading">
   ฝ่ายทรัพยากรบุคคล
 </div>
-
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_hr');?>">
@@ -99,14 +98,17 @@
     <i class="far fa-fw fa-calendar-alt"></i>
     <span>การจัดการปฏิทิน</span>
   </a>
-  <a class="nav-link" href="<?php echo base_url(url_index().'leave/special_fn');?>">
+  <!-- <a class="nav-link" href="<?php echo base_url(url_index().'leave/special_fn');?>">
     <i class="fas fa-fw fa-cogs"></i>
     <span>การตั้งค่าผู้ใช้เฉพาะ</span>
   </a>
   <a class="nav-link" href="<?php echo base_url(url_index().'leave/report_smu_hr');?>">
     <i class="fas fa-fw fa-chart-bar"></i>
     <span>รายงานสรุปการลา</span>
-  </a>
+  </a> -->
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+  <?php } ?>
 
   <?php /*
   <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -144,8 +146,7 @@
 </li>
 */ ?>
 
-<!-- Divider -->
-<hr class="sidebar-divider d-none d-md-block">
+
 
 <!-- Sidebar Toggler (Sidebar) -->
 <div class="text-center d-none d-md-inline">

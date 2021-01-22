@@ -92,8 +92,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']==1?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -146,8 +146,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']==1?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -205,8 +205,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']==1?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -276,8 +276,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']==1?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -320,8 +320,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']=='1'?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']=='2'?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']=='3'?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']=='2'?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']=='3'?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -394,8 +394,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']=='1'?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']=='2'?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']=='3'?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']=='2'?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']=='3'?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -445,8 +445,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']==1?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>
@@ -497,8 +497,8 @@
                         <label>เรียน</label>
                         <select name="to" class="toBoss form-control" required>
                           <option value="1" <?php echo $leave_data['to']==1?'selected':''; ?>>คณบดีคณะแพทยศาสตร์</option>
-                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิกาารบดี</option>
-                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิกาารบดี (คณบดีคณะแพทยศาสตร์)</option>
+                          <option value="2" <?php echo $leave_data['to']==2?'selected':''; ?>>อธิการบดี</option>
+                          <option value="3" <?php echo $leave_data['to']==3?'selected':''; ?>>อธิการบดี (คณบดีคณะแพทยศาสตร์)</option>
                         </select>
                       </div>
                     </div>

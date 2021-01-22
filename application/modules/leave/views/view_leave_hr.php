@@ -68,7 +68,7 @@
                           รหัสพนักงาน
                         </div>
                         <div class="col-lg-9">
-                          <?php echo isset($personnel['personnel_code'])?$personnel['personnel_code']:'-';?>
+                          <?php echo isset($personnel['data']['personnel_code'])?$personnel['data']['personnel_code']:'-';?>
                         </div>
                       </div>
                       <div class="row">
@@ -77,9 +77,9 @@
                         </div>
                         <div class="col-lg-9">
                           <?php 
-                            echo isset($personnel['title'])?$personnel['title']:'-'; 
-                            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
-                            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+                            echo isset($personnel['data']['title'])?$personnel['data']['title']:'-'; 
+                            echo isset($personnel['data']['name_th'])?$personnel['data']['name_th'].' ':'-'; 
+                            echo isset($personnel['data']['surname_th'])?$personnel['data']['surname_th']:'-'; 
                           ?>
                         </div>
                       </div>

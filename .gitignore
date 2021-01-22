@@ -23,4 +23,8 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
+
 eBook/*
+naresuan_hospital/*
+screening_medicine/*
+wp/*

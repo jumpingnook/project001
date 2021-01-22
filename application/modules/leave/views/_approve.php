@@ -178,9 +178,9 @@
                         if(isset($data['to']) and $data['to']==1){
                           echo 'คณบดีคณะแพทยศาสตร์';
                         }elseif(isset($data['to']) and $data['to']==2){
-                          echo 'อธิกาารบดี';
+                          echo 'อธิการบดี';
                         }else{
-                          echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+                          echo 'อธิการบดี (คณบดีคณะแพทยศาสตร์)';
                         }
                       ?></td>
                 </tr>
@@ -199,9 +199,9 @@
                     if(isset($data['to']) and $data['to']==1){
                         echo 'คณบดีคณะแพทยศาสตร์';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี';
+                        echo 'อธิการบดี';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+                        echo 'อธิการบดี (คณบดีคณะแพทยศาสตร์)';
                     }
                     ?>
                 </span>
@@ -669,9 +669,9 @@
                     if(isset($data['to']) and $data['to']==1){
                         echo 'คณบดีคณะแพทยศาสตร์';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี';
+                        echo 'อธิการบดี';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+                        echo 'อธิการบดี (คณบดีคณะแพทยศาสตร์)';
                     }
                     ?>
                 </span>
@@ -851,9 +851,9 @@
                     if(isset($data['to']) and $data['to']==1){
                         echo 'คณบดีคณะแพทยศาสตร์';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี';
+                        echo 'อธิการบดี';
                     }elseif(isset($data['to']) and $data['to']==2){
-                        echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+                        echo 'อธิการบดี (คณบดีคณะแพทยศาสตร์)';
                     }
                     ?>
                 </span>
@@ -1104,9 +1104,9 @@
                             if(isset($data['to']) and $data['to']==1){
                             echo 'คณบดีคณะแพทยศาสตร์';
                             }elseif(isset($data['to']) and $data['to']==2){
-                            echo 'อธิกาารบดี';
+                            echo 'อธิการบดี';
                             }elseif(isset($data['to']) and $data['to']==2){
-                            echo 'อธิกาารบดี (คณบดีคณะแพทยศาสตร์)';
+                            echo 'อธิการบดี (คณบดีคณะแพทยศาสตร์)';
                             }
                         ?>
                         </span>
@@ -1255,8 +1255,8 @@
         <div class="box-button">
             <a href="<?php echo base_url(url_index().'leave');?>"><button type="button" style="background-color: #cccccc;">< กลับไปที่ระบบลา</button></a>&nbsp;&nbsp;
             <?php if($signature_type>=2 and $signature_type!=5){?>
-                <button type="submit" name="approve" form="form" value="1">เห็นควรอนุญาติ</button>
-                <button type="submit" name="approve" form="form" value="2">เห็นควรไม่อนุญาติ</button>
+                <button type="submit" name="approve" form="form" value="1">เห็นควรอนุญาต</button>
+                <button type="submit" name="approve" form="form" value="2">เห็นควรไม่อนุญาต</button>
             <?php }elseif($signature_type==1){ ?>
                 <button type="submit" name="approve" form="form" value="1">ยอมรับการปฏิบัติงานแทน</button>
                 <button type="submit" name="approve" form="form" value="2">ไม่ยอมรับการปฏิบัติงานแทน</button>

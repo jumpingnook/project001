@@ -293,19 +293,23 @@
             $d1 = new DateTime(date('Y-m-d',strtotime($date)));
             $d2 = new DateTime(date('Y-m-d'));
 
-            $month = $d1->diff($d2)->m; // month == 6
-            $day =$d1->diff($d2)->d; // day == 1
+            $month      = $d1->diff($d2)->m; // month == 6
+            $day        = $d1->diff($d2)->d; // day == 1
+            $ten_year   = false;
 
             if($d1->diff($d2)->y>1){
                 $month = 7;
                 $day = 10;
             }
+            if($d1->diff($d2)->y>=10){
+                $ten_year = true;
+            }
 
-            return ['status'=>true, 'month'=>intval($month), 'day'=>intval($day)];
+            return ['status'=>true, 'month'=>intval($month), 'day'=>intval($day), 'ten_year'=>$ten_year];
 
         }
 
-        return ['status'=>false, 'month'=>0, 'day'=>0];
+        return ['status'=>false, 'month'=>0, 'day'=>0, 'ten_year'=>false];
     }
 
 

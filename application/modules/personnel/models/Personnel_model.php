@@ -227,7 +227,11 @@ class Personnel_model extends MY_Model {
 		$con['data']['phone'] 			= isset($set['phone'])?trim($set['phone']):'';
 		$con['data']['tel'] 			= isset($set['tel'])?trim($set['tel']):'';
 		$con['data']['internal_tel'] 	= isset($set['internal_tel'])?trim($set['internal_tel']):'';
-		$con['data']['email'] 			= isset($set['email'])?trim($set['email']):'';
+
+		if(isset($set['email']) && trim($set['email'])!=''){
+			$con['data']['email'] 		= trim($set['email']);
+		}
+
 		$con['data']['address'] 		= isset($set['address'])?trim($set['address']):'';
 		$con['data']['img'] 			= isset($set['img'])?trim($set['img']):'';
 		$con['data']['position_boss'] 	= isset($set['img'])?trim($set['position_boss']):'';
