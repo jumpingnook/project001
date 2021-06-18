@@ -140,7 +140,7 @@ class Leave extends Leave_Controller {
         $post = $this->session->flashdata();
         if(isset($post['post']) and count($post['post'])>0){
             $set['post_data'] = $post['post'];
-        }
+        }  
 
         $this->load->view('add_leave',$set);
     }
@@ -734,7 +734,11 @@ class Leave extends Leave_Controller {
             $leave_id = $set['leave_id'] = $result['data']['leave_id'];
             
             $personnel = $this->session_data['personnel'];
-            if($personnel['personnel_id']!=$set['personnel_id']){ //sanan
+
+
+            if(isset($_GET['complete'])){
+
+            }elseif($personnel['personnel_id']!=$set['personnel_id']){ //sanan
                 redirect(base_url(url_index().'leave'));
             }
 
@@ -816,11 +820,12 @@ class Leave extends Leave_Controller {
             $set['api'] = $api;
 
             $approve_list = $this->approve_list($set['data']['personnel_id']);
+
             foreach($approve_list as $key=>$val){
                 $set['approve_list'][($val+1)] = $val;
             }
 
-            //echo '<pre>';print_r($set);exit;
+            $set['own_session'] = $this->session_data['personnel'];
 
             $this->load->view('approve',$set);
 
@@ -976,8 +981,8 @@ class Leave extends Leave_Controller {
                         $api['subject']     = $subject;
                         $api['body']        = $html;
                         //$api['to']          = 'ela.somniyam@gmail.com';
-                        //$api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
-                        $api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
+                        $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
+                        //$api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
                         $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
 
                         if($send['status']){
@@ -1041,8 +1046,8 @@ class Leave extends Leave_Controller {
                         $api['subject']     = $subject;
                         $api['body']        = $html;
                         //$api['to']          = 'ela.somniyam@gmail.com';
-                        //$api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
-                        $api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
+                        $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
+                        //$api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
                         $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
                     }
 
@@ -1097,8 +1102,6 @@ class Leave extends Leave_Controller {
                 }
             }
         }
-
-        
 
         if(count($to_list)>0){
 
@@ -1590,20 +1593,44 @@ class Leave extends Leave_Controller {
 
         if(count($set['leave_history']['data'])>0){
             $con = [];
+            $target_emp = 0;
+            foreach($set['leave_history']['data'] as $key=>$val){
+                $target_emp = $val['personnel_id'];
+            }
+
+
+            $api = [];
+            $api['APP-KEY']     = $this->api_key;
+            $api['token']       = isset($this->session_data['authentication']['token'])?$this->session_data['authentication']['token']:'';
+            $api['ip']          = get_client_ip();
+            $set['api'] = $api;
+
+            $approve_list = $this->approve_list($target_emp);
+
+            foreach($approve_list as $key=>$val){
+                $set['approve_list'][($val+1)] = $val;
+            }
+
+            //echo '<pre>';print_r($set['approve_list']);exit;
+
             foreach($set['leave_history']['data'] as $key=>$val){
                 $con[$val['personnel_id']] = $val['personnel_id'];
 
-                if($val['personnel_id_1'] == $set['personnel']['personnel_id']){
+
+                //echo '<pre>';print_r($val);exit;
+                /*if($val['personnel_id_1'] == $set['personnel']['personnel_id']){
                     $set['leave_history']['data'][$key]['approve_data'] = $val['url_personnel_1'];
-                }elseif($val['personnel_id_2'] == $set['personnel']['personnel_id']){
+                }else*/
+                
+                if($val['personnel_id_2'] == $set['personnel']['personnel_id'] and isset($set['approve_list'][2]) and $val['approve_personnel_2']==0){
                     $set['leave_history']['data'][$key]['approve_data'] = $val['url_personnel_2'];
-                }elseif($val['personnel_id_3'] == $set['personnel']['personnel_id']){
+                }elseif($val['personnel_id_3'] == $set['personnel']['personnel_id'] and isset($set['approve_list'][3]) and $val['approve_personnel_3']==0){
                     $set['leave_history']['data'][$key]['approve_data'] = $val['url_personnel_3'];
-                }elseif($val['personnel_id_4'] == $set['personnel']['personnel_id']){
+                }elseif($val['personnel_id_4'] == $set['personnel']['personnel_id'] and isset($set['approve_list'][4]) and $val['approve_personnel_4']==0){
                     $set['leave_history']['data'][$key]['approve_data'] = $val['url_personnel_4'];
-                }elseif($val['personnel_id_5'] == $set['personnel']['personnel_id']){
+                }elseif($val['personnel_id_5'] == $set['personnel']['personnel_id'] and isset($set['approve_list'][5]) and $val['approve_personnel_5']==0){
                     $set['leave_history']['data'][$key]['approve_data'] = $val['url_personnel_5'];
-                }elseif($val['personnel_id_6'] == $set['personnel']['personnel_id']){
+                }elseif($val['personnel_id_6'] == $set['personnel']['personnel_id'] and isset($set['approve_list'][6]) and $val['approve_personnel_6']==0){
                     $set['leave_history']['data'][$key]['approve_data'] = $val['url_personnel_6'];
                 }
             }
@@ -1667,8 +1694,8 @@ class Leave extends Leave_Controller {
                 $api['subject']     = $subject;
                 $api['body']        = $html;
                 //$api['to']          = 'ela.somniyam@gmail.com';
-                //$api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
-                $api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
+                $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
+                //$api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
                 $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
 
                 redirect(base_url(url_index().'leave?approve=assign_complete'));

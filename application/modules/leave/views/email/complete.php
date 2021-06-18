@@ -26,7 +26,7 @@
             </p>
         </div><br/><br/>
         <div>
-            <center><a href="<?php echo $leave_data['url_personnel_1'];?>"><button style="padding: 10px;border-radius: 5px;background-color: #4CAF50;color: #ffffff;font-size: 24px;">คลิกที่นี่ เพื่อดูรายละเอียดการลา</button></a></center>
+            <center><a href="<?php echo $leave_data['url_personnel_1'].'&complete=1';?>"><button style="padding: 10px;border-radius: 5px;background-color: #4CAF50;color: #ffffff;font-size: 24px;">คลิกที่นี่ เพื่อดูรายละเอียดการลา</button></a></center>
         </div>
         <!-- <div style="width: 100%;height: 20px;background-color: #863920;position: absolute;bottom: 0;"></div> -->
     </div>

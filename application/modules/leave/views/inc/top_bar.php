@@ -161,9 +161,18 @@
       <span class="mr-2 d-none d-lg-inline text-gray-600 small">
         <?php
           //$personne = $this->session_data['personnel'];
-          echo isset($personnel['title'])?$personnel['title']:'-'; 
-          echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
-          echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+
+          if(isset($own_session) and count($own_session)>0){
+            echo isset($own_session['title'])?$own_session['title']:'-'; 
+            echo isset($own_session['name_th'])?$own_session['name_th'].' ':'-'; 
+            echo isset($own_session['surname_th'])?$own_session['surname_th']:'-'; 
+          }else{
+            echo isset($personnel['title'])?$personnel['title']:'-'; 
+            echo isset($personnel['name_th'])?$personnel['name_th'].' ':'-'; 
+            echo isset($personnel['surname_th'])?$personnel['surname_th']:'-'; 
+          }
+
+          
         ?>
       </span>
       <i class="fas fa-angle-down"></i>

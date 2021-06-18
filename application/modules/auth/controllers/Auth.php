@@ -14,7 +14,7 @@ class Auth extends Auth_Controller {
 
         $login = $this->session->userdata('authentication');
         if(isset($login['status']) and $login['status'] and isset($get['dest']) and trim($get['dest'])!=''){
-            redirect(url_index().trim($get['dest']));
+            redirect(url_index().trim($get['dest']).(isset($get['complete'])?'?complete=1':''));
         }/*elseif(isset($login['status']) and $login['status']){
             redirect(url_index().'idp/my_course/');
         }*/
@@ -179,8 +179,12 @@ class Auth extends Auth_Controller {
             if(isset($post['dest']) and trim($post['dest'])!=''){
                 $dest = trim($post['dest']);
             }
+            $complete = '';
+            if(isset($post['complete']) and intval($post['complete'])==1){
+                $complete = '?complete=1';
+            }
 
-            redirect(url_index().$dest);
+            redirect(url_index().$dest.$complete);
         }else{
             redirect(url_index().'auth/?status=fail2'); //login fail
         }

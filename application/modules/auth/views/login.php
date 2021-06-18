@@ -55,6 +55,7 @@
                     <button type="submit" class="btn btn-primary btn-user btn-block">เข้าสู่ระบบ</button>
                     <input type="hidden" name="token" value="<?php echo isset($token_login)?$token_login:'';?>"/>
                     <input type="hidden" id="dest" name="dest" value=""/>
+                    <input type="hidden" id="complete" name="complete" value=""/>
                   </form>
                 </div>
               </div>
@@ -74,9 +75,13 @@
     $(document).ready(function(){
 
       var dest = getUrlParam('dest','leave');
+      var complete = getUrlParam('complete','leave');
 
       if(dest!=''){
         $('#dest').val(dest);
+      }
+      if(complete!=''){
+        $('#complete').val(complete);
       }
 
       function getUrlParam(parameter, defaultvalue){
