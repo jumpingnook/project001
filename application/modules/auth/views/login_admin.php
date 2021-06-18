@@ -115,21 +115,27 @@
             dataType: "json",
             data: {term:term},
             success: function(data) {
-
-
+              
               console.log(data);
-
               let res = [];
 
-              if(data.length > 0){
-
-                $.each( data, function( key, value ) {
+              if(data.op.length > 0){
+                $.each( data.op, function( key, value ) {
                   res[key] = {'value':'','label':'','id':''};
                   res[key].value = value.title+value.name_th+' '+value.surname_th+', '+value.internet_account;
                   res[key].label = value.title+value.name_th+' '+value.surname_th+', '+value.internet_account;
                   res[key].id    = value.internet_account;
                 });
-
+                console.log(1);
+                response(res);
+              }else if(data.np.length > 0){
+                $.each( data.np, function( key, value ) {
+                  res[key] = {'value':'','label':'','id':''};
+                  res[key].value = value.mname+', '+value.internetaccount;
+                  res[key].label = value.mname+', '+value.internetaccount;
+                  res[key].id    = value.internetaccount;
+                });
+                console.log(2);
                 response(res);
               }else{
                 return false;

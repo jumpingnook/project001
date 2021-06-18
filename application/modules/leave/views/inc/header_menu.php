@@ -21,10 +21,14 @@
   <a class="nav-link" href="<?php echo base_url(url_index().'leave');?>">
       <i class="far fa-fw fa-file-alt"></i>
       <span>รายการข้อมูลการลา</span></a>
-  <?php if(!isset($personnel['signature']) || trim($personnel['signature'])==''){ ?>
-    <a href="#" class="nav-link" data-toggle="modal" data-target="#signature">
-  <?php }else{ ?>
+
+  <!-- <span test="<?php //echo '<pre>';print_r($personnel);?>"></span> -->
+  <?php if(isset($personnel['email']) || trim($personnel['email'])==''){ ?>
     <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
+  <?php }elseif(!isset($personnel['email'])){ ?>
+    <a class="nav-link" href="<?php echo base_url(url_index().'leave/add');?>">
+  <?php }else{ ?>
+    <a href="#" class="nav-link" data-toggle="modal" data-target="#update-email-form">
   <?php }?>
       <i class="far fa-fw fa-copy"></i>
       <span>กรอกใบลา</span>

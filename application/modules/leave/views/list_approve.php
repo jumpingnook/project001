@@ -150,6 +150,7 @@
   <?php echo $this->load->view('inc/js'); ?>
 
   <!-- Logout Modal-->
+  <?php /* ?>
   <a href="#" id="add-sig"  data-toggle="modal" data-target="#signature" style="display:none;"></a>
   <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -210,7 +211,7 @@
 
               $(document).ready(function(){
 
-                $('#add-sig').click();
+                //$('#add-sig').click();
 
                 // $('#signature .close').click(function(){
                 //   location.reload();
@@ -224,6 +225,7 @@
       </div>
     </div>
   </div>
+  <?php */ ?>
 
   <script>
     $(document).ready(function(){

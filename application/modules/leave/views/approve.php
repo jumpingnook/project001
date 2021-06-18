@@ -194,7 +194,7 @@
                           <div class="text-s font-weight-bold text-danger text-uppercase mb-1">การพิจารณา<?php echo $title;?></div>
                         </div>
 
-                        <?php if(!$approve_status and trim($personnel_list['data'][$personnel_id]['signature'])!=''){ ?>
+                        <?php //if(!$approve_status and trim($personnel_list['data'][$personnel_id]['signature'])!=''){ ?>
 
                         <div class="row mb-1">
                           <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split" style="width: 100%;">
@@ -214,33 +214,35 @@
                             <span class="text" style="width: 100%;"><?php echo $btn[1];?></span>
                           </button>
                         </div>
-                          <?php if(($signature_type==5 && intval($data['personnel_id_6'])==0) || ($signature_type==6 && intval($data['personnel_id_6'])!=0)){?>
-                            <div class="form-group row mb-1 ">
-                              <textarea form="form" class="form-control" name="note_personnel_5" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นกรณีไม่อนุญาต"></textarea>
-                            </div>
-                          
-                            <hr>
+                        <?php if(($signature_type==5 && intval($data['personnel_id_6'])==0) || ($signature_type==6 && intval($data['personnel_id_6'])!=0)){?>
+                          <div class="form-group row mb-1 ">
+                            <textarea form="form" class="form-control" name="note_personnel_5" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นกรณีไม่อนุญาต"></textarea>
+                          </div>
+                        
+                          <hr>
 
-                            <form id="assign_form" action="<?php echo base_url(url_index().'leave/assign_approve');?>" method="post">
-                              <div class="row mb-1">
-                                <div class="text-s font-weight-bold text-danger text-uppercase mb-1">หมอบหมายรักษาการแทน</div>
-                                <div class="form-group" style="width: 100%;">
-                                  <label>คณบดี / รองคณบดี / หัวหน้าภาค</label>
-                                  <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณารักษาการแทน" autocomplete="off" required>
-                                  <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="" autocomplete="off" required/>
-                                  <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุตำแหน่งผู้พิจารณา" value="" required/>
-                                </div>
-                                <button type="submit" class="btn btn-warning btn-icon-split" style="width: 100%;">
-                                  <span class="icon text-white-600" style="width:43px;">
-                                    <i class="fas fa-times"></i>
-                                  </span>
-                                  <span class="text" style="width: 100%;">บันทึกผู้พิจารณารักษาการแทน</span>
-                                </button>
+                          <form id="assign_form" action="<?php echo base_url(url_index().'leave/assign_approve');?>" method="post">
+                            <div class="row mb-1">
+                              <div class="text-s font-weight-bold text-danger text-uppercase mb-1">หมอบหมายรักษาการแทน</div>
+                              <div class="form-group" style="width: 100%;">
+                                <label>คณบดี</label>
+                                <input type="text" class="input_hide form-control name_personnel name_personnel_5" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณารักษาการแทน" autocomplete="off" required>
+                                <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5" value="" autocomplete="off" required/>
+                                <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5" name="position_personnel_5"  placeholder="ระบุตำแหน่งผู้พิจารณา" value="" required/>
                               </div>
-                              <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
-                            </form>
-                          <?php } ?>
-                        <?php }elseif(isset($cancel_approve) and $cancel_approve and trim($personnel_list['data'][$personnel_id]['signature'])!=''){?>
+                              <button type="submit" class="btn btn-warning btn-icon-split" style="width: 100%;">
+                                <span class="icon text-white-600" style="width:43px;">
+                                  <i class="fas fa-times"></i>
+                                </span>
+                                <span class="text" style="width: 100%;">บันทึกผู้พิจารณารักษาการแทน</span>
+                              </button>
+                            </div>
+                            <input type="hidden" name="leave_id" value="<?php echo $leave_id;?>">
+                          </form>
+                        <?php } ?>
+
+
+                        <?php if(isset($cancel_approve) and $cancel_approve and trim($personnel_list['data'][$personnel_id]['signature'])!=''){?>
                           <div class="row mb-1">
                             <button type="submit" name="approve" form="form" value="1" class="btn btn-success btn-icon-split">
                               <span class="icon text-white-600">
@@ -347,7 +349,7 @@
 
   <!-- Logout Modal-->
 
-  <?php if(trim($personnel_list['data'][$personnel_id]['signature'])==''){ ?>
+  <?php /*if(trim($personnel_list['data'][$personnel_id]['signature'])==''){ ?>
   <a href="#" id="add-sig" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#signature" style="display:none;"></a>
   <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -416,8 +418,7 @@
       </div>
     </div>
   </div>
-
-  <?php } ?>
+  <?php }*/ ?>
 
   <script>
       $(document).ready(function(){

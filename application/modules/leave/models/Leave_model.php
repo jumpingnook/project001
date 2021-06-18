@@ -33,6 +33,8 @@ class Leave_model extends MY_Model {
 			return 0;
 		}
 
+		$url_p1 = $set['url_personnel_1'];
+
 		if(!isset($set['personnel_id']) || (isset($set['personnel_id']) and $set['personnel_id']==0)){
 			unset($set['url_personnel']);
 		}
@@ -44,10 +46,11 @@ class Leave_model extends MY_Model {
 		}
 
 		$con['data'] = $set;
-		$con['data']['create_date'] = date('Y-m-d H:i:s');
-		$con['data']['leave_no'] 	= $this->leave_no();
-		$con['data']['status'] 		= 0;
-		
+		$con['data']['create_date'] 	= date('Y-m-d H:i:s');
+		$con['data']['leave_no'] 		= $this->leave_no();
+		$con['data']['status'] 			= 0;
+		$con['data']['emergency_note'] 	= isset($set['emergency_note']) && trim($set['emergency_note'])!=''?trim($set['emergency_note']):'';
+		$con['data']['url_personnel_1'] 	= $url_p1;
 
 		if(intval($update)!=0){
 
@@ -69,7 +72,7 @@ class Leave_model extends MY_Model {
 			$con['where'] = 'leave_id = '.intval($update);
 			$result = $this->to_update($con);
 		}else{
-			
+
 			if($con['data']['leave_type_id'] == 4 || $con['data']['leave_type_id'] == 5){
 				$con['data']['assign_history_personnel_6'] = $set['personnel_id_6'].',';
 			}else{
@@ -222,7 +225,7 @@ class Leave_model extends MY_Model {
 
 			$sql = '';
 			if(isset($set['leave_type']) and intval($set['leave_type'])>=2 and intval($set['leave_type'])<=4 and $sql==''){
-				$sql = ' and ((leave_type_id >=2 and leave_type_id <=4) or leave_type_id =10)';
+				$sql = ' and ((leave_type_id >=2 and leave_type_id <=4) or leave_type_id = 10)';
 			}
 			if(isset($set['leave_type']) and intval($set['leave_type'])==1 and $sql==''){
 				$sql = ' and (leave_type_id =1 or leave_type_id =7)';
@@ -233,9 +236,14 @@ class Leave_model extends MY_Model {
 			if(isset($set['leave_type']) and intval($set['leave_type'])==10 and $sql==''){
 				$sql = ' and leave_type_id =10';
 			}
+
+			$sql_p = '';
+			if(isset($set['personnel_id']) and intval($set['personnel_id'])!=0){
+				$sql_p .= 'personnel_id = "'.intval($set['personnel_id']).'" and ';
+			}
 			
 			$con = [];
-			$con['where'] = 'leave_id <> "'.intval($set['leave_id']).'" and status = 2 '.$sql;
+			$con['where'] = $sql_p.'leave_id <> "'.intval($set['leave_id']).'" and status = 2 '.$sql;
 			$res = $this->to_select($con);
 
 		}elseif(isset($set['last_leave_id'])){
@@ -363,6 +371,15 @@ class Leave_model extends MY_Model {
 		}
 
 		return $res;
+	}
+
+	function delete_file($id=0){
+		$con = [];
+		$con['data']['file'] = '';
+		$con['data']['file_name'] = '';
+		$con['data']['file_type'] = '';
+		$con['where'] = 'leave_id = '.intval($id);
+		$this->to_update($con);
 	}
 
 }

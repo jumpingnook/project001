@@ -234,7 +234,38 @@
                           <hr/>
                         <?php } ?>
 
-
+                        <?php if(trim($data['file_type'])!=''){ ?>
+                        <div class="row mb-1">
+                          <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#view-file" style="height: 44px;line-height: 32px;">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-file-upload"></i>
+                            </span>
+                            <span class="text">ไฟล์แนบ : <?php echo $data['file_name'];?></span>
+                          </a>
+                        </div>
+                        <!-- Signature Modal-->
+                        <div class="modal fade" id="view-file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">ไฟล์แนบ</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <center>
+                                <?php if($data['file_type']=='image/jpeg'){ ?>
+                                  <img src="<?php echo $data['file'];?>" alt="" style="max-width:100%;">
+                                <?php }elseif($data['file_type']=='application/pdf'){ ?>
+                                  <embed src="<?php echo $data['file'];?>" width="100%" height="700px" />
+                                <?php } ?>
+                              </div>
+                              </center>
+                            </div>
+                          </div>
+                        </div>
+                        <?php } ?>
 
                         <?php if(intval($data['status'])==0 and $approve_leave_type==1){?>
 
@@ -480,6 +511,9 @@
               url: "<?php echo base_url(url_index().'leave/send_approve');?>",
               dataType: "json",
               success: function(data){
+
+                //console.log(data);return false;
+
                 if(data.status){
                   alert('ระบบได้ส่งอีเมลเพื่อพิจารณาการลาเรียบร้อยแล้ว ท่านสามารถติดตามการพิจารณาที่หน้ารายละเอียดการลา');
                   $('#preload').hide();

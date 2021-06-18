@@ -12,7 +12,16 @@ class Api_v2 extends REST_Controller {
     function leave_spec_alert_post(){
         $post = $this->post();
 
-        if(isset($post['leave_type']) and isset($post['emp_type']) and isset($post['personnel']) and isset($post['period_count']) and isset($post['period_count_all']) and isset($post['period_start']) and intval($post['leave_type'])!=0 and intval($post['emp_type'])!=0 and intval($post['personnel'])!=0 and floatval($post['period_count'])!=0 and floatval($post['period_count_all'])!=0){
+        if(isset($post['leave_type']) and isset($post['emp_type']) and isset($post['personnel']) and isset($post['period_count']) and isset($post['period_count_all']) and isset($post['period_start']) and intval($post['leave_type'])!=0 and intval($post['emp_type'])!=0 and intval($post['personnel'])!=0 /*and floatval($post['period_count'])!=0*/ and floatval($post['period_count_all'])!=0){
+
+            $set = [];
+            $spec_result = $this->Leave_spec_model->to_select($set);
+            $spec_detail = [];
+            foreach($spec_result as $key => $val){
+                $spec_detail[$val['leave_type_id']][$val['emp_type_id']] = $val;
+            }
+
+            $res['type_count'] = $spec_detail[intval($post['leave_type'])][intval($post['emp_type'])]['type_count'];
 
             $set = [];
             $set['leave_type_id']   = intval($post['leave_type']);
@@ -66,13 +75,6 @@ class Api_v2 extends REST_Controller {
             $set['where']   = '((period_start > "'.$year_budget[0].'" and period_start <= "'.$year_budget[1].'") or (period_end >= "'.$year_budget[0].'" and period_end < "'.$year_budget[1].'")) and (status >= 0 and  status <= 2) and personnel_id = "'.intval($post['personnel']).'"'.(isset($post['unselect']) && intval($post['unselect'])!=0?' and leave_id <> '.intval($post['unselect']):'');
             $result = $result_leave_data = $this->Leave_model->to_select($set);
             $weekend        = $this->get_weekend('php');
-
-            $set = [];
-            $spec_result = $this->Leave_spec_model->to_select($set);
-            $spec_detail = [];
-            foreach($spec_result as $key => $val){
-                $spec_detail[$val['leave_type_id']][$val['emp_type_id']] = $val;
-            }
 
             $leave = [];
             if(count($result)>0){
@@ -150,15 +152,15 @@ class Api_v2 extends REST_Controller {
             $count_year['alert'][0] = $count_year['alert'][1] = 0;
             $count_year['rest_limit'][0] = $count_year['rest_limit'][1] = 0;
 
-            if(intval($post['leave_type'])==2 || intval($post['leave_type'])==3 || intval($post['leave_type'])==5 || intval($post['leave_type'])==6 || intval($post['leave_type'])==8 || intval($post['leave_type'])==10){
+            if(intval($post['leave_type'])==2 || intval($post['leave_type'])==3 /*|| intval($post['leave_type'])==5*/ || intval($post['leave_type'])==6 || intval($post['leave_type'])==8 || intval($post['leave_type'])==10){
                 if(isset($leave[2])){
                     $count_year['limit'] += $leave[2];
                 }elseif(isset($leave[3])){
                     $count_year['limit'] += $leave[3];
                 // }elseif(isset($leave[4])){
                 //     $count_year['limit'] += $leave[4];
-                }elseif(isset($leave[5])){
-                    $count_year['limit'] += $leave[5];
+                // }elseif(isset($leave[5])){
+                //     $count_year['limit'] += $leave[5];
                 }elseif(isset($leave[6])){
                     $count_year['limit'] += $leave[6];
                 }elseif(isset($leave[8])){
@@ -170,6 +172,11 @@ class Api_v2 extends REST_Controller {
             }elseif(intval($post['leave_type'])==4){
                 if(isset($leave[4])){
                     $count_year['limit'] += $leave[4];
+                }
+                $count_year['limit'] += floatval($post['period_count']);
+            }elseif(intval($post['leave_type'])==5){
+                if(isset($leave[5])){
+                    $count_year['limit'] += $leave[5];
                 }
                 $count_year['limit'] += floatval($post['period_count']);
             }
@@ -268,8 +275,6 @@ class Api_v2 extends REST_Controller {
 
             $res['friend_approve'] = $spec['friend_approve'];
 
-            $res['type_count'] = $spec_detail[intval($post['leave_type'])][intval($post['emp_type'])]['type_count'];
-
             $res['duplicate_leave'] = false;
             if(count($result_leave_data)>0){
                 foreach($result_leave_data as $key=>$val){
@@ -301,10 +306,12 @@ class Api_v2 extends REST_Controller {
                 $sp_type[$val['special_type']]['status'] = false;
                 $sp_type[$val['special_type']]['data'] = '';
 
+                
+
                 if($val['special_type'] == 1){ //function List_approve
 
                     $con = [];
-                    $con['where'] = 'personnel_id = "'.$r_personnel['personnel_id'].'" and status = 1';
+                    $con['where'] = 'personnel_id = "'.$r_personnel['personnel_id'].'" and special_type = 1 and status = 1';
                     $result_sp = $this->Special_fn_model->to_select($con);
 
                     if(isset($result_sp[0]['approve_list']) and $result_sp[0]['approve_list']!=''){
@@ -312,7 +319,7 @@ class Api_v2 extends REST_Controller {
                         $sp_type[$val['special_type']]['data'] = $result_sp[0]['approve_list'];
                     }else{
                         $con = [];
-                        $con['where'] = 'smu_main_id = "'.$r_personnel['smu_main_id'].'" and status = 1';
+                        $con['where'] = 'smu_main_id = "'.$r_personnel['smu_main_id'].'" and special_type = 1 and status = 1';
                         $result_sp = $this->Special_fn_model->to_select($con);
                         
                         if(isset($result_sp[0]['approve_list']) and $result_sp[0]['approve_list']!=''){
@@ -321,9 +328,9 @@ class Api_v2 extends REST_Controller {
                         }
                     }
 
-                }elseif($val['special_type'] == 2){ //function custom_date + nurse
+                }if($val['special_type'] == 2){ //function custom_date + nurse
                     $con = [];
-                    $con['where'] = 'position_old_id = "'.$r_personnel['position_old_id'].'" and status = 1';
+                    $con['where'] = 'position_old_id = "'.$r_personnel['position_old_id'].'" and special_type = 2 and status = 1';
                     $result_sp = $this->Special_fn_model->to_select($con);
                     
                     if(count($result_sp)>0){
@@ -331,10 +338,10 @@ class Api_v2 extends REST_Controller {
                     }
 
 
-                }elseif($val['special_type'] == 3){ //function title_approve_all
+                }if($val['special_type'] == 3){ //function title_approve_all
 
                     $con = [];
-                    $con['where'] = 'personnel_id = "'.$r_personnel['personnel_id'].'" and status = 1';
+                    $con['where'] = 'personnel_id = "'.$r_personnel['personnel_id'].'" and special_type = 3 and status = 1';
                     $result_sp = $this->Special_fn_model->to_select($con);
 
                     if(isset($result_sp[0]['title_sp']) and $result_sp[0]['title_sp']!=''){
@@ -348,16 +355,30 @@ class Api_v2 extends REST_Controller {
 
             $result = $this->get_list_approve(['personnel'=>$post['personnel']]);
 
+            $status = true;
+            if($res['type_count']==1 and floatval($post['period_count'])==0){
+                $status = false;
+            }
+
             $this->response([
-                'status'            => true,
+                'status'            => $status,
                 'data'              => $res,
                 'list_approve'      => $result
             ], REST_Controller::HTTP_OK); //200
 
         }else{
+            $set = [];
+            $spec_result = $this->Leave_spec_model->to_select($set);
+            $spec_detail = [];
+            foreach($spec_result as $key => $val){
+                $spec_detail[$val['leave_type_id']][$val['emp_type_id']] = $val;
+            }
+            $res['type_count'] = $spec_detail[intval($post['leave_type'])][intval($post['emp_type'])]['type_count'];
+
             $this->response([
-                'status' => false,
-                'msg' => 'Invalid Data'
+                'status'    => false,
+                'data'      => $res,
+                'msg'       => 'Invalid Data'
             ], REST_Controller::HTTP_OK); //200 
         }
     }

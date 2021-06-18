@@ -279,6 +279,7 @@
   <?php echo $this->load->view('inc/js'); ?>
 
   <!-- Logout Modal-->
+  <?php /*
   <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -352,6 +353,7 @@
       </div>
     </div>
   </div>
+  */?>
 
   <script>
     $(document).ready(function(){

@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>กรอกรใบลา - LeaveSystem - med.nu.ac.th</title>
+  <title>แบบฟอร์มข้อมูลการลา - LeaveSystem - med.nu.ac.th</title>
 
   <?php echo $this->load->view('inc/css'); ?>
 
@@ -87,7 +87,7 @@
                 <div class="card-header py-3">
                   
                   <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                       <div>
                         <select id="type_leave" class="form-control" name="leave_type_id" form="form_leave">
                           <option value="" >เลือกประเภทการลา</option>
@@ -108,7 +108,7 @@
                     </div>
                   </div>
 
-                  <form id="form_leave" class="form_leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
+                  <form id="form_leave" class="form_leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post" enctype="multipart/form-data">
 
                     <div class="card mb-4 border-left-success card-default">
                       <div class="card-body">
@@ -189,6 +189,13 @@
                               }
                             ?>
                             <input type="text" name="contact" class="form-control" value="<?php echo $contact;?>">
+                          </div>
+                        </div>
+                        <div id="med_cer" class="form-group row" style="display:none;">
+                          <div class="col-sm-12">
+                            <label>อัพโหลดใบรับรองแพทย์</label>
+                            <input type="file" name="med_cer" class="form-control" style="height: 44px;" disabled accept="image/jpeg,application/pdf">
+                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้น</span>
                           </div>
                         </div>
                       </div>
@@ -316,7 +323,19 @@
                       </div>
                     </div>
 
-                    <div id="card_approve" class="card mb-4 border-left-danger card-default">
+                    <div id="emergency_note" class="card mb-4 border-left-warning" style="display:none;">
+                      <div class="card-body">
+                        <h1 class="h4 text-gray-900 mb-4">กรณีลาฉุกเฉิน</h1>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label>*กรุณาระบุเหตุผลกรณีลาฉุกเฉิน เนื่องจากท่านไม่ได้ลาล่วงหน้าอย่างน้อย 3 วันทำการ</label>
+                            <input type="text" name="emergency_note" class="form-control" id="emergency_note_input" placeholder="ระบุเหตุผล" value="">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="card_approve" class="card mb-4 border-left-danger" style="display:none;">
                       <div class="card-body">
                         <h1 class="h4 text-gray-900 mb-4">ลำดับผู้พิจารณา</h1>
                         <div class="row approve_list">
@@ -345,7 +364,7 @@
                           </div>
                           <div class="a4 col-lg-6 sort_approve" >
                             <div class="form-group">
-                                <label><span class="no_sort">4.</span><span class="title_sort">หัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ</span></label>
+                                <label><span class="no_sort">4.</span><span class="title_sort">ผู้ช่วยคณบดี / รองผู้อำนวยการ</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_4 list_approve" auto_type="supervisor" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_4" value="<?php echo isset($post_data['name_personnel_4'])?$post_data['name_personnel_4']:'';?>">
                                 <input id="supervisor" type="hidden" name="personnel_id_4" class="input_hide personnel_id_4 list_approve" value="<?php echo isset($post_data['personnel_id_4'])?$post_data['personnel_id_4']:'';?>">
                                 <input id="supervisor_position" type="text" class="input_hide form-control position_personnel_4 list_approve" name="position_personnel_4"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_4'])?$post_data['position_personnel_4']:'';?>"/>
@@ -354,7 +373,7 @@
 
                           <div class="col-lg-6 sort_approve">
                             <div class="form-group">
-                              <label><span class="no_sort">5.</span><span class="title_sort">คณบดี / รองคณบดี / หัวหน้าภาค</span></label>
+                              <label><span class="no_sort">5.</span><span class="title_sort">รองคณบดี / หัวหน้าภาค</span></label>
                               <input type="text" class="input_hide form-control name_personnel name_personnel_5 list_approve" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_5" value="<?php echo isset($post_data['name_personnel_5'])?$post_data['name_personnel_5']:'';?>"required >
                               <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5 list_approve" value="<?php echo isset($post_data['personnel_id_5'])?$post_data['personnel_id_5']:'';?>" required />
                               <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5 list_approve" name="position_personnel_5"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_5'])?$post_data['position_personnel_5']:'';?>" required />
@@ -459,6 +478,8 @@
         var s_status = $('.submit').attr('s');
         if(($(this).val() >= 2 && $(this).val() <= 4) || $(this).val() == 9){
           leave_spec_alert(0);
+        }else if($(this).val() == 1){
+          leave_spec_alert(0);
         }else{
           leave_spec_alert(s_status);
         }
@@ -528,7 +549,6 @@
             $('.daytime_e').removeAttr('disabled');
           }
           leave_spec_alert();
-
         }
       });
       $( ".leave_date_e" ).datepicker({
@@ -586,7 +606,21 @@
         }
 
         $('.date_all').val(date_count);
-        $('.date_dis').val(parseFloat(date_count)-parseFloat(date_dis)-parseFloat(daytime));
+
+        let type_l = $('#type_leave').val();
+        let date_dis_cal = parseFloat(date_count)-parseFloat(date_dis)-parseFloat(daytime);
+        $('.date_dis').val(date_dis_cal);
+        if(date_dis_cal==0 && (type_l==1 || type_l==2 || type_l==3 || type_l==5 || type_l==6 || type_l==7 || type_l==10)){
+          alert('ท่านจะไม่สามารถบันทึกข้อมูลการลานี้ได้ กรุณาตรวจสอบวันลาให้ถูกต้อง');
+        }
+        
+        if((type_l==3&& date_dis_cal>=3) || type_l==4){
+          $('#med_cer').show();
+          $('#med_cer input').removeAttr('disabled').attr('required','required');
+        }else{
+          $('#med_cer').hide();
+          $('#med_cer input').removeAttr('required').attr('disabled','disabled');
+        }
 
       }
 
@@ -672,6 +706,30 @@
         if(type_leave!=''){
           $('#preload').show();
         }
+
+        let date_start = new Date();
+        let date_end = new Date($('.leave_date_s_value').val());
+        let one_day = 1000*60*60*24;
+        let defDate = parseInt((date_end.getTime() - date_start.getTime()) / one_day);
+
+        let discount = dis_date(date_end.getFullYear()+'-'+('0' + (date_end.getMonth()+1)).slice(-2)+'-'+date_end.getDate(),date_start.getFullYear()+'-'+('0' + (date_end.getMonth()+1)).slice(-2)+'-'+date_start.getDate());
+
+        if((type_leave==1 || type_leave==2) && (defDate-discount)<=1){
+
+          if(alert){
+            if(confirm('ท่านจะทำการลาฉุกเฉินใช่หรือไม่? หาก OK กรุณากรอกเหตุผล/หาก Cancel กรุณาลาล่วงหน้าอย่างน้อย 3 วัน')){
+              $('#emergency_note').show();
+              $('#emergency_note_input').removeAttr('disabled').attr('required','required');
+            }
+          }else{
+            $('#emergency_note').show();
+            $('#emergency_note_input').removeAttr('disabled').attr('required','required');
+          }
+          
+        }else{
+          $('#emergency_note').hide();
+          $('#emergency_note_input').removeAttr('required').attr('disabled','disabled').val('');
+        }
         
         var data = {
           'APP-KEY':'<?php echo $api['APP-KEY'];?>',
@@ -693,7 +751,7 @@
           dataType: "json",
           success: function(data){
 
-            console.log(data);
+            console.log('result:',data);
 
             list_approve = data.list_approve;
             if(data.status){
@@ -782,13 +840,20 @@
                 $(".toBoss option[value=1]").attr("selected","selected");
                 $(".toBoss").val(1);
 
+
+
+
+
                 if(data.special_fn[1]['status']){
                   var result = data.special_fn[1]['data'].split(",");
 
                   $.each(result,function(key,val){
-                    
                     if(val!=''){
                       $('.approve_list .sort_approve').eq(parseInt(val)).show();
+                    }
+                    if(val==5){
+                      $('.approve_list .sort_approve').eq(4).find('input').removeAttr('required');
+                      $('.approve_list .sort_approve').eq(5).find('input').attr('required','required');
                     }
                   });
 
@@ -797,6 +862,7 @@
                   $('.approve_list .sort_approve').show();
                   $('.approve_list .sort_approve.sp').hide();
                 }
+
                 if(data.special_fn[2]['status']){
                   $('.period_count,period_count_all').removeAttr('readonly');
                   $('#noti_text').show();
@@ -804,24 +870,22 @@
                   $('.period_count,period_count_all').attr('readonly','true');
                   $('#noti_text').hide();
                 }
-
                 if($('#type_leave').val()==4 || $('#type_leave').val()==5){
                   $('.approve_list .sort_approve.sp').show();
                   $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
                 }else{
-                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('คณบดี / รองคณบดี / หัวหน้าภาค');
+                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
                 }
 
                 if(data.special_fn[3]['status']){
-
                   var result = data.special_fn[3]['data'].split(",");
-
                   $.each(result,function(key,val){
                     if(val!=''){
-                      $('.approve_list .sort_approve').eq(parseInt(key)+1).find('.title_sort').text(val);
+                      $('.approve_list .sort_approve:visible').eq(key).find('.title_sort').text(val);
                     }
                   });
                 }
+
 
               }else if(data.approve==3){
                 $(".toBoss option[value=2]").attr("selected","selected");
@@ -837,6 +901,9 @@
                 
                 $('.list_approve').attr('disabled','disabled');
               }
+
+
+              
               
 
               if(data.friend_approve==1){
@@ -859,7 +926,14 @@
               });
               
             }else{
+              $('.period_count, .period_count_all').hide();
+              if(data.data.type_count == 1){
+                $('.period_count').show();
+              }else if(data.data.type_count == 0){
+                $('.period_count_all').show();
+              }
               $('.submit').attr('s','0');
+              $('#preload').hide();
               return false;
             }
             $('#preload').hide();
@@ -884,12 +958,16 @@
           alert('ท่านไม่สามารถบันทึกการลาได้ กรุณาตรวจสอบและกรอกข้อมูลให้ครบถ้วน');
           return false;
         }else if(type==6){
-          alert('ท่านไม่สามารถบันทึกการลาได้ กรุณาระบุผู้พิจารณา "คณบดี / รองคณบดี / หัวหน้าภาค"');
+          alert('ท่านไม่สามารถบันทึกการลาได้ กรุณาระบุผู้พิจารณา "รองคณบดี / หัวหน้าภาค"');
           return false;
         }else if(type==7){
           alert('ท่านไม่สามารถบันทึกการลาได้เนื่องจากวันลาซ้ำกับการลาอื่น ๆ ของท่านในระบบ');
           return false;
+        }else if(type==8){
+          alert('ท่านไม่สามารถบันทึกการลาได้ กรุณาระบุผู้พิจารณา "คณบดี"');
+          return false;
         }
+        
       }
 
       var dest = getUrlParam('status','');
@@ -964,7 +1042,7 @@
               var html = '';
               $('#boss_position_list').empty();
               $.each(res,function(key,val){
-                console.log(key,val);
+                //console.log(key,val);
                 html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="'+(val.trim())+'" '+(key==0?'checked="checked"':'')+'> '+(val.trim())+'</label></div>';
               });
               html += '<div class="radio"><label><input type="radio" class="position_bosss" name="position_bosss" value="" '+(html==''?'checked="checked"':'')+'> เลือกกรอกตำแหน่งอื่นๆ</label></div>';
@@ -1013,14 +1091,17 @@
 
       function sort_approve(){
         var approve =  $('.approve_list').find('.sort_approve');
-        
+        $('#card_approve').show();
         var i=1;
         approve.each(function(key,val){
           if($(this).is(":visible")){
             $(this).find('.no_sort').text(i+'. ');
             i++;
           }
-        });
+        }); 
+        if(i==1){
+          $('#card_approve').hide();
+        }
       
       }
 

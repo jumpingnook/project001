@@ -379,12 +379,22 @@ class Auth extends Auth_Controller {
     function login_as_list(){
         $post = $this->input->post();
 
+        $res['op'] = [];
+        $res['np'] = [];
+
         $this->load->model('personnel/Personnel_model');
 
         $con = [];
         $con['where'] = 'internet_account LIKE "'.trim($post['term']).'%" or name_th LIKE "'.trim($post['term']).'%" or name_en LIKE "'.trim($post['term']).'%"';
-        $result = $this->Personnel_model->to_select($con);
+        $res['op'] = $this->Personnel_model->to_select($con);
+
+        if(count($res['op'])==0){
+            $this->load->model('sql_personnel/Sql_personnel_model');
+            $con = [];
+			$con['where']	= "internetaccount LIKE '".trim($post['term'])."%'";
+			$res['np'] = $this->Sql_personnel_model->sqlsrv_select($con);
+        }
         
-        echo json_encode($result);exit;
+        echo json_encode($res);exit;
     }
 }

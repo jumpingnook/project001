@@ -115,15 +115,15 @@
                               <span class="icon text-white-50">
                                 <i class="far fa-edit"></i>
                               </span>
-                              <span class="text"><?php echo isset($personnel['email'])?$personnel['email']:'-';?></span>
+                              <span class="text"><?php echo isset($personnel['email']) && trim($personnel['email'])!=''?$personnel['email']:'กรุณากรอกอีเมล';?></span>
                             </a><br/>
                             <span style="font-size:12px;color:red;">**แนะนำให้ท่านอัพเดตเป็นอีเมลที่ใช้อยู่ ณ ปัจจุบันเพื่อลดข้อผิดพลาดในการพิจารณา</span>
                           </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                           <div class="col-lg-4 text-md font-weight-bold">ลายเซ็น</div>
                           <div class="col-lg-8">
-                            <?php if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
+                            <?php /*if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
                               <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#signature">
                                 <span class="icon text-white-50">
                                   <i class="fas fa-signature"></i>
@@ -137,9 +137,9 @@
                                 </span>
                                 <span class="text">เพิ่มลายเซ็นของท่าน</span>
                               </a>
-                            <?php } ?>
+                            <?php }*/ ?>
                           </div>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                     
@@ -210,12 +210,12 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-lg-12">
-                    <?php /*if(isset($personnel['signature']) and trim($personnel['signature'])!=''){ ?>
+                    <?php if(isset($personnel['email']) and trim($personnel['email'])!=''){ //sanan?>
                       <a href="<?php echo base_url(url_index().'leave/add');?>" class="btn btn-info btn-icon-split">
                     <?php }else{ ?>
-                      <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#signature">
-                    <?php }*/ ?>
-                      <a href="<?php echo base_url(url_index().'leave/add');?>" class="btn btn-info btn-icon-split">
+                      <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#update-email-form">
+                    <?php } ?>
+                      <!-- <a href="<?php //echo base_url(url_index().'leave/add');?>" class="btn btn-info btn-icon-split"> -->
                         <span class="icon text-white-50">
                           <i class="fas fa-file-medical"></i>
                         </span>

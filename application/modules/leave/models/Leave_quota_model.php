@@ -27,9 +27,10 @@ class Leave_quota_model extends MY_Model {
 
 			$this->load->model('personnel/Personnel_model');
 			$con = [];
-			$con['select']	= 'personnel_code, emp_type_id';
+			$con['select']	= 'personnel_code, emp_type_id,work_start_date';
 			$con['where'] 	= 'personnel_id = "'.intval($set['personnel_id']).'"';
 			$personnel = $this->Personnel_model->to_select($con);
+
 			$max = 0;
 
 			#emp type

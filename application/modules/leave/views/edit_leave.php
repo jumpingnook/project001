@@ -109,7 +109,7 @@
                     </div>
                   </div>
 
-                  <form id="form_leave" class="form_leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post">
+                  <form id="form_leave" class="form_leave" action="<?php echo base_url(url_index().'leave/save_leave');?>" method="post" enctype="multipart/form-data">
 
                     <div class="card mb-4 border-left-success card-default">
                       <div class="card-body">
@@ -191,6 +191,54 @@
                             ?>
                             <input type="text" name="contact" class="form-control" value="<?php echo $contact;?>">
                           </div>
+                        </div>
+                        <div id="med_cer" class="form-group row" style="display:none;">
+                          <div class="col-sm-6">
+                            <label>อัพโหลดใบรับรองแพทย์</label>
+                            <input type="file" name="med_cer" class="form-control" style="height: 44px;" disabled accept="image/jpeg,application/pdf">
+                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้น</span>
+                          </div>
+
+                          <?php if(isset($leave_data['file']) and trim($leave_data['file'])!=''){ ?>
+                          <div class="col-sm-6">
+
+                              <label>ดูไฟล์ที่อัพโหลด</label>
+                              <div>
+                                <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#view-file" style="height: 44px;line-height: 32px;">
+                                  <span class="icon text-white-50">
+                                    <i class="fas fa-file-upload"></i>
+                                  </span>
+                                  <span class="text">ไฟล์แนบ : <?php echo $leave_data['file_name'];?></span>
+                                </a>
+
+                                <!-- Signature Modal-->
+                                <div class="modal fade" id="view-file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">ไฟล์แนบ</h5>
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">×</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <center>
+                                        <?php if($leave_data['file_type']=='image/jpeg'){ ?>
+                                          <img src="<?php echo $leave_data['file'];?>" alt="" style="max-width:100%;">
+                                        <?php }elseif($leave_data['file_type']=='application/pdf'){ ?>
+                                          <embed src="<?php echo $leave_data['file'];?>" width="100%" height="700px" />
+                                        <?php } ?>
+                                      </div>
+                                      <button type="button" class="btn btn-primary delete-file" leave_id="<?php echo isset($leave_id)?$leave_id:0;?>">ลบไฟล์</button>
+                                      </center>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                          </div>
+                          <?php } ?>
+
                         </div>
                       </div>
                     </div>
@@ -317,7 +365,19 @@
                       </div>
                     </div>
 
-                    <div id="card_approve" class="card mb-4 border-left-danger card-default">
+                    <div id="emergency_note" class="card mb-4 border-left-warning" style="display:none;">
+                      <div class="card-body">
+                        <h1 class="h4 text-gray-900 mb-4">กรณีลาฉุกเฉิน</h1>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label>*กรุณาระบุเหตุผลกรณีลาฉุกเฉิน เนื่องจากท่านไม่ได้ลาล่วงหน้าอย่างน้อย 3 วันทำการ</label>
+                            <input type="text" name="emergency_note" class="form-control" id="emergency_note_input" placeholder="ระบุเหตุผล" value="<?php echo isset($leave_data['emergency_note'])?$leave_data['emergency_note']:'';?>">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="card_approve" class="card mb-4 border-left-danger" style="display:none;">
                       <div class="card-body">
                         <h1 class="h4 text-gray-900 mb-4">ลำดับผู้พิจารณา</h1>
                         <div class="row approve_list">
@@ -346,7 +406,7 @@
                           </div>
                           <div class="a4 col-lg-6 sort_approve" >
                             <div class="form-group">
-                                <label><span class="no_sort">4.</span><span class="title_sort" >หัวหน้าผู้ช่วยคณบดี / รองผู้อำนวยการ</span></label>
+                                <label><span class="no_sort">4.</span><span class="title_sort" >ผู้ช่วยคณบดี / รองผู้อำนวยการ</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_4 list_approve" auto_type="supervisor" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_4" value="<?php echo isset($leave_data['name_personnel_4'])?$leave_data['name_personnel_4']:'';?>">
                                 <input id="supervisor" type="hidden" name="personnel_id_4" class="input_hide personnel_id_4 list_approve" value="<?php echo isset($leave_data['personnel_id_4'])?$leave_data['personnel_id_4']:'';?>">
                                 <input id="supervisor_position" type="text" class="input_hide form-control position_personnel_4 list_approve" name="position_personnel_4"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($leave_data['position_personnel_4'])?$leave_data['position_personnel_4']:'';?>"/>
@@ -354,7 +414,7 @@
                           </div>
                           <div class="col-lg-6 sort_approve">
                             <div class="form-group">
-                              <label><span class="no_sort">5.</span><span class="title_sort" >คณบดี / รองคณบดี / หัวหน้าภาค</span></label>
+                              <label><span class="no_sort">5.</span><span class="title_sort" >รองคณบดี / หัวหน้าภาค</span></label>
                               <input type="text" class="input_hide form-control name_personnel name_personnel_5 list_approve" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_5" value="<?php echo isset($leave_data['name_personnel_5'])?$leave_data['name_personnel_5']:'';?>" required>
                               <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5 list_approve" value="<?php echo isset($leave_data['personnel_id_5'])?$leave_data['personnel_id_5']:'';?>" required />
                               <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5 list_approve" name="position_personnel_5"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($leave_data['position_personnel_5'])?$leave_data['position_personnel_5']:'';?>" required />
@@ -455,7 +515,12 @@
   <script>
     $(document).ready(function(){
       leave_type_form();
-      leave_spec_alert(1);
+      if($('#type_leave').val()==1 || $('#type_leave').val()==2){
+        leave_spec_alert(0);
+      }else{
+        leave_spec_alert(1);
+      }
+      
 
       $('#type_leave_show').attr('disabled','disabled');
 
@@ -463,6 +528,9 @@
         leave_type_form();
         var s_status = $('.submit').attr('s');
         leave_spec_alert(s_status);
+
+        
+        
       });
 
       function leave_type_form(){
@@ -584,7 +652,30 @@
         }
 
         $('.date_all').val(date_count);
-        $('.date_dis').val(parseFloat(date_count)-parseFloat(date_dis)-parseFloat(daytime));
+
+        let type_l = $('#type_leave').val();
+        let date_dis_cal = parseFloat(date_count)-parseFloat(date_dis)-parseFloat(daytime);
+        $('.date_dis').val(date_dis_cal);
+        if(date_dis_cal==0 && (type_l==1 || type_l==2 || type_l==3 || type_l==5 || type_l==6 || type_l==7 || type_l==10)){
+          alert('ท่านจะไม่สามารถบันทึกข้อมูลการลานี้ได้ กรุณาตรวจสอบวันลาให้ถูกต้อง');
+        }
+
+        if((type_l==3 && date_dis_cal>=3) || type_l==4){
+
+          if($('#med_cer').find('span.text').text()!=''){
+            $('#med_cer').show();
+            $('#med_cer input').removeAttr('disabled');
+          }else{
+            $('#med_cer').show();
+            $('#med_cer input').removeAttr('disabled').attr('required','required');
+          }
+          
+        }else{
+
+          $('#med_cer').hide();
+          $('#med_cer input').removeAttr('required').attr('disabled','disabled');
+
+        }
 
       }
 
@@ -672,6 +763,29 @@
         var type_leave = $('#type_leave').val();
         if(type_leave!=''){
           $('#preload').show();
+        }
+
+        let date_start = new Date();
+        let date_end = new Date($('.leave_date_s_value').val());
+        let one_day = 1000*60*60*24;
+        let defDate = parseInt((date_end.getTime() - date_start.getTime()) / one_day);
+
+        let discount = dis_date(date_end.getFullYear()+'-'+('0' + (date_end.getMonth()+1)).slice(-2)+'-'+date_end.getDate(),date_start.getFullYear()+'-'+('0' + (date_end.getMonth()+1)).slice(-2)+'-'+date_start.getDate());
+
+        if((type_leave==1 || type_leave==2) && (defDate-discount)<=1){
+          
+          if(alert){
+            if(confirm('ท่านจะทำการลาฉุกเฉินใช่หรือไม่? หาก OK กรุณากรอกเหตุผล/หาก Cancel กรุณาลาล่วงหน้าอย่างน้อย 3 วัน')){
+              $('#emergency_note').show();
+              $('#emergency_note_input').removeAttr('disabled').attr('required','required');
+            }
+          }else{
+            $('#emergency_note').show();
+            $('#emergency_note_input').removeAttr('disabled').attr('required','required');
+          }
+        }else{
+          $('#emergency_note').hide();
+          $('#emergency_note_input').removeAttr('required').attr('disabled','disabled').val('');
         }
 
         var data = {
@@ -786,9 +900,12 @@
                   var result = data.special_fn[1]['data'].split(",");
 
                   $.each(result,function(key,val){
-                    
                     if(val!=''){
                       $('.approve_list .sort_approve').eq(parseInt(val)).show();
+                    }
+                    if(val==5){
+                      $('.approve_list .sort_approve').eq(4).find('input').removeAttr('required');
+                      $('.approve_list .sort_approve').eq(5).find('input').attr('required','required');
                     }
                   });
 
@@ -809,16 +926,14 @@
                   $('.approve_list .sort_approve.sp').show();
                   $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
                 }else{
-                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('คณบดี / รองคณบดี / หัวหน้าภาค');
+                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
                 }
 
                 if(data.special_fn[3]['status']){
-
                   var result = data.special_fn[3]['data'].split(",");
-
                   $.each(result,function(key,val){
                     if(val!=''){
-                      $('.approve_list .sort_approve').eq(parseInt(key)+1).find('.title_sort').text(val);
+                      $('.approve_list .sort_approve:visible').eq(key).find('.title_sort').text(val);
                     }
                   });
                 }
@@ -851,7 +966,14 @@
               $('.card-default').show();
 
             }else{
+              $('.period_count, .period_count_all').hide();
+              if(data.data.type_count == 1){
+                $('.period_count').show();
+              }else if(data.data.type_count == 0){
+                $('.period_count_all').show();
+              }
               $('.submit').attr('s','0');
+              $('#preload').hide();
               return false;
             }
             $('#preload').hide();
@@ -861,25 +983,28 @@
 
       function alert_noti(type=0,data=0){
         if(type==1){
-          alert('ท่านไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (ไม่รวมวันหยุดราชการ)');
+          alert('กรุณาลาล่วงหน้าอย่างน้อย '+data+' วัน (ไม่รวมวันหยุดราชการ) มิฉะนั้นท่านจะไม่สามารถบันทึกการลาได้ หากมีปัญหาติดด่อโทร. 7936');
           return false;
         }else if(type==2){
-          alert('ท่านไม่สามารถบันทึกการลานี้ได้เนื่องจากต้องลงข้อมูลการลานี้ล่วงหน้าอย่างน้อย '+data+' วัน (รวมวันหยุดราชการ)');
+          alert('กรุณาลาล่วงหน้าอย่างน้อย  '+data+' วัน (รวมวันหยุดราชการ) มิฉะนั้นท่านจะไม่สามารถบันทึกการลาได้ หากมีปัญหาติดด่อโทร. 7936');
           return false;
         }else if(type==3){
-          alert('ท่านไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาต่อปีงบที่จำกัดไว้ '+data+' วัน');
+          alert('ท่านไม่สามารถบันทึกการลาได้เนื่องจากจำนวนวันเกินสิทธิการลาต่อปีงบประมาณ '+data+' วัน  หากมีปัญหาติดด่อโทร. 7936');
           return false;
         }else if(type==4){
-          alert('ท่านไม่สามารถบันทึกได้เนื่องจากเกินจำนวนวันลาสะสมของท่านที่คงเหลือไว้ '+data+' วัน');
+          alert('ท่านไม่สามารถบันทึกการลาได้เนื่องจากเกินจำนวนวันลาพักผ่อนสะสมของท่านคงเหลือ '+data+' วัน  หากมีปัญหาติดด่อโทร. 7936');
           return false;
         }else if(type==5){
-          alert('ท่านไม่สามารถบันทึกได้ กรุณาตรวจสอบและกรอกข้อมูลให้ครบถ้วน');
+          alert('ท่านไม่สามารถบันทึกการลาได้ กรุณาตรวจสอบและกรอกข้อมูลให้ครบถ้วน');
           return false;
         }else if(type==6){
-          alert('ท่านไม่สามารถบันทึกได้ กรุณาระบุผู้พิจารณา "คณบดี / รองคณบดี / หัวหน้าภาค"');
+          alert('ท่านไม่สามารถบันทึกการลาได้ กรุณาระบุผู้พิจารณา "รองคณบดี / หัวหน้าภาค"');
           return false;
         }else if(type==7){
-          alert('ท่านไม่สามารถบันทึกได้เนื่องจากวันลาซ้ำกับการลาอื่นๆของท่านในระบบ');
+          alert('ท่านไม่สามารถบันทึกการลาได้เนื่องจากวันลาซ้ำกับการลาอื่น ๆ ของท่านในระบบ');
+          return false;
+        }else if(type==8){
+          alert('ท่านไม่สามารถบันทึกการลาได้ กรุณาระบุผู้พิจารณา "คณบดี"');
           return false;
         }
       }
@@ -1005,16 +1130,34 @@
 
       function sort_approve(){
         var approve =  $('.approve_list').find('.sort_approve');
-        
+        $('#card_approve').show();
         var i=1;
         approve.each(function(key,val){
           if($(this).is(":visible")){
             $(this).find('.no_sort').text(i+'. ');
             i++;
           }
-        });
+        }); 
+        if(i==1){
+          $('#card_approve').hide();
+        }
       
       }
+
+      $('.delete-file').click(function(){
+        if(confirm('ท่านต้องการลบไฟล์นี้ใช่หรือไม่')){
+          let leave_id = $(this).attr('leave_id');
+          $.ajax( {
+            type: "POST",
+            url: "<?php echo base_url(url_index().'leave/ajax_delete_file'); ?>",
+            dataType: "json",
+            data: {'leave_id':leave_id},
+            success: function(data) {
+              location.reload();
+            }
+          });
+        }
+      });
 
     });
   </script>
