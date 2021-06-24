@@ -102,6 +102,16 @@
     <i class="far fa-fw fa-calendar-alt"></i>
     <span>การจัดการปฏิทิน</span>
   </a>
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_email_hr');?>">
+    <i class="far fa-fw fa-calendar-alt"></i>
+    <span>รายการอีเมล</span>
+  </a>
+  <a class="nav-link" href="<?php echo base_url(url_index().'leave/list_approve_hr');?>">
+    <i class="far fa-fw fa-calendar-alt"></i>
+    <span>รายการพิจารณา</span>
+  </a>
+
+
   <!-- <a class="nav-link" href="<?php echo base_url(url_index().'leave/special_fn');?>">
     <i class="fas fa-fw fa-cogs"></i>
     <span>การตั้งค่าผู้ใช้เฉพาะ</span>

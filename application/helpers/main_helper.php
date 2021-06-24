@@ -297,7 +297,7 @@
             $day        = $d1->diff($d2)->d; // day == 1
             $ten_year   = false;
 
-            if($d1->diff($d2)->y>1){
+            if($d1->diff($d2)->y>=1){
                 $month = 7;
                 $day = 10;
             }

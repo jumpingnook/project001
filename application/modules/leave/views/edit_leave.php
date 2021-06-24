@@ -52,6 +52,10 @@
     .date_dis, .date_all {
         background-color: #ffffff !important;
     }
+    label{
+      font-weight: bold !important;
+      color: #000 !important;
+    }
   </style>
 
 </head>
@@ -595,7 +599,7 @@
             $('.daytime_e').removeAttr('disabled');
           }
 
-          leave_spec_alert();
+          leave_spec_alert(1,0);
         }
       });
       $( ".leave_date_e" ).datepicker({
@@ -615,7 +619,7 @@
           }else if(type>=1 && type<=4){
             $('.daytime_e').removeAttr('disabled');
           }
-          leave_spec_alert();
+          leave_spec_alert(1,0);
         }
       });
       $('.daytime_s,.daytime_e').change(function(){
@@ -746,7 +750,7 @@
           }
         }
 
-        leave_spec_alert();
+        leave_spec_alert(1,0);
 
         var s_status = $('.submit').attr('s');
         if(s_status==0){
@@ -758,7 +762,7 @@
       var period_start_default = $('.leave_date_s_value').val();
       var period_end_default = $('.leave_date_e_value').val();
 
-      function leave_spec_alert(alert=1){
+      function leave_spec_alert(alert=1,approve=1){
         
         var type_leave = $('#type_leave').val();
         if(type_leave!=''){
@@ -880,67 +884,9 @@
                 $('.submit').attr('s','0');
               }
 
-              $('.approve_list .sort_approve').hide();
+              if(approve==1){
 
-              if($('#type_leave').val()==4 || $('#type_leave').val()==5){
-                $('.name_personnel_5,.personnel_id_5,.position_personnel_5').removeAttr('required');
-                $('.name_personnel_6,.personnel_id_6,.position_personnel_6').attr('required','required');
-              }else{
-                $('.name_personnel_6,.personnel_id_6,.position_personnel_6').removeAttr('required');
-                $('.name_personnel_5,.personnel_id_5,.position_personnel_5').attr('required','required');
-              }
-
-              $('.list_approve').removeAttr('disabled');
-              $('.card-default').show();
-              if(data.approve==1 || data.approve==2){
-                $(".toBoss option[value=1]").attr("selected","selected");
-                $(".toBoss").val(1);
-
-                if(data.special_fn[1]['status']){
-                  var result = data.special_fn[1]['data'].split(",");
-
-                  $.each(result,function(key,val){
-                    if(val!=''){
-                      $('.approve_list .sort_approve').eq(parseInt(val)).show();
-                    }
-                    if(val==5){
-                      $('.approve_list .sort_approve').eq(4).find('input').removeAttr('required');
-                      $('.approve_list .sort_approve').eq(5).find('input').attr('required','required');
-                    }
-                  });
-
-                  sort_approve();
-                }else{
-                  $('.approve_list .sort_approve').show();
-                  $('.approve_list .sort_approve.sp').hide();
-                }
-                if(data.special_fn[2]['status']){
-                  $('.period_count,period_count_all').removeAttr('readonly');
-                  $('#noti_text').show();
-                }else{
-                  $('.period_count,period_count_all').attr('readonly','true');
-                  $('#noti_text').hide();
-                }
-
-                if($('#type_leave').val()==4 || $('#type_leave').val()==5){
-                  $('.approve_list .sort_approve.sp').show();
-                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
-                }else{
-                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
-                }
-
-                if(data.special_fn[3]['status']){
-                  var result = data.special_fn[3]['data'].split(",");
-                  $.each(result,function(key,val){
-                    if(val!=''){
-                      $('.approve_list .sort_approve:visible').eq(key).find('.title_sort').text(val);
-                    }
-                  });
-                }
-
-              }else if(data.approve==3){
-                $(".toBoss option[value=2]").attr("selected","selected");
-                $(".toBoss").val(2);
+                $('.approve_list .sort_approve').hide();
 
                 if($('#type_leave').val()==4 || $('#type_leave').val()==5){
                   $('.name_personnel_5,.personnel_id_5,.position_personnel_5').removeAttr('required');
@@ -949,21 +895,82 @@
                   $('.name_personnel_6,.personnel_id_6,.position_personnel_6').removeAttr('required');
                   $('.name_personnel_5,.personnel_id_5,.position_personnel_5').attr('required','required');
                 }
-                
-                $('.list_approve').attr('disabled','disabled');
-              }
-              
 
-              if(data.friend_approve==1){
-                $('.friend_approve').show();
-                $('.friend_approve').find('input').removeAttr('disabled');
-                sort_approve();
-              }else{
-                $('.friend_approve').hide();
-                $('.friend_approve').find('input').attr('disabled','disabled');
-                sort_approve();
+                $('.list_approve').removeAttr('disabled');
+                $('.card-default').show();
+                if(data.approve==1 || data.approve==2){
+                  $(".toBoss option[value=1]").attr("selected","selected");
+                  $(".toBoss").val(1);
+
+                  if(data.special_fn[1]['status']){
+                    var result = data.special_fn[1]['data'].split(",");
+
+                    $.each(result,function(key,val){
+                      if(val!=''){
+                        $('.approve_list .sort_approve').eq(parseInt(val)).show();
+                      }
+                      if(val==5){
+                        $('.approve_list .sort_approve').eq(4).find('input').removeAttr('required');
+                        $('.approve_list .sort_approve').eq(5).find('input').attr('required','required');
+                      }
+                    });
+
+                    sort_approve();
+                  }else{
+                    $('.approve_list .sort_approve').show();
+                    $('.approve_list .sort_approve.sp').hide();
+                  }
+                  if(data.special_fn[2]['status']){
+                    $('.period_count,period_count_all').removeAttr('readonly');
+                    $('#noti_text').show();
+                  }else{
+                    $('.period_count,period_count_all').attr('readonly','true');
+                    $('#noti_text').hide();
+                  }
+
+                  if($('#type_leave').val()==4 || $('#type_leave').val()==5){
+                    $('.approve_list .sort_approve.sp').show();
+                    $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
+                  }else{
+                    $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
+                  }
+
+                  if(data.special_fn[3]['status']){
+                    var result = data.special_fn[3]['data'].split(",");
+                    $.each(result,function(key,val){
+                      if(val!=''){
+                        $('.approve_list .sort_approve:visible').eq(key).find('.title_sort').text(val);
+                      }
+                    });
+                  }
+
+                }else if(data.approve==3){
+                  $(".toBoss option[value=2]").attr("selected","selected");
+                  $(".toBoss").val(2);
+
+                  if($('#type_leave').val()==4 || $('#type_leave').val()==5){
+                    $('.name_personnel_5,.personnel_id_5,.position_personnel_5').removeAttr('required');
+                    $('.name_personnel_6,.personnel_id_6,.position_personnel_6').attr('required','required');
+                  }else{
+                    $('.name_personnel_6,.personnel_id_6,.position_personnel_6').removeAttr('required');
+                    $('.name_personnel_5,.personnel_id_5,.position_personnel_5').attr('required','required');
+                  }
+                  
+                  $('.list_approve').attr('disabled','disabled');
+                }
+                
+
+                if(data.friend_approve==1){
+                  $('.friend_approve').show();
+                  $('.friend_approve').find('input').removeAttr('disabled');
+                  sort_approve();
+                }else{
+                  $('.friend_approve').hide();
+                  $('.friend_approve').find('input').attr('disabled','disabled');
+                  sort_approve();
+                }
+                $('.card-default').show();
               }
-              $('.card-default').show();
 
             }else{
               $('.period_count, .period_count_all').hide();

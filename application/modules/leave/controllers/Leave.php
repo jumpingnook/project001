@@ -123,6 +123,7 @@ class Leave extends Leave_Controller {
         $set['count_job_exp'] = count_job_exp($personnel['data'][0]['work_start_date']);
 
         $set['leave_type'] = $this->Leave_type_model->get_type(['month'=>$set['count_job_exp']['month'],'day'=>$set['count_job_exp']['day'],'emp_type'=>$set['emp_type'],'gender'=>$set['personnel']['gender'],'all'=>false]); //sanan
+
         $set['leave_quota'] = $this->Leave_quota_model->get_last_quote(['personnel_id'=>$set['personnel']['personnel_id']]);
 
         $con = [];
@@ -981,8 +982,8 @@ class Leave extends Leave_Controller {
                         $api['subject']     = $subject;
                         $api['body']        = $html;
                         //$api['to']          = 'ela.somniyam@gmail.com';
-                        $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
-                        //$api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
+                        //$api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
+                        $api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
                         $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
 
                         if($send['status']){
@@ -1046,8 +1047,8 @@ class Leave extends Leave_Controller {
                         $api['subject']     = $subject;
                         $api['body']        = $html;
                         //$api['to']          = 'ela.somniyam@gmail.com';
-                        $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
-                        //$api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
+                        //$api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
+                        $api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
                         $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
                     }
 
@@ -1694,8 +1695,8 @@ class Leave extends Leave_Controller {
                 $api['subject']     = $subject;
                 $api['body']        = $html;
                 //$api['to']          = 'ela.somniyam@gmail.com';
-                $api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
-                //$api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
+                //$api['to']          = 'blackbullet.social@gmail.com';//$set['personnel_receive']['data'][0]['email']; //sanan
+                $api['to']          = $set['personnel_receive']['data'][0]['email'];//$set['personnel_receive']['data'][0]['email']; //sanan
                 $send = $this->restclient->post(base_url(url_index().'email/api_v1/send'),$api);
 
                 redirect(base_url(url_index().'leave?approve=assign_complete'));
@@ -1752,6 +1753,55 @@ class Leave extends Leave_Controller {
         $approve_list = array_filter($approve_list);
 
         return $approve_list;
+    }
+
+    function list_email_hr(){
+
+        $this->load->model('personnel/Personnel_model');
+
+        $res = [];
+
+        $con = [];
+        $con['select'] = 'title,name_th,surname_th,email,phone,tel,internal_tel';
+        $con['where'] = '(work_end_date = "0000-00-00" or work_end_date IS NULL)';
+        $res['list'] = $this->Personnel_model->to_select($con);
+        $con['where'] .= ' and email = ""';
+        $res['not_email'] = $this->Personnel_model->to_count($con);
+
+        $this->load->view('list_email_hr',$res);
+    }
+
+    function list_approve_hr(){
+
+        $this->load->model('personnel/Personnel_model');
+        $this->load->model('personnel/Smu_model');
+        $this->load->model('Leave_approve_model');
+
+        $res = [];
+
+        $con = [];
+        $con['select'] = 'personnel_id,title,name_th,surname_th,email,phone,tel,internal_tel,smu_main_id,smu_sub_id';
+        $con['array_key'] = true;
+        $res['personnel'] = $this->Personnel_model->to_select($con);
+
+        $con['where'] = '(work_end_date = "0000-00-00" or work_end_date IS NULL)';
+        $res['personnel_list'] = $this->Personnel_model->to_select($con);
+        $res['count'] = $this->Personnel_model->to_count($con);
+
+        $con = [];
+        $con['array_key'] = 'personnel_id';
+        $res['list'] = $this->Leave_approve_model->to_select($con);
+
+        
+
+        $res['smu_sub'] = $this->Smu_model->get_sub_smu();
+        $res['smu_main'] = $this->Smu_model->get_main_smu();
+
+        //echo '<pre>';print_r( $res['smu_sub']);exit;
+
+
+
+        $this->load->view('list_approve_hr',$res);
     }
 
     

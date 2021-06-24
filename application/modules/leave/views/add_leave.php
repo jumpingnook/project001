@@ -52,6 +52,10 @@
     .not_daytime[disabled*=disabled]{
       background-color: #cccccc;
     }
+    label{
+      font-weight: bold !important;
+      color: #000 !important;
+    }
   </style>
 
 </head>
@@ -342,14 +346,14 @@
                           <div class="a1 col-lg-6 friend_approve sort_approve">
                             <div class="form-group">
                                 <label><span class="no_sort">1.</span><span class="title_sort" >ผู้ปฏิบัติงานแทน</span></label>
-                                <input type="text" class="input_hide form-control name_personnel name_personnel_1" auto_type="workmate" placeholder="ระบุชื่อผู้ปฏิบัติงานแทน" name="name_personnel_1" value="<?php echo isset($post_data['name_personnel_1'])?$post_data['name_personnel_1']:'';?>" disabled>
+                                <input type="text" class="input_hide form-control name_personnel name_personnel_1" auto_type="workmate" placeholder="ระบุชื่อผู้ปฏิบัติงานแทน  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_1" value="<?php echo isset($post_data['name_personnel_1'])?$post_data['name_personnel_1']:'';?>" disabled>
                                 <input id="workmate" type="hidden" name="personnel_id_1" class="input_hide personnel_id_1" value="<?php echo isset($post_data['personnel_id_1'])?$post_data['personnel_id_1']:'';?>" disabled>
                               </div>
                           </div>
                           <div class="a2 col-lg-6 sort_approve" >
                             <div class="form-group">
                                 <label><span class="no_sort">2.</span><span class="title_sort">หัวหน้าหน่วย/ หัวหน้าหอผู้ป่วย</span></label>
-                                <input type="text" class="input_hide form-control name_personnel name_personnel_2 list_approve" auto_type="head_unit" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_2" value="<?php echo isset($post_data['name_personnel_2'])?$post_data['name_personnel_2']:'';?>">
+                                <input type="text" class="input_hide form-control name_personnel name_personnel_2 list_approve" auto_type="head_unit" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_2" value="<?php echo isset($post_data['name_personnel_2'])?$post_data['name_personnel_2']:'';?>">
                                 <input id="head_unit" type="hidden" name="personnel_id_2" class="input_hide personnel_id_2 list_approve" value="<?php echo isset($post_data['personnel_id_2'])?$post_data['personnel_id_2']:'';?>">
                                 <input id="head_unit_position" type="text" class="input_hide form-control position_personnel_2 list_approve" name="position_personnel_2"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_2'])?$post_data['position_personnel_2']:'';?>"/>
                               </div>
@@ -357,7 +361,7 @@
                           <div class="a3 col-lg-6 sort_approve" >
                             <div class="form-group">
                                 <label><span class="no_sort">3.</span><span class="title_sort">หัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน</span></label>
-                                <input type="text" class="input_hide form-control name_personnel name_personnel_3 list_approve" auto_type="head_dept" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_3" value="<?php echo isset($post_data['name_personnel_3'])?$post_data['name_personnel_3']:'';?>">
+                                <input type="text" class="input_hide form-control name_personnel name_personnel_3 list_approve" auto_type="head_dept" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_3" value="<?php echo isset($post_data['name_personnel_3'])?$post_data['name_personnel_3']:'';?>">
                                 <input id="head_dept" type="hidden" name="personnel_id_3" class="input_hide personnel_id_3 list_approve" value="<?php echo isset($post_data['personnel_id_3'])?$post_data['personnel_id_3']:'';?>">
                                 <input id="head_dept_position" type="text" class="input_hide form-control position_personnel_3 list_approve" name="position_personnel_3"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_3'])?$post_data['position_personnel_3']:'';?>"/>
                               </div>
@@ -365,7 +369,7 @@
                           <div class="a4 col-lg-6 sort_approve" >
                             <div class="form-group">
                                 <label><span class="no_sort">4.</span><span class="title_sort">ผู้ช่วยคณบดี / รองผู้อำนวยการ</span></label>
-                                <input type="text" class="input_hide form-control name_personnel name_personnel_4 list_approve" auto_type="supervisor" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_4" value="<?php echo isset($post_data['name_personnel_4'])?$post_data['name_personnel_4']:'';?>">
+                                <input type="text" class="input_hide form-control name_personnel name_personnel_4 list_approve" auto_type="supervisor" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_4" value="<?php echo isset($post_data['name_personnel_4'])?$post_data['name_personnel_4']:'';?>">
                                 <input id="supervisor" type="hidden" name="personnel_id_4" class="input_hide personnel_id_4 list_approve" value="<?php echo isset($post_data['personnel_id_4'])?$post_data['personnel_id_4']:'';?>">
                                 <input id="supervisor_position" type="text" class="input_hide form-control position_personnel_4 list_approve" name="position_personnel_4"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_4'])?$post_data['position_personnel_4']:'';?>"/>
                               </div>
@@ -374,7 +378,7 @@
                           <div class="col-lg-6 sort_approve">
                             <div class="form-group">
                               <label><span class="no_sort">5.</span><span class="title_sort">รองคณบดี / หัวหน้าภาค</span></label>
-                              <input type="text" class="input_hide form-control name_personnel name_personnel_5 list_approve" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_5" value="<?php echo isset($post_data['name_personnel_5'])?$post_data['name_personnel_5']:'';?>"required >
+                              <input type="text" class="input_hide form-control name_personnel name_personnel_5 list_approve" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_5" value="<?php echo isset($post_data['name_personnel_5'])?$post_data['name_personnel_5']:'';?>"required >
                               <input id="deputy_dean" type="hidden" name="personnel_id_5" class="input_hide personnel_id_5 list_approve" value="<?php echo isset($post_data['personnel_id_5'])?$post_data['personnel_id_5']:'';?>" required />
                               <input id="deputy_dean_position" type="text" class="input_hide form-control position_personnel_5 list_approve" name="position_personnel_5"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_5'])?$post_data['position_personnel_5']:'';?>" required />
                             </div>
@@ -383,7 +387,7 @@
                           <div class="col-lg-6 sort_approve sp">
                             <div class="form-group">
                               <label><span class="no_sort">6.</span><span class="title_sort">คณบดี</span></label>
-                              <input type="text" class="input_hide form-control name_personnel name_personnel_6 list_approve" auto_type="dean" placeholder="ระบุชื่อผู้พิจารณา" name="name_personnel_6" value="<?php echo isset($post_data['name_personnel_6'])?$post_data['name_personnel_6']:'';?>"required >
+                              <input type="text" class="input_hide form-control name_personnel name_personnel_6 list_approve" auto_type="dean" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_6" value="<?php echo isset($post_data['name_personnel_6'])?$post_data['name_personnel_6']:'';?>"required >
                               <input id="dean" type="hidden" name="personnel_id_6" class="input_hide personnel_id_6 list_approve" value="<?php echo isset($post_data['personnel_id_6'])?$post_data['personnel_id_6']:'';?>" required />
                               <input id="dean_position" type="text" class="input_hide form-control position_personnel_6 list_approve" name="position_personnel_6"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_6'])?$post_data['position_personnel_6']:'';?>" required />
                             </div>
@@ -548,7 +552,7 @@
           }else if(type>=1 && type<=4){
             $('.daytime_e').removeAttr('disabled');
           }
-          leave_spec_alert();
+          leave_spec_alert(1,0);
         }
       });
       $( ".leave_date_e" ).datepicker({
@@ -568,7 +572,7 @@
           }else if(type>=1 && type<=4){
             $('.daytime_e').removeAttr('disabled');
           }
-          leave_spec_alert();
+          leave_spec_alert(1,0);
 
         }
       });
@@ -691,7 +695,7 @@
           }
         }
 
-        leave_spec_alert();
+        leave_spec_alert(1,0);
 
         var s_status = $('.submit').attr('s');
         if(s_status==0){
@@ -700,7 +704,7 @@
 
       });
 
-      function leave_spec_alert(alert=1){
+      function leave_spec_alert(alert=1,approve=1){
 
         var type_leave = $('#type_leave').val();
         if(type_leave!=''){
@@ -824,72 +828,9 @@
                 $('.submit').attr('s','0');
               }
 
-              $('.approve_list .sort_approve').hide();
+              if(approve==1){
 
-              if($('#type_leave').val()==4 || $('#type_leave').val()==5){
-                $('.name_personnel_5,.personnel_id_5,.position_personnel_5').removeAttr('required');
-                $('.name_personnel_6,.personnel_id_6,.position_personnel_6').attr('required','required');
-              }else{
-                $('.name_personnel_6,.personnel_id_6,.position_personnel_6').removeAttr('required');
-                $('.name_personnel_5,.personnel_id_5,.position_personnel_5').attr('required','required');
-              }
-
-              $('.list_approve').removeAttr('disabled');
-              $('.card-default').show();
-              if(data.approve==1 || data.approve==2){
-                $(".toBoss option[value=1]").attr("selected","selected");
-                $(".toBoss").val(1);
-
-
-
-
-
-                if(data.special_fn[1]['status']){
-                  var result = data.special_fn[1]['data'].split(",");
-
-                  $.each(result,function(key,val){
-                    if(val!=''){
-                      $('.approve_list .sort_approve').eq(parseInt(val)).show();
-                    }
-                    if(val==5){
-                      $('.approve_list .sort_approve').eq(4).find('input').removeAttr('required');
-                      $('.approve_list .sort_approve').eq(5).find('input').attr('required','required');
-                    }
-                  });
-
-                  sort_approve();
-                }else{
-                  $('.approve_list .sort_approve').show();
-                  $('.approve_list .sort_approve.sp').hide();
-                }
-
-                if(data.special_fn[2]['status']){
-                  $('.period_count,period_count_all').removeAttr('readonly');
-                  $('#noti_text').show();
-                }else{
-                  $('.period_count,period_count_all').attr('readonly','true');
-                  $('#noti_text').hide();
-                }
-                if($('#type_leave').val()==4 || $('#type_leave').val()==5){
-                  $('.approve_list .sort_approve.sp').show();
-                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
-                }else{
-                  $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
-                }
-
-                if(data.special_fn[3]['status']){
-                  var result = data.special_fn[3]['data'].split(",");
-                  $.each(result,function(key,val){
-                    if(val!=''){
-                      $('.approve_list .sort_approve:visible').eq(key).find('.title_sort').text(val);
-                    }
-                  });
-                }
-
-
-              }else if(data.approve==3){
-                $(".toBoss option[value=2]").attr("selected","selected");
-                $(".toBoss").val(2);
+                $('.approve_list .sort_approve').hide();
 
                 if($('#type_leave').val()==4 || $('#type_leave').val()==5){
                   $('.name_personnel_5,.personnel_id_5,.position_personnel_5').removeAttr('required');
@@ -898,32 +839,94 @@
                   $('.name_personnel_6,.personnel_id_6,.position_personnel_6').removeAttr('required');
                   $('.name_personnel_5,.personnel_id_5,.position_personnel_5').attr('required','required');
                 }
-                
-                $('.list_approve').attr('disabled','disabled');
+
+                $('.list_approve').removeAttr('disabled');
+                $('.card-default').show();
+                if(data.approve==1 || data.approve==2){
+                  $(".toBoss option[value=1]").attr("selected","selected");
+                  $(".toBoss").val(1);
+
+
+
+
+
+                  if(data.special_fn[1]['status']){
+                    var result = data.special_fn[1]['data'].split(",");
+
+                    $.each(result,function(key,val){
+                      if(val!=''){
+                        $('.approve_list .sort_approve').eq(parseInt(val)).show();
+                      }
+                      if(val==5){
+                        $('.approve_list .sort_approve').eq(4).find('input').removeAttr('required');
+                        $('.approve_list .sort_approve').eq(5).find('input').attr('required','required');
+                      }
+                    });
+
+                    sort_approve();
+                  }else{
+                    $('.approve_list .sort_approve').show();
+                    $('.approve_list .sort_approve.sp').hide();
+                  }
+
+                  if(data.special_fn[2]['status']){
+                    $('.period_count,period_count_all').removeAttr('readonly');
+                    $('#noti_text').show();
+                  }else{
+                    $('.period_count,period_count_all').attr('readonly','true');
+                    $('#noti_text').hide();
+                  }
+                  if($('#type_leave').val()==4 || $('#type_leave').val()==5){
+                    $('.approve_list .sort_approve.sp').show();
+                    $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
+                  }else{
+                    $('.approve_list .sort_approve').eq(4).find('.title_sort').text('รองคณบดี / หัวหน้าภาค');
+                  }
+
+                  if(data.special_fn[3]['status']){
+                    var result = data.special_fn[3]['data'].split(",");
+                    $.each(result,function(key,val){
+                      if(val!=''){
+                        $('.approve_list .sort_approve:visible').eq(key).find('.title_sort').text(val);
+                      }
+                    });
+                  }
+
+
+                }else if(data.approve==3){
+                  $(".toBoss option[value=2]").attr("selected","selected");
+                  $(".toBoss").val(2);
+
+                  if($('#type_leave').val()==4 || $('#type_leave').val()==5){
+                    $('.name_personnel_5,.personnel_id_5,.position_personnel_5').removeAttr('required');
+                    $('.name_personnel_6,.personnel_id_6,.position_personnel_6').attr('required','required');
+                  }else{
+                    $('.name_personnel_6,.personnel_id_6,.position_personnel_6').removeAttr('required');
+                    $('.name_personnel_5,.personnel_id_5,.position_personnel_5').attr('required','required');
+                  }
+                  
+                  $('.list_approve').attr('disabled','disabled');
+                }
+
+                if(data.friend_approve==1){
+                  $('.friend_approve').show();
+                  $('.friend_approve').find('input').removeAttr('disabled');
+                  sort_approve();
+                }else{
+                  $('.friend_approve').hide();
+                  $('.friend_approve').find('input').attr('disabled','disabled');
+                  sort_approve();
+                }
+                $('.card-default').show();
+
+                var i = 2;
+                $.each(list_approve, function(key,val){
+                  $('.name_personnel_'+i).val(val.name);
+                  $('.personnel_id_'+i).val(val.id);
+                  $('.position_personnel_'+i).val(val.position);
+                  i++;
+                });
               }
-
-
-              
-              
-
-              if(data.friend_approve==1){
-                $('.friend_approve').show();
-                $('.friend_approve').find('input').removeAttr('disabled');
-                sort_approve();
-              }else{
-                $('.friend_approve').hide();
-                $('.friend_approve').find('input').attr('disabled','disabled');
-                sort_approve();
-              }
-              $('.card-default').show();
-
-              var i = 2;
-              $.each(list_approve, function(key,val){
-                $('.name_personnel_'+i).val(val.name);
-                $('.personnel_id_'+i).val(val.id);
-                $('.position_personnel_'+i).val(val.position);
-                i++;
-              });
               
             }else{
               $('.period_count, .period_count_all').hide();
