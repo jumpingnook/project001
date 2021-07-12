@@ -450,6 +450,11 @@
       }
 
       $(document).ready(function(){
+        
+        <?php if(intval($data['status'])==0 and $approve_leave_type==2){?>
+          alert('กรุณาตรวจสอบข้อมูลการลาของท่านให้ถูกต้อง และกดส่งอีเมลเพื่อเริ่มพิจารณา');
+        <?php } ?>
+
         $('#print').click(function(){
           ajax_print();
         });

@@ -488,6 +488,8 @@
           leave_spec_alert(0);
         }else if($(this).val() == 1){
           leave_spec_alert(0);
+        }else if($(this).val() == 8){
+          //nothing
         }else{
           leave_spec_alert(s_status);
         }
@@ -499,11 +501,24 @@
         var type = $('#type_leave').val();
         var type_name = $( "#type_leave option:selected" ).text();
 
+        if(type==8){
+          
+          
+          $('.card-default').hide();
+          $('.card-type').hide();
+          $('#card_approve').hide();
+          $('#emergency_note').hide();
+          $('.card-note').show();
+          alert('กรุณาติดต่อสอบถามงานบริหารทรัพยากรบุคคล โทร. 7936');
+          return false;
+        }
+
         if(type!=0){
           $('.leave-text').text(type_name);
           $('#title').val(type_name);
           //$('.card-default').show();
           $('.card-note').hide();
+          $('#card_approve').hide();
         }else{
           $('.leave-text').text('');
           $('#title').val('');
