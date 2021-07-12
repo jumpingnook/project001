@@ -377,11 +377,18 @@ class Leave_model extends MY_Model {
 		return $res;
 	}
 
-	function delete_file($id=0){
+	function delete_file($id=0,$type=0){
 		$con = [];
-		$con['data']['file'] = '';
-		$con['data']['file_name'] = '';
-		$con['data']['file_type'] = '';
+		if($type==0 || $type==1){
+			$con['data']['file'] = '';
+			$con['data']['file_name'] = '';
+			$con['data']['file_type'] = '';
+		}else{
+			$con['data']['file_2'] = '';
+			$con['data']['file_name_2'] = '';
+			$con['data']['file_type_2'] = '';
+		}
+		
 		$con['where'] = 'leave_id = '.intval($id);
 		$this->to_update($con);
 	}

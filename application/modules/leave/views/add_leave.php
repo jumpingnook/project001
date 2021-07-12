@@ -142,6 +142,11 @@
                           <div class="col-sm-6">
                             <label>เนื่องจาก</label>
                             <input type="text" name="detail" class="form-control leave-detail" id="detail" placeholder="เนื่องจาก" value="<?php echo isset($post_data['detail'])?$post_data['detail']:'';?>" required disabled>
+
+                            <input type="text" class="date_n form-control" value="<?php echo isset($post_data['child_birthdate'])?date_th(date('Y-m-d',strtotime($post_data['child_birthdate'])),12):date_th(date('Y-m-d'),12);?>" required disabled style="display:none;">
+                            <input name="child_birthdate" type="hidden" class="form-control" value="<?php echo isset($post_data['child_birthdate'])?$post_data['child_birthdate']:date('Y-m-d');?>">
+
+
                           </div>
                         </div>
                         <div class="form-group row">
@@ -202,6 +207,18 @@
                           <div class="col-sm-12">
                             <label>อัพโหลดใบรับรองแพทย์</label>
                             <input type="file" name="med_cer" class="form-control" style="height: 44px;" disabled accept="image/jpeg,application/pdf">
+                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้นและจำกัดขนาดไฟล์ที่ 1 MB</span>
+                          </div>
+                        </div>
+                        <div id="cer_card" class="form-group row" style="display:none;">
+                          <div class="col-sm-12">
+                            <label>อัพโหลดใบทะเบียนสมรส</label>
+                            <input type="file" name="marr_cer" class="form-control" style="height: 44px;" disabled accept="image/jpeg,application/pdf">
+                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้นและจำกัดขนาดไฟล์ที่ 1 MB</span>
+                          </div>
+                          <div class="col-sm-12">
+                            <label>อัพโหลดใบสูติบัตร</label>
+                            <input type="file" name="birth_cer" class="form-control" style="height: 44px;" disabled accept="image/jpeg,application/pdf">
                             <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้นและจำกัดขนาดไฟล์ที่ 1 MB</span>
                           </div>
                         </div>
@@ -536,12 +553,32 @@
         }else{
           $('.daytime_s,.daytime_e').attr('disabled','disabled');
         }
+
         count_date();
-        if((type>=2 && type<=4) || type==10){
+        if((type>=2 && type<=3) || type==10){
           $('.leave-detail').removeAttr('disabled');
+          $('.leave-detail').show();
+          $('.leave-detail').prev().text('เนื่องจาก');
+          $('.leave-detail').next().attr('disabled','disabled').hide();
+        }else if(type==4){
+          $('.leave-detail').attr('disabled','disabled');
+          $('.leave-detail').hide();
+          $('.leave-detail').prev().text('คลอดบุตรเมื่อวันที่');
+          $('.leave-detail').next().removeAttr('disabled').show();
         }else{
           $('.leave-detail').attr('disabled','disabled');
+          $('.leave-detail').show();
+          $('.leave-detail').prev().text('เนื่องจาก');
+          $('.leave-detail').next().attr('disabled','disabled').hide();
         }
+
+        $('#cer_card').hide();
+        $('#cer_card input[type=file]').attr('disabled','disabled');
+        if(type==5){
+          $('#cer_card').show();
+          $('#cer_card input[type=file]').removeAttr('disabled');
+        }
+
       }
 
       $( ".date_n" ).datepicker({
@@ -666,6 +703,10 @@
           $('#med_cer input').removeAttr('required').attr('disabled','disabled');
         }
 
+        if(type_l==2 && $('.period_count.date_dis').val()>=5){
+          alert('ท่านลาติดต่อกัน 5 วัน กรุณาติดต่อสอบถามงานบริหารทรัพยากรบุคคล โทร. 7936');
+        }
+
       }
 
       function days_between(date1, date2) {
@@ -731,6 +772,27 @@
         if(type==0){
           alert('กรุณาเลือกประเภทการลาก่อนการบันทึกข้อมูลการลา');
           return false;
+        }
+        if(type==2 && $('.period_count.date_dis').val()>=5){
+          alert('ท่านลาติดต่อกัน 5 วัน กรุณาติดต่อสอบถามงานบริหารทรัพยากรบุคคล โทร. 7936');
+          return false;
+        }
+        if(type==4){
+          let date_b = $('input[name=child_birthdate]').val();
+          let date = new Date(date_b);
+          date.setDate(date.getDate() + 4);
+          let get_date = date.toISOString().substring(0, 10);
+          let date_cc = new Date();
+          let get_date_cc = date_cc.toISOString().substring(0, 10);
+
+          if(get_date<get_date_cc){
+            alert('ท่านลาย้อนหลังเกิน 5 วัน กรุณาติดต่อสอบถามงานบริหารทรัพยากรบุคคล โทร. 7936');
+            return false;
+          }
+          if(date_b<$('.leave_date_s_value').val() || date_b>$('.leave_date_e_value').val()){
+            alert('วันคลอดบุตรไม่อยู่ในช่วงระยะวันลา');
+            return false;
+          }
         }
 
         if($(".toBoss").val()==1){
@@ -1159,6 +1221,22 @@
     });
 
     $("input[name=med_cer]").on("change", function (e) {
+      var files = e.currentTarget.files;
+      console.log(files);
+      if(files[0].size > 1048576){
+        alert("ไฟล์ขนาดใหญ่เกินไป จำกัดขนาดไฟล์ที่ 1 MB");
+        this.value = "";
+      };
+    });
+    $("input[name=marr_cer]").on("change", function (e) {
+      var files = e.currentTarget.files;
+      console.log(files);
+      if(files[0].size > 1048576){
+        alert("ไฟล์ขนาดใหญ่เกินไป จำกัดขนาดไฟล์ที่ 1 MB");
+        this.value = "";
+      };
+    });
+    $("input[name=birth_cer]").on("change", function (e) {
       var files = e.currentTarget.files;
       console.log(files);
       if(files[0].size > 1048576){

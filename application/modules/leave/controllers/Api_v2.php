@@ -72,7 +72,7 @@ class Api_v2 extends REST_Controller {
             }
 
             $set=[];
-            $set['where']   = '((period_start > "'.$year_budget[0].'" and period_start <= "'.$year_budget[1].'") or (period_end >= "'.$year_budget[0].'" and period_end < "'.$year_budget[1].'")) and (status >= 0 and  status <= 2) and personnel_id = "'.intval($post['personnel']).'"'.(isset($post['unselect']) && intval($post['unselect'])!=0?' and leave_id <> '.intval($post['unselect']):'');
+            $set['where']   = '((period_start > "'.$year_budget[0].'" and period_start <= "'.$year_budget[1].'") or (period_end >= "'.$year_budget[0].'" and period_end < "'.$year_budget[1].'")) and (status >= 0 and  status <= 2) and personnel_id = "'.intval($post['personnel']).'"'.(isset($post['unselect']) && intval($post['unselect'])!=0?' and leave_id <> '.intval($post['unselect']):'').(isset($post['edit']) && intval($post['edit'])!=0?' and leave_id <> '.intval($post['edit']):'');
             $result = $result_leave_data = $this->Leave_model->to_select($set);
             $weekend        = $this->get_weekend('php');
 

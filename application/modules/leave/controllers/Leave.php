@@ -357,6 +357,7 @@ class Leave extends Leave_Controller {
         $api['period_count_all']    = $post['period_count_all'];
         $api['period_start']    = $post['period_start'];
         $api['period_end']      = $post['period_end'];
+        $api['edit']            = $post['edit_leave_id'];
         $leave_spec = $this->restclient->post(base_url(url_index().'leave/api_v2/leave_spec_alert'),$api);
         
         if(isset($leave_spec['status']) and $leave_spec['status']){
@@ -395,6 +396,22 @@ class Leave extends Leave_Controller {
             $set['data']['file_type'] = $_FILES['med_cer']['type'];
             $data = file_get_contents($_FILES['med_cer']['tmp_name']);
             $set['data']['file'] = 'data:'.$set['data']['file_type'].';base64,' . base64_encode($data);
+        }
+        if(isset($_FILES['marr_cer']) && !$_FILES['marr_cer']['error']){
+            $set['data']['file'] = '';
+            $set['data']['file_type'] = '';
+            $set['data']['file_name'] = $_FILES['marr_cer']['name'];
+            $set['data']['file_type'] = $_FILES['marr_cer']['type'];
+            $data = file_get_contents($_FILES['marr_cer']['tmp_name']);
+            $set['data']['file'] = 'data:'.$set['data']['file_type'].';base64,' . base64_encode($data);
+        }
+        if(isset($_FILES['birth_cer']) && !$_FILES['birth_cer']['error']){
+            $set['data']['file_2'] = '';
+            $set['data']['file_type_2'] = '';
+            $set['data']['file_name_2'] = $_FILES['birth_cer']['name'];
+            $set['data']['file_type_2'] = $_FILES['birth_cer']['type'];
+            $data = file_get_contents($_FILES['birth_cer']['tmp_name']);
+            $set['data']['file_2'] = 'data:'.$set['data']['file_type'].';base64,' . base64_encode($data);
         }
 
         #last Leave
@@ -1713,7 +1730,7 @@ class Leave extends Leave_Controller {
     function ajax_delete_file(){
         $post = $this->input->post();
         $this->load->model(['Leave_model']);
-        $this->Leave_model->delete_file($post['leave_id']);
+        $this->Leave_model->delete_file($post['leave_id'],$post['type']);
         echo json_encode(['status'=>true]);exit;
     }
 
