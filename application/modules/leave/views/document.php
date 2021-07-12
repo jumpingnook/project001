@@ -68,7 +68,7 @@
       <span style="top: 23.4%;left: 82%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
 
       <span class="overflow-text" style="top: 25.6%;left: 34%;width: 51%;height: 3%;"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
-      <span class="overflow-text" style="top: 27.6%;left: 30%;width: 57%;height: 3%;"><?php echo isset($data['emergency_note'])?htmlspecialchars_decode($data['emergency_note']):'-';?></span>
+      <span class="overflow-text" style="top: 27.6%;left: 30%;width: 57%;height: 3%;"><?php echo isset($data['emergency_note']) && trim($data['emergency_note'])!=''?htmlspecialchars_decode($data['emergency_note']):'-';?></span>
 
       <span style="top: 39%;left: 18%;"><?php echo isset($old_leave_count)?floatval($old_leave_count):0;?></span>
       <span style="top: 39%;left: 28%;"><?php echo isset($data['period_count'])?floatval($data['period_count']):'0';?></span>
@@ -276,7 +276,7 @@
         <span style="top: 33.8%;left: 81%;"><?php echo isset($last_leave) && count($last_leave)>0?$last_leave['period_count']:' - ';?></span>
 
         <span class="overflow-text" style="top: 36.4%;left: 35%;width:50%;height:3%;"><?php echo isset($data['contact'])?htmlspecialchars_decode($data['contact']):'-';?></span>
-        <span class="overflow-text" style="top: 38.5%;left: 30%;width: 57%;height: 3%;"><?php echo isset($data['emergency_note'])?htmlspecialchars_decode($data['emergency_note']):'-';?></span>
+        <span class="overflow-text" style="top: 38.5%;left: 30%;width: 57%;height: 3%;"><?php echo isset($data['emergency_note']) && trim($data['emergency_note'])!=''?htmlspecialchars_decode($data['emergency_note']):'-';?></span>
 
         <span style="top: 48.9%;left: 28%;"><?php echo isset($old_leave_type)?floatval($old_leave_type[3]):0;?></span>
         <span style="top: 48.9%;left: 37%;"><?php echo isset($data['leave_type_id']) && $data['leave_type_id']==3?floatval($data['period_count']):0;?></span>

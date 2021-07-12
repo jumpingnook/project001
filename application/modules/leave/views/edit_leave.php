@@ -56,6 +56,9 @@
       font-weight: bold !important;
       color: #000 !important;
     }
+    .ui-datepicker-year:not(.custom-datepicker-year) {
+        display:none;
+    }
   </style>
 
 </head>
@@ -200,7 +203,7 @@
                           <div class="col-sm-6">
                             <label>อัพโหลดใบรับรองแพทย์</label>
                             <input type="file" name="med_cer" class="form-control" style="height: 44px;" disabled accept="image/jpeg,application/pdf">
-                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้น</span>
+                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้นและจำกัดขนาดไฟล์ที่ 1 MB</span>
                           </div>
 
                           <?php if(isset($leave_data['file']) and trim($leave_data['file'])!=''){ ?>
@@ -581,7 +584,13 @@
           count_date();
         }
       });
+
+      var dt_cc = new Date();
       $( ".leave_date_s" ).datepicker({
+        yearSuffix: "<span class=\"ui-datepicker-year custom-datepicker-year\">" + (dt_cc.getFullYear()+543) + "</span>",
+        onChangeMonthYear: function(yr, dontCareAboutMonths, inst) {
+            inst.settings.yearSuffix = "<span class=\"custom-datepicker-year\">" + (yr + 543) + "</span>";;
+        },
         onSelect: function(){
           var dateObject = $(this).datepicker('getDate');
           var date = new Date(dateObject);
@@ -599,10 +608,25 @@
             $('.daytime_e').removeAttr('disabled');
           }
 
+          if(type==4){
+            date.setDate(date.getDate() + 89);
+            var get_date = date.toISOString().substring(0, 10);
+            $('.leave_date_e_value').val(get_date);
+            count_date();
+            var strMonthFull = ["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+            var date_split = get_date.split('-');
+            $('.leave_date_e').val(date_split[2]+' '+strMonthFull[parseInt(date_split[1])]+' '+date_split[0]);
+            $('.daytime_e').removeAttr('disabled');
+          }
+
           leave_spec_alert(1,0);
         }
       });
       $( ".leave_date_e" ).datepicker({
+        yearSuffix: "<span class=\"ui-datepicker-year custom-datepicker-year\">" + (dt_cc.getFullYear()+543) + "</span>",
+        onChangeMonthYear: function(yr, dontCareAboutMonths, inst) {
+            inst.settings.yearSuffix = "<span class=\"custom-datepicker-year\">" + (yr + 543) + "</span>";;
+        },
         onSelect: function(){
           var dateObject = $(this).datepicker('getDate');
           var date = new Date(dateObject);
@@ -655,7 +679,7 @@
           $('.daytime_e').attr('disabled','disabled');
         }
 
-        $('.date_all').val(date_count);
+        $('.date_all').val(date_count-parseFloat(daytime));
 
         let type_l = $('#type_leave').val();
         let date_dis_cal = parseFloat(date_count)-parseFloat(date_dis)-parseFloat(daytime);
@@ -733,6 +757,14 @@
       });
 
       $('#form_leave').submit(function(){
+
+        var date_cc = '<?php echo date('Y-m-d');?>';
+        var date_s = $('.leave_date_s_value').val();
+        var date_e = $('.leave_date_e_value').val();
+        if((date_s == date_e && date_cc == date_s) || date_cc == date_s){
+          alert('ท่านไม่สามรถทำการลาในวันนี้ได้');
+          return false;
+        }
 
         var type = $('#type_leave').val();
         if(type==0){
@@ -1166,6 +1198,14 @@
         }
       });
 
+    });
+    $("input[name=med_cer]").on("change", function (e) {
+      var files = e.currentTarget.files;
+      console.log(files);
+      if(files[0].size > 1048576){
+        alert("ไฟล์ขนาดใหญ่เกินไป จำกัดขนาดไฟล์ที่ 1 MB");
+        this.value = "";
+      };
     });
   </script>
 

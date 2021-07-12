@@ -228,7 +228,7 @@ class Api_v2 extends REST_Controller {
                     ], REST_Controller::HTTP_OK); //200 
                 }
 
-            } 
+            }
 
             $res['limit'] = 0;
             if(isset($spec['limit_year']) and intval($spec['limit_year'])>0 and floatval($count_year['limit'])>intval($spec['limit_year'])){
@@ -382,7 +382,6 @@ class Api_v2 extends REST_Controller {
             ], REST_Controller::HTTP_OK); //200 
         }
     }
-
 
     function get_weekend($type=''){
         if($type==''){

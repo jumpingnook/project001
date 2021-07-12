@@ -56,6 +56,9 @@
       font-weight: bold !important;
       color: #000 !important;
     }
+    .ui-datepicker-year:not(.custom-datepicker-year) {
+        display:none;
+    }
   </style>
 
 </head>
@@ -199,7 +202,7 @@
                           <div class="col-sm-12">
                             <label>อัพโหลดใบรับรองแพทย์</label>
                             <input type="file" name="med_cer" class="form-control" style="height: 44px;" disabled accept="image/jpeg,application/pdf">
-                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้น</span>
+                            <span style="font-size:12px;color:red;">*รองรับไฟล์ jpg, pdf เท่านั้นและจำกัดขนาดไฟล์ที่ 1 MB</span>
                           </div>
                         </div>
                       </div>
@@ -343,14 +346,14 @@
                       <div class="card-body">
                         <h1 class="h4 text-gray-900 mb-4">ลำดับผู้พิจารณา</h1>
                         <div class="row approve_list">
-                          <div class="a1 col-lg-6 friend_approve sort_approve">
+                          <div class="a1 col-lg-12 friend_approve sort_approve">
                             <div class="form-group">
                                 <label><span class="no_sort">1.</span><span class="title_sort" >ผู้ปฏิบัติงานแทน</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_1" auto_type="workmate" placeholder="ระบุชื่อผู้ปฏิบัติงานแทน  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_1" value="<?php echo isset($post_data['name_personnel_1'])?$post_data['name_personnel_1']:'';?>" disabled>
                                 <input id="workmate" type="hidden" name="personnel_id_1" class="input_hide personnel_id_1" value="<?php echo isset($post_data['personnel_id_1'])?$post_data['personnel_id_1']:'';?>" disabled>
                               </div>
                           </div>
-                          <div class="a2 col-lg-6 sort_approve" >
+                          <div class="a2 col-lg-12 sort_approve" >
                             <div class="form-group">
                                 <label><span class="no_sort">2.</span><span class="title_sort">หัวหน้าหน่วย/ หัวหน้าหอผู้ป่วย</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_2 list_approve" auto_type="head_unit" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_2" value="<?php echo isset($post_data['name_personnel_2'])?$post_data['name_personnel_2']:'';?>">
@@ -358,7 +361,7 @@
                                 <input id="head_unit_position" type="text" class="input_hide form-control position_personnel_2 list_approve" name="position_personnel_2"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_2'])?$post_data['position_personnel_2']:'';?>"/>
                               </div>
                           </div>
-                          <div class="a3 col-lg-6 sort_approve" >
+                          <div class="a3 col-lg-12 sort_approve" >
                             <div class="form-group">
                                 <label><span class="no_sort">3.</span><span class="title_sort">หัวหน้าศูนย์ / หัวหน้าฝ่าย / หัวหน้างาน</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_3 list_approve" auto_type="head_dept" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_3" value="<?php echo isset($post_data['name_personnel_3'])?$post_data['name_personnel_3']:'';?>">
@@ -366,7 +369,7 @@
                                 <input id="head_dept_position" type="text" class="input_hide form-control position_personnel_3 list_approve" name="position_personnel_3"  placeholder="ระบุชื่อตำแหน่งผู้พิจารณา" value="<?php echo isset($post_data['position_personnel_3'])?$post_data['position_personnel_3']:'';?>"/>
                               </div>
                           </div>
-                          <div class="a4 col-lg-6 sort_approve" >
+                          <div class="a4 col-lg-12 sort_approve" >
                             <div class="form-group">
                                 <label><span class="no_sort">4.</span><span class="title_sort">ผู้ช่วยคณบดี / รองผู้อำนวยการ</span></label>
                                 <input type="text" class="input_hide form-control name_personnel name_personnel_4 list_approve" auto_type="supervisor" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_4" value="<?php echo isset($post_data['name_personnel_4'])?$post_data['name_personnel_4']:'';?>">
@@ -375,7 +378,7 @@
                               </div>
                           </div>
 
-                          <div class="col-lg-6 sort_approve">
+                          <div class="col-lg-12 sort_approve">
                             <div class="form-group">
                               <label><span class="no_sort">5.</span><span class="title_sort">รองคณบดี / หัวหน้าภาค</span></label>
                               <input type="text" class="input_hide form-control name_personnel name_personnel_5 list_approve" auto_type="deputy_dean" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_5" value="<?php echo isset($post_data['name_personnel_5'])?$post_data['name_personnel_5']:'';?>"required >
@@ -384,7 +387,7 @@
                             </div>
                           </div>
 
-                          <div class="col-lg-6 sort_approve sp">
+                          <div class="col-lg-12 sort_approve sp">
                             <div class="form-group">
                               <label><span class="no_sort">6.</span><span class="title_sort">คณบดี</span></label>
                               <input type="text" class="input_hide form-control name_personnel name_personnel_6 list_approve" auto_type="dean" placeholder="ระบุชื่อผู้พิจารณา  (*ไม่ต้องใส่คำนำหน้าเวลาค้นหา)" name="name_personnel_6" value="<?php echo isset($post_data['name_personnel_6'])?$post_data['name_personnel_6']:'';?>"required >
@@ -471,6 +474,7 @@
   <script src="<?php echo base_url(url_index().'leave/get_weekend/js');?>" ></script>
 
   <script src="<?php echo base_url(load_file('assets/vendor/jquery-ui/jquery-ui.min.js'));?>" ></script>
+  <script src="<?php echo base_url(load_file('assets/vendor/jquery-ui/jqueryui_datepicker_thai_min.js'));?>" ></script>
   
   <script>
     $(document).ready(function(){
@@ -535,7 +539,13 @@
           count_date();
         }
       });
+
+      var dt_cc = new Date();
       $( ".leave_date_s" ).datepicker({
+        yearSuffix: "<span class=\"ui-datepicker-year custom-datepicker-year\">" + (dt_cc.getFullYear()+543) + "</span>",
+        onChangeMonthYear: function(yr, dontCareAboutMonths, inst) {
+            inst.settings.yearSuffix = "<span class=\"custom-datepicker-year\">" + (yr + 543) + "</span>";;
+        },
         onSelect: function(){
           var dateObject = $(this).datepicker('getDate');
           var date = new Date(dateObject);
@@ -552,10 +562,26 @@
           }else if(type>=1 && type<=4){
             $('.daytime_e').removeAttr('disabled');
           }
+
+          if(type==4){
+            date.setDate(date.getDate() + 89);
+            var get_date = date.toISOString().substring(0, 10);
+            $('.leave_date_e_value').val(get_date);
+            count_date();
+            var strMonthFull = ["","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+            var date_split = get_date.split('-');
+            $('.leave_date_e').val(date_split[2]+' '+strMonthFull[parseInt(date_split[1])]+' '+date_split[0]);
+            $('.daytime_e').removeAttr('disabled');
+          }
+
           leave_spec_alert(1,0);
         }
       });
       $( ".leave_date_e" ).datepicker({
+        yearSuffix: "<span class=\"ui-datepicker-year custom-datepicker-year\">" + (dt_cc.getFullYear()+543) + "</span>",
+        onChangeMonthYear: function(yr, dontCareAboutMonths, inst) {
+            inst.settings.yearSuffix = "<span class=\"custom-datepicker-year\">" + (yr + 543) + "</span>";;
+        },
         onSelect: function(){
           var dateObject = $(this).datepicker('getDate');
           var date = new Date(dateObject);
@@ -600,7 +626,6 @@
 
         daytime += $('.daytime_s').val() == 1 || $('.daytime_s').val() == 2?0.5:0;
         daytime += $('.daytime_e').val() == 1?0.5:0;
-
         
         if(date_end == date_start && ($('.daytime_s').val() == 1 || $('.daytime_s').val() == 2)){
           daytime = 0.5;
@@ -609,7 +634,7 @@
           $('.daytime_e').attr('disabled','disabled');
         }
 
-        $('.date_all').val(date_count);
+        $('.date_all').val(date_count-parseFloat(daytime));
 
         let type_l = $('#type_leave').val();
         let date_dis_cal = parseFloat(date_count)-parseFloat(date_dis)-parseFloat(daytime);
@@ -678,6 +703,14 @@
       });
 
       $('#form_leave').submit(function(){
+
+        var date_cc = '<?php echo date('Y-m-d');?>';
+        var date_s = $('.leave_date_s_value').val();
+        var date_e = $('.leave_date_e_value').val();
+        if((date_s == date_e && date_cc == date_s) || date_cc == date_s){
+          alert('ท่านไม่สามรถทำการลาในวันนี้ได้');
+          return false;
+        }
 
         var type = $('#type_leave').val();
         if(type==0){
@@ -1108,6 +1141,15 @@
       
       }
 
+    });
+
+    $("input[name=med_cer]").on("change", function (e) {
+      var files = e.currentTarget.files;
+      console.log(files);
+      if(files[0].size > 1048576){
+        alert("ไฟล์ขนาดใหญ่เกินไป จำกัดขนาดไฟล์ที่ 1 MB");
+        this.value = "";
+      };
     });
   </script>
 

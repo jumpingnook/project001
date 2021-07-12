@@ -330,6 +330,31 @@
 
                     </div>
                   </div>
+
+                  <?php if(intval($data['status'])==3){ ?>
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">เหตุผลเห็นควรไม่อนุญาติการลา</h6>
+                    </div>
+                    <div class="card-body">
+                      <div class="row mb-1">
+
+                        <?php for($i==2;$i<=6;$i++){ if($data['approve_personnel_'.$i]==2 && trim($data['note_personnel_'.$i])!=''){?> 
+                        <div class="col-sm-12">
+                          <b>ชื่อ</b>: <?php echo $personnel_list['data'][$data['personnel_id_'.$i]]['title'].$personnel_list['data'][$data['personnel_id_'.$i]]['name_th'].' '.$personnel_list['data'][$data['personnel_id_'.$i]]['surname_th'];?><br>
+                          <b>รายละเอียด</b>: <?php echo trim($data['note_personnel_'.$i]);?>
+                          <hr>
+                        </div>
+                        <?php }} ?>
+
+                      </div>
+                    </div>
+                  </div>
+                  <?php } ?>
+
+
+
+
                 </div>
               </div>
 

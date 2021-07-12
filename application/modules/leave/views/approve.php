@@ -205,8 +205,11 @@
                           </button>
                         </div>
 
-                        
+                        <br>
                         <div class="row mb-1">
+                          <?php if($signature_type>=2 and $signature_type!=5){ ?>
+                            <textarea form="form" class="form-control" name="note_personnel_<?php echo $signature_type;?>" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นเห็นควรไม่อนุญาต"></textarea>
+                          <?php } ?>
                           <button type="submit" name="approve" form="form" value="2" class="btn btn-primary btn-icon-split" style="width: 100%;">
                             <span class="icon text-white-600" style="width:43px;">
                               <i class="fas fa-times"></i>
@@ -216,7 +219,7 @@
                         </div>
                         <?php if(($signature_type==5 && intval($data['personnel_id_6'])==0) || ($signature_type==6 && intval($data['personnel_id_6'])!=0)){?>
                           <div class="form-group row mb-1 ">
-                            <textarea form="form" class="form-control" name="note_personnel_5" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นกรณีไม่อนุญาต"></textarea>
+                            <textarea form="form" class="form-control" name="note_personnel_<?php echo $signature_type;?>" rows="3" style="width:100%;" placeholder="ระบุความคิดเห็นกรณีไม่อนุญาต"></textarea>
                           </div>
                         
                           <hr>

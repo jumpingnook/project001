@@ -274,7 +274,11 @@ class Leave_model extends MY_Model {
 				if(intval($set['type'])>=1 and intval($set['type'])<=6){
 					$con['data']['signature_date_personnel_'.intval($set['type'])] = date('Y-m-d H:i:s');
 					$con['data']['approve_personnel_'.intval($set['type'])] = intval($set['approve']);
-					$con['data']['note_personnel_5'] = isset($set['note_personnel_5'])?$set['note_personnel_5']:'';
+
+					if(intval($set['type'])!=1){
+						$con['data']['note_personnel_'.intval($set['type'])] = isset($set['note_personnel_'.intval($set['type'])])?$set['note_personnel_'.intval($set['type'])]:'';
+					}
+
 					$colum = 'personnel_id_'.intval($set['type']).'  = ';
 				}else{
 					return false;

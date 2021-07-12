@@ -258,6 +258,8 @@ class Leave extends Leave_Controller {
 
         $url_p1 = $post['url_personnel_1'];
 
+        
+
         if(count($post)>0){
 
 
@@ -336,8 +338,6 @@ class Leave extends Leave_Controller {
                 unset($post['name_personnel_'.$i]);
             }
         }
-
-
         
         $set = [];
         $set['data'] = $post;
@@ -396,7 +396,7 @@ class Leave extends Leave_Controller {
             $data = file_get_contents($_FILES['med_cer']['tmp_name']);
             $set['data']['file'] = 'data:'.$set['data']['file_type'].';base64,' . base64_encode($data);
         }
-        
+
         #last Leave
         $this->load->model(['Leave_model']);
         $last_leave = $this->Leave_model->last_leave(['leave_id'=>0,'leave_type'=>intval($post['leave_type_id']),'personnel_id'=>$api['personnel']]);
